@@ -1,4 +1,4 @@
 {
-  "scss": "./app/assets/scss/",
-  "css": "./app/assets/css/"
+  "scss": "./assets/scss/",
+  "css": "./assets/css/"
 }
