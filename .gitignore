@@ -5,6 +5,8 @@ tmp/
 logs/
 log/
 results/
+.DS_store
+**/.DS_store
 
 *sublime*
 
