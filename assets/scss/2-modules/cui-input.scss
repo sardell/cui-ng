@@ -1,0 +1,17 @@
+.cui__input{
+	margin-bottom:15px;
+	padding:$input-padding;
+	box-sizing:border-box;
+	-webkit-appearance: none;
+	border:1px solid #DDD;
+	position:relative;
+	&--full{
+		width:100%;
+	}
+	&--half{
+		width:46%;
+		&:nth-child(2n){
+			float:right;
+		}
+	}
+}

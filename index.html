@@ -4,11 +4,68 @@
 	<meta charset="UTF-8">
 	<title>Cui-UI</title>
 	<link rel="stylesheet" href="assets/css/main.css">
+
+	<!-- 
+	TODO - - - - - -
+		-only show step indicators if there's a step-indicator attribute 
+
+
+	-->
 </head>
 <body ng-controller="appCtrl as app">
 	<cui-header logo="{{ app.logo }}" user="{{ app.user }}" top-menu></cui-header>
+	<div class="cui__container">
+		<div class="cui__container__title">Create your Security Administrator account</div>
+		<div class="cui__container__body">
+			<cui-wizard step="1" step-indicator>
+				<step title="Organization info" required>
+					<!-- organization name -->
+					<input type="text" ng-model="app.organization.name" class="cui__input cui__input--full" disabled></input>
+					<!-- company/division -->
+					<select ng-model="app.organization.division" class="cui__input cui__input--full">
+						<option value="" disabled selected>Company/Division</option>
+						<option ng-repeat="division in app.organization.divisions" value="{{division}}">{{division}}</option>
+					</select>
+					<!-- address -->
+					<input type="text" ng-model="app.organization.address" class="cui__input cui__input--half" placeholder="Address1"></input>
+					<!-- address2 -->
+					<input type="text" ng-model="app.organization.address2" class="cui__input cui__input--half" placeholder="Address2"></input>
+					<!-- city/region -->
+					<select ng-model="app.organization.city" class="cui__input cui__input--half">
+						<option value="" disabled selected>City/Region</option>
+						<option ng-repeat="city in app.organization.cities" value="{{city}}">{{city}}</option>
+					</select>
+					<!-- state/province -->
+					<select ng-model="app.organization.state" class="cui__input cui__input--half">
+						<option value="" disabled selected>State/Province</option>
+						<option ng-repeat="state in app.organization.states" value="{{state}}">{{state}}</option>
+					</select>
+					<!-- postal code -->
+					<input type="text" ng-model="app.organization.postal" class="cui__input cui__input--half" placeholder="Postal Code"></input>
+					<!-- country -->
+					<select ng-model="app.organization.country" class="cui__input cui__input--half">
+						<option value="" disabled selected>Country</option>
+						<option ng-repeat="country in app.organization.countries" value="{{country}}">{{country}}</option>
+					</select>
+				</step>
+				<step title="Sign on info">
+					
+				</step>
+				<step title="User info">
+					
+				</step>
+				<step title="Preferences">
+					
+				</step>
+				<step title="Review">
+					
+				</step>
+			</cui-wizard>
+		</div>
+	</div>
+
 
 	<script src="bower_components/angular/angular.js"></script>
-	<script src="assets/scripts/app.js"></script>
+	<script src="assets/scripts/app2.js"></script>
 </body>
 </html>

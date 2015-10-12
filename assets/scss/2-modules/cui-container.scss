@@ -1,0 +1,17 @@
+.cui__container{
+	border-radius:$container-radius;
+	width:80%;
+	margin:0 auto;
+	&__title{
+		border-radius:$container-radius $container-radius 0px 0px;
+		background-color:$container-title-background;
+		text-align:center;
+		color:white;
+		padding:$container-title-padding;
+	}
+	&__body{
+		padding:$container-padding;
+		max-width:$container-body-max-width;
+		margin:0 auto;
+	}
+}

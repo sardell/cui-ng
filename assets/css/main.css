@@ -372,3 +372,32 @@ th {
     margin-left: auto;
     height: 45px;
     background: pink; }
+
+.cui__container {
+  border-radius: 6px;
+  width: 80%;
+  margin: 0 auto; }
+  .cui__container__title {
+    border-radius: 6px 6px 0px 0px;
+    background-color: skyblue;
+    text-align: center;
+    color: white;
+    padding: 10px; }
+  .cui__container__body {
+    padding: 20px;
+    max-width: 600px;
+    margin: 0 auto; }
+
+.cui__input {
+  margin-bottom: 15px;
+  padding: 8px;
+  box-sizing: border-box;
+  -webkit-appearance: none;
+  border: 1px solid #DDD;
+  position: relative; }
+  .cui__input--full {
+    width: 100%; }
+  .cui__input--half {
+    width: 46%; }
+    .cui__input--half:nth-child(2n) {
+      float: right; }
