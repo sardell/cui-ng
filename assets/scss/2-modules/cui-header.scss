@@ -1,0 +1,21 @@
+.cui__header{
+	padding: $header-padding;
+	&__top{
+		padding: $header-top-padding;
+		height:80px;
+		display:flex;
+		align-items:center;
+	}
+	&__logo{
+		background-repeat:no-repeat;
+		background-size:contain;
+		display:inline-block;
+		width:200px;
+		height:45px;
+	}
+	&__avatar{
+		margin-left:auto;
+		height:45px;
+		background:pink;
+	}
+}
