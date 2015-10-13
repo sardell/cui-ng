@@ -9,12 +9,18 @@ $header-top-padding : 10px 0px;
 // container
 
 $container-radius: 6px;
-$container-padding: 20px;
+$container-padding: 50px;
 $container-padding-small: 10px;
-$container-title-background: skyblue;
-$container-title-padding: 10px;
-$container-body-max-width: 600px;
+$container-title-background: #53abd0;
+$container-title-padding: 15px;
+$container-body-max-width: 100%;
 
 // inputs
 
 $input-padding:8px;
+
+
+//helper classes
+.clearfix {
+  overflow: auto;
+}

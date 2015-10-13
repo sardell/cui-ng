@@ -1,3 +1,6 @@
+.clearfix {
+  overflow: auto; }
+
 /*! normalize.css v3.0.2 | MIT License | git.io/normalize */
 /**
  * 1. Set default font family to sans-serif.
@@ -376,20 +379,23 @@ th {
 .cui__container {
   border-radius: 6px;
   width: 80%;
+  max-width: 800px;
   margin: 0 auto; }
   .cui__container__title {
     border-radius: 6px 6px 0px 0px;
-    background-color: skyblue;
+    background-color: #53abd0;
     text-align: center;
     color: white;
-    padding: 10px; }
+    padding: 15px; }
   .cui__container__body {
-    padding: 20px;
-    max-width: 600px;
-    margin: 0 auto; }
+    border-radius: 0px 0px 6px 6px;
+    padding: 50px;
+    max-width: 100%;
+    margin: 0 auto;
+    background: white; }
 
 .cui__input {
-  margin-bottom: 15px;
+  margin-bottom: 20px;
   padding: 8px;
   box-sizing: border-box;
   -webkit-appearance: none;
@@ -398,6 +404,49 @@ th {
   .cui__input--full {
     width: 100%; }
   .cui__input--half {
-    width: 46%; }
+    width: 48%; }
     .cui__input--half:nth-child(2n) {
       float: right; }
+
+.container {
+  background: #dfe9ee;
+  padding-top: 100px;
+  padding-bottom: 200px; }
+
+cui-wizard {
+  display: block;
+  width: 100%;
+  max-width: 600px;
+  margin: 0 auto; }
+  cui-wizard * {
+    position: relative; }
+
+indicator-container {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 40px;
+  border-bottom: 1px solid #DDD; }
+
+.step__indicator {
+  margin-bottom: -2px;
+  padding: 10px 0px;
+  color: #BBB; }
+  .step__indicator:last-child {
+    margin-right: 0; }
+  .step__indicator.active {
+    color: #333;
+    border-bottom: 3px solid #333; }
+
+step {
+  display: none; }
+  step.active {
+    display: block; }
+
+.cui__wizard__next {
+  height: 35px;
+  width: 160px;
+  font-size: 12px;
+  float: right;
+  background-color: #386895;
+  color: white;
+  border: none; }

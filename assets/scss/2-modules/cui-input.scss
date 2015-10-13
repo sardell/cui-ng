@@ -1,5 +1,5 @@
 .cui__input{
-	margin-bottom:15px;
+	margin-bottom:20px;
 	padding:$input-padding;
 	box-sizing:border-box;
 	-webkit-appearance: none;
@@ -9,7 +9,7 @@
 		width:100%;
 	}
 	&--half{
-		width:46%;
+		width:48%;
 		&:nth-child(2n){
 			float:right;
 		}
