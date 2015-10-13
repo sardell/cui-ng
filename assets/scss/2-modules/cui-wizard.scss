@@ -53,6 +53,8 @@ step{
 	margin-right:20px;
 	cursor:pointer;
 	display:none;
+	border:0;
+	background:white;
 	&.active{
 		display:inline-block;
 	}

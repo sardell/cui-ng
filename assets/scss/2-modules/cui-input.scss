@@ -11,8 +11,19 @@
 	}
 	&--half{
 		width:48%;
-		&:nth-child(2n){
-			float:right;
-		}
+	}
+	&--half--right{
+		width:48%;
+		float:right;
+	}
+	&--display{
+		border:0;
+		height:14px;
+		padding:0;
+		margin:0;
+		margin-left:3px;
+		margin-top:-3px;
+		margin-bottom:-3px;
+		width:200px;
 	}
 }

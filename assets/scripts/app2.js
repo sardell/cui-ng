@@ -19,6 +19,12 @@
         app.organization.cities=['Chicago','Aurora','Rockford','Joliet','Naperville','Springfiled'];
         app.organization.states=['IL','FL','NY','CA'];
         app.organization.countries=['U.S.A','Portugal','Spain'];
+
+        app.signOn={};
+        app.signOn.questions=["fp-favorite-pet-name-q","fp-mothers-maiden-name-q","fp-best-friends-name-q","fp-first-car-model-q","fp-high-school-q"];
+
+        app.user={};
+        app.user.timezones=['-08:00','-07:00','-06:00','-05:00','-04:00'];
     }])
 
 
@@ -58,7 +64,7 @@
         }
     }])
 
-    //cui-wizard
+    //cui-wizard -------------------------------------
     .directive('cuiWizard',['$timeout','$compile',function($timeout,$compile){
         return{
             restrict: 'E',
@@ -112,6 +118,19 @@
                     };
 
                 init();
+            }
+        }
+    }])
+
+    //cui-expandable ----------------------------
+    .directive('cuiExpandable',[function(){
+        return{
+            restrict:'E',
+            scope: true,
+            link:function(scope,elem,attrs){
+                scope.toggleExpand=function(){
+                    attrs.$set('expanded',!attrs.expanded);
+                }
             }
         }
     }]);
