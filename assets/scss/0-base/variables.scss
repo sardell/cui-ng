@@ -4,7 +4,7 @@
 // header
 
 $header-padding : 0px 20px;
-$header-top-padding : 10px 0px;
+$header-top-padding : 0px 0px;
 
 // container
 
@@ -17,10 +17,21 @@ $container-body-max-width: 100%;
 
 // inputs
 
-$input-padding:8px;
+$input-padding:8px 12px;
 
 
 //helper classes
 .clearfix {
   overflow: auto;
+}
+
+.container{
+	background:#dfe9ee;
+	padding-top:100px;
+	padding-bottom:200px;
+}
+
+.language__select{
+	float:right;
+	margin-top:20px;
 }

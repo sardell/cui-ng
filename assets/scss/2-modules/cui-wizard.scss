@@ -1,17 +1,8 @@
-.container{
-	background:#dfe9ee;
-	padding-top:100px;
-	padding-bottom:200px;
-}
-
 cui-wizard{
 	display:block;
 	width:100%;
 	max-width:600px;
 	margin:0 auto;
-	& *{
-		position:relative
-	}
 }
 
 indicator-container{
@@ -22,12 +13,13 @@ indicator-container{
 }
 
 .step__indicator{
-	margin-bottom:-2px;
+	margin-bottom:-2px; // to make the active border and the 
+						// border on the indicator container
+						// line up
 	padding:10px 0px;
 	color:#BBB;
-	&:last-child{
-		margin-right:0;
-	}
+	cursor:pointer;
+	white-space: nowrap;
 	&.active{
 		color:#333;
 		border-bottom:3px solid #333;
@@ -41,12 +33,27 @@ step{
 	}
 }
 
+.cui__wizard__controls{
+	text-align:right;
+}
+
 .cui__wizard__next{
-	height:35px;
+	height:37px;
 	width:160px;
+	border-radius:4px;
 	font-size:12px;
-	float:right;
 	background-color:#386895;
 	color:white;
 	border:none;
+}
+
+.cui__wizard__previous{
+	font-size:12px;
+	color:$container-title-background;
+	margin-right:20px;
+	cursor:pointer;
+	display:none;
+	&.active{
+		display:inline-block;
+	}
 }

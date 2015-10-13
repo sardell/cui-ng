@@ -2,7 +2,7 @@
     'use strict';
 
     angular
-    .module('app',[])
+    .module('app',['translate'])
     .controller('appCtrl',[function(){
         var app=this;
         app.user={
@@ -59,7 +59,7 @@
     }])
 
     //cui-wizard
-    .directive('cuiWizard',['$timeout',function($timeout){
+    .directive('cuiWizard',['$timeout','$compile',function($timeout,$compile){
         return{
             restrict: 'E',
             link:function(scope,elem,attrs){
@@ -67,12 +67,21 @@
                 var init = function(){
                         scope.$steps=document.querySelectorAll('cui-wizard>step');
                         scope.$indicatorContainer=document.querySelector('indicator-container');
+                        scope.$previousBtn=document.querySelector('.cui__wizard__previous');
                         scope.next=function(){
                             elem[0].attributes.step.value++;
-                            updateIndicator();
+                            updateIndicators();
+                        };
+                        scope.previous=function(){
+                            elem[0].attributes.step.value--;
+                            updateIndicators();
+                        };
+                        scope.goToStep=function(step){
+                            elem[0].attributes.step.value=step;
+                            updateIndicators();
                         };
                         createIndicators();
-                        updateIndicator();
+                        updateIndicators();
                     },
                     // creates indicators inside of <indicator-container>
                     createIndicators = function(){
@@ -82,13 +91,14 @@
                             stepTitles[i]=scope.$steps[i].attributes.title.value;
                         }
                         stepTitles.forEach(function(e,i){
-                            var div='<div class="step__indicator">' + stepTitles[i] + '</div>';
-                            scope.$indicatorContainer.innerHTML+=div;
+                            var div=angular.element('<span class="step__indicator" ng-click="goToStep(' + (i+1) + ')">' + stepTitles[i] + '</span>');
+                            var compiled=$compile(div)(scope);
+                            angular.element(scope.$indicatorContainer).append(compiled);
                         })
                         scope.$indicators=document.querySelectorAll('.step__indicator');
                     },
                     // updates the current active indicator. Removes active class from other elements.
-                    updateIndicator = function(){
+                    updateIndicators = function(){
                         $timeout(function(){
                             var currentStep=elem[0].attributes.step.value;
                             for(var i=0; i<scope.$steps.length ; i++){
@@ -97,6 +107,7 @@
                             }
                             scope.$steps[currentStep-1].classList.add('active');
                             scope.$indicators[currentStep-1].classList.add('active');
+                            currentStep>1 ? scope.$previousBtn.classList.add('active') : scope.$previousBtn.classList.remove('active');
                         });
                     };
 
