@@ -1,21 +1,24 @@
-.cui__header{
-	padding: $header-padding;
-	&__top{
-		padding: $header-top-padding;
-		height:80px;
-		display:flex;
-		align-items:center;
-	}
-	&__logo{
-		background-repeat:no-repeat;
-		background-size:contain;
-		display:inline-block;
-		width:200px;
-		height:45px;
-	}
-	&__avatar{
-		margin-left:auto;
-		height:45px;
-		background:pink;
-	}
+.cui__header {
+  padding: $header-padding;
+
+  &__top {
+    align-items: center;
+    display: flex;
+    height: 80px;
+    padding: $header-top-padding;
+  }
+
+  &__logo {
+    background-repeat: no-repeat;
+    background-size: contain;
+    display: inline-block;
+    height: 45px;
+    width: 200px;
+  }
+
+  &__avatar {
+    background: pink;
+    height: 45px;
+    margin-left: auto;
+  }
 }

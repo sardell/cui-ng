@@ -3,8 +3,8 @@
 
 // header
 
-$header-padding : 0px 20px;
-$header-top-padding : 0px 0px;
+$header-padding: 0 20px;
+$header-top-padding: 0 0;
 
 // container
 
@@ -25,13 +25,13 @@ $input-padding:8px 12px;
   overflow: auto;
 }
 
-.container{
-	background:#dfe9ee;
-	padding-top:100px;
-	padding-bottom:200px;
+.container {
+  background: #dfe9ee;
+  padding-bottom: 200px;
+  padding-top: 100px;
 }
 
-.language__select{
-	float:right;
-	margin-top:20px;
+.language__select {
+  float: right;
+  margin-top: 20px;
 }

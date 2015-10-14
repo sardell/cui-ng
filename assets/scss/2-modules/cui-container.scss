@@ -1,20 +1,22 @@
-.cui__container{
-	border-radius:$container-radius;
-	width:80%;
-	max-width:800px;
-	margin:0 auto;
-	&__title{
-		border-radius:$container-radius $container-radius 0px 0px;
-		background-color:$container-title-background;
-		text-align:center;
-		color:white;
-		padding:$container-title-padding;
-	}
-	&__body{
-		border-radius:0px 0px $container-radius $container-radius;
-		padding:$container-padding;
-		max-width:$container-body-max-width;
-		margin:0 auto;
-		background:white;
-	}
+.cui__container {
+  border-radius: $container-radius;
+  margin: 0 auto;
+  max-width: 900px;
+  width: 80%;
+
+  &__title {
+    background-color: $container-title-background;
+    border-radius: $container-radius $container-radius 0 0;
+    color: white;
+    padding: $container-title-padding;
+    text-align: center;
+  }
+
+  &__body {
+    background: white;
+    border-radius: 0 0 $container-radius $container-radius;
+    margin: 0 auto;
+    max-width: $container-body-max-width;
+    padding: $container-padding;
+  }
 }

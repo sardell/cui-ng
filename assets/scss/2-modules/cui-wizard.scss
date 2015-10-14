@@ -1,61 +1,62 @@
-cui-wizard{
-	display:block;
-	width:100%;
-	max-width:600px;
-	margin:0 auto;
+cui-wizard {
+  display: block;
+  margin: 0 auto;
+  max-width: 800px;
+  width: 100%;
 }
 
-indicator-container{
-	display:flex;
-	justify-content:space-between;
-	margin-bottom:40px;
-	border-bottom:1px solid #DDD;
+indicator-container {
+  border-bottom: 1px solid #DDD;
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 40px;
 }
 
-.step__indicator{
-	margin-bottom:-2px; // to make the active border and the 
-						// border on the indicator container
-						// line up
-	padding:10px 0px;
-	color:#BBB;
-	cursor:pointer;
-	white-space: nowrap;
-	&.active{
-		color:#333;
-		border-bottom:3px solid #333;
-	}
+.step__indicator {
+  color: #BBB;
+  cursor: pointer;
+  margin-bottom: -2px;
+  padding: 10px 0;
+  white-space: nowrap;
+
+  &.active {
+    border-bottom: 3px solid #333;
+    color: #333;
+  }
 }
 
-step{
-	display:none;
-	&.active{
-		display:block;
-	}
+step {
+  display: none;
+
+  &.active {
+    display: block;
+  }
 }
 
-.cui__wizard__controls{
-	text-align:right;
+.cui__wizard__controls {
+  text-align: right;
 }
 
-.cui__wizard__next{
-	height:37px;
-	width:160px;
-	border-radius:4px;
-	font-size:12px;
-	background-color:#386895;
-	color:white;
-	border:none;
+.cui__wizard__next {
+  background-color: #386895;
+  border: 0;
+  border-radius: 4px;
+  color: #FFF;
+  font-size: 12px;
+  height: 37px;
+  width: 160px;
 }
 
-.cui__wizard__previous{
-	font-size:12px;
-	color:$container-title-background;
-	margin-right:20px;
-	cursor:pointer;
-	display:none;
-	border:0;
-	background:white;
-	&.active{
-		display:inline-block;
-	}
+.cui__wizard__previous {
+  background: #FFF;
+  border: 0;
+  color: $container-title-background;
+  cursor: pointer;
+  display: none;
+  font-size: 12px;
+  margin-right: 20px;
+
+  &.active {
+    display: inline-block;
+  }
 }

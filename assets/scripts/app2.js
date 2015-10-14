@@ -21,7 +21,8 @@
         app.organization.countries=['U.S.A','Portugal','Spain'];
 
         app.signOn={};
-        app.signOn.questions=["fp-favorite-pet-name-q","fp-mothers-maiden-name-q","fp-best-friends-name-q","fp-first-car-model-q","fp-high-school-q"];
+        app.signOn.questions=['cui-favorite-pet-q','cui-mother-q',
+        'cui-best-friend-q'];
 
         app.user={};
         app.user.timezones=['-08:00','-07:00','-06:00','-05:00','-04:00'];
@@ -45,7 +46,7 @@
                 var $logo = document.querySelector('.cui__header__logo');
                 $logo.style.backgroundImage = 'url("' + logo + '")';
             }
-        }
+        };
     }])
 
 
@@ -57,69 +58,96 @@
             link:function(scope,elem,attrs){
                 //read attributes
                 var user;
-                attrs.user!==undefined ? user=attrs.user : console.log('No user passed.');
+                attrs.user!==undefined ? user=attrs.user :
+                 console.log('No user passed.');
 
                 scope.userName=user.name;
             }
-        }
+        };
     }])
 
     //cui-wizard -------------------------------------
     .directive('cuiWizard',['$timeout','$compile',function($timeout,$compile){
         return{
             restrict: 'E',
+            scope: true,
             link:function(scope,elem,attrs){
                 //init
                 var init = function(){
                         scope.$steps=document.querySelectorAll('cui-wizard>step');
                         scope.$indicatorContainer=document.querySelector('indicator-container');
                         scope.$previousBtn=document.querySelector('.cui__wizard__previous');
+                        scope.$nextBtn=document.querySelector('.cui__wizard__next');
+                        scope.currentStep=Number(elem[0].attributes.step.value);
                         scope.next=function(){
-                            elem[0].attributes.step.value++;
-                            updateIndicators();
+                            function goToNext(){
+                                scope.currentStep++;
+                                updateIndicators();
+                            }
+                            function goToNextAndReplaceBtn(){
+                                putSubmitOnNextBtn();
+                                goToNext();
+                            }
+                            scope.currentStep===(scope.numberOfSteps-1) ? goToNextAndReplaceBtn() :
+                             goToNext();
                         };
                         scope.previous=function(){
-                            elem[0].attributes.step.value--;
+                            restoreNextBtnText();
+                            scope.currentStep--;
                             updateIndicators();
                         };
                         scope.goToStep=function(step){
-                            elem[0].attributes.step.value=step;
+                            if(step===scope.numberOfSteps){
+                                putSubmitOnNextBtn();
+                            }
+                            else{restoreNextBtnText();}
+                            scope.currentStep=step;
                             updateIndicators();
                         };
                         createIndicators();
                         updateIndicators();
                     },
+                    putSubmitOnNextBtn = function(){
+                        scope.$nextBtn.innerHTML = '{{"cui-submit" | translate}}';
+                        $compile(scope.$nextBtn)(scope);
+                    },
+                    restoreNextBtnText = function(){
+                        scope.$nextBtn.innerHTML = '{{"cui-next" | translate}}';
+                        $compile(scope.$nextBtn)(scope);
+                    },
                     // creates indicators inside of <indicator-container>
                     createIndicators = function(){
-                        var numberOfSteps=scope.$steps.length,
-                            stepTitles=[];
-                        for(var i=0;i<numberOfSteps;i++){
+                        scope.numberOfSteps=scope.$steps.length;
+                        var stepTitles=[];
+                        for(var i=0;i < scope.numberOfSteps;i++){
                             stepTitles[i]=scope.$steps[i].attributes.title.value;
                         }
                         stepTitles.forEach(function(e,i){
-                            var div=angular.element('<span class="step__indicator" ng-click="goToStep(' + (i+1) + ')">' + stepTitles[i] + '</span>');
+                            var div=angular.element('<span class="step__indicator" ng-click="goToStep(' + 
+                                (i+1) + ')">' + stepTitles[i] + '</span>');
                             var compiled=$compile(div)(scope);
                             angular.element(scope.$indicatorContainer).append(compiled);
-                        })
+                        });
                         scope.$indicators=document.querySelectorAll('.step__indicator');
                     },
                     // updates the current active indicator. Removes active class from other elements.
                     updateIndicators = function(){
                         $timeout(function(){
-                            var currentStep=elem[0].attributes.step.value;
+                            var currentStep=scope.currentStep;
                             for(var i=0; i<scope.$steps.length ; i++){
                                 scope.$steps[i].classList.remove('active');
                                 scope.$indicators[i].classList.remove('active');
                             }
                             scope.$steps[currentStep-1].classList.add('active');
                             scope.$indicators[currentStep-1].classList.add('active');
-                            currentStep>1 ? scope.$previousBtn.classList.add('active') : scope.$previousBtn.classList.remove('active');
+                            currentStep>1 ? scope.$previousBtn.classList.add('active') :
+                             scope.$previousBtn.classList.remove('active');
                         });
                     };
 
                 init();
             }
-        }
+        };
     }])
 
     //cui-expandable ----------------------------
@@ -130,9 +158,9 @@
             link:function(scope,elem,attrs){
                 scope.toggleExpand=function(){
                     attrs.$set('expanded',!attrs.expanded);
-                }
+                };
             }
-        }
+        };
     }]);
 
-})(angular)
+})(angular);

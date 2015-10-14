@@ -1,192 +1,202 @@
 <!DOCTYPE html>
 <html lang="en" ng-app="app">
 <head>
-	<meta charset="UTF-8">
-	<title>Cui-UI</title>
-	<link rel="stylesheet" href="assets/css/main.css">
+  <meta charset="UTF-8">
+  <title>Cui-UI</title>
+  <link rel="stylesheet" href="assets/css/main.css">
 
-	<!-- 
-	TODO - - - - - -
-		-only show step indicators if there's a step-indicator attribute 
-		-in the review section, give the passwords a "peek" preview
+  <!-- 
+  TODO - - - - - -
+    -only show step indicators if there's a step-indicator attribute 
+    -in the review section, give the passwords a "peek" preview
 
-	-->
+  -->
 </head>
 <body ng-controller="appCtrl as app">
-	<cui-header logo="{{ app.logo }}" user="{{ app.user }}" top-menu></cui-header>
-	<div class="container">
-		<div class="cui__container">
-			<div class="cui__container__title">Create your Security Administrator account</div>
-			<div class="cui__container__body">
-				<cui-wizard step="5" step-indicator>
-					<indicator-container></indicator-container>
-					<step title="Organization info">
-						<!-- organization name -->
-						<input type="text" ng-model="app.organization.name" class="cui__input cui__input--full" disabled></input>
-						<!-- company/division -->
-						<select ng-model="app.organization.division" class="cui__input cui__input--full" required>
-							<option value="" disabled selected>Company/Division</option>
-							<option ng-repeat="division in app.organization.divisions" value="{{division}}">{{division}}</option>
-						</select>
-						<!-- address -->
-						<input type="text" ng-model="app.organization.address1" class="cui__input cui__input--half" placeholder="Address1" required></input>
-						<!-- address2 -->
-						<input type="text" ng-model="app.organization.address2" class="cui__input cui__input--half--right" placeholder="Address2"></input>
-						<!-- country -->
-						<select ng-model="app.organization.country" class="cui__input cui__input--half" required>
-							<option value="" disabled selected>{{"reg-country" | translate}}</option>
-							<option ng-repeat="country in app.organization.countries" value="{{country}}">{{country}}</option>
-						</select>
-						<!-- state/province -->
-						<select ng-model="app.organization.state" class="cui__input cui__input--half--right">
-							<option value="" disabled selected>State/Province</option>
-							<option ng-repeat="state in app.organization.states" value="{{state}}">{{state}}</option>
-						</select>
-						<!-- city/region -->
-						<select ng-model="app.organization.city" class="cui__input cui__input--half" required>
-							<option value="" disabled selected>{{"cp-city" | translate}}</option>
-							<option ng-repeat="city in app.organization.cities" value="{{city}}">{{city}}</option>
-						</select>
-						<!-- postal code -->
-						<input type="text" ng-model="app.organization.postal" class="cui__input cui__input--half--right" placeholder="{{'reg-postal-code' | translate}}"></input>
-					</step>
-					<step title="Sign on info">
-						<!-- user ID -->
-						<input type="text" ng-model="app.signOn.userID" class="cui__input cui__input--full" placeholder="User ID" required></input>
-						<!-- password -->
-						<input type="password" ng-model="app.signOn.password" class="cui__input cui__input--half" placeholder="Password" required></input>
-						<!-- password -->
-						<input type="password" ng-model="app.signOn.password2" class="cui__input cui__input--half--right" placeholder="Re-enter password" required></input>
-						<!-- question 1 -->
-						<select ng-model="app.signOn.question1" class="cui__input cui__input--half">
-							<option value="" disabled selected>{{"fp-challenge-question" | translate}} 1</option>
-							<option ng-repeat="question in app.signOn.questions" value="{{$index}}">{{question | translate}}</option>
-						</select>
-						<!-- answer 1 -->
-						<input type="text" ng-model="app.signOn.answer1" class="cui__input cui__input--half--right" placeholder="Challenge answer 1"></input>
-						<!-- question 2 -->
-						<select ng-model="app.signOn.question2" class="cui__input cui__input--half">
-							<option value="" disabled selected>{{"fp-challenge-question" | translate}} 2</option>
-							<option ng-repeat="question in app.signOn.questions" value="{{$index}}">{{question | translate}}</option>
-						</select>
-						<!-- answer 2 -->
-						<input type="text" ng-model="app.signOn.answer2" class="cui__input cui__input--half--right" placeholder="Challenge answer 2"></input>
-					</step>
-					<step title="User info">
-						<!-- first name -->
-						<input type="text" ng-model="app.user.fName" class="cui__input cui__input--half" placeholder="First Name" required></input>
-						<!-- Last name -->
-						<input type="text" ng-model="app.user.lName" class="cui__input cui__input--half--right" placeholder="Last Name"></input>
-						<!-- Email -->
-						<input type="email" ng-model="app.user.email" class="cui__input cui__input--half" placeholder="Email" required></input>
-						<!-- Email 2 -->
-						<input type="email" ng-model="app.user.email2" class="cui__input cui__input--half--right" placeholder="Re-enter email"></input>
-						<!-- Address 1 -->
-						<input type="text" ng-model="app.user.address1" class="cui__input cui__input--half" placeholder="Address1" required></input>
-						<!-- Address 1 -->
-						<input type="text" ng-model="app.user.address2" class="cui__input cui__input--half--right" placeholder="Address1"></input>
-						<!-- country -->
-						<select ng-model="app.user.country" class="cui__input cui__input--half">
-							<option value="" disabled selected>{{"reg-country" | translate}}</option>
-							<option ng-repeat="country in app.organization.countries" value="{{country}}">{{country}}</option>
-						</select>
-						<!-- state/province -->
-						<select ng-model="app.user.state" class="cui__input cui__input--half--right">
-							<option value="" disabled selected>State/Province</option>
-							<option ng-repeat="state in app.organization.states" value="{{state}}">{{state}}</option>
-						</select>
-						<!-- city/region -->
-						<select ng-model="app.user.city" class="cui__input cui__input--half">
-							<option value="" disabled selected>{{"cp-city" | translate}}</option>
-							<option ng-repeat="city in app.organization.cities" value="{{city}}">{{city}}</option>
-						</select>
-						<!-- postal code -->
-						<input type="text" ng-model="app.user.postal" class="cui__input cui__input--half--right" placeholder="{{'reg-postal-code' | translate}}"></input>
-						<!-- phone -->
-						<input type="number" ng-model="app.user.phone" class="cui__input cui__input--half" placeholder="{{'reg-telephone-number' | translate}}"></input>
-						<!-- timezone -->
-						<select ng-model="app.user.timezone" class="cui__input cui__input--half--right">
-							<option value="" disabled selected>Time zone</option>
-							<option ng-repeat="timezone in app.user.timezones" value="{{timezone}}">{{timezone}}</option>
-						</select>
-					</step>
-					<step title="Preferences">
-						
-					</step>
-					<step title="Review">
-						<cui-expandable expanded="true">
-							<cui-expandable-title ng-click="toggleExpand()">
-								Organization info
-								<span class="chevron">></span>
-							</cui-expandable-title>
-							<cui-expandable-body>
-								<p>Organization: {{app.organization.name}}</p>
-								<p>Division: {{app.organization.division}}</p>
-								<p>Address 1: {{app.organization.address1}}</p>
-								<p ng-if="app.organization.address2">Address 2: {{app.organization.address2}}</p>
-								<p>Country: {{app.organization.country}}</p>
-								<p>State/Province: {{app.organization.state}}</p>
-								<p>City: {{app.organization.city}}</p>
-								<p>Postal code: {{app.organization.postal}}</p>
-							</cui-expandable-body>
-						</cui-expandable>
-						<cui-expandable>
-							<cui-expandable-title ng-click="toggleExpand()">
-								Sign on info
-								<span class="chevron">></span>
-							</cui-expandable-title>
-							<cui-expandable-body>
-								<p>User ID: {{app.signOn.name}}</p>
-								<p>Password: <input type="password" class="cui__input--display" disabled value="{{app.signOn.password}}"/></p>
-								<p>Challenge Question 1: {{app.signOn.questions[app.signOn.question1] | translate}}</p>
-								<p>Answer 1: {{app.signOn.answer1}}</p>
-								<p>Challenge Question 2: {{app.signOn.questions[app.signOn.question2] | translate}}</p>
-								<p>Answer 2: {{app.signOn.answer2}}</p>
-							</cui-expandable-body>
-						</cui-expandable>
-						<cui-expandable>
-							<cui-expandable-title ng-click="toggleExpand()">
-								User info
-								<span class="chevron">></span>
-							</cui-expandable-title>
-							<cui-expandable-body>
+  <cui-header logo="{{ app.logo }}" user="{{ app.user }}" top-menu></cui-header>
+  <div class="container">
+    <div class="cui__container">
+      <div class="cui__container__title">{{"cui-create-security-admin-account" | translate}}</div>
+      <div class="cui__container__body">
+        <cui-wizard step="1" step-indicator>
+          <indicator-container></indicator-container>
+          <step title="{{'cui-org-info' | translate}}">
+            <!-- organization name -->
+            <input type="text" ng-model="app.organization.name" class="cui__input cui__input--full" disabled></input>
+            <!-- company/division -->
+            <select ng-model="app.organization.division" class="cui__input cui__input--full" required>
+              <option value="" disabled selected>{{"cui-company-division" | translate}}</option>
+              <option ng-repeat="division in app.organization.divisions" value="{{division}}">{{division}}</option>
+            </select>
+            <!-- address -->
+            <input type="text" ng-model="app.organization.address1" class="cui__input cui__input--half" placeholder="{{'cui-address' | translate}} 1" required></input>
+            <!-- address2 -->
+            <input type="text" ng-model="app.organization.address2" class="cui__input cui__input--half--right" placeholder="{{'cui-address' | translate}} 2"></input>
+            <!-- country -->
+            <select ng-model="app.organization.country" class="cui__input cui__input--half" required>
+              <option value="" disabled selected>{{"cui-country" | translate}}</option>
+              <option ng-repeat="country in app.organization.countries" value="{{country}}">{{country}}</option>
+            </select>
+            <!-- state/province -->
+            <select ng-model="app.organization.state" class="cui__input cui__input--half--right">
+              <option value="" disabled selected>{{"cui-state" | translate}}</option>
+              <option ng-repeat="state in app.organization.states" value="{{state}}">{{state}}</option>
+            </select>
+            <!-- city/region -->
+            <select ng-model="app.organization.city" class="cui__input cui__input--half" required>
+              <option value="" disabled selected>{{"cui-city" | translate}}</option>
+              <option ng-repeat="city in app.organization.cities" value="{{city}}">{{city}}</option>
+            </select>
+            <!-- postal code -->
+            <input type="text" ng-model="app.organization.postal" class="cui__input cui__input--half--right" placeholder="{{'cui-postal' | translate}}"></input>
+          </step>
+          <step title="{{'cui-sign-on-info' | translate}}">
+            <!-- user ID -->
+            <input type="text" ng-model="app.signOn.userID" class="cui__input cui__input--full" placeholder="{{'cui-user-id' | translate}}" required></input>
+            <!-- password -->
+            <input type="password" ng-model="app.signOn.password" class="cui__input cui__input--half" placeholder="{{'cui-password' | translate}}" required></input>
+            <!-- password -->
+            <input type="password" ng-model="app.signOn.password2" class="cui__input cui__input--half--right" placeholder="{{'cui-password-re' | translate}}" required></input>
+            <!-- question 1 -->
+            <select ng-model="app.signOn.question1" class="cui__input cui__input--half">
+              <option value="" disabled selected>{{"cui-challenge-question" | translate}} 1</option>
+              <option ng-repeat="question in app.signOn.questions" value="{{$index}}">{{question | translate}}</option>
+            </select>
+            <!-- answer 1 -->
+            <input type="text" ng-model="app.signOn.answer1" class="cui__input cui__input--half--right" placeholder="{{'cui-challenge-answer' | translate}} 1"></input>
+            <!-- question 2 -->
+            <select ng-model="app.signOn.question2" class="cui__input cui__input--half">
+              <option value="" disabled selected>{{"cui-challenge-question" | translate}} 2</option>
+              <option ng-repeat="question in app.signOn.questions" value="{{$index}}">{{question | translate}}</option>
+            </select>
+            <!-- answer 2 -->
+            <input type="text" ng-model="app.signOn.answer2" class="cui__input cui__input--half--right" placeholder="{{'cui-challenge-answer' | translate}} 2"></input>
+          </step>
+          <step title="{{'cui-user-info' | translate}}">
+            <!-- first name -->
+            <input type="text" ng-model="app.user.fName" class="cui__input cui__input--half" placeholder="{{'cui-first-name' | translate}}" required></input>
+            <!-- Last name -->
+            <input type="text" ng-model="app.user.lName" class="cui__input cui__input--half--right" placeholder="{{'cui-last-name' | translate}}"></input>
+            <!-- Email -->
+            <input type="email" ng-model="app.user.email" class="cui__input cui__input--half" placeholder="{{'cui-email' | translate}}" required></input>
+            <!-- Email 2 -->
+            <input type="email" ng-model="app.user.email2" class="cui__input cui__input--half--right" placeholder="{{'cui-email-re' | translate}}"></input>
+            <!-- Address 1 -->
+            <input type="text" ng-model="app.user.address1" class="cui__input cui__input--half" placeholder="{{'cui-address' | translate}} 1" required></input>
+            <!-- Address 2 -->
+            <input type="text" ng-model="app.user.address2" class="cui__input cui__input--half--right" placeholder="{{'cui-address' | translate}} 2"></input>
+            <!-- country -->
+            <select ng-model="app.user.country" class="cui__input cui__input--half">
+              <option value="" disabled selected>{{"cui-country" | translate}}</option>
+              <option ng-repeat="country in app.organization.countries" value="{{country}}">{{country}}</option>
+            </select>
+            <!-- state/province -->
+            <select ng-model="app.user.state" class="cui__input cui__input--half--right">
+              <option value="" disabled selected>{{'cui-state' | translate}}</option>
+              <option ng-repeat="state in app.organization.states" value="{{state}}">{{state}}</option>
+            </select>
+            <!-- city/region -->
+            <select ng-model="app.user.city" class="cui__input cui__input--half">
+              <option value="" disabled selected>{{"cui-city" | translate}}</option>
+              <option ng-repeat="city in app.organization.cities" value="{{city}}">{{city}}</option>
+            </select>
+            <!-- postal code -->
+            <input type="text" ng-model="app.user.postal" class="cui__input cui__input--half--right" placeholder="{{'cui-postal' | translate}}"></input>
+            <!-- phone -->
+            <input type="number" ng-model="app.user.phone" class="cui__input cui__input--half" placeholder="{{'cui-telephone' | translate}}"></input>
+            <!-- timezone -->
+            <select ng-model="app.user.timezone" class="cui__input cui__input--half--right">
+              <option value="" disabled selected>{{'cui-timezone' | translate}}</option>
+              <option ng-repeat="timezone in app.user.timezones" value="{{timezone}}">{{timezone}}</option>
+            </select>
+          </step>
+          <step title="{{'cui-preferences' | translate}}">
+            
+          </step>
+          <step title="{{'cui-review' | translate}}">
+            <cui-expandable expanded="true">
+              <cui-expandable-title ng-click="toggleExpand()">
+                {{'cui-org-info' | translate}}
+                <span class="chevron">></span>
+              </cui-expandable-title>
+              <cui-expandable-body>
+                <p>{{'cui-org' | translate}}: {{app.organization.name}}</p>
+                <p>{{'cui-company-division' | translate}}: {{app.organization.division}}</p>
+                <p>{{'cui-address' | translate}} 1: {{app.organization.address1}}</p>
+                <p ng-if="app.organization.address2">{{'cui-address' | translate}} 2: {{app.organization.address2}}</p>
+                <p>{{'cui-country' | translate}}: {{app.organization.country}}</p>
+                <p>{{'cui-state' | translate}}: {{app.organization.state}}</p>
+                <p>{{'cui-city' | translate}}: {{app.organization.city}}</p>
+                <p>{{'cui-postal' | translate}}: {{app.organization.postal}}</p>
+              </cui-expandable-body>
+            </cui-expandable>
+            <cui-expandable>
+              <cui-expandable-title ng-click="toggleExpand()">
+                {{'cui-sign-on-info' | translate}}
+                <span class="chevron">></span>
+              </cui-expandable-title>
+              <cui-expandable-body>
+                <p>{{'cui-user-id' | translate}}: {{app.signOn.userID}}</p>
+                <p>{{'cui-password' | translate}}: <input type="password" class="cui__input--display" disabled value="{{app.signOn.password}}"/></p>
+                <p>{{'cui-challenge-question' | translate}} 1: {{app.signOn.questions[app.signOn.question1] | translate}}</p>
+                <p>{{'cui-challenge-answer' | translate}} 1: {{app.signOn.answer1}}</p>
+                <p>{{'cui-challenge-question' | translate}} 2: {{app.signOn.questions[app.signOn.question2] | translate}}</p>
+                <p>{{'cui-challenge-answer' | translate}} 2: {{app.signOn.answer2}}</p>
+              </cui-expandable-body>
+            </cui-expandable>
+            <cui-expandable>
+              <cui-expandable-title ng-click="toggleExpand()">
+                {{'cui-user-info' | translate}}
+                <span class="chevron">></span>
+              </cui-expandable-title>
+              <cui-expandable-body>
+                <p>{{'cui-first-name' | translate}}: {{app.user.fName}}</p>
+                <p>{{'cui-last-name' | translate}}: {{app.user.lName}}</p>
+                <p>{{'cui-email' | translate}}: {{app.user.email}}</p>
+                <p>{{'cui-address' | translate}} 1: {{app.user.address1}}</p>
+                <p>{{'cui-address' | translate}} 2: {{app.user.address2}}</p>
+                <p>{{'cui-country' | translate}}: {{app.user.country}}</p>
+                <p>{{'cui-state' | translate}}: {{app.user.state}}</p>
+                <p>{{'cui-city' | translate}}: {{app.user.city}}</p>
+                <p>{{'cui-postal' | translate}}: {{app.user.postal}}</p>
+                <p>{{'cui-telephone' | translate}}: {{app.user.phone}}</p>
+                <p>{{'cui-timezone' | translate}}: {{app.user.timezone}}</p>
+              </cui-expandable-body>
+            </cui-expandable>
+            <cui-expandable >
+              <cui-expandable-title ng-click="toggleExpand()">
+                {{'cui-preferences' | translate}}
+                <span class="chevron">></span>
+              </cui-expandable-title>
+              <cui-expandable-body>
 
-							</cui-expandable-body>
-						</cui-expandable>
-						<cui-expandable >
-							<cui-expandable-title ng-click="toggleExpand()">
-								Preferences
-								<span class="chevron">></span>
-							</cui-expandable-title>
-							<cui-expandable-body>
-
-							</cui-expandable-body>
-						</cui-expandable>
-					</step>
-					<div class="cui__wizard__controls">
-						<button class="cui__wizard__previous" ng-click="previous()"><< PREVIOUS</span>
-						<button class="cui__wizard__next" ng-click="next()">NEXT STEP</button>
-					</div>
-				</cui-wizard>
-			</div>
-		<div ng-translate-language-select class="language__select"></div>
-		</div>
-	</div>
+              </cui-expandable-body>
+            </cui-expandable>
+          </step>
+          <div class="cui__wizard__controls">
+            <button class="cui__wizard__previous" ng-click="previous()"><< {{'cui-previous' | translate}}</span>
+            <button class="cui__wizard__next" ng-click="next()">{{'cui-next' | translate}}</button>
+          </div>
+        </cui-wizard>
+      </div>
+    <div ng-translate-language-select class="language__select"></div>
+    </div>
+  </div>
 
 
-	<script src="bower_components/angular/angular.js"></script>
+  <script src="bower_components/angular/angular.js"></script>
 
-	<script src="bower_components/angular-cookies/angular-cookies.js"></script>
-	<script src="bower_components/angular-sanitize/angular-sanitize.js"></script>
-	<script src="bower_components/angular-dynamic-locale/tmhDynamicLocale.min.js"></script>
+  <script src="bower_components/angular-cookies/angular-cookies.js"></script>
+  <script src="bower_components/angular-sanitize/angular-sanitize.js"></script>
+  <script src="bower_components/angular-dynamic-locale/tmhDynamicLocale.min.js"></script>
 
-	<script src="bower_components/angular-translate/angular-translate.js"></script>
-	<script src="bower_components/angular-translate-storage-local/angular-translate-storage-local.js"></script>
-	<script src="bower_components/angular-translate-loader-static-files/angular-translate-loader-static-files.js"></script>
-	<script src="bower_components/angular-translate-storage-cookie/angular-translate-storage-cookie.js"></script>
-	<script src="bower_components/angular-translate-handler-log/angular-translate-handler-log.js"></script>
+  <script src="bower_components/angular-translate/angular-translate.js"></script>
+  <script src="bower_components/angular-translate-storage-local/angular-translate-storage-local.js"></script>
+  <script src="bower_components/angular-translate-loader-static-files/angular-translate-loader-static-files.js"></script>
+  <script src="bower_components/angular-translate-storage-cookie/angular-translate-storage-cookie.js"></script>
+  <script src="bower_components/angular-translate-handler-log/angular-translate-handler-log.js"></script>
 
-	<script src="bower_components/cui-i18n/translate.js"></script>
-	<script src="assets/scripts/app2.js"></script>
+  <script src="bower_components/cui-i18n/translate.js"></script>
+  <script src="assets/scripts/app2.js"></script>
 </body>
 </html>
