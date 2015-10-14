@@ -80,40 +80,19 @@
                         scope.$nextBtn=document.querySelector('.cui__wizard__next');
                         scope.currentStep=Number(elem[0].attributes.step.value);
                         scope.next=function(){
-                            function goToNext(){
-                                scope.currentStep++;
-                                updateIndicators();
-                            }
-                            function goToNextAndReplaceBtn(){
-                                putSubmitOnNextBtn();
-                                goToNext();
-                            }
-                            scope.currentStep===(scope.numberOfSteps-1) ? goToNextAndReplaceBtn() :
-                             goToNext();
+                            scope.currentStep++;
+                            updateIndicators();
                         };
                         scope.previous=function(){
-                            restoreNextBtnText();
                             scope.currentStep--;
                             updateIndicators();
                         };
                         scope.goToStep=function(step){
-                            if(step===scope.numberOfSteps){
-                                putSubmitOnNextBtn();
-                            }
-                            else{restoreNextBtnText();}
                             scope.currentStep=step;
                             updateIndicators();
                         };
                         createIndicators();
                         updateIndicators();
-                    },
-                    putSubmitOnNextBtn = function(){
-                        scope.$nextBtn.innerHTML = '{{"cui-submit" | translate}}';
-                        $compile(scope.$nextBtn)(scope);
-                    },
-                    restoreNextBtnText = function(){
-                        scope.$nextBtn.innerHTML = '{{"cui-next" | translate}}';
-                        $compile(scope.$nextBtn)(scope);
                     },
                     // creates indicators inside of <indicator-container>
                     createIndicators = function(){
@@ -140,8 +119,8 @@
                             }
                             scope.$steps[currentStep-1].classList.add('active');
                             scope.$indicators[currentStep-1].classList.add('active');
-                            currentStep>1 ? scope.$previousBtn.classList.add('active') :
-                             scope.$previousBtn.classList.remove('active');
+                            // currentStep>1 ? scope.$previousBtn.classList.add('active') :
+                            //  scope.$previousBtn.classList.remove('active');
                         });
                     };
 

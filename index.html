@@ -49,6 +49,9 @@
             </select>
             <!-- postal code -->
             <input type="text" ng-model="app.organization.postal" class="cui__input cui__input--half--right" placeholder="{{'cui-postal' | translate}}"></input>
+            <div class="cui__wizard__controls">
+              <button class="cui__wizard__next" ng-click="next()">{{'cui-next' | translate}}</button>
+            </div>
           </step>
           <step title="{{'cui-sign-on-info' | translate}}">
             <!-- user ID -->
@@ -71,6 +74,10 @@
             </select>
             <!-- answer 2 -->
             <input type="text" ng-model="app.signOn.answer2" class="cui__input cui__input--half--right" placeholder="{{'cui-challenge-answer' | translate}} 2"></input>
+             <div class="cui__wizard__controls">
+              <button class="cui__wizard__previous" ng-click="previous()"><< {{'cui-previous' | translate}}</span>
+              <button class="cui__wizard__next" ng-click="next()">{{'cui-next' | translate}}</button>
+            </div>
           </step>
           <step title="{{'cui-user-info' | translate}}">
             <!-- first name -->
@@ -109,9 +116,16 @@
               <option value="" disabled selected>{{'cui-timezone' | translate}}</option>
               <option ng-repeat="timezone in app.user.timezones" value="{{timezone}}">{{timezone}}</option>
             </select>
+             <div class="cui__wizard__controls">
+              <button class="cui__wizard__previous" ng-click="previous()"><< {{'cui-previous' | translate}}</span>
+              <button class="cui__wizard__next" ng-click="next()">{{'cui-next' | translate}}</button>
+            </div>
           </step>
           <step title="{{'cui-preferences' | translate}}">
-            
+            <div class="cui__wizard__controls">
+              <button class="cui__wizard__previous" ng-click="previous()"><< {{'cui-previous' | translate}}</span>
+              <button class="cui__wizard__next" ng-click="next()">{{'cui-next' | translate}}</button>
+            </div>
           </step>
           <step title="{{'cui-review' | translate}}">
             <cui-expandable expanded="true">
@@ -172,11 +186,11 @@
 
               </cui-expandable-body>
             </cui-expandable>
+            <div class="cui__wizard__controls">
+              <button class="cui__wizard__previous" ng-click="previous()"><< {{'cui-previous' | translate}}</span>
+              <button class="cui__wizard__next" ng-click="alert('not working yet!')">{{'cui-submit' | translate}}</button>
+            </div>
           </step>
-          <div class="cui__wizard__controls">
-            <button class="cui__wizard__previous" ng-click="previous()"><< {{'cui-previous' | translate}}</span>
-            <button class="cui__wizard__next" ng-click="next()">{{'cui-next' | translate}}</button>
-          </div>
         </cui-wizard>
       </div>
     <div ng-translate-language-select class="language__select"></div>
