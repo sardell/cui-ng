@@ -6,7 +6,7 @@
   padding-bottom: 200px;
   padding-top: 100px; }
 
-.language__select {
+.language-select {
   float: right;
   margin-top: 20px; }
 
@@ -367,43 +367,43 @@ td,
 th {
   padding: 0; }
 
-.cui__header {
+.cui-header {
   padding: 0 20px; }
-  .cui__header__top {
+  .cui-header__top {
     align-items: center;
     display: flex;
     height: 80px;
     padding: 0 0; }
-  .cui__header__logo {
+  .cui-header__logo {
     background-repeat: no-repeat;
     background-size: contain;
     display: inline-block;
     height: 45px;
     width: 200px; }
-  .cui__header__avatar {
+  .cui-header__avatar {
     background: pink;
     height: 45px;
     margin-left: auto; }
 
-.cui__container {
+.cui-container {
   border-radius: 6px;
   margin: 0 auto;
   max-width: 900px;
   width: 80%; }
-  .cui__container__title {
+  .cui-container__title {
     background-color: #53abd0;
     border-radius: 6px 6px 0 0;
     color: white;
     padding: 15px;
     text-align: center; }
-  .cui__container__body {
+  .cui-container__body {
     background: white;
     border-radius: 0 0 6px 6px;
     margin: 0 auto;
     max-width: 100%;
     padding: 50px; }
 
-.cui__input {
+.cui-input {
   -webkit-appearance: none;
   border: 1px solid #ddd;
   box-sizing: border-box;
@@ -411,14 +411,14 @@ th {
   margin-bottom: 20px;
   padding: 8px 12px;
   position: relative; }
-  .cui__input--full {
+  .cui-input--full {
     width: 100%; }
-  .cui__input--half {
+  .cui-input--half {
     width: 48%; }
-  .cui__input--half--right {
+  .cui-input--half--right {
     float: right;
     width: 48%; }
-  .cui__input--display {
+  .cui-input--display {
     border: 0;
     height: 14px;
     margin: -3px 0 -3px 1px;
@@ -437,13 +437,13 @@ indicator-container {
   justify-content: space-between;
   margin-bottom: 40px; }
 
-.step__indicator {
+.step-indicator {
   color: #BBB;
   cursor: pointer;
   margin-bottom: -2px;
   padding: 10px 0;
   white-space: nowrap; }
-  .step__indicator.active {
+  .step-indicator.active {
     border-bottom: 3px solid #333;
     color: #333; }
 
@@ -452,10 +452,10 @@ step {
   step.active {
     display: block; }
 
-.cui__wizard__controls {
+.cui-wizard__controls {
   text-align: right; }
 
-.cui__wizard__next {
+.cui-wizard__next {
   background-color: #386895;
   border: 0;
   border-radius: 4px;
@@ -464,7 +464,7 @@ step {
   height: 37px;
   width: 160px; }
 
-.cui__wizard__previous {
+.cui-wizard__previous {
   background: #FFF;
   border: 0;
   color: #53abd0;
@@ -472,7 +472,7 @@ step {
   display: inline-block;
   font-size: 12px;
   margin-right: 20px; }
-  .cui__wizard__previous.active {
+  .cui-wizard__previous.active {
     display: inline-block; }
 
 cui-expandable {

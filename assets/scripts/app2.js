@@ -43,7 +43,7 @@
                 attrs.topMenu!==undefined ? scope.cuiTopMenu=true : scope.cuiTopMenu=false;
                 
                 //set logo image
-                var $logo = document.querySelector('.cui__header__logo');
+                var $logo = document.querySelector('.cui-header__logo');
                 $logo.style.backgroundImage = 'url("' + logo + '")';
             }
         };
@@ -76,8 +76,8 @@
                 var init = function(){
                         scope.$steps=document.querySelectorAll('cui-wizard>step');
                         scope.$indicatorContainer=document.querySelector('indicator-container');
-                        scope.$previousBtn=document.querySelector('.cui__wizard__previous');
-                        scope.$nextBtn=document.querySelector('.cui__wizard__next');
+                        scope.$previousBtn=document.querySelector('.cui-wizard__previous');
+                        scope.$nextBtn=document.querySelector('.cui-wizard__next');
                         scope.currentStep=Number(elem[0].attributes.step.value);
                         scope.next=function(){
                             scope.currentStep++;
@@ -102,12 +102,12 @@
                             stepTitles[i]=scope.$steps[i].attributes.title.value;
                         }
                         stepTitles.forEach(function(e,i){
-                            var div=angular.element('<span class="step__indicator" ng-click="goToStep(' + 
+                            var div=angular.element('<span class="step-indicator" ng-click="goToStep(' + 
                                 (i+1) + ')">' + stepTitles[i] + '</span>');
                             var compiled=$compile(div)(scope);
                             angular.element(scope.$indicatorContainer).append(compiled);
                         });
-                        scope.$indicators=document.querySelectorAll('.step__indicator');
+                        scope.$indicators=document.querySelectorAll('.step-indicator');
                     },
                     // updates the current active indicator. Removes active class from other elements.
                     updateIndicators = function(){

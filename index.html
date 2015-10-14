@@ -15,116 +15,116 @@
 <body ng-controller="appCtrl as app">
   <cui-header logo="{{ app.logo }}" user="{{ app.user }}" top-menu></cui-header>
   <div class="container">
-    <div class="cui__container">
-      <div class="cui__container__title">{{"cui-create-security-admin-account" | translate}}</div>
-      <div class="cui__container__body">
+    <div class="cui-container">
+      <div class="cui-container__title">{{"cui-create-security-admin-account" | translate}}</div>
+      <div class="cui-container__body">
         <cui-wizard step="1" step-indicator>
           <indicator-container></indicator-container>
           <step title="{{'cui-org-info' | translate}}">
             <!-- organization name -->
-            <input type="text" ng-model="app.organization.name" class="cui__input cui__input--full" disabled></input>
+            <input type="text" ng-model="app.organization.name" class="cui-input cui-input--full" disabled></input>
             <!-- company/division -->
-            <select ng-model="app.organization.division" class="cui__input cui__input--full" required>
+            <select ng-model="app.organization.division" class="cui-input cui-input--full" required>
               <option value="" disabled selected>{{"cui-company-division" | translate}}</option>
               <option ng-repeat="division in app.organization.divisions" value="{{division}}">{{division}}</option>
             </select>
             <!-- address -->
-            <input type="text" ng-model="app.organization.address1" class="cui__input cui__input--half" placeholder="{{'cui-address' | translate}} 1" required></input>
+            <input type="text" ng-model="app.organization.address1" class="cui-input cui-input--half" placeholder="{{'cui-address' | translate}} 1" required></input>
             <!-- address2 -->
-            <input type="text" ng-model="app.organization.address2" class="cui__input cui__input--half--right" placeholder="{{'cui-address' | translate}} 2"></input>
+            <input type="text" ng-model="app.organization.address2" class="cui-input cui-input--half--right" placeholder="{{'cui-address' | translate}} 2"></input>
             <!-- country -->
-            <select ng-model="app.organization.country" class="cui__input cui__input--half" required>
+            <select ng-model="app.organization.country" class="cui-input cui-input--half" required>
               <option value="" disabled selected>{{"cui-country" | translate}}</option>
               <option ng-repeat="country in app.organization.countries" value="{{country}}">{{country}}</option>
             </select>
             <!-- state/province -->
-            <select ng-model="app.organization.state" class="cui__input cui__input--half--right">
+            <select ng-model="app.organization.state" class="cui-input cui-input--half--right">
               <option value="" disabled selected>{{"cui-state" | translate}}</option>
               <option ng-repeat="state in app.organization.states" value="{{state}}">{{state}}</option>
             </select>
             <!-- city/region -->
-            <select ng-model="app.organization.city" class="cui__input cui__input--half" required>
+            <select ng-model="app.organization.city" class="cui-input cui-input--half" required>
               <option value="" disabled selected>{{"cui-city" | translate}}</option>
               <option ng-repeat="city in app.organization.cities" value="{{city}}">{{city}}</option>
             </select>
             <!-- postal code -->
-            <input type="text" ng-model="app.organization.postal" class="cui__input cui__input--half--right" placeholder="{{'cui-postal' | translate}}"></input>
-            <div class="cui__wizard__controls">
-              <button class="cui__wizard__next" ng-click="next()">{{'cui-next' | translate}}</button>
+            <input type="text" ng-model="app.organization.postal" class="cui-input cui-input--half--right" placeholder="{{'cui-postal' | translate}}"></input>
+            <div class="cui-wizard__controls">
+              <button class="cui-wizard__next" ng-click="next()">{{'cui-next' | translate}}</button>
             </div>
           </step>
           <step title="{{'cui-sign-on-info' | translate}}">
             <!-- user ID -->
-            <input type="text" ng-model="app.signOn.userID" class="cui__input cui__input--full" placeholder="{{'cui-user-id' | translate}}" required></input>
+            <input type="text" ng-model="app.signOn.userID" class="cui-input cui-input--full" placeholder="{{'cui-user-id' | translate}}" required></input>
             <!-- password -->
-            <input type="password" ng-model="app.signOn.password" class="cui__input cui__input--half" placeholder="{{'cui-password' | translate}}" required></input>
+            <input type="password" ng-model="app.signOn.password" class="cui-input cui-input--half" placeholder="{{'cui-password' | translate}}" required></input>
             <!-- password -->
-            <input type="password" ng-model="app.signOn.password2" class="cui__input cui__input--half--right" placeholder="{{'cui-password-re' | translate}}" required></input>
+            <input type="password" ng-model="app.signOn.password2" class="cui-input cui-input--half--right" placeholder="{{'cui-password-re' | translate}}" required></input>
             <!-- question 1 -->
-            <select ng-model="app.signOn.question1" class="cui__input cui__input--half">
+            <select ng-model="app.signOn.question1" class="cui-input cui-input--half">
               <option value="" disabled selected>{{"cui-challenge-question" | translate}} 1</option>
               <option ng-repeat="question in app.signOn.questions" value="{{$index}}">{{question | translate}}</option>
             </select>
             <!-- answer 1 -->
-            <input type="text" ng-model="app.signOn.answer1" class="cui__input cui__input--half--right" placeholder="{{'cui-challenge-answer' | translate}} 1"></input>
+            <input type="text" ng-model="app.signOn.answer1" class="cui-input cui-input--half--right" placeholder="{{'cui-challenge-answer' | translate}} 1"></input>
             <!-- question 2 -->
-            <select ng-model="app.signOn.question2" class="cui__input cui__input--half">
+            <select ng-model="app.signOn.question2" class="cui-input cui-input--half">
               <option value="" disabled selected>{{"cui-challenge-question" | translate}} 2</option>
               <option ng-repeat="question in app.signOn.questions" value="{{$index}}">{{question | translate}}</option>
             </select>
             <!-- answer 2 -->
-            <input type="text" ng-model="app.signOn.answer2" class="cui__input cui__input--half--right" placeholder="{{'cui-challenge-answer' | translate}} 2"></input>
-             <div class="cui__wizard__controls">
-              <button class="cui__wizard__previous" ng-click="previous()"><< {{'cui-previous' | translate}}</span>
-              <button class="cui__wizard__next" ng-click="next()">{{'cui-next' | translate}}</button>
+            <input type="text" ng-model="app.signOn.answer2" class="cui-input cui-input--half--right" placeholder="{{'cui-challenge-answer' | translate}} 2"></input>
+             <div class="cui-wizard__controls">
+              <button class="cui-wizard__previous" ng-click="previous()"><< {{'cui-previous' | translate}}</span>
+              <button class="cui-wizard__next" ng-click="next()">{{'cui-next' | translate}}</button>
             </div>
           </step>
           <step title="{{'cui-user-info' | translate}}">
             <!-- first name -->
-            <input type="text" ng-model="app.user.fName" class="cui__input cui__input--half" placeholder="{{'cui-first-name' | translate}}" required></input>
+            <input type="text" ng-model="app.user.fName" class="cui-input cui-input--half" placeholder="{{'cui-first-name' | translate}}" required></input>
             <!-- Last name -->
-            <input type="text" ng-model="app.user.lName" class="cui__input cui__input--half--right" placeholder="{{'cui-last-name' | translate}}"></input>
+            <input type="text" ng-model="app.user.lName" class="cui-input cui-input--half--right" placeholder="{{'cui-last-name' | translate}}"></input>
             <!-- Email -->
-            <input type="email" ng-model="app.user.email" class="cui__input cui__input--half" placeholder="{{'cui-email' | translate}}" required></input>
+            <input type="email" ng-model="app.user.email" class="cui-input cui-input--half" placeholder="{{'cui-email' | translate}}" required></input>
             <!-- Email 2 -->
-            <input type="email" ng-model="app.user.email2" class="cui__input cui__input--half--right" placeholder="{{'cui-email-re' | translate}}"></input>
+            <input type="email" ng-model="app.user.email2" class="cui-input cui-input--half--right" placeholder="{{'cui-email-re' | translate}}"></input>
             <!-- Address 1 -->
-            <input type="text" ng-model="app.user.address1" class="cui__input cui__input--half" placeholder="{{'cui-address' | translate}} 1" required></input>
+            <input type="text" ng-model="app.user.address1" class="cui-input cui-input--half" placeholder="{{'cui-address' | translate}} 1" required></input>
             <!-- Address 2 -->
-            <input type="text" ng-model="app.user.address2" class="cui__input cui__input--half--right" placeholder="{{'cui-address' | translate}} 2"></input>
+            <input type="text" ng-model="app.user.address2" class="cui-input cui-input--half--right" placeholder="{{'cui-address' | translate}} 2"></input>
             <!-- country -->
-            <select ng-model="app.user.country" class="cui__input cui__input--half">
+            <select ng-model="app.user.country" class="cui-input cui-input--half">
               <option value="" disabled selected>{{"cui-country" | translate}}</option>
               <option ng-repeat="country in app.organization.countries" value="{{country}}">{{country}}</option>
             </select>
             <!-- state/province -->
-            <select ng-model="app.user.state" class="cui__input cui__input--half--right">
+            <select ng-model="app.user.state" class="cui-input cui-input--half--right">
               <option value="" disabled selected>{{'cui-state' | translate}}</option>
               <option ng-repeat="state in app.organization.states" value="{{state}}">{{state}}</option>
             </select>
             <!-- city/region -->
-            <select ng-model="app.user.city" class="cui__input cui__input--half">
+            <select ng-model="app.user.city" class="cui-input cui-input--half">
               <option value="" disabled selected>{{"cui-city" | translate}}</option>
               <option ng-repeat="city in app.organization.cities" value="{{city}}">{{city}}</option>
             </select>
             <!-- postal code -->
-            <input type="text" ng-model="app.user.postal" class="cui__input cui__input--half--right" placeholder="{{'cui-postal' | translate}}"></input>
+            <input type="text" ng-model="app.user.postal" class="cui-input cui-input--half--right" placeholder="{{'cui-postal' | translate}}"></input>
             <!-- phone -->
-            <input type="number" ng-model="app.user.phone" class="cui__input cui__input--half" placeholder="{{'cui-telephone' | translate}}"></input>
+            <input type="number" ng-model="app.user.phone" class="cui-input cui-input--half" placeholder="{{'cui-telephone' | translate}}"></input>
             <!-- timezone -->
-            <select ng-model="app.user.timezone" class="cui__input cui__input--half--right">
+            <select ng-model="app.user.timezone" class="cui-input cui-input--half--right">
               <option value="" disabled selected>{{'cui-timezone' | translate}}</option>
               <option ng-repeat="timezone in app.user.timezones" value="{{timezone}}">{{timezone}}</option>
             </select>
-             <div class="cui__wizard__controls">
-              <button class="cui__wizard__previous" ng-click="previous()"><< {{'cui-previous' | translate}}</span>
-              <button class="cui__wizard__next" ng-click="next()">{{'cui-next' | translate}}</button>
+             <div class="cui-wizard__controls">
+              <button class="cui-wizard__previous" ng-click="previous()"><< {{'cui-previous' | translate}}</span>
+              <button class="cui-wizard__next" ng-click="next()">{{'cui-next' | translate}}</button>
             </div>
           </step>
           <step title="{{'cui-preferences' | translate}}">
-            <div class="cui__wizard__controls">
-              <button class="cui__wizard__previous" ng-click="previous()"><< {{'cui-previous' | translate}}</span>
-              <button class="cui__wizard__next" ng-click="next()">{{'cui-next' | translate}}</button>
+            <div class="cui-wizard__controls">
+              <button class="cui-wizard__previous" ng-click="previous()"><< {{'cui-previous' | translate}}</span>
+              <button class="cui-wizard__next" ng-click="next()">{{'cui-next' | translate}}</button>
             </div>
           </step>
           <step title="{{'cui-review' | translate}}">
@@ -151,7 +151,7 @@
               </cui-expandable-title>
               <cui-expandable-body>
                 <p>{{'cui-user-id' | translate}}: {{app.signOn.userID}}</p>
-                <p>{{'cui-password' | translate}}: <input type="password" class="cui__input--display" disabled value="{{app.signOn.password}}"/></p>
+                <p>{{'cui-password' | translate}}: <input type="password" class="cui-input--display" disabled value="{{app.signOn.password}}"/></p>
                 <p>{{'cui-challenge-question' | translate}} 1: {{app.signOn.questions[app.signOn.question1] | translate}}</p>
                 <p>{{'cui-challenge-answer' | translate}} 1: {{app.signOn.answer1}}</p>
                 <p>{{'cui-challenge-question' | translate}} 2: {{app.signOn.questions[app.signOn.question2] | translate}}</p>
@@ -186,14 +186,14 @@
 
               </cui-expandable-body>
             </cui-expandable>
-            <div class="cui__wizard__controls">
-              <button class="cui__wizard__previous" ng-click="previous()"><< {{'cui-previous' | translate}}</span>
-              <button class="cui__wizard__next" ng-click="alert('not working yet!')">{{'cui-submit' | translate}}</button>
+            <div class="cui-wizard__controls">
+              <button class="cui-wizard__previous" ng-click="previous()"><< {{'cui-previous' | translate}}</span>
+              <button class="cui-wizard__next" ng-click="alert('not working yet!')">{{'cui-submit' | translate}}</button>
             </div>
           </step>
         </cui-wizard>
       </div>
-    <div ng-translate-language-select class="language__select"></div>
+    <div ng-translate-language-select class="language-select"></div>
     </div>
   </div>
 
