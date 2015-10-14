@@ -369,39 +369,39 @@ th {
 
 .cui-header {
   padding: 0 20px; }
-  .cui-header__top {
-    align-items: center;
-    display: flex;
-    height: 80px;
-    padding: 0 0; }
+  .cui-header__avatar {
+    background: pink;
+    height: 45px;
+    margin-left: auto; }
   .cui-header__logo {
     background-repeat: no-repeat;
     background-size: contain;
     display: inline-block;
     height: 45px;
     width: 200px; }
-  .cui-header__avatar {
-    background: pink;
-    height: 45px;
-    margin-left: auto; }
+  .cui-header__top {
+    align-items: center;
+    display: flex;
+    height: 80px;
+    padding: 0 0; }
 
 .cui-container {
   border-radius: 6px;
   margin: 0 auto;
   max-width: 900px;
   width: 80%; }
-  .cui-container__title {
-    background-color: #53abd0;
-    border-radius: 6px 6px 0 0;
-    color: white;
-    padding: 15px;
-    text-align: center; }
   .cui-container__body {
     background: white;
     border-radius: 0 0 6px 6px;
     margin: 0 auto;
     max-width: 100%;
     padding: 50px; }
+  .cui-container__title {
+    background-color: #53abd0;
+    border-radius: 6px 6px 0 0;
+    color: white;
+    padding: 15px;
+    text-align: center; }
 
 .cui-input {
   -webkit-appearance: none;
@@ -411,6 +411,12 @@ th {
   margin-bottom: 20px;
   padding: 8px 12px;
   position: relative; }
+  .cui-input--display {
+    border: 0;
+    height: 14px;
+    margin: -3px 0 -3px 1px;
+    padding: 0;
+    width: 200px; }
   .cui-input--full {
     width: 100%; }
   .cui-input--half {
@@ -418,39 +424,12 @@ th {
   .cui-input--half--right {
     float: right;
     width: 48%; }
-  .cui-input--display {
-    border: 0;
-    height: 14px;
-    margin: -3px 0 -3px 1px;
-    padding: 0;
-    width: 200px; }
 
 cui-wizard {
   display: block;
   margin: 0 auto;
   max-width: 800px;
   width: 100%; }
-
-indicator-container {
-  border-bottom: 1px solid #DDD;
-  display: flex;
-  justify-content: space-between;
-  margin-bottom: 40px; }
-
-.step-indicator {
-  color: #BBB;
-  cursor: pointer;
-  margin-bottom: -2px;
-  padding: 10px 0;
-  white-space: nowrap; }
-  .step-indicator.active {
-    border-bottom: 3px solid #333;
-    color: #333; }
-
-step {
-  display: none; }
-  step.active {
-    display: block; }
 
 .cui-wizard__controls {
   text-align: right; }
@@ -474,6 +453,27 @@ step {
   margin-right: 20px; }
   .cui-wizard__previous.active {
     display: inline-block; }
+
+indicator-container {
+  border-bottom: 1px solid #DDD;
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 40px; }
+
+.step-indicator {
+  color: #BBB;
+  cursor: pointer;
+  margin-bottom: -2px;
+  padding: 10px 0;
+  white-space: nowrap; }
+  .step-indicator.active {
+    border-bottom: 3px solid #333;
+    color: #333; }
+
+step {
+  display: none; }
+  step.active {
+    display: block; }
 
 cui-expandable {
   border-bottom: 1px solid #ddd;

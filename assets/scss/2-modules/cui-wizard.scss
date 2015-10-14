@@ -5,6 +5,34 @@ cui-wizard {
   width: 100%;
 }
 
+.cui-wizard__controls {
+  text-align: right;
+}
+
+.cui-wizard__next {
+  background-color: #386895;
+  border: 0;
+  border-radius: 4px;
+  color: #FFF;
+  font-size: 12px;
+  height: 37px;
+  width: 160px;
+}
+
+.cui-wizard__previous {
+  background: #FFF;
+  border: 0;
+  color: $container-title-background;
+  cursor: pointer;
+  display: inline-block;
+  font-size: 12px;
+  margin-right: 20px;
+
+  &.active {
+    display: inline-block;
+  }
+}
+
 indicator-container {
   border-bottom: 1px solid #DDD;
   display: flex;
@@ -33,30 +61,3 @@ step {
   }
 }
 
-.cui-wizard__controls {
-  text-align: right;
-}
-
-.cui-wizard__next {
-  background-color: #386895;
-  border: 0;
-  border-radius: 4px;
-  color: #FFF;
-  font-size: 12px;
-  height: 37px;
-  width: 160px;
-}
-
-.cui-wizard__previous {
-  background: #FFF;
-  border: 0;
-  color: $container-title-background;
-  cursor: pointer;
-  display: inline-block;
-  font-size: 12px;
-  margin-right: 20px;
-
-  &.active {
-    display: inline-block;
-  }
-}

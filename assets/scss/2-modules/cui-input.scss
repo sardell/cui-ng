@@ -7,6 +7,14 @@
   padding: $input-padding;
   position: relative;
 
+  &--display {
+    border: 0;
+    height: 14px;
+    margin: -3px 0 -3px 1px;
+    padding: 0;
+    width: 200px;
+  }
+
   &--full {
     width: 100%;
   }
@@ -20,11 +28,4 @@
     width: 48%;
   }
 
-  &--display {
-    border: 0;
-    height: 14px;
-    margin: -3px 0 -3px 1px;
-    padding: 0;
-    width: 200px;
-  }
 }

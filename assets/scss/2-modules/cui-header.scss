@@ -1,11 +1,10 @@
 .cui-header {
   padding: $header-padding;
 
-  &__top {
-    align-items: center;
-    display: flex;
-    height: 80px;
-    padding: $header-top-padding;
+  &__avatar {
+    background: pink;
+    height: 45px;
+    margin-left: auto;
   }
 
   &__logo {
@@ -16,9 +15,10 @@
     width: 200px;
   }
 
-  &__avatar {
-    background: pink;
-    height: 45px;
-    margin-left: auto;
+  &__top {
+    align-items: center;
+    display: flex;
+    height: 80px;
+    padding: $header-top-padding;
   }
 }
