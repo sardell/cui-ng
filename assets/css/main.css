@@ -388,7 +388,7 @@ th {
 .cui-container {
   border-radius: 6px;
   margin: 0 auto;
-  max-width: 900px;
+  max-width: 1200px;
   width: 80%; }
   .cui-container__body {
     background: white;
@@ -402,6 +402,11 @@ th {
     color: white;
     padding: 15px;
     text-align: center; }
+  @media all and (max-width: 600px) {
+    .cui-container {
+      width: 90%; }
+      .cui-container__body {
+        padding: 20px; } }
 
 .cui-input {
   -webkit-appearance: none;
@@ -424,11 +429,17 @@ th {
   .cui-input--half--right {
     float: right;
     width: 48%; }
+  @media all and (max-width: 700px) {
+    .cui-input--half {
+      width: 100%; }
+    .cui-input--half--right {
+      float: none;
+      width: 100%; } }
 
 cui-wizard {
   display: block;
   margin: 0 auto;
-  max-width: 800px;
+  max-width: 1000px;
   width: 100%; }
 
 .cui-wizard__controls {
@@ -438,13 +449,13 @@ cui-wizard {
   background-color: #386895;
   border: 0;
   border-radius: 4px;
-  color: #FFF;
+  color: #fff;
   font-size: 12px;
   height: 37px;
   width: 160px; }
 
 .cui-wizard__previous {
-  background: #FFF;
+  background: #fff;
   border: 0;
   color: #53abd0;
   cursor: pointer;
@@ -455,17 +466,26 @@ cui-wizard {
     display: inline-block; }
 
 indicator-container {
-  border-bottom: 1px solid #DDD;
+  border-bottom: 1px solid #ddd;
   display: flex;
   justify-content: space-between;
   margin-bottom: 40px; }
+  indicator-container.small > .step-indicator {
+    display: none;
+    pointer-events: none; }
+    indicator-container.small > .step-indicator.active {
+      border: 0;
+      display: inline-block;
+      margin: 0 auto;
+      text-align: center;
+      color: #bbb; }
 
 .step-indicator {
-  color: #BBB;
-  cursor: pointer;
+  color: #bbb;
   margin-bottom: -2px;
   padding: 10px 0;
-  white-space: nowrap; }
+  white-space: nowrap;
+  display: inline-block; }
   .step-indicator.active {
     border-bottom: 3px solid #333;
     color: #333; }

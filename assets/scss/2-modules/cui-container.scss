@@ -1,7 +1,7 @@
 .cui-container {
   border-radius: $container-radius;
   margin: 0 auto;
-  max-width: 900px;
+  max-width: 1200px;
   width: 80%;
 
   &__body {
@@ -18,5 +18,13 @@
     color: white;
     padding: $container-title-padding;
     text-align: center;
+  }
+
+  @media all and (max-width:600px){
+    width:90%;
+
+    &__body {
+      padding:$container-padding-small;
+    }
   }
 }

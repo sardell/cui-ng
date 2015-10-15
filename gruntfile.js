@@ -24,6 +24,7 @@ module.exports = function(grunt) {
             ]
         },
         options: {
+          ghostMode: false,
           watchTask: true,
           online: true,
           server:{

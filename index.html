@@ -18,7 +18,7 @@
     <div class="cui-container">
       <div class="cui-container__title">{{"cui-create-security-admin-account" | translate}}</div>
       <div class="cui-container__body">
-        <cui-wizard step="1" step-indicator>
+        <cui-wizard step="1" clickable-indicators minimum-padding="30">
           <indicator-container></indicator-container>
           <step title="{{'cui-org-info' | translate}}">
             <!-- organization name -->
@@ -188,7 +188,7 @@
             </cui-expandable>
             <div class="cui-wizard__controls">
               <button class="cui-wizard__previous" ng-click="previous()"><< {{'cui-previous' | translate}}</span>
-              <button class="cui-wizard__next" ng-click="alert('not working yet!')">{{'cui-submit' | translate}}</button>
+              <button class="cui-wizard__next" ng-click="">{{'cui-submit' | translate}}</button>
             </div>
           </step>
         </cui-wizard>

@@ -27,5 +27,15 @@
     float: right;
     width: 48%;
   }
+  
+  @media all and (max-width:700px){
+   &--half {
+      width: 100%;
+    }
 
+    &--half--right {
+      float: none;
+      width: 100%;
+    }
+  }
 }

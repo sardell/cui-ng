@@ -41,7 +41,6 @@
                 attrs.logo!==undefined ? logo = attrs.logo : true;
                 attrs.user!==undefined ? scope.cuiUser = attrs.user : true;
                 attrs.topMenu!==undefined ? scope.cuiTopMenu=true : scope.cuiTopMenu=false;
-                
                 //set logo image
                 var $logo = document.querySelector('.cui-header__logo');
                 $logo.style.backgroundImage = 'url("' + logo + '")';
@@ -67,18 +66,18 @@
     }])
 
     //cui-wizard -------------------------------------
-    .directive('cuiWizard',['$timeout','$compile',function($timeout,$compile){
+    .directive('cuiWizard',['$timeout','$compile','$window',function($timeout,$compile,$window){
         return{
             restrict: 'E',
-            scope: true,
             link:function(scope,elem,attrs){
                 //init
                 var init = function(){
                         scope.$steps=document.querySelectorAll('cui-wizard>step');
                         scope.$indicatorContainer=document.querySelector('indicator-container');
-                        scope.$previousBtn=document.querySelector('.cui-wizard__previous');
-                        scope.$nextBtn=document.querySelector('.cui-wizard__next');
+                        scope.$window=angular.element($window);
                         scope.currentStep=Number(elem[0].attributes.step.value);
+                        scope.clickableIndicators=attrs.clickableIndicators;
+                        scope.minimumPadding=attrs.minimumPadding;
                         scope.next=function(){
                             scope.currentStep++;
                             updateIndicators();
@@ -93,6 +92,11 @@
                         };
                         createIndicators();
                         updateIndicators();
+                        //sets the indicators width to their width + the minimum padding set in the attribute
+                        // scope.indicatorsWidth=getIndicatorsWidth()+((Number(scope.minimumPadding) || 0)*(scope.numberOfSteps-1));
+                        makeSureTheresRoom();
+                        watchForWindowResize();
+                        listenForLanguageChange();
                     },
                     // creates indicators inside of <indicator-container>
                     createIndicators = function(){
@@ -102,8 +106,15 @@
                             stepTitles[i]=scope.$steps[i].attributes.title.value;
                         }
                         stepTitles.forEach(function(e,i){
-                            var div=angular.element('<span class="step-indicator" ng-click="goToStep(' + 
-                                (i+1) + ')">' + stepTitles[i] + '</span>');
+                            var div;
+                            if(scope.clickableIndicators!==undefined){
+                                div=angular.element('<span class="step-indicator" ng-click="goToStep(' + 
+                                    (i+1) + ')">' + stepTitles[i] + '</span>');
+                                div[0].style.cursor="pointer";
+                            }
+                            else{
+                                div=angular.element('<span class="step-indicator">' + stepTitles[i] + '</span>');
+                            }
                             var compiled=$compile(div)(scope);
                             angular.element(scope.$indicatorContainer).append(compiled);
                         });
@@ -119,11 +130,58 @@
                             }
                             scope.$steps[currentStep-1].classList.add('active');
                             scope.$indicators[currentStep-1].classList.add('active');
-                            // currentStep>1 ? scope.$previousBtn.classList.add('active') :
-                            //  scope.$previousBtn.classList.remove('active');
                         });
+                    },
+                    debounce = function(func, wait, immediate) {
+                        var timeout;
+                        return function() {
+                            var context = this, args = arguments;
+                            var later = function() {
+                                timeout = null;
+                                if (!immediate) func.apply(context, args);
+                            };
+                            var callNow = immediate && !timeout;
+                            clearTimeout(timeout);
+                            timeout = setTimeout(later, wait);
+                            if (callNow) func.apply(context, args);
+                        };
+                    },
+                    getIndicatorsWidth = function(){
+                        var totalWidth=0;
+                        for(var i=0 ; i<scope.numberOfSteps ; i++){
+                            totalWidth += scope.$indicators[i].scrollWidth;
+                        }
+                        return totalWidth+((Number(scope.minimumPadding) || 0)*(scope.numberOfSteps-1));
+                    },
+                    getIndicatorContainerWidth = function(){
+                        return scope.$indicatorContainer.clientWidth;
+                    },
+                    onlyShowCurrentIndicator = function(){
+                        scope.$indicatorContainer.classList.add('small');
+                    },
+                    showAllIndicators = function(){
+                        scope.$indicatorContainer.classList.remove('small');
+                    },
+                    //makes sure there's still room for the step indicators, has a debounce on it so it
+                    //doesn't fire too often.
+                    makeSureTheresRoom = debounce(function(){
+                        if((getIndicatorContainerWidth() < getIndicatorsWidth()) && 
+                                (getIndicatorContainerWidth() < (Math.max((scope.indicatorsWidth || 0),getIndicatorsWidth())))){
+                            scope.indicatorsWidth=getIndicatorsWidth();
+                            onlyShowCurrentIndicator();
+                        }
+                        else if(getIndicatorContainerWidth() > scope.indicatorsWidth){
+                            showAllIndicators();
+                        }
+                    }, 40),
+                    watchForWindowResize = function(){
+                        scope.$window.bind('resize',function(){
+                            makeSureTheresRoom();
+                        })
+                    },
+                    listenForLanguageChange = function(){
+                        scope.$on('languageChange',makeSureTheresRoom);
                     };
-
                 init();
             }
         };
