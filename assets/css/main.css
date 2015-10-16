@@ -388,7 +388,7 @@ th {
 .cui-container {
   border-radius: 6px;
   margin: 0 auto;
-  max-width: 1200px;
+  max-width: 1000px;
   width: 80%; }
   .cui-container__body {
     background: white;
@@ -429,6 +429,10 @@ th {
   .cui-input--half--right {
     float: right;
     width: 48%; }
+  .cui-input--error {
+    border: 1px solid red; }
+    .cui-input--error:focus {
+      outline: none; }
   @media all and (max-width: 700px) {
     .cui-input--half {
       width: 100%; }
@@ -439,7 +443,7 @@ th {
 cui-wizard {
   display: block;
   margin: 0 auto;
-  max-width: 1000px;
+  max-width: 800px;
   width: 100%; }
 
 .cui-wizard__controls {
@@ -453,16 +457,29 @@ cui-wizard {
   font-size: 12px;
   height: 37px;
   width: 160px; }
+  .cui-wizard__next--error {
+    background-color: lightgray;
+    cursor: default; }
 
 .cui-wizard__previous {
   background: #fff;
   border: 0;
   color: #53abd0;
   cursor: pointer;
-  display: inline-block;
   font-size: 12px;
   margin-right: 20px; }
   .cui-wizard__previous.active {
+    display: inline-block; }
+
+.cui-wizard__skip {
+  background: #fff;
+  border: 0;
+  color: #53abd0;
+  cursor: pointer;
+  font-size: 12px;
+  display: none;
+  margin-left: 20px; }
+  .cui-wizard__skip--show {
     display: inline-block; }
 
 indicator-container {
@@ -526,3 +543,22 @@ cui-expandable {
   float: right;
   margin-right: 20px;
   transition: all 200ms ease-in-out; }
+
+.cui-error, .cui-error--half {
+  color: red;
+  font-size: 14px;
+  margin-top: -15px;
+  padding: 5px 12px 3px;
+  position: relative; }
+  .cui-error--half {
+    width: 48%; }
+    @media all and (max-width: 700px) {
+      .cui-error--half {
+        width: 100%; } }
+  .cui-error__password {
+    display: inline-block;
+    border: 1px solid #AAA;
+    padding: 10px 20px 20px;
+    position: absolute;
+    z-index: 2;
+    background: white; }

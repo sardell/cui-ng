@@ -27,7 +27,15 @@
     float: right;
     width: 48%;
   }
-  
+
+  &--error {
+    border: 1px solid red;
+
+    &:focus {
+      outline: none;
+    }
+  }
+
   @media all and (max-width:700px){
    &--half {
       width: 100%;

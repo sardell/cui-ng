@@ -2,7 +2,7 @@
     'use strict';
 
     angular
-    .module('app',['translate'])
+    .module('app',['translate','ngMessages'])
     .controller('appCtrl',[function(){
         var app=this;
         app.user={
@@ -23,6 +23,7 @@
         app.signOn={};
         app.signOn.questions=['cui-favorite-pet-q','cui-mother-q',
         'cui-best-friend-q'];
+        app.signOn.password1='';
 
         app.user={};
         app.user.timezones=['-08:00','-07:00','-06:00','-05:00','-04:00'];
@@ -72,6 +73,7 @@
             link:function(scope,elem,attrs){
                 //init
                 var init = function(){
+                        scope.invalidForm=[];
                         scope.$steps=document.querySelectorAll('cui-wizard>step');
                         scope.$indicatorContainer=document.querySelector('indicator-container');
                         scope.$window=angular.element($window);
@@ -82,13 +84,30 @@
                             scope.currentStep++;
                             updateIndicators();
                         };
-                        scope.previous=function(){
+                        scope.previous=function(form){
+                            if(form && form.$invalid){
+                                scope.invalidForm[currentStep]=true;
+                            }
                             scope.currentStep--;
                             updateIndicators();
                         };
                         scope.goToStep=function(step){
                             scope.currentStep=step;
                             updateIndicators();
+                        };
+                        scope.nextWithErrorChecking=function(form){
+                            if(form.$invalid){
+                                angular.forEach(form.$error, function (field) {
+                                    angular.forEach(field, function(errorField){
+                                        errorField.$setTouched();
+                                    })
+                                });
+                                scope.invalidForm[scope.currentStep]=true;
+                            }
+                            else{
+                                scope.invalidForm[scope.currentStep]=false;
+                                scope.next();
+                            }
                         };
                         createIndicators();
                         updateIndicators();
@@ -151,6 +170,7 @@
                         for(var i=0 ; i<scope.numberOfSteps ; i++){
                             totalWidth += scope.$indicators[i].scrollWidth;
                         }
+                        //adds the minimum padding between the steps.
                         return totalWidth+((Number(scope.minimumPadding) || 0)*(scope.numberOfSteps-1));
                     },
                     getIndicatorContainerWidth = function(){
@@ -183,6 +203,31 @@
                         scope.$on('languageChange',makeSureTheresRoom);
                     };
                 init();
+            }
+        };
+    }])
+
+    //password-validation
+    .directive('passwordValidation', [function(){
+        return {
+            require: 'ngModel',
+            restrict: 'A',
+            link: function(scope, element, attrs, ctrl){
+                ctrl.$validators.length = function(modelValue,viewValue){
+                    if(/^.{8,20}$/.test(viewValue)){ return true; } else { return false; }
+                }
+                ctrl.$validators.lowercase = function(modelValue,viewValue){
+                    if(/.*[a-z].*/.test(viewValue)){ return true; } else { return false; }
+                }
+                ctrl.$validators.uppercase = function(modelValue,viewValue){
+                    if(/.*[A-Z].*/.test(viewValue)){ return true; } else { return false; }
+                }
+                ctrl.$validators.number = function(modelValue,viewValue){
+                    if(/.*[0-9].*/.test(viewValue)){ return true; } else { return false; }
+                }
+                ctrl.$validators.complex = function(modelValue,viewValue){
+                    if(/[-!$%^&*()_+|~=`{}\[\]:";'<>?,.\/]/.test(viewValue)){ return true; } else { return false; }
+                }
             }
         };
     }])
