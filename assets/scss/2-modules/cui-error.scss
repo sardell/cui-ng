@@ -1,0 +1,41 @@
+.cui-error {
+  color: red;
+  font-size: 14px;
+  margin-top: -15px;
+  padding: $input-error-padding;
+  position: relative;
+
+  &--half {
+    @extend .cui-error;
+    width: 48%;
+
+    @media all and (max-width:700px){
+      width: 100%;    
+    }
+  }
+
+  &__password{
+    display:inline-block;
+    border:1px solid #AAA;
+    padding:10px 20px 20px;
+    position:absolute;
+    left:100%;
+    top:0;
+    width:300px;
+    border-radius:7px;
+    z-index:2;
+    background:white;
+    transform:translate(10px,-30%);
+    color:#888;
+    &::before{
+      content:'';
+      position:absolute;
+      top:30%;
+      left:0;
+      border-top:10px solid transparent;
+      border-bottom:10px solid transparent;
+      border-right:10px solid red;
+      transform:translate(-100%,5px);
+    }
+  }
+}

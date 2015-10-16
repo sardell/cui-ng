@@ -67,9 +67,9 @@
               <!-- user ID -->
               <input type="text" name="userID" ng-model="app.signOn.userID" class="cui-input cui-input--full" placeholder="{{'cui-user-id' | translate}}"></input>
               <!-- password -->
-              <input type="password" name="password1" ng-model="app.signOn.password1" class="cui-input cui-input--half" placeholder="{{'cui-password' | translate}}" ng-required="true" ng-class="{'cui-input--error': signOn.password1.$touched && signOn.password1.$invalid}" password-validation></input>
-              <div style="position:absolute; width:0%;">
-                <div class="cui-error__password" ng-messages="signOn.password1.$error" ng-messages-multiple>
+              <div style="position:relative; width:48%; display:inline-block">
+                <input type="password" name="password1" ng-model="app.signOn.password1" class="cui-input cui-input--half" placeholder="{{'cui-password' | translate}}" ng-required="true" ng-class="{'cui-input--error': signOn.password1.$touched && signOn.password1.$invalid}" password-validation style="width:100%"></input>
+                <div class="cui-error__password" ng-messages="signOn.password1.$error" ng-messages-multiple ng-if="signOn.password1.$dirty && signOn.password1.$invalid">
                   <div ng-messages-include="assets/angular-templates/password-messages.html"></div>
                 </div>
               </div>
