@@ -5,11 +5,10 @@
     .module('app',['translate','ngMessages'])
     .controller('appCtrl',[function(){
         var app=this;
-        app.user={
+        app.appUser={
             name: 'Bill Murray',
             avatar: '//www.fillmurray.com/200/200'
         };
-        app.logo='assets/img/logo.png';
 
         //for the wizard
         app.step=1;
@@ -29,39 +28,16 @@
         app.user.timezones=['-08:00','-07:00','-06:00','-05:00','-04:00'];
     }])
 
-
-    //cui-header ----------------------------------
-    .directive('cuiHeader',[function(){
-        return{
-            restrict: 'E',
-            replace:true,
-            templateUrl:'assets/angular-templates/header.html',
-            link: function(scope,elem,attrs){
-                //read attributes
-                var logo;
-                attrs.logo!==undefined ? logo = attrs.logo : true;
-                attrs.user!==undefined ? scope.cuiUser = attrs.user : true;
-                attrs.topMenu!==undefined ? scope.cuiTopMenu=true : scope.cuiTopMenu=false;
-                //set logo image
-                var $logo = document.querySelector('.cui-header__logo');
-                $logo.style.backgroundImage = 'url("' + logo + '")';
-            }
-        };
-    }])
-
-
     //cui-avatar -----------------------------------
     .directive('cuiAvatar',[function(){
         return{
             restrict: 'E',
-            templateUrl:'assets/angular-templates/avatar.html',
+            scope:{},
             link:function(scope,elem,attrs){
-                //read attributes
-                var user;
-                attrs.user!==undefined ? user=attrs.user :
-                 console.log('No user passed.');
-
-                scope.userName=user.name;
+                scope.user={};
+                attrs.userAvatar!==undefined ? scope.user.avatar=attrs.userAvatar : true;
+                var background= 'url("' + scope.user.avatar + '")';
+                angular.element(elem).css('background-image',background);
             }
         };
     }])

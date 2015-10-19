@@ -13,7 +13,18 @@
   -->
 </head>
 <body ng-controller="appCtrl as app">
-  <cui-header logo="{{ app.logo }}" user="{{ app.user }}" top-menu></cui-header>
+  <header class="cui-header">
+    <div class="cui-header__top">
+      <div class="cui-header__logo"></div>
+      <div class="cui-header__user">
+        <span class="cui-header__user--name">{{ app.appUser.name }}</span>
+        <div class="cui-chevron--left"></div>
+        <cui-avatar class="cui-header__user--avatar" user-avatar="{{app.appUser.avatar}}"></cui-avatar>
+      </div>
+    </div>
+   
+    <!-- TODO : Search bar? -->
+  </header>
   <div class="container">
     <div class="cui-container">
       <div class="cui-container__title">{{"cui-create-security-admin-account" | translate}}</div>
@@ -215,6 +226,14 @@
     <div ng-translate-language-select class="language-select"></div>
     </div>
   </div>
+  <button id="authButton">Auth</button>
+  <button id="sysAuthButton">sys Auth</button>
+  <button id="showTokenButton">show Token</button>
+  <span id="authResult"></span>
+  <button id="revokeButton">revoke Auth</button>
+  <button id="idmLogoutButton">Logout</button>
+
+
 
   <script src="bower_components/lodash/lodash.js"></script>
   <script src="bower_components/jquery/dist/jquery.js"></script>

@@ -370,12 +370,23 @@ th {
 
 .cui-header {
   padding: 0 20px; }
-  .cui-header__avatar {
-    background: pink;
+  .cui-header__user {
+    flex-grow: 1;
     height: 45px;
-    margin-left: auto; }
+    display: flex;
+    justify-content: flex-end;
+    align-items: center; }
+    .cui-header__user--avatar {
+      background-size: contain;
+      border-radius: 50%;
+      cursor: pointer;
+      height: 45px;
+      width: 45px; }
+    .cui-header__user--name {
+      color: #AAA;
+      margin-right: 15px; }
   .cui-header__logo {
-    background-repeat: no-repeat;
+    background: url("../img/logo.png");
     background-size: contain;
     display: inline-block;
     height: 45px;
@@ -581,3 +592,22 @@ cui-expandable {
       top: 30%;
       left: 0;
       transform: rotate(90deg) translate(7px, 15px); }
+
+.cui-chevron, .cui-chevron--left, .cui-chevron--right, .cui-chevron--top, .cui-chevron--bottom {
+  margin-right: 15px;
+  width: 0;
+  height: 0;
+  position: relative; }
+  .cui-chevron:after, .cui-chevron--left:after, .cui-chevron--right:after, .cui-chevron--top:after, .cui-chevron--bottom:after {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    border-right: 8px solid #AAA;
+    border-top: 8px solid transparent;
+    border-bottom: 8px solid transparent; }
+  .cui-chevron--right {
+    transform: rotate(-90deg); }
+  .cui-chevron--top {
+    transform: rotate(180deg); }

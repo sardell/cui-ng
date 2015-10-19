@@ -1,14 +1,29 @@
 .cui-header {
   padding: $header-padding;
 
-  &__avatar {
-    background: pink;
+  &__user {
+    flex-grow: 1;
     height: 45px;
-    margin-left: auto;
+    display:flex;
+    justify-content:flex-end;
+    align-items:center;
+
+    &--avatar {
+      background-size: contain;
+      border-radius: 50%;
+      cursor: pointer;
+      height: 45px;
+      width: 45px;
+    }
+
+    &--name {
+      color: #AAA;
+      margin-right: 15px;
+    }
   }
 
   &__logo {
-    background-repeat: no-repeat;
+    background:url('../img/logo.png');
     background-size: contain;
     display: inline-block;
     height: 45px;

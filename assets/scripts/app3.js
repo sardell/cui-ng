@@ -38,6 +38,19 @@ $(function(){
 		}
 	});
 
+	$('#revokeButton').on('click', function() {
+		cid.doRevoke()
+			.then(function(response) {
+				cui.log('doRevoke then', this, response);
+				//showOrgs(idmResult3, response, 'running');
+			}).done(function(response) {
+				cui.log('doRevoke done', this, response);
+			}).fail(function(response) {
+				cui.log('doRevoke failed', this, response);
+				//showOrgs(idmResult3, $.parseJSON(response.responseText), 'failing');
+			});
+	});
+
 
 	$('#idmLogoutButton').on('click', function() {
 		cid.doIdmLogout({
