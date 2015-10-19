@@ -11,6 +11,9 @@
   float: right;
   margin-top: 20px; }
 
+[ng\:cloak], [ng-cloak], [data-ng-cloak], [x-ng-cloak], .ng-cloak, .x-ng-cloak {
+  display: none !important; }
+
 /*! normalize.css v3.0.2 | MIT License | git.io/normalize */
 /**
  * 1. Set default font family to sans-serif.
@@ -369,10 +372,10 @@ th {
   padding: 0; }
 
 .cui-header {
-  padding: 0 20px; }
+  padding: 0 30px; }
   .cui-header__user {
     flex-grow: 1;
-    height: 45px;
+    height: 50px;
     display: flex;
     justify-content: flex-end;
     align-items: center; }
@@ -380,17 +383,24 @@ th {
       background-size: contain;
       border-radius: 50%;
       cursor: pointer;
-      height: 45px;
-      width: 45px; }
+      height: 50px;
+      width: 50px; }
     .cui-header__user--name {
       color: #AAA;
       margin-right: 15px; }
+      @media all and (max-width: 600px) {
+        .cui-header__user--name {
+          display: none; } }
+    @media all and (max-width: 600px) {
+      .cui-header__user > .cui-chevron--left {
+        display: none; } }
   .cui-header__logo {
     background: url("../img/logo.png");
     background-size: contain;
+    background-repeat: no-repeat;
     display: inline-block;
-    height: 45px;
-    width: 200px; }
+    height: 50px;
+    width: 275px; }
   .cui-header__top {
     align-items: center;
     display: flex;

@@ -12,7 +12,7 @@
 
   -->
 </head>
-<body ng-controller="appCtrl as app">
+<body ng-controller="appCtrl as app" ng-cloak>
   <header class="cui-header">
     <div class="cui-header__top">
       <div class="cui-header__logo"></div>
@@ -22,7 +22,6 @@
         <cui-avatar class="cui-header__user--avatar" user-avatar="{{app.appUser.avatar}}"></cui-avatar>
       </div>
     </div>
-   
     <!-- TODO : Search bar? -->
   </header>
   <div class="container">
