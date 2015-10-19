@@ -36,6 +36,14 @@
     }
   }
 
+  &[type="password"] {
+    &:focus {
+      + .cui-error__password {
+        display: inline-block;
+      }
+    }
+  }
+
   @media all and (max-width:700px){
    &--half {
       width: 100%;

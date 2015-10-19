@@ -434,6 +434,8 @@ th {
     border: 1px solid red; }
     .cui-input--error:focus {
       outline: none; }
+  .cui-input[type="password"]:focus + .cui-error__password {
+    display: inline-block; }
   @media all and (max-width: 700px) {
     .cui-input--half {
       width: 100%; }
@@ -557,7 +559,7 @@ cui-expandable {
       .cui-error--half {
         width: 100%; } }
   .cui-error__password {
-    display: inline-block;
+    display: none;
     border: 1px solid #DDD;
     box-shadow: 0 0 3px 3px rgba(0, 0, 0, 0.09);
     padding: 10px 20px 20px;

@@ -111,8 +111,6 @@
                         };
                         createIndicators();
                         updateIndicators();
-                        //sets the indicators width to their width + the minimum padding set in the attribute
-                        // scope.indicatorsWidth=getIndicatorsWidth()+((Number(scope.minimumPadding) || 0)*(scope.numberOfSteps-1));
                         makeSureTheresRoom();
                         watchForWindowResize();
                         listenForLanguageChange();

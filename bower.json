@@ -18,6 +18,8 @@
   ],
   "dependencies": {
     "angular": "~1.4.7",
-    "cui-i18n": "*"
+    "cui-i18n": "*",
+    "jquery": "~2.1.4",
+    "lodash": "~3.10.1"
   }
 }
