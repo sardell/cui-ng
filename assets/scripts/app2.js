@@ -2,7 +2,7 @@
     'use strict';
 
     angular
-    .module('app',['translate','ngMessages','cui.authorization'])
+    .module('app',['translate','ngMessages','cui.authorization','ui.router'])
     .run(['$rootScope', '$state', 'cui.authorization.routing','user', function($rootScope,$state,routing,user){
         $rootScope.$on('$stateChangeStart', function(event, toState){
           routing($state,toState,$rootScope.user);

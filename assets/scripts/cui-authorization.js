@@ -13,7 +13,7 @@
   // It will redirect to a state called 'notAuthorized' if the user doesn't have permission
 
 
-  angular.module('cui.authorization',['ui.router'])
+  angular.module('cui.authorization',[])
   .factory('cui.authorization.routing', ['cui.authorization.authorize', '$timeout',
     function (authorize,$timeout){
       var routing = function($state,toState,user){
@@ -52,7 +52,6 @@
             angular.forEach(user.entitlements, function (permission) {
                 loweredPermissions.push(permission.toLowerCase());
             });
-
             for (i = 0; i < requiredEntitlements.length; i++) {
                 permission = requiredEntitlements[i].toLowerCase();
 
@@ -74,7 +73,6 @@
                      'authorized' :
                      'not authorized';
         }
-
         return result;
     };
 

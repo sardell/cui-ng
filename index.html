@@ -149,12 +149,12 @@
               </div>
             </form>
           </step>
-          <step title="{{'cui-preferences' | translate}}">
+ <!--          <step title="{{'cui-preferences' | translate}}">
             <div class="cui-wizard__controls">
               <button class="cui-wizard__previous" ng-click="previous()"><< {{'cui-previous' | translate}}</button>
               <button class="cui-wizard__next" ng-click="next()">{{'cui-next' | translate}}</button>
             </div>
-          </step>
+          </step> -->
           <step title="{{'cui-review' | translate}}">
             <cui-expandable expanded="true">
               <cui-expandable-title ng-click="toggleExpand()">
@@ -205,7 +205,7 @@
                 <p>{{'cui-timezone' | translate}}: {{app.user.timezone}}</p>
               </cui-expandable-body>
             </cui-expandable>
-            <cui-expandable >
+            <!-- <cui-expandable >
               <cui-expandable-title ng-click="toggleExpand()">
                 {{'cui-preferences' | translate}}
                 <span class="chevron">></span>
@@ -213,7 +213,7 @@
               <cui-expandable-body>
 
               </cui-expandable-body>
-            </cui-expandable>
+            </cui-expandable> -->
             <div class="cui-wizard__controls">
               <button class="cui-wizard__previous" ng-click="previous()"><< {{'cui-previous' | translate}}</button>
               <button class="cui-wizard__next" ng-click="">{{'cui-submit' | translate}}</button>
