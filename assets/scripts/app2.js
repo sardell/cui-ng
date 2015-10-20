@@ -2,14 +2,51 @@
     'use strict';
 
     angular
-    .module('app',['translate','ngMessages'])
-    .controller('appCtrl',[function(){
+    .module('app',['translate','ngMessages','cui.authorization'])
+    .run(['$rootScope', '$state', 'cui.authorization.routing','user', function($rootScope,$state,routing,user){
+        $rootScope.$on('$stateChangeStart', function(event, toState){
+          routing($state,toState,$rootScope.user);
+        })
+    }])
+    .config(['$stateProvider','$urlRouterProvider','$locationProvider',function($stateProvider,$urlRouterProvider,$locationProvider){
+        $stateProvider
+            .state('home',{
+                url: '/'
+            })
+            .state('login', {
+                url: '/login'
+            })
+            .state('notAuthorized', {
+                url: '/notAuthorized'
+            })
+            .state('admin',{
+                url: '/admin',
+                access: {
+                    loginRequired: true,
+                    requiredEntitlements: ['user'],
+                    entitlementType: 'atLeastOne'
+                }
+            });
+        $urlRouterProvider.otherwise('home');
+
+    }])
+    .factory('user',['$rootScope',function($rootScope){
+        var getUser=function(){
+            return $rootScope.appUser;
+        }
+        var setUser=function(user){
+            $rootScope.appUser=user;
+        }
+        return {getUser : getUser, setUser : setUser(user)}
+    }])
+    .controller('appCtrl',['$rootScope','user',function($rootScope,user){
         var app=this;
         app.appUser={
             name: 'Bill Murray',
-            avatar: '//www.fillmurray.com/200/200'
+            avatar: '//www.fillmurray.com/200/200',
+            entitlements: ['admin']
         };
-
+        $rootScope.user=app.appUser;
         //for the wizard
         app.step=1;
         app.organization={};

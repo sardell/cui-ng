@@ -21,6 +21,7 @@
     "cui-i18n": "*",
     "jquery": "~2.1.4",
     "lodash": "~3.10.1",
-    "angular-messages": "~1.4.7"
+    "angular-messages": "~1.4.7",
+    "angular-ui-router": "~0.2.15"
   }
 }

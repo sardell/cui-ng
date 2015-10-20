@@ -4,7 +4,6 @@
   <meta charset="UTF-8">
   <title>Cui-UI</title>
   <link rel="stylesheet" href="assets/css/main.css">
-
   <!-- 
   TODO - - - - - -
     -only show step indicators if there's a step-indicator attribute 
@@ -43,7 +42,7 @@
                 <option ng-repeat="division in app.organization.divisions" value="{{division}}">{{division}}</option>
               </select>
               <!-- address -->
-              <div class="cui-error--half" ng-messages="organization.address1.$error" ng-if="organization.division.$touched">
+              <div class="cui-error--half" ng-messages="organization.address1.$error" ng-if="organization.address1.$touched">
                 <div ng-messages-include="assets/angular-templates/messages.html"></div>
               </div>
               <input type="text" ng-model="app.organization.address1" name="address1" class="cui-input cui-input--half" ng-required="true" ng-minlength="10" ng-class="{'cui-input--error': organization.address1.$touched && organization.address1.$invalid}" placeholder="{{'cui-address' | translate}} 1"></input>
@@ -79,7 +78,7 @@
               <!-- password -->
               <div style="position:relative; width:48%; display:inline-block">
                 <input type="password" name="password1" ng-model="app.signOn.password1" class="cui-input cui-input--half" placeholder="{{'cui-password' | translate}}" ng-required="true" ng-class="{'cui-input--error': signOn.password1.$touched && signOn.password1.$invalid}" password-validation style="width:100%"></input>
-                <div class="cui-error__password" ng-messages="signOn.password1.$error" ng-messages-multiple ng-if="signOn.password1.$dirty && signOn.password1.$invalid">
+                <div class="cui-error__password" ng-messages="signOn.password1.$error" ng-messages-multiple ng-if="signOn.password1.$invalid">
                   <div ng-messages-include="assets/angular-templates/password-messages.html"></div>
                 </div>
               </div>
@@ -225,12 +224,12 @@
     <div ng-translate-language-select class="language-select"></div>
     </div>
   </div>
-  <button id="authButton">Auth</button>
+<!--   <button id="authButton">Auth</button>
   <button id="sysAuthButton">sys Auth</button>
   <button id="showTokenButton">show Token</button>
   <span id="authResult"></span>
   <button id="revokeButton">revoke Auth</button>
-  <button id="idmLogoutButton">Logout</button>
+  <button id="idmLogoutButton">Logout</button> -->
 
 
 
@@ -239,7 +238,8 @@
   <script src='bower_components/cui/dist/cui.js'></script>
   <script src="bower_components/angular/angular.js"></script>
 
-  <script src="/bower_components/angular-messages/angular-messages.js"></script>
+  <script src="bower_components/angular-ui-router/release/angular-ui-router.js"></script>
+  <script src="bower_components/angular-messages/angular-messages.js"></script>
   <script src="bower_components/angular-cookies/angular-cookies.js"></script>
   <script src="bower_components/angular-sanitize/angular-sanitize.js"></script>
   <script src="bower_components/angular-dynamic-locale/tmhDynamicLocale.min.js"></script>
@@ -251,6 +251,7 @@
   <script src="bower_components/angular-translate-handler-log/angular-translate-handler-log.js"></script>
 
   <script src="bower_components/cui-i18n/translate.js"></script>
+  <script src="assets/scripts/cui-authorization.js"></script>
   <script src="assets/scripts/app2.js"></script>
   <script src="assets/scripts/app3.js"></script>
 </body>

@@ -396,8 +396,8 @@ th {
         display: none; } }
   .cui-header__logo {
     background: url("../img/logo.png");
-    background-size: contain;
     background-repeat: no-repeat;
+    background-size: contain;
     display: inline-block;
     height: 50px;
     width: 275px; }
