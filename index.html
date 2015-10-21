@@ -34,7 +34,7 @@
                 <option ng-repeat="division in app.organization.divisions" value="{{division}}">{{division}}</option>
               </select>
               <!-- address -->
-              <div class="cui-error--half" ng-messages="organization.address1.$error" ng-if="organization.division.$touched">
+              <div class="cui-error--half" name="address1" ng-messages="organization.address1.$error" ng-if="organization.address1.$touched">
                 <div ng-messages-include="assets/angular-templates/messages.html"></div>
               </div>
               <input type="text" ng-model="app.organization.address1" name="address1" class="cui-input cui-input--half" ng-required="true" ng-minlength="10" ng-class="{'cui-input--error': organization.address1.$touched && organization.address1.$invalid}" placeholder="{{'cui-address' | translate}} 1"></input>
