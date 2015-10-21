@@ -1,18 +1,43 @@
 .cui-header {
   padding: $header-padding;
 
-  &__avatar {
-    background: pink;
-    height: 45px;
-    margin-left: auto;
+  &__user {
+    flex-grow: 1;
+    height: 50px;
+    display:flex;
+    justify-content:flex-end;
+    align-items:center;
+
+    &--avatar {
+      background-size: contain;
+      border-radius: 50%;
+      cursor: pointer;
+      height: 50px;
+      width: 50px;
+    }
+
+    &--name {
+      color: #AAA;
+      margin-right: 15px;
+      @media all and (max-width:600px){
+        display: none;
+      }
+    }
+
+    @media all and (max-width:600px){
+      > .cui-chevron--left {
+        display: none;
+      }
+    }
   }
 
   &__logo {
+    background: url('../img/logo.png');
     background-repeat: no-repeat;
     background-size: contain;
     display: inline-block;
-    height: 45px;
-    width: 200px;
+    height: 50px;
+    width: 275px;
   }
 
   &__top {

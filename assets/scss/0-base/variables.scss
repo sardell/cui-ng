@@ -3,7 +3,7 @@
 
 // header
 
-$header-padding: 0 20px;
+$header-padding: 0 30px;
 $header-top-padding: 0 0;
 
 // container
@@ -35,4 +35,8 @@ $input-error-padding:5px 12px 3px;
 .language-select {
   float: right;
   margin-top: 20px;
+}
+
+[ng\:cloak], [ng-cloak], [data-ng-cloak], [x-ng-cloak], .ng-cloak, .x-ng-cloak {
+  display: none !important;
 }
