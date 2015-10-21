@@ -13,7 +13,8 @@
   -->
 </head>
 <body ng-controller="appCtrl as app">
-  <cui-header logo="{{ app.logo }}" user="{{ app.user }}" top-menu></cui-header>
+  <cui-header logo="{{ app.logo }}" user="{{ app.user }}" top-menu>
+  </cui-header>
   <div class="container">
     <div class="cui-container">
       <div class="cui-container__title">{{"cui-create-security-admin-account" | translate}}</div>
@@ -28,29 +29,29 @@
               <div class="cui-error" ng-messages="organization.division.$error" ng-if="organization.division.$touched">
                 <div ng-messages-include="assets/angular-templates/messages.html"></div>
               </div>
-              <select ng-model="app.organization.division" name="division" class="cui-input cui-input--full" ng-required="true" ng-class="{'cui-input--error': organization.division.$touched && organization.division.$invalid}">
+              <select ng-model="app.organization.division" name="division" class="cui-input cui-select cui-input--full" ng-required="true" ng-class="{'cui-input--error': organization.division.$touched && organization.division.$invalid}">
                 <option value="" disabled selected>{{"cui-company-division" | translate}}</option>
                 <option ng-repeat="division in app.organization.divisions" value="{{division}}">{{division}}</option>
               </select>
               <!-- address -->
-              <div class="cui-error--half" ng-messages="organization.address1.$error" ng-if="organization.division.$touched">
+              <div class="cui-error--half" name="address1" ng-messages="organization.address1.$error" ng-if="organization.address1.$touched">
                 <div ng-messages-include="assets/angular-templates/messages.html"></div>
               </div>
               <input type="text" ng-model="app.organization.address1" name="address1" class="cui-input cui-input--half" ng-required="true" ng-minlength="10" ng-class="{'cui-input--error': organization.address1.$touched && organization.address1.$invalid}" placeholder="{{'cui-address' | translate}} 1"></input>
               <!-- address2 -->
               <input type="text" ng-model="app.organization.address2" class="cui-input cui-input--half--right" placeholder="{{'cui-address' | translate}} 2"></input>
               <!-- country -->
-              <select ng-model="app.organization.country" class="cui-input cui-input--half">
+              <select ng-model="app.organization.country" class="cui-input cui-select cui-input--half">
                 <option value="" disabled selected>{{"cui-country" | translate}}</option>
                 <option ng-repeat="country in app.organization.countries" value="{{country}}">{{country}}</option>
               </select>
               <!-- state/province -->
-              <select ng-model="app.organization.state" class="cui-input cui-input--half--right">
+              <select ng-model="app.organization.state" class="cui-input cui-select cui-input--half--right">
                 <option value="" disabled selected>{{"cui-state" | translate}}</option>
                 <option ng-repeat="state in app.organization.states" value="{{state}}">{{state}}</option>
               </select>
               <!-- city/region -->
-              <select ng-model="app.organization.city" class="cui-input cui-input--half">
+              <select ng-model="app.organization.city" class="cui-input cui-select cui-input--half">
                 <option value="" disabled selected>{{"cui-city" | translate}}</option>
                 <option ng-repeat="city in app.organization.cities" value="{{city}}">{{city}}</option>
               </select>
@@ -111,17 +112,17 @@
               <!-- Address 2 -->
               <input type="text" ng-model="app.user.address2" class="cui-input cui-input--half--right" placeholder="{{'cui-address' | translate}} 2"></input>
               <!-- country -->
-              <select ng-model="app.user.country" class="cui-input cui-input--half">
+              <select ng-model="app.user.country" class="cui-input cui-select cui-input--half">
                 <option value="" disabled selected>{{"cui-country" | translate}}</option>
                 <option ng-repeat="country in app.organization.countries" value="{{country}}">{{country}}</option>
               </select>
               <!-- state/province -->
-              <select ng-model="app.user.state" class="cui-input cui-input--half--right">
+              <select ng-model="app.user.state" class="cui-input cui-select cui-input--half--right">
                 <option value="" disabled selected>{{'cui-state' | translate}}</option>
                 <option ng-repeat="state in app.organization.states" value="{{state}}">{{state}}</option>
               </select>
               <!-- city/region -->
-              <select ng-model="app.user.city" class="cui-input cui-input--half">
+              <select ng-model="app.user.city" class="cui-input cui-select cui-input--half">
                 <option value="" disabled selected>{{"cui-city" | translate}}</option>
                 <option ng-repeat="city in app.organization.cities" value="{{city}}">{{city}}</option>
               </select>
@@ -130,7 +131,7 @@
               <!-- phone -->
               <input type="number" ng-model="app.user.phone" class="cui-input cui-input--half" placeholder="{{'cui-telephone' | translate}}"></input>
               <!-- timezone -->
-              <select ng-model="app.user.timezone" class="cui-input cui-input--half--right">
+              <select ng-model="app.user.timezone" class="cui-input cui-select cui-input--half--right">
                 <option value="" disabled selected>{{'cui-timezone' | translate}}</option>
                 <option ng-repeat="timezone in app.user.timezones" value="{{timezone}}">{{timezone}}</option>
               </select>

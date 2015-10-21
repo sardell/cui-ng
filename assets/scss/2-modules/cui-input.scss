@@ -1,11 +1,16 @@
 .cui-input {
   -webkit-appearance: none;
+  -webkit-border-radius: 0px;
   border: 1px solid #ddd;
   box-sizing: border-box;
   font-size: 14px;
   margin-bottom: 20px;
   padding: $input-padding;
   position: relative;
+
+  &:focus {
+    border: 1px solid $cui-greyscale--medium;
+  }
 
   &--display {
     border: 0;
@@ -28,12 +33,9 @@
     width: 48%;
   }
 
-  &--error {
+  &--error,
+  &--error:focus {
     border: 1px solid red;
-
-    &:focus {
-      outline: none;
-    }
   }
 
   &[type="password"] {
@@ -42,6 +44,10 @@
         display: inline-block;
       }
     }
+  }
+
+  &.ng-touched.ng-valid {
+    border: 1px solid $cui-input-border--valid;
   }
 
   @media all and (max-width:700px){
@@ -54,4 +60,21 @@
       width: 100%;
     }
   }
+}
+
+// override browser defaults
+
+.cui-container {
+
+  select {
+    background-color: #fff;
+  }
+  
+  select, input {
+
+    &:focus {
+      outline: 0;
+    }
+  }
+
 }

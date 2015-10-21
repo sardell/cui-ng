@@ -250,7 +250,8 @@ select {
  *    `input` and others.
  */
 button,
-html input[type="button"], input[type="reset"],
+html input[type="button"],
+input[type="reset"],
 input[type="submit"] {
   -webkit-appearance: button;
   /* 2 */
@@ -385,6 +386,9 @@ th {
     display: flex;
     height: 80px;
     padding: 0 0; }
+  .cui-header__svg-logo {
+    height: 45px;
+    width: 200px; }
 
 .cui-container {
   border-radius: 6px;
@@ -398,7 +402,7 @@ th {
     max-width: 100%;
     padding: 50px; }
   .cui-container__title {
-    background-color: #53abd0;
+    background-color: #429DD1;
     border-radius: 6px 6px 0 0;
     color: white;
     padding: 15px;
@@ -411,12 +415,15 @@ th {
 
 .cui-input {
   -webkit-appearance: none;
+  -webkit-border-radius: 0px;
   border: 1px solid #ddd;
   box-sizing: border-box;
   font-size: 14px;
   margin-bottom: 20px;
   padding: 8px 12px;
   position: relative; }
+  .cui-input:focus {
+    border: 1px solid #828483; }
   .cui-input--display {
     border: 0;
     height: 14px;
@@ -430,18 +437,24 @@ th {
   .cui-input--half--right {
     float: right;
     width: 48%; }
-  .cui-input--error {
+  .cui-input--error, .cui-input--error:focus {
     border: 1px solid red; }
-    .cui-input--error:focus {
-      outline: none; }
   .cui-input[type="password"]:focus + .cui-error__password {
     display: inline-block; }
+  .cui-input.ng-touched.ng-valid {
+    border: 1px solid #47CBB4; }
   @media all and (max-width: 700px) {
     .cui-input--half {
       width: 100%; }
     .cui-input--half--right {
       float: none;
       width: 100%; } }
+
+.cui-container select {
+  background-color: #fff; }
+
+.cui-container select:focus, .cui-container input:focus {
+  outline: 0; }
 
 cui-wizard {
   display: block;
@@ -507,7 +520,7 @@ indicator-container {
   white-space: nowrap;
   display: inline-block; }
   .step-indicator.active {
-    border-bottom: 3px solid #333;
+    border-bottom: 6px solid #429DD1;
     color: #333; }
 
 step {

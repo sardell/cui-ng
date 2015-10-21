@@ -9,7 +9,6 @@
             name: 'Bill Murray',
             avatar: '//www.fillmurray.com/200/200'
         };
-        app.logo='assets/img/logo.png';
 
         //for the wizard
         app.step=1;
@@ -38,13 +37,8 @@
             templateUrl:'assets/angular-templates/header.html',
             link: function(scope,elem,attrs){
                 //read attributes
-                var logo;
-                attrs.logo!==undefined ? logo = attrs.logo : true;
                 attrs.user!==undefined ? scope.cuiUser = attrs.user : true;
                 attrs.topMenu!==undefined ? scope.cuiTopMenu=true : scope.cuiTopMenu=false;
-                //set logo image
-                var $logo = document.querySelector('.cui-header__logo');
-                $logo.style.backgroundImage = 'url("' + logo + '")';
             }
         };
     }])
