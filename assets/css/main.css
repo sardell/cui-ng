@@ -511,7 +511,7 @@ indicator-container {
   white-space: nowrap;
   display: inline-block; }
   .step-indicator.active {
-    border-bottom: 3px solid #429DD1;
+    border-bottom: 6px solid #429DD1;
     color: #333; }
 
 step {
