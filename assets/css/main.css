@@ -450,6 +450,9 @@ th {
       float: none;
       width: 100%; } }
 
+.cui-container select {
+  background-color: #fff; }
+
 cui-wizard {
   display: block;
   margin: 0 auto;
