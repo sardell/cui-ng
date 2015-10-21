@@ -386,6 +386,9 @@ th {
     display: flex;
     height: 80px;
     padding: 0 0; }
+  .cui-header__svg-logo {
+    height: 45px;
+    width: 200px; }
 
 .cui-container {
   border-radius: 6px;
