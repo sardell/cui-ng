@@ -422,6 +422,8 @@ th {
   margin-bottom: 20px;
   padding: 8px 12px;
   position: relative; }
+  .cui-input:focus {
+    border: 1px solid #828483; }
   .cui-input--display {
     border: 0;
     height: 14px;
@@ -435,10 +437,8 @@ th {
   .cui-input--half--right {
     float: right;
     width: 48%; }
-  .cui-input--error {
+  .cui-input--error, .cui-input--error:focus {
     border: 1px solid red; }
-    .cui-input--error:focus {
-      outline: none; }
   .cui-input[type="password"]:focus + .cui-error__password {
     display: inline-block; }
   .cui-input.ng-touched.ng-valid {
@@ -452,6 +452,9 @@ th {
 
 .cui-container select {
   background-color: #fff; }
+
+.cui-container select:focus, .cui-container input:focus {
+  outline: 0; }
 
 cui-wizard {
   display: block;

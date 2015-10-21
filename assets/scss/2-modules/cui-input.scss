@@ -8,6 +8,10 @@
   padding: $input-padding;
   position: relative;
 
+  &:focus {
+    border: 1px solid $cui-greyscale--medium;
+  }
+
   &--display {
     border: 0;
     height: 14px;
@@ -29,12 +33,9 @@
     width: 48%;
   }
 
-  &--error {
+  &--error,
+  &--error:focus {
     border: 1px solid red;
-
-    &:focus {
-      outline: none;
-    }
   }
 
   &[type="password"] {
@@ -61,8 +62,19 @@
   }
 }
 
+// override browser defaults
+
 .cui-container {
+
   select {
     background-color: #fff;
   }
+  
+  select, input {
+
+    &:focus {
+      outline: 0;
+    }
+  }
+
 }
