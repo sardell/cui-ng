@@ -4,14 +4,23 @@
     angular
     .module('app',['translate','ngMessages','cui.authorization','ui.router'])
     .run(['$rootScope', '$state', 'cui.authorization.routing','user', function($rootScope,$state,routing,user){
+        user.setUser({
+            name: 'Bill Murray',
+            avatar: '//www.fillmurray.com/200/200',
+            entitlements: ['admin']
+        });
         $rootScope.$on('$stateChangeStart', function(event, toState){
-          routing($state,toState,$rootScope.user);
+            // event.preventDefault();
+            routing($state,toState,$rootScope.appUser);
         })
     }])
-    .config(['$stateProvider','$urlRouterProvider','$locationProvider',function($stateProvider,$urlRouterProvider,$locationProvider){
+    .config(['$stateProvider','$urlRouterProvider','$locationProvider','$injector',function($stateProvider,$urlRouterProvider,$locationProvider,$injector){
         $stateProvider
             .state('home',{
-                url: '/'
+                url: '/home',
+                access: {
+                    loginRequired: true
+                }
             })
             .state('login', {
                 url: '/login'
@@ -23,30 +32,62 @@
                 url: '/admin',
                 access: {
                     loginRequired: true,
-                    requiredEntitlements: ['user'],
+                    requiredEntitlements: ['admin'],
                     entitlementType: 'atLeastOne'
                 }
+            })
+            .state('user',{
+                url: '/user',
+                access: {
+                    loginRequired: true,
+                    requiredEntitlements: ['admin','user'],
+                    entitlementType: 'atLeastOne'
+                }
+            })
+            .state('dashboard',{
+                url: '/dashboard',
+                access: {
+                    loginRequired: true
+                }
             });
-        $urlRouterProvider.otherwise('home');
+        
+        //fixes infinite digest loop with ui-router
+        $urlRouterProvider.otherwise( function($injector) {
+          var $state = $injector.get("$state");
+          $state.go('/home');
+        });
 
     }])
     .factory('user',['$rootScope',function($rootScope){
-        var getUser=function(){
-            return $rootScope.appUser;
-        }
-        var setUser=function(user){
-            $rootScope.appUser=user;
-        }
-        return {getUser : getUser, setUser : setUser(user)}
+        return{
+            getUser:function(){
+                return $rootScope.appUser;
+                },
+            setUser:function(user){
+                $rootScope.appUser=user;
+            }
+       }
     }])
-    .controller('appCtrl',['$rootScope','user',function($rootScope,user){
+    .controller('appCtrl',['$rootScope','$state','$stateParams','user',function($rootScope,$state,$stateParams,user){
         var app=this;
         app.appUser={
             name: 'Bill Murray',
             avatar: '//www.fillmurray.com/200/200',
             entitlements: ['admin']
         };
-        $rootScope.user=app.appUser;
+
+        // user.setUser(app.appUser);
+
+        app.setUser= function(newUser){
+            user.setUser(newUser)
+            app.appUser=newUser;    
+            $state.go('login',{notify:true,reload:true});
+        };
+
+        app.goTo= function(state){
+            $state.go(state,{notify:true,reload:true});
+        }
+
         //for the wizard
         app.step=1;
         app.organization={};
@@ -72,9 +113,18 @@
             scope:{},
             link:function(scope,elem,attrs){
                 scope.user={};
-                attrs.userAvatar!==undefined ? scope.user.avatar=attrs.userAvatar : true;
-                var background= 'url("' + scope.user.avatar + '")';
-                angular.element(elem).css('background-image',background);
+                attrs.$observe('userAvatar',function(){
+                    if(attrs.userAvatar!==''){
+                        scope.user.avatar=attrs.userAvatar;
+                        var background= 'url("' + scope.user.avatar + '")';
+                        angular.element(elem).css('background-image',background);
+                    } 
+                    else{
+                        scope.user.color='#AAA';
+                        var background= scope.user.color;
+                        angular.element(elem).css({'background-image':'none','background-color':background})
+                    }
+                })
             }
         };
     }])

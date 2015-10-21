@@ -19,15 +19,19 @@
       var routing = function($state,toState,user){
         var authorized;
         if (toState.access !== undefined) {
+          console.log('Access rules for this route: \n' +
+          'loginRequired: ' + toState.access.loginRequired + '\n' +
+          'requiredEntitlements: ' + toState.access.requiredEntitlements);
             authorized = authorize.authorize(toState.access.loginRequired,
                  toState.access.requiredEntitlements, toState.access.entitlementType, user);
+            console.log('authorized: ' + authorized);
             if (authorized === 'login required') {
                 console.log('Not logged in');
-                $timeout(function(){$state.go('login',{});});
+                $timeout(function(){$state.go('login');});
             } else if (authorized === 'not authorized') {
                 console.log('Not authorized');
-                $timeout(function(){$state.go('notAuthorized',{});});
-            }
+                $timeout(function(){$state.go('notAuthorized');});
+            } 
         }
       }
 
@@ -42,7 +46,7 @@
             hasPermission = true,
             permission, i, result;
         entitlementType = entitlementType || 'atLeastOne';
-        if (loginRequired === true && user === undefined) {
+        if (loginRequired === true && user.name === undefined) {
             result = 'login required';
         } else if ((loginRequired === true && user !== undefined) &&
             (requiredEntitlements === undefined || requiredEntitlements.length === 0)) {

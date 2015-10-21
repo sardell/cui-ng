@@ -16,7 +16,7 @@
     <div class="cui-header__top">
       <div class="cui-header__logo"></div>
       <div class="cui-header__user">
-        <span class="cui-header__user--name">{{ app.appUser.name }}</span>
+        <span class="cui-header__user--name">{{ app.appUser.name || 'Sign In' }}</span>
         <div class="cui-chevron--left"></div>
         <cui-avatar class="cui-header__user--avatar" user-avatar="{{app.appUser.avatar}}"></cui-avatar>
       </div>
@@ -231,7 +231,15 @@
   <button id="revokeButton">revoke Auth</button>
   <button id="idmLogoutButton">Logout</button> -->
 
-
+  <button ng-click="app.setUser({})">Log out</button>
+  <button ng-click="app.setUser({name: 'Bill Murray',avatar: '//www.fillmurray.com/200/200',entitlements: ['admin']})">Log in as Bill Murray (admin)</button>
+  <button ng-click="app.setUser({name: 'Chad McChadson',avatar: '//i.ytimg.com/vi/C7zoZe-ZATs/hqdefault.jpg',entitlements: ['user']})">Log in as a common peasant (user)</button>
+  <p>
+    <button ng-click="app.goTo('home')">Go home</button>
+    <button ng-click="app.goTo('dashboard')">Go to dashboard</button>
+    <button ng-click="app.goTo('admin')">Go to admin only area</button>
+    <button ng-click="app.goTo('user')">Go to user area (admin and user allowed)</button>
+  </p>
 
   <script src="bower_components/lodash/lodash.js"></script>
   <script src="bower_components/jquery/dist/jquery.js"></script>
