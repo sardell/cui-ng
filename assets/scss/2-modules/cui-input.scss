@@ -1,5 +1,6 @@
 .cui-input {
   -webkit-appearance: none;
+  -webkit-border-radius: 0px;
   border: 1px solid #ddd;
   box-sizing: border-box;
   font-size: 14px;
@@ -42,6 +43,10 @@
         display: inline-block;
       }
     }
+  }
+
+  &.ng-touched.ng-valid {
+    border: 1px solid $cui-input-border--valid;
   }
 
   @media all and (max-width:700px){
