@@ -250,7 +250,8 @@ select {
  *    `input` and others.
  */
 button,
-html input[type="button"], input[type="reset"],
+html input[type="button"],
+input[type="reset"],
 input[type="submit"] {
   -webkit-appearance: button;
   /* 2 */
@@ -398,7 +399,7 @@ th {
     max-width: 100%;
     padding: 50px; }
   .cui-container__title {
-    background-color: #53abd0;
+    background-color: #429DD1;
     border-radius: 6px 6px 0 0;
     color: white;
     padding: 15px;
@@ -507,7 +508,7 @@ indicator-container {
   white-space: nowrap;
   display: inline-block; }
   .step-indicator.active {
-    border-bottom: 3px solid #333;
+    border-bottom: 3px solid #429DD1;
     color: #333; }
 
 step {
