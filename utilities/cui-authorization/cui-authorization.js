@@ -16,7 +16,7 @@
   angular.module('cui.authorization',[])
   .factory('cui.authorization.routing', ['cui.authorization.authorize', '$timeout',
     function (authorize,$timeout){
-      var routing = function($state,toState,user){
+      var routing = function($rootScope, $state, toState, toParams, fromState, fromParams, user){
         var authorized;
         if (toState.access !== undefined) {
           console.log('Access rules for this route: \n' +
@@ -27,11 +27,31 @@
             console.log('authorized: ' + authorized);
             if (authorized === 'login required') {
                 console.log('Not logged in');
-                $timeout(function(){$state.go('login');});
+                $timeout(function(){
+                  $state.go('login').then(function() {
+                    $rootScope.$broadcast('$stateChangeSuccess', toState, toParams, fromState, fromParams);
+                  });
+                });
             } else if (authorized === 'not authorized') {
                 console.log('Not authorized');
-                $timeout(function(){$state.go('notAuthorized');});
-            } 
+                $timeout(function(){
+                  $state.go('notAuthorized').then(function() {
+                      $rootScope.$broadcast('$stateChangeSuccess', toState, toParams, fromState, fromParams);
+                  });
+                });
+            }
+            else if(authorized === 'authorized'){
+              $timeout(function(){
+                $state.go(toState.name,{},{notify:false}).then(function() {
+                    $rootScope.$broadcast('$stateChangeSuccess', toState, toParams, fromState, fromParams);
+                });
+              });
+            }
+        }
+        else {
+          $state.go(toState.name,{},{notify:false}).then(function() {
+              $rootScope.$broadcast('$stateChangeSuccess', toState, toParams, fromState, fromParams);
+          });
         }
       }
 
