@@ -80,7 +80,7 @@ indicator-container {
   white-space: nowrap;
   display: inline-block;
   &.active {
-    border-bottom: 3px solid #333;
+    border-bottom: 6px solid $cui-primary-colors--medium-light;;
     color: #333;
   }
 }

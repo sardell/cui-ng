@@ -4,6 +4,7 @@
   <meta charset="UTF-8">
   <title>Cui-UI</title>
   <link rel="stylesheet" href="assets/css/main.css">
+
   <!-- 
   TODO - - - - - -
     -only show step indicators if there's a step-indicator attribute 
@@ -11,18 +12,9 @@
 
   -->
 </head>
-<body ng-controller="appCtrl as app" ng-cloak>
-  <header class="cui-header">
-    <div class="cui-header__top">
-      <div class="cui-header__logo"></div>
-      <div class="cui-header__user">
-        <span class="cui-header__user--name">{{ app.appUser.name || 'Sign In' }}</span>
-        <div class="cui-chevron--left"></div>
-        <cui-avatar class="cui-header__user--avatar" user-avatar="{{app.appUser.avatar}}"></cui-avatar>
-      </div>
-    </div>
-    <!-- TODO : Search bar? -->
-  </header>
+<body ng-controller="appCtrl as app">
+  <cui-header logo="{{ app.logo }}" user="{{ app.user }}" top-menu>
+  </cui-header>
   <div class="container">
     <div class="cui-container">
       <div class="cui-container__title">{{"cui-create-security-admin-account" | translate}}</div>
@@ -37,29 +29,29 @@
               <div class="cui-error" ng-messages="organization.division.$error" ng-if="organization.division.$touched">
                 <div ng-messages-include="assets/angular-templates/messages.html"></div>
               </div>
-              <select ng-model="app.organization.division" name="division" class="cui-input cui-input--full" ng-required="true" ng-class="{'cui-input--error': organization.division.$touched && organization.division.$invalid}">
+              <select ng-model="app.organization.division" name="division" class="cui-input cui-select cui-input--full" ng-required="true" ng-class="{'cui-input--error': organization.division.$touched && organization.division.$invalid}">
                 <option value="" disabled selected>{{"cui-company-division" | translate}}</option>
                 <option ng-repeat="division in app.organization.divisions" value="{{division}}">{{division}}</option>
               </select>
               <!-- address -->
-              <div class="cui-error--half" ng-messages="organization.address1.$error" ng-if="organization.address1.$touched">
+              <div class="cui-error--half" name="address1" ng-messages="organization.address1.$error" ng-if="organization.address1.$touched">
                 <div ng-messages-include="assets/angular-templates/messages.html"></div>
               </div>
               <input type="text" ng-model="app.organization.address1" name="address1" class="cui-input cui-input--half" ng-required="true" ng-minlength="10" ng-class="{'cui-input--error': organization.address1.$touched && organization.address1.$invalid}" placeholder="{{'cui-address' | translate}} 1"></input>
               <!-- address2 -->
               <input type="text" ng-model="app.organization.address2" class="cui-input cui-input--half--right" placeholder="{{'cui-address' | translate}} 2"></input>
               <!-- country -->
-              <select ng-model="app.organization.country" class="cui-input cui-input--half">
+              <select ng-model="app.organization.country" class="cui-input cui-select cui-input--half">
                 <option value="" disabled selected>{{"cui-country" | translate}}</option>
                 <option ng-repeat="country in app.organization.countries" value="{{country}}">{{country}}</option>
               </select>
               <!-- state/province -->
-              <select ng-model="app.organization.state" class="cui-input cui-input--half--right">
+              <select ng-model="app.organization.state" class="cui-input cui-select cui-input--half--right">
                 <option value="" disabled selected>{{"cui-state" | translate}}</option>
                 <option ng-repeat="state in app.organization.states" value="{{state}}">{{state}}</option>
               </select>
               <!-- city/region -->
-              <select ng-model="app.organization.city" class="cui-input cui-input--half">
+              <select ng-model="app.organization.city" class="cui-input cui-select cui-input--half">
                 <option value="" disabled selected>{{"cui-city" | translate}}</option>
                 <option ng-repeat="city in app.organization.cities" value="{{city}}">{{city}}</option>
               </select>
@@ -78,7 +70,7 @@
               <!-- password -->
               <div style="position:relative; width:48%; display:inline-block">
                 <input type="password" name="password1" ng-model="app.signOn.password1" class="cui-input cui-input--half" placeholder="{{'cui-password' | translate}}" ng-required="true" ng-class="{'cui-input--error': signOn.password1.$touched && signOn.password1.$invalid}" password-validation style="width:100%"></input>
-                <div class="cui-error__password" ng-messages="signOn.password1.$error" ng-messages-multiple ng-if="signOn.password1.$invalid">
+                <div class="cui-error__password" ng-messages="signOn.password1.$error" ng-messages-multiple ng-if="signOn.password1.$dirty && signOn.password1.$invalid">
                   <div ng-messages-include="assets/angular-templates/password-messages.html"></div>
                 </div>
               </div>
@@ -120,17 +112,17 @@
               <!-- Address 2 -->
               <input type="text" ng-model="app.user.address2" class="cui-input cui-input--half--right" placeholder="{{'cui-address' | translate}} 2"></input>
               <!-- country -->
-              <select ng-model="app.user.country" class="cui-input cui-input--half">
+              <select ng-model="app.user.country" class="cui-input cui-select cui-input--half">
                 <option value="" disabled selected>{{"cui-country" | translate}}</option>
                 <option ng-repeat="country in app.organization.countries" value="{{country}}">{{country}}</option>
               </select>
               <!-- state/province -->
-              <select ng-model="app.user.state" class="cui-input cui-input--half--right">
+              <select ng-model="app.user.state" class="cui-input cui-select cui-input--half--right">
                 <option value="" disabled selected>{{'cui-state' | translate}}</option>
                 <option ng-repeat="state in app.organization.states" value="{{state}}">{{state}}</option>
               </select>
               <!-- city/region -->
-              <select ng-model="app.user.city" class="cui-input cui-input--half">
+              <select ng-model="app.user.city" class="cui-input cui-select cui-input--half">
                 <option value="" disabled selected>{{"cui-city" | translate}}</option>
                 <option ng-repeat="city in app.organization.cities" value="{{city}}">{{city}}</option>
               </select>
@@ -139,7 +131,7 @@
               <!-- phone -->
               <input type="number" ng-model="app.user.phone" class="cui-input cui-input--half" placeholder="{{'cui-telephone' | translate}}"></input>
               <!-- timezone -->
-              <select ng-model="app.user.timezone" class="cui-input cui-input--half--right">
+              <select ng-model="app.user.timezone" class="cui-input cui-select cui-input--half--right">
                 <option value="" disabled selected>{{'cui-timezone' | translate}}</option>
                 <option ng-repeat="timezone in app.user.timezones" value="{{timezone}}">{{timezone}}</option>
               </select>
@@ -149,12 +141,12 @@
               </div>
             </form>
           </step>
- <!--          <step title="{{'cui-preferences' | translate}}">
+          <step title="{{'cui-preferences' | translate}}">
             <div class="cui-wizard__controls">
               <button class="cui-wizard__previous" ng-click="previous()"><< {{'cui-previous' | translate}}</button>
               <button class="cui-wizard__next" ng-click="next()">{{'cui-next' | translate}}</button>
             </div>
-          </step> -->
+          </step>
           <step title="{{'cui-review' | translate}}">
             <cui-expandable expanded="true">
               <cui-expandable-title ng-click="toggleExpand()">
@@ -205,7 +197,7 @@
                 <p>{{'cui-timezone' | translate}}: {{app.user.timezone}}</p>
               </cui-expandable-body>
             </cui-expandable>
-            <!-- <cui-expandable >
+            <cui-expandable >
               <cui-expandable-title ng-click="toggleExpand()">
                 {{'cui-preferences' | translate}}
                 <span class="chevron">></span>
@@ -213,7 +205,7 @@
               <cui-expandable-body>
 
               </cui-expandable-body>
-            </cui-expandable> -->
+            </cui-expandable>
             <div class="cui-wizard__controls">
               <button class="cui-wizard__previous" ng-click="previous()"><< {{'cui-previous' | translate}}</button>
               <button class="cui-wizard__next" ng-click="">{{'cui-submit' | translate}}</button>
@@ -224,30 +216,13 @@
     <div ng-translate-language-select class="language-select"></div>
     </div>
   </div>
-<!--   <button id="authButton">Auth</button>
-  <button id="sysAuthButton">sys Auth</button>
-  <button id="showTokenButton">show Token</button>
-  <span id="authResult"></span>
-  <button id="revokeButton">revoke Auth</button>
-  <button id="idmLogoutButton">Logout</button> -->
-
-  <button ng-click="app.setUser({})">Log out</button>
-  <button ng-click="app.setUser({name: 'Bill Murray',avatar: '//www.fillmurray.com/200/200',entitlements: ['admin']})">Log in as Bill Murray (admin)</button>
-  <button ng-click="app.setUser({name: 'Chad McChadson',avatar: '//i.ytimg.com/vi/C7zoZe-ZATs/hqdefault.jpg',entitlements: ['user']})">Log in as a common peasant (user)</button>
-  <p>
-    <button ng-click="app.goTo('home')">Go home</button>
-    <button ng-click="app.goTo('dashboard')">Go to dashboard</button>
-    <button ng-click="app.goTo('admin')">Go to admin only area</button>
-    <button ng-click="app.goTo('user')">Go to user area (admin and user allowed)</button>
-  </p>
 
   <script src="bower_components/lodash/lodash.js"></script>
   <script src="bower_components/jquery/dist/jquery.js"></script>
   <script src='bower_components/cui/dist/cui.js'></script>
   <script src="bower_components/angular/angular.js"></script>
 
-  <script src="bower_components/angular-ui-router/release/angular-ui-router.js"></script>
-  <script src="bower_components/angular-messages/angular-messages.js"></script>
+  <script src="/bower_components/angular-messages/angular-messages.js"></script>
   <script src="bower_components/angular-cookies/angular-cookies.js"></script>
   <script src="bower_components/angular-sanitize/angular-sanitize.js"></script>
   <script src="bower_components/angular-dynamic-locale/tmhDynamicLocale.min.js"></script>
@@ -259,7 +234,6 @@
   <script src="bower_components/angular-translate-handler-log/angular-translate-handler-log.js"></script>
 
   <script src="bower_components/cui-i18n/translate.js"></script>
-  <script src="assets/scripts/cui-authorization.js"></script>
   <script src="assets/scripts/app2.js"></script>
 
 </body>

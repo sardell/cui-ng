@@ -2,91 +2,13 @@
     'use strict';
 
     angular
-    .module('app',['translate','ngMessages','cui.authorization','ui.router'])
-    .run(['$rootScope', '$state', 'cui.authorization.routing','user', function($rootScope,$state,routing,user){
-        user.setUser({
-            name: 'Bill Murray',
-            avatar: '//www.fillmurray.com/200/200',
-            entitlements: ['admin']
-        });
-        $rootScope.$on('$stateChangeStart', function(event, toState){
-            // event.preventDefault();
-            routing($state,toState,$rootScope.appUser);
-        })
-    }])
-    .config(['$stateProvider','$urlRouterProvider','$locationProvider','$injector',function($stateProvider,$urlRouterProvider,$locationProvider,$injector){
-        $stateProvider
-            .state('home',{
-                url: '/home',
-                access: {
-                    loginRequired: true
-                }
-            })
-            .state('login', {
-                url: '/login'
-            })
-            .state('notAuthorized', {
-                url: '/notAuthorized'
-            })
-            .state('admin',{
-                url: '/admin',
-                access: {
-                    loginRequired: true,
-                    requiredEntitlements: ['admin'],
-                    entitlementType: 'atLeastOne'
-                }
-            })
-            .state('user',{
-                url: '/user',
-                access: {
-                    loginRequired: true,
-                    requiredEntitlements: ['admin','user'],
-                    entitlementType: 'atLeastOne'
-                }
-            })
-            .state('dashboard',{
-                url: '/dashboard',
-                access: {
-                    loginRequired: true
-                }
-            });
-        
-        //fixes infinite digest loop with ui-router
-        $urlRouterProvider.otherwise( function($injector) {
-          var $state = $injector.get("$state");
-          $state.go('hcuiome');
-        });
-
-    }])
-    .factory('user',['$rootScope',function($rootScope){
-        return{
-            getUser:function(){
-                return $rootScope.appUser;
-                },
-            setUser:function(user){
-                $rootScope.appUser=user;
-            }
-       }
-    }])
-    .controller('appCtrl',['$rootScope','$state','$stateParams','user',function($rootScope,$state,$stateParams,user){
+    .module('app',['translate','ngMessages'])
+    .controller('appCtrl',[function(){
         var app=this;
-        app.appUser={
+        app.user={
             name: 'Bill Murray',
-            avatar: '//www.fillmurray.com/200/200',
-            entitlements: ['admin']
+            avatar: '//www.fillmurray.com/200/200'
         };
-
-        // user.setUser(app.appUser);
-
-        app.setUser= function(newUser){
-            user.setUser(newUser)
-            app.appUser=newUser;    
-            $state.go('login',{notify:true,reload:true});
-        };
-
-        app.goTo= function(state){
-            $state.go(state,{notify:true,reload:true});
-        }
 
         //for the wizard
         app.step=1;
@@ -106,25 +28,34 @@
         app.user.timezones=['-08:00','-07:00','-06:00','-05:00','-04:00'];
     }])
 
+
+    //cui-header ----------------------------------
+    .directive('cuiHeader',[function(){
+        return{
+            restrict: 'E',
+            replace:true,
+            templateUrl:'assets/angular-templates/header.html',
+            link: function(scope,elem,attrs){
+                //read attributes
+                attrs.user!==undefined ? scope.cuiUser = attrs.user : true;
+                attrs.topMenu!==undefined ? scope.cuiTopMenu=true : scope.cuiTopMenu=false;
+            }
+        };
+    }])
+
+
     //cui-avatar -----------------------------------
     .directive('cuiAvatar',[function(){
         return{
             restrict: 'E',
-            scope:{},
+            templateUrl:'assets/angular-templates/avatar.html',
             link:function(scope,elem,attrs){
-                scope.user={};
-                attrs.$observe('userAvatar',function(){
-                    if(attrs.userAvatar!==''){
-                        scope.user.avatar=attrs.userAvatar;
-                        var background= 'url("' + scope.user.avatar + '")';
-                        angular.element(elem).css('background-image',background);
-                    } 
-                    else{
-                        scope.user.color='#AAA';
-                        var background= scope.user.color;
-                        angular.element(elem).css({'background-image':'none','background-color':background})
-                    }
-                })
+                //read attributes
+                var user;
+                attrs.user!==undefined ? user=attrs.user :
+                 console.log('No user passed.');
+
+                scope.userName=user.name;
             }
         };
     }])
