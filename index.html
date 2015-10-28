@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <title>Cui-UI</title>
-  <link rel="stylesheet" href="assets/css/main.css">
+  <link rel="stylesheet" href="assets/css/styles.min.css">
 
   <!-- 
   TODO - - - - - -
@@ -16,11 +16,11 @@
   <cui-header logo="{{ app.logo }}" user="{{ app.user }}" top-menu>
   </cui-header>
   <div class="container">
-    <div class="cui-container">
-      <div class="cui-container__title">{{"cui-create-security-admin-account" | translate}}</div>
-      <div class="cui-container__body">
-        <cui-wizard step="1" clickable-indicators minimum-padding="30">
-          <indicator-container></indicator-container>
+    <div class="cui-wizard">
+      <div class="cui-wizard__title">{{"cui-create-security-admin-account" | translate}}</div>
+      <div class="cui-wizard__body">
+        <cui-wizard class="cui-wizard__contents" step="1" clickable-indicators minimum-padding="30">
+          <indicator-container class="cui-wizard__indicator-container"></indicator-container>
           <step title="{{'cui-org-info' | translate}}">
             <form name="organization" novalidate>
               <!-- organization name -->
