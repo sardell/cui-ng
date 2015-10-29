@@ -18,3 +18,5 @@ results/
 *.out
 *.pid
 *.gz
+.project
+target
