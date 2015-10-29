@@ -19,3 +19,4 @@ results/
 *.pid
 *.gz
 .project
+target
