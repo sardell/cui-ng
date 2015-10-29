@@ -77,14 +77,14 @@
               <!-- password -->
               <input type="password" ng-model="app.signOn.password2" class="cui-input cui-input--half--right" placeholder="{{'cui-password-re' | translate}}"></input>
               <!-- question 1 -->
-              <select ng-model="app.signOn.question1" class="cui-input cui-input--half">
+              <select ng-model="app.signOn.question1" class="cui-input cui-select cui-input--half">
                 <option value="" disabled selected>{{"cui-challenge-question" | translate}} 1</option>
                 <option ng-repeat="question in app.signOn.questions" value="{{$index}}">{{question | translate}}</option>
               </select>
               <!-- answer 1 -->
               <input type="text" ng-model="app.signOn.answer1" class="cui-input cui-input--half--right" placeholder="{{'cui-challenge-answer' | translate}} 1"></input>
               <!-- question 2 -->
-              <select ng-model="app.signOn.question2" class="cui-input cui-input--half">
+              <select ng-model="app.signOn.question2" class="cui-input cui-select cui-input--half">
                 <option value="" disabled selected>{{"cui-challenge-question" | translate}} 2</option>
                 <option ng-repeat="question in app.signOn.questions" value="{{$index}}">{{question | translate}}</option>
               </select>
@@ -164,7 +164,7 @@
                 <p class="cui-expandable__paragraph" class="cui-expandable__paragraph">{{'cui-postal' | translate}}: {{app.organization.postal}}</p>
               </cui-expandable-body>
             </cui-expandable>
-            <cui-expandable>
+            <cui-expandable class="cui-expandable">
               <cui-expandable-title class="cui-expandable__title"ng-click="toggleExpand()">
                 {{'cui-sign-on-info' | translate}}
                 <span class="chevron">></span>
@@ -178,7 +178,7 @@
                 <p class="cui-expandable__paragraph">{{'cui-challenge-answer' | translate}} 2: {{app.signOn.answer2}}</p>
               </cui-expandable-body>
             </cui-expandable>
-            <cui-expandable>
+            <cui-expandable class="cui-expandable">
               <cui-expandable-title class="cui-expandable__title"ng-click="toggleExpand()">
                 {{'cui-user-info' | translate}}
                 <span class="chevron">></span>
@@ -197,7 +197,7 @@
                 <p class="cui-expandable__paragraph">{{'cui-timezone' | translate}}: {{app.user.timezone}}</p>
               </cui-expandable-body>
             </cui-expandable>
-            <cui-expandable >
+            <cui-expandable class="cui-expandable">
               <cui-expandable-title class="cui-expandable__title"ng-click="toggleExpand()">
                 {{'cui-preferences' | translate}}
                 <span class="chevron">></span>
@@ -205,7 +205,7 @@
               <cui-expandable-body class="cui-expandable__body">
 
               </cui-expandable-body>
-            </cui-expandable>
+            </cui-expandable >
             <div class="cui-wizard__controls">
               <button class="cui-wizard__previous" ng-click="previous()"><< {{'cui-previous' | translate}}</button>
               <button class="cui-wizard__next" ng-click="">{{'cui-submit' | translate}}</button>
