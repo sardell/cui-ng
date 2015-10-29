@@ -7,7 +7,7 @@ module.exports = function(grunt) {
         tasks: ['sass']
       },
       scripts:{
-        files: ['directives/**/*.js'],
+        files: ['directives/**/*.js','utilities/**/*.js'],
         tasks: ['concat'],
         options: {
           spawn: false,
