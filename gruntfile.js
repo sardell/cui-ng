@@ -58,18 +58,19 @@ module.exports = function(grunt) {
       }
     },
     useminPrepare: {
-      html: 'index.html',
+      html: './index.html',
       options: {
-        dest: 'build'
+        src: './',
+        dest: './build'
       }
     },
     usemin: {
       options: {
-        assetsDirs: ['build']
+        assetsDirs: ['./build']
       },
-      css: ['build/assets/css/{,*/}*.css'],
-      js: ['build/assets/js/{,*/}*.js'],
-      html: ['build/index.html']
+      css: ['./build/assets/css/**.*.css'],
+      js: ['./build/assets/js/**.*.js'],
+      html: ['./build/index.html']
     },
     concat: {
       options: {
