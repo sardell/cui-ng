@@ -364,26 +364,4 @@ angular.module('cui-ng')
       }
   }]);
 
-// Dynamic resizing of icons based on screen size
-
-
-window.onload = function() {
-    window.onresize = function() {
-        var svg = document.getElementsByClassName('svg-holder');
-        var clientWidth = document.documentElement.clientWidth;
-        resizeIcons(clientWidth, svg);
-    } 
-
-    var resizeIcons = function(sourceWidth, target) {
-        var docEl = document.documentElement;
-        if (sourceWidth < 1150) {
-            docEl.style.fontSize = (sourceWidth/100) + 'px';
-        }
-        else {
-            docEl.style.fontSize = 1 + 'rem';
-        }
-    };
-};
-
-
 })(angular);
