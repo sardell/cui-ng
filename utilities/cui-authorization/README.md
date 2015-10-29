@@ -12,8 +12,8 @@ Cui-authorization is a module that depends on [ui-router](https://github.com/ang
 //which is an array of entitlement strings. ex: ['admin','user']
   angular.module('app',['cui.authorization','ui.router']
   .run(['$rootScope','$state','cui.athorization.routing',function($rootScope,$state,routing){
-    $rootScope.$on('$stateChangeStart', function(event, toState){
-      routing($state,toState, *user object goes here*);
+    $rootScope.$on('$stateChangeStart', function(event, toState, toParams, fromState, fromParams){
+      routing($rootScope, $state, toState, toParams, fromState, fromParams, *user object goes here*);
     }
   }])
   .config(['$stateProvider','$urlRouterProvider','$locationProvider',function($stateProvider,$urlRouterProvider,$locationProvider){

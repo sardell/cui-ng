@@ -1,66 +1,40 @@
-# CUI Authorization
+# CUI Wizard
 Version 1.0
 
 
 ### Description
-Cui-authorization is a module that depends on [ui-router](https://github.com/angular-ui/ui-router) and will allow a user to navigate through pages / view page elements based on his entitlements/permissions.
+Cui-wizard is an angular directive that, following a few syntax rules, allows the developer to easily create a multi-step form or any other component that requires a "step-through" approach.
 
 ### Usage Example
-
-```javascript
-//note, the user object must have an 'entitlements' property,
-//which is an array of entitlement strings. ex: ['admin','user']
-  angular.module('app',['cui.authorization','ui.router']
-  .run(['$rootScope','$state','cui.athorization.routing',function($rootScope,$state,routing){
-    $rootScope.$on('$stateChangeStart', function(event, toState){
-      routing($state,toState, *user object goes here*);
-    }
-  }])
-  .config(['$stateProvider','$urlRouterProvider','$locationProvider',function($stateProvider,$urlRouterProvider,$locationProvider){
-    $stateProvider
-      .state('home',{
-        url: '/home',
-        access: {
-          loginRequired: true
-        }
-      })
-      .state('login',{ //required, see below
-        url: '/login'
-      })
-      .state('notAuthorized',{ //required, see below
-        url: '/notAuthorized'
-      })
-      .state('adminOnly',{
-        url: '/adminOnly',
-        access: {
-          loginRequired: true,
-          requiredEntitlements: ['admin'],
-          entitlementType: 'all'
-        }
-      })
-      .state('userAndAdmin',{
-        url: '/userAndAdmin',
-        access: {
-          loginRequired: true,
-          requiredEntitlements: ['admin','user'],
-          entitlementType: 'atLeastOne'
-        }
-      })
-    }])
-  }]);
-
+```html
+  <cui-wizard step="{{begginingStep}}" clickable-indicators minimum-padding="30">
+    <indicator-container></indicator-container>
+    <step title="{{step1Title}}">
+      *step1 contents go here*
+    </step>
+    <step title="{{step2Title}}">
+      *step2 contents go here*
+    </step>
+  </cui-wizard>
 ```
 
 ### How it works / features
-With this implementation, this module will listen to the `$stateChangeStart` event on $rootScope that is fired by ui-router everytime that the state changes. Then, based on the user's `entitlements` it determines if the user is allowed to see that page or not.
+The directive will start by reading the `title` atributes on each `step` element within the `cui-wizard`. 
+Then it creates step indicators (these are given `.step-indicator` class) which will be clickable depending on the presence of the `clickable-indicators` atribute.
+The step that is currently active will give it's corresponding indicator an `.active` class.
 
-TODO - element blocking
+#### Changing steps
+Anywhere inside of this directive you can position an element with an `ng-click` directive that calls one of 4 navigating functions:
 
-#### Redirecting
-There are 2 types of redirection:
-
-1. The user is not logged in (the user object is undefined or empty), in this case the module will redirect him to the `login` state.
-2. The user does not have permission to view the page (no entitlement), in this case he gets redirected to the `notAuthorized` state.
+1. `next()` - increases the `step` attribute on cui-wizard by 1 and updates the wizard accordingly.
+2. `nextWithErrorChecking()` - checks if every form field in that step is valid and will set a scope variable called `invalidForm[i]` (where i is the current step) to true if there are any errors. If there aren't errors, it simply calls `next()`. (you have to give your form and your inputs `name` attributes for this to work)
+3. `goToStep(i)` - navigates to a step with index i (note, steps start counting from 1)
+4. `previous()` - navigates to the previous step
 
 #### Key features
-Within `entitlementType` in the `access` object of each state there are 2 options for how the authorization will be evaluated - `'atLeastOne'` and `'all'`. The first will give the user authorization if he satisfies <b>at least one</b> of the `requiredEntitlements`. The second will only give him permission if he satisfies <b>all</b> of the entitlements.
+One of the key features of this wizard is indicator collision detection. What this means is:
+Whenever the wizard is first shown or the window is rezised the directive will check that there is enough space within `indicator-container` to show all the step indicators AND the minimum padding (in px) between each of them, which is defined by `minimum-padding`. 
+
+If there isn't enough space then `indicator-container` gets applied a class of `.small` that can then be used to style accordingly with css. (tip: use this in conjunction with `.active` class on the indicators to give emphasis to the currently active step, by, for example, only showing the active step when there isn't enough room.
+
+Cui-wizard will also listen for `'languageChange'` broadcasts on scope, and will fire the function that ensures there's enough room to show all of the indicators (and apply the class of `.small` to the `indicator-container` if there isn't). This is specifically built in for use with the [cui-i18n](https://github.com/thirdwavellc/cui-i18n) module.

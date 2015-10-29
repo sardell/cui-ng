@@ -1,4 +1,4 @@
-(function(angular){'use strict';
+(function(angular){
     angular.module('cui-ng')
     .directive('cuiAvatar',[function(){
         return{

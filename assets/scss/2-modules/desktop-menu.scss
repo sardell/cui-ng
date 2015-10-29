@@ -1,0 +1,84 @@
+
+.desktop-menu{
+	@extend .cui-primary-colors--medium;
+	left: 0;
+	position: absolute;
+	top:0;
+	margin-top: 80px;
+	bottom: 0;
+	width: $desktop-menu-width;
+	display:none;
+	transition: all 150ms ease-in-out;
+	
+	@media screen and (min-width:$snap-menu-breaking-point){
+		display:inline-block;
+	}
+
+	&--collapse{
+		left:-300px;
+	}
+}
+
+.desktop-menu--option {
+	@extend .cui-primary-colors--medium-dark;
+	color:white;
+	cursor: pointer;
+	display:block;
+	margin:10px 0;
+	padding: 10px 20px;
+
+	&:hover {
+		color: orange;
+	}
+
+	&:first-of-type {
+		margin-top: 30px;
+	}
+}
+
+.menu-toggle {
+	cursor: pointer;
+	height: 40px;
+	width: 40px;
+	display:flex;
+	align-items:center;
+	&.active {
+		.menu-toggle--button{
+			@extend .cui-primary-colors--medium;
+
+			&:before{
+				@extend .cui-primary-colors--medium;
+			}
+
+			&:after{
+				@extend .cui-primary-colors--medium;
+			}
+		}
+	}
+}
+
+.menu-toggle--button {
+	@extend .cui-primary-colors--light;
+	width: 40px;
+	height: 7px;
+	position:relative;
+	transition:all 200ms ease-in-out;
+	
+	&:before {
+		@extend .cui-primary-colors--light;
+		content:'';
+		position:absolute;
+		width:40px;
+		height:7px;
+		top:-12px;
+	}
+
+	&:after {
+		@extend .cui-primary-colors--light;
+		content:'';
+		position:absolute;
+		width:40px;
+		height:7px;
+		bottom:-12px;
+	}
+}

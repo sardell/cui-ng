@@ -6,11 +6,12 @@ cui-wizard {
 }
 
 .cui-wizard__controls {
+  clear:both;
   text-align: right;
 }
 
 .cui-wizard__next {
-  background-color: #386895;
+  @extend .cui-primary-colors--medium-dark;
   border: 0;
   border-radius: 4px;
   color: #fff;
@@ -25,7 +26,6 @@ cui-wizard {
 }
 
 .cui-wizard__previous {
-  background: #fff;
   border: 0;
   color: $container-title-background;
   cursor: pointer;
@@ -38,7 +38,6 @@ cui-wizard {
 }
 
 .cui-wizard__skip {
-  background: #fff;
   border:0;
   color: $container-title-background;
   cursor: pointer;
@@ -75,7 +74,6 @@ indicator-container {
 
 .step-indicator {
   color: #bbb;
-  margin-bottom: -2px;
   padding: 10px 0;
   white-space: nowrap;
   display: inline-block;

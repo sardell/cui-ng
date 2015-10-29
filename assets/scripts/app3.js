@@ -57,5 +57,7 @@ $(function(){
 			idmIdentityUrl: 'https://s-platform-covs.login.stg.covapp.io'
 		});
 	});
+
+
 	
 })

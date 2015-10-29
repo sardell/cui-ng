@@ -1,4 +1,7 @@
 //general
+$snap-menu-breaking-point: 1000px;
+$snap-menu-breaking-point-1: 999px;
+$desktop-menu-width: 300px;
 
 // colors
 $cui-primary-colors--light: #87CEEC;    
@@ -19,10 +22,13 @@ $cui-greyscale--dark: #343534;
 
 $cui-input-border--valid: #47CBB4;
 
+$baby-blue: #dfe9ee;
+
 // header
 
 $header-padding: 0 30px;
 $header-top-padding: 0 0;
+$header-bottom-padding: 0 0;
 
 // container
 
@@ -46,15 +52,39 @@ $input-error-padding:5px 12px 3px;
 
 .container {
   background: #dfe9ee;
-  padding-bottom: 200px;
-  padding-top: 100px;
+  padding-bottom: 50px;
+  padding-top: 50px;
 }
 
-.language-select {
-  float: right;
-  margin-top: 20px;
+.wrapper{
+	background: #dfe9ee;
+	min-height: 100vh;
+	position:relative;
+}
+
+.content {
+	margin-left: $desktop-menu-width;
+	transition:all 100ms ease-in-out;
+
+	@media screen and (max-width:$snap-menu-breaking-point-1){
+		margin-left:0;
+	}
+
+	&.desktop-menu--collapse{
+		margin-left:0;
+	}
+}
+
+.language-select{
+	margin-top:20px;
+	float:right;
 }
 
 [ng\:cloak], [ng-cloak], [data-ng-cloak], [x-ng-cloak], .ng-cloak, .x-ng-cloak {
   display: none !important;
 }
+
+.hide{
+	display:none !important;
+}
+

@@ -16,22 +16,40 @@
   angular.module('cui.authorization',[])
   .factory('cui.authorization.routing', ['cui.authorization.authorize', '$timeout',
     function (authorize,$timeout){
-      var routing = function($state,toState,user){
+      var routing = function($rootScope, $state, toState, toParams, fromState, fromParams, user){
         var authorized;
         if (toState.access !== undefined) {
-          console.log('Access rules for this route: \n' +
-          'loginRequired: ' + toState.access.loginRequired + '\n' +
-          'requiredEntitlements: ' + toState.access.requiredEntitlements);
+          // console.log('Access rules for this route: \n' +
+          // 'loginRequired: ' + toState.access.loginRequired + '\n' +
+          // 'requiredEntitlements: ' + toState.access.requiredEntitlements);
             authorized = authorize.authorize(toState.access.loginRequired,
                  toState.access.requiredEntitlements, toState.access.entitlementType, user);
-            console.log('authorized: ' + authorized);
+            // console.log('authorized: ' + authorized);
             if (authorized === 'login required') {
-                console.log('Not logged in');
-                $timeout(function(){$state.go('login');});
+                $timeout(function(){
+                  $state.go('login',toParams).then(function() {
+                    $rootScope.$broadcast('$stateChangeSuccess', toState, toParams, fromState, fromParams);
+                  });
+                });
             } else if (authorized === 'not authorized') {
-                console.log('Not authorized');
-                $timeout(function(){$state.go('notAuthorized');});
-            } 
+                $timeout(function(){
+                  $state.go('notAuthorized',toParams).then(function() {
+                      $rootScope.$broadcast('$stateChangeSuccess', toState, toParams, fromState, fromParams);
+                  });
+                });
+            }
+            else if(authorized === 'authorized'){
+              $timeout(function(){
+                $state.go(toState.name,toParams,{notify:false}).then(function() {
+                    $rootScope.$broadcast('$stateChangeSuccess', toState, toParams, fromState, fromParams);
+                });
+              });
+            }
+        }
+        else {
+          $state.go(toState.name,toParams,{notify:false}).then(function() {
+              $rootScope.$broadcast('$stateChangeSuccess', toState, toParams, fromState, fromParams);
+          });
         }
       }
 
@@ -44,9 +62,10 @@
      var authorize = function (loginRequired, requiredEntitlements, entitlementType, user) {
         var loweredPermissions = [],
             hasPermission = true,
-            permission, i, result;
+            permission, i, 
+            result='not authorized';
         entitlementType = entitlementType || 'atLeastOne';
-        if (loginRequired === true && ((user === undefined) || (user.name === undefined))) {
+        if (loginRequired === true && ((user === undefined) || (user.id === undefined))) {
             result = 'login required';
         } else if ((loginRequired === true && user !== undefined) &&
             (requiredEntitlements === undefined || requiredEntitlements.length === 0)) {
@@ -83,6 +102,30 @@
         return {
          authorize: authorize
         };
+  }])
+
+  .directive('cuiAccess',['cui.authorization.authorize',function(authorize){
+      return{
+          restrict:'A',
+          scope: true,
+          link: function(scope,elem,attrs){
+              var access= JSON.parse(attrs.cuiAccess);
+              scope.loginRequired= true;
+              scope.requiredEntitlements= access.requiredEntitlements || [];
+              scope.entitlementType= access.entitlementType || 'atLeastOne';
+              var elem=angular.element(elem);
+              attrs.$observe('user',function(){
+                  scope.user= JSON.parse(attrs.user);
+                  var authorized=authorize.authorize(scope.loginRequired, scope.requiredEntitlements, scope.entitlementType, scope.user);
+                  if(authorized!=='authorized'){
+                      elem.addClass('hide');
+                  }
+                  else{
+                      elem.removeClass('hide');
+                  }
+              });
+          }
+      }
   }]);
 
 })(angular);
