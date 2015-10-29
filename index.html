@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <title>Cui-UI</title>
-  <link rel="stylesheet" href="assets/css/main.css">
+  <link rel="stylesheet" href="assets/css/styles.min.css">
 
   <!-- 
   TODO - - - - - -
@@ -16,12 +16,12 @@
   <cui-header logo="{{ app.logo }}" user="{{ app.user }}" top-menu>
   </cui-header>
   <div class="container">
-    <div class="cui-container">
-      <div class="cui-container__title">{{"cui-create-security-admin-account" | translate}}</div>
-      <div class="cui-container__body">
-        <cui-wizard step="1" clickable-indicators minimum-padding="30">
-          <indicator-container></indicator-container>
-          <step title="{{'cui-org-info' | translate}}">
+    <div class="cui-wizard">
+      <div class="cui-wizard__title">{{"cui-create-security-admin-account" | translate}}</div>
+      <div class="cui-wizard__body">
+        <cui-wizard class="cui-wizard__contents" step="1" clickable-indicators minimum-padding="30">
+          <indicator-container class="cui-wizard__indicator-container"></indicator-container>
+          <step class="cui-wizard__step-contents" title="{{'cui-org-info' | translate}}">
             <form name="organization" novalidate>
               <!-- organization name -->
               <input type="text" ng-model="app.organization.name" name="name" class="cui-input cui-input--full" disabled></input>
@@ -63,7 +63,7 @@
               </div>
             </form>
           </step>
-          <step title="{{'cui-sign-on-info' | translate}}">
+          <step class="cui-wizard__step-contents" title="{{'cui-sign-on-info' | translate}}">
             <form name="signOn" novalidate>
               <!-- user ID -->
               <input type="text" name="userID" ng-model="app.signOn.userID" class="cui-input cui-input--full" placeholder="{{'cui-user-id' | translate}}"></input>
@@ -77,14 +77,14 @@
               <!-- password -->
               <input type="password" ng-model="app.signOn.password2" class="cui-input cui-input--half--right" placeholder="{{'cui-password-re' | translate}}"></input>
               <!-- question 1 -->
-              <select ng-model="app.signOn.question1" class="cui-input cui-input--half">
+              <select ng-model="app.signOn.question1" class="cui-input cui-select cui-input--half">
                 <option value="" disabled selected>{{"cui-challenge-question" | translate}} 1</option>
                 <option ng-repeat="question in app.signOn.questions" value="{{$index}}">{{question | translate}}</option>
               </select>
               <!-- answer 1 -->
               <input type="text" ng-model="app.signOn.answer1" class="cui-input cui-input--half--right" placeholder="{{'cui-challenge-answer' | translate}} 1"></input>
               <!-- question 2 -->
-              <select ng-model="app.signOn.question2" class="cui-input cui-input--half">
+              <select ng-model="app.signOn.question2" class="cui-input cui-select cui-input--half">
                 <option value="" disabled selected>{{"cui-challenge-question" | translate}} 2</option>
                 <option ng-repeat="question in app.signOn.questions" value="{{$index}}">{{question | translate}}</option>
               </select>
@@ -97,7 +97,7 @@
               </div>
             </form>
           </step>
-          <step title="{{'cui-user-info' | translate}}">
+          <step class="cui-wizard__step-contents" title="{{'cui-user-info' | translate}}">
             <form name="user" novalidate>
               <!-- first name -->
               <input type="text" ng-model="app.user.fName" class="cui-input cui-input--half" placeholder="{{'cui-first-name' | translate}}" required></input>
@@ -141,71 +141,71 @@
               </div>
             </form>
           </step>
-          <step title="{{'cui-preferences' | translate}}">
+          <step class="cui-wizard__step-contents" title="{{'cui-preferences' | translate}}">
             <div class="cui-wizard__controls">
               <button class="cui-wizard__previous" ng-click="previous()"><< {{'cui-previous' | translate}}</button>
               <button class="cui-wizard__next" ng-click="next()">{{'cui-next' | translate}}</button>
             </div>
           </step>
-          <step title="{{'cui-review' | translate}}">
-            <cui-expandable expanded="true">
-              <cui-expandable-title ng-click="toggleExpand()">
+          <step class="cui-wizard__step-contents" title="{{'cui-review' | translate}}">
+            <cui-expandable class="cui-expandable" expanded="true">
+              <cui-expandable-title class="cui-expandable__title"ng-click="toggleExpand()">
                 {{'cui-org-info' | translate}}
                 <span class="chevron">></span>
               </cui-expandable-title>
-              <cui-expandable-body>
-                <p>{{'cui-org' | translate}}: {{app.organization.name}}</p>
-                <p>{{'cui-company-division' | translate}}: {{app.organization.division}}</p>
-                <p>{{'cui-address' | translate}} 1: {{app.organization.address1}}</p>
-                <p ng-if="app.organization.address2">{{'cui-address' | translate}} 2: {{app.organization.address2}}</p>
-                <p>{{'cui-country' | translate}}: {{app.organization.country}}</p>
-                <p>{{'cui-state' | translate}}: {{app.organization.state}}</p>
-                <p>{{'cui-city' | translate}}: {{app.organization.city}}</p>
-                <p>{{'cui-postal' | translate}}: {{app.organization.postal}}</p>
+              <cui-expandable-body class="cui-expandable__body">
+                <p class="cui-expandable__paragraph" class="cui-expandable__paragraph">{{'cui-org' | translate}}: {{app.organization.name}}</p>
+                <p class="cui-expandable__paragraph" class="cui-expandable__paragraph">{{'cui-company-division' | translate}}: {{app.organization.division}}</p>
+                <p class="cui-expandable__paragraph" class="cui-expandable__paragraph">{{'cui-address' | translate}} 1: {{app.organization.address1}}</p>
+                <p class="cui-expandable__paragraph" class="cui-expandable__paragraph" ng-if="app.organization.address2">{{'cui-address' | translate}} 2: {{app.organization.address2}}</p>
+                <p class="cui-expandable__paragraph" class="cui-expandable__paragraph" >{{'cui-country' | translate}}: {{app.organization.country}}</p>
+                <p class="cui-expandable__paragraph" class="cui-expandable__paragraph">{{'cui-state' | translate}}: {{app.organization.state}}</p>
+                <p class="cui-expandable__paragraph" class="cui-expandable__paragraph">{{'cui-city' | translate}}: {{app.organization.city}}</p>
+                <p class="cui-expandable__paragraph" class="cui-expandable__paragraph">{{'cui-postal' | translate}}: {{app.organization.postal}}</p>
               </cui-expandable-body>
             </cui-expandable>
-            <cui-expandable>
-              <cui-expandable-title ng-click="toggleExpand()">
+            <cui-expandable class="cui-expandable">
+              <cui-expandable-title class="cui-expandable__title"ng-click="toggleExpand()">
                 {{'cui-sign-on-info' | translate}}
                 <span class="chevron">></span>
               </cui-expandable-title>
-              <cui-expandable-body>
-                <p>{{'cui-user-id' | translate}}: {{app.signOn.userID}}</p>
-                <p>{{'cui-password' | translate}}: <input type="password" class="cui-input--display" disabled ng-model="app.signOn.password1"/></p>
-                <p>{{'cui-challenge-question' | translate}} 1: {{app.signOn.questions[app.signOn.question1] | translate}}</p>
-                <p>{{'cui-challenge-answer' | translate}} 1: {{app.signOn.answer1}}</p>
-                <p>{{'cui-challenge-question' | translate}} 2: {{app.signOn.questions[app.signOn.question2] | translate}}</p>
-                <p>{{'cui-challenge-answer' | translate}} 2: {{app.signOn.answer2}}</p>
+              <cui-expandable-body class="cui-expandable__body">
+                <p class="cui-expandable__paragraph">{{'cui-user-id' | translate}}: {{app.signOn.userID}}</p>
+                <p class="cui-expandable__paragraph">{{'cui-password' | translate}}: <input type="password" class="cui-input--display" disabled ng-model="app.signOn.password1"/></p>
+                <p class="cui-expandable__paragraph">{{'cui-challenge-question' | translate}} 1: {{app.signOn.questions[app.signOn.question1] | translate}}</p>
+                <p class="cui-expandable__paragraph" >{{'cui-challenge-answer' | translate}} 1: {{app.signOn.answer1}}</p>
+                <p class="cui-expandable__paragraph">{{'cui-challenge-question' | translate}} 2: {{app.signOn.questions[app.signOn.question2] | translate}}</p>
+                <p class="cui-expandable__paragraph">{{'cui-challenge-answer' | translate}} 2: {{app.signOn.answer2}}</p>
               </cui-expandable-body>
             </cui-expandable>
-            <cui-expandable>
-              <cui-expandable-title ng-click="toggleExpand()">
+            <cui-expandable class="cui-expandable">
+              <cui-expandable-title class="cui-expandable__title"ng-click="toggleExpand()">
                 {{'cui-user-info' | translate}}
                 <span class="chevron">></span>
               </cui-expandable-title>
-              <cui-expandable-body>
-                <p>{{'cui-first-name' | translate}}: {{app.user.fName}}</p>
-                <p>{{'cui-last-name' | translate}}: {{app.user.lName}}</p>
-                <p>{{'cui-email' | translate}}: {{app.user.email}}</p>
-                <p>{{'cui-address' | translate}} 1: {{app.user.address1}}</p>
-                <p>{{'cui-address' | translate}} 2: {{app.user.address2}}</p>
-                <p>{{'cui-country' | translate}}: {{app.user.country}}</p>
-                <p>{{'cui-state' | translate}}: {{app.user.state}}</p>
-                <p>{{'cui-city' | translate}}: {{app.user.city}}</p>
-                <p>{{'cui-postal' | translate}}: {{app.user.postal}}</p>
-                <p>{{'cui-telephone' | translate}}: {{app.user.phone}}</p>
-                <p>{{'cui-timezone' | translate}}: {{app.user.timezone}}</p>
+              <cui-expandable-body class="cui-expandable__body">
+                <p class="cui-expandable__paragraph">{{'cui-first-name' | translate}}: {{app.user.fName}}</p>
+                <p class="cui-expandable__paragraph">{{'cui-last-name' | translate}}: {{app.user.lName}}</p>
+                <p class="cui-expandable__paragraph">{{'cui-email' | translate}}: {{app.user.email}}</p>
+                <p class="cui-expandable__paragraph">{{'cui-address' | translate}} 1: {{app.user.address1}}</p>
+                <p class="cui-expandable__paragraph">{{'cui-address' | translate}} 2: {{app.user.address2}}</p>
+                <p class="cui-expandable__paragraph">{{'cui-country' | translate}}: {{app.user.country}}</p>
+                <p class="cui-expandable__paragraph">{{'cui-state' | translate}}: {{app.user.state}}</p>
+                <p class="cui-expandable__paragraph">{{'cui-city' | translate}}: {{app.user.city}}</p>
+                <p class="cui-expandable__paragraph">{{'cui-postal' | translate}}: {{app.user.postal}}</p>
+                <p class="cui-expandable__paragraph">{{'cui-telephone' | translate}}: {{app.user.phone}}</p>
+                <p class="cui-expandable__paragraph">{{'cui-timezone' | translate}}: {{app.user.timezone}}</p>
               </cui-expandable-body>
             </cui-expandable>
-            <cui-expandable >
-              <cui-expandable-title ng-click="toggleExpand()">
+            <cui-expandable class="cui-expandable">
+              <cui-expandable-title class="cui-expandable__title"ng-click="toggleExpand()">
                 {{'cui-preferences' | translate}}
                 <span class="chevron">></span>
               </cui-expandable-title>
-              <cui-expandable-body>
+              <cui-expandable-body class="cui-expandable__body">
 
               </cui-expandable-body>
-            </cui-expandable>
+            </cui-expandable >
             <div class="cui-wizard__controls">
               <button class="cui-wizard__previous" ng-click="previous()"><< {{'cui-previous' | translate}}</button>
               <button class="cui-wizard__next" ng-click="">{{'cui-submit' | translate}}</button>
