@@ -110,8 +110,12 @@
 
         app.userPopup=false;
 
-        app.toggleUserPopup= function(){
-            app.userPopup=!app.userPopup;
+        app.openUserPopup= function(){
+            app.userPopup=true;
+        }
+
+        app.closeUserPopup= function(){
+            app.userPopup=false;
         }
 
         $scope.$on('$locationChangeSuccess',function(){
