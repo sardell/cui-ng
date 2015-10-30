@@ -81,6 +81,11 @@ module.exports = function(grunt) {
         dest: 'dist/cui-ng.js'
       }
     },
+    filerev:{
+      dist:{
+        src:['build/assets/**/*']
+      }
+    },
     copy: {
       index: {
         src: 'index.html',
@@ -123,6 +128,6 @@ module.exports = function(grunt) {
   grunt.loadNpmTasks('grunt-contrib-concat');
 
   grunt.registerTask('default', ['browserSync:dev','watch']);
-  grunt.registerTask('build', ['copy:index','copy:angularTemplates','copy:languageFiles','copy:localeFiles','copy:svgList','copy:svgs','copy:cuiI18n','concat','useminPrepare','concat:generated','cssmin:generated','uglify:generated','usemin']);
+  grunt.registerTask('build', ['copy:index','copy:angularTemplates','copy:languageFiles','copy:localeFiles','copy:svgList','copy:svgs','copy:cuiI18n','concat','useminPrepare','concat:generated','cssmin:generated','uglify:generated','filerev','usemin']);
   grunt.registerTask('demo', ['browserSync:demo'])
 }
