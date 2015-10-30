@@ -11,10 +11,10 @@
 <body ng-controller="appCtrl as app" ng-cloak>
   <div class="wrapper">
     <snap-drawer>
-      <span class="snap-menu--option" ng-click="app.goTo('wizard')">Wizard</span>
-      <span class="snap-menu--option" ng-click="app.goTo('icons')" cui-access='{ "requiredEntitlements":["admin","user"],"entitlementType":"atLeastOne"}' user="{{app.appUser}}">Icons</span>
-      <span class="snap-menu--option" ng-click="app.goTo('user')" cui-access='{ "requiredEntitlements":["admin","user"],"entitlementType":"atLeastOne"}' user="{{app.appUser}}">User Area</span>
-      <span class="snap-menu--option" ng-click="app.goTo('admin')" cui-access='{ "requiredEntitlements":["admin"] }' user="{{app.appUser}}">Admin Area</span>
+      <span class="snap-menu--option" ng-click="app.goTo('wizard')" snap-close>Wizard</span>
+      <span class="snap-menu--option" ng-click="app.goTo('icons')" cui-access='{ "requiredEntitlements":["admin","user"],"entitlementType":"atLeastOne"}' user="{{app.appUser}}" snap-close>Icons</span>
+      <span class="snap-menu--option" ng-click="app.goTo('user')" cui-access='{ "requiredEntitlements":["admin","user"],"entitlementType":"atLeastOne"}' user="{{app.appUser}}" snap-close>User Area</span>
+      <span class="snap-menu--option" ng-click="app.goTo('admin')" cui-access='{ "requiredEntitlements":["admin"] }' user="{{app.appUser}}" snap-close>Admin Area</span>
     </snap-drawer>
     <snap-content snap-opt-disable="'right'">
       <header class="cui-header">
