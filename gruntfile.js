@@ -83,7 +83,7 @@ module.exports = function(grunt) {
     },
     filerev:{
       dist:{
-        src:['build/assets/css/*','build/assets/js/*']
+        src:['build/assets/css/main.css','build/assets/js/vendor.js','build/assets/js/app.js']
       }
     },
     copy: {

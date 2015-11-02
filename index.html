@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <title>Cui-UI</title>
-  <!-- build:css ./assets/css/main.css -->
+  <!-- build:css assets/css/main.css -->
   <link rel="stylesheet" href="assets/css/main.css">
   <!-- endbuild -->
   <meta name="viewport" content="width=device-width, user-scalable=yes, initial-scale=1.0, maximum-scale=2.0, minimum-scale=1.0">
@@ -24,7 +24,10 @@
           </div>
           <svg class="cui-header__svg-logo" viewBox="0 0 640 124"><use xlink:href="bower_components/cui-icons/dist/logos/logos-out.svg#covisint-logo"></use></svg>
           <div class="cui-header__user">
-            <span class="cui-header__user--name">{{ app.appUser.name || 'Sign In' }}</span>
+            <span class="cui-header__user--name" ng-click="app.doLogin()">
+              <span ng-if="app.appUser.name">{{ app.appUser.name }}</span>
+              <a href="#" ng-if="!app.appUser.name">Sign In</a>
+            </span>
             <div class="cui-chevron--left"></div>
             <cui-avatar class="cui-header__user--avatar cui-avatar" user-avatar="{{app.appUser.avatar}}" ng-click="app.openUserPopup()">
               <div class="cui-avatar--popup" ng-class="app.userPopup? 'active' : ''" off-click="app.closeUserPopup()" off-click-if="app.userPopup">
@@ -68,11 +71,12 @@
   <button id="idmLogoutButton">Logout</button> -->
 
 
-  <!-- build:js ./assets/js/vendor.js -->
+  <!-- build:js assets/js/vendor.js -->
   <script src="bower_components/lodash/lodash.js"></script>
   <script src="bower_components/jquery/dist/jquery.js"></script>
   <script src="bower_components/angular/angular.js"></script>
   <script src="bower_components/snapjs/snap.js"></script>
+  <script src="bower_components/cui/dist/cui.js"></script>
 
   <script src="bower_components/angular-ui-router/release/angular-ui-router.js"></script>
   <script src="bower_components/angular-messages/angular-messages.js"></script>
@@ -92,7 +96,7 @@
   
   <script src="bower_components/cui-i18n/translate.js"></script>
 
-  <!-- build:js ./assets/js/app.js -->
+  <!-- build:js assets/js/app.js -->
   <script src="dist/cui-ng.js"></script>
   <script src="assets/scripts/app2.js"></script>
   <!-- endbuild -->

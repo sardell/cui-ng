@@ -1,19 +1,15 @@
-(function(angular){
+(function(angular,cui){
     'use strict';
 
     angular
     .module('app',['translate','ngMessages','cui.authorization','cui-ng','ui.router','snap','LocalStorageModule'])
     .run(['$rootScope', '$state', 'cui.authorization.routing','user', function($rootScope,$state,routing,user){
-        user.setUser({
-            id: 'theMurrMan',
-            name: 'Bill Murray',
-            avatar: '//www.fillmurray.com/200/200',
-            entitlements: ['admin']
-        });
         $rootScope.$on('$stateChangeStart', function(event, toState, toParams, fromState, fromParams){
             event.preventDefault();
             routing($rootScope, $state, toState, toParams, fromState, fromParams, user.getUser());
         })
+        $rootScope.cui=cui.api();
+        $rootScope.cui.setService('PRD');
     }])
     .config(['$stateProvider','$urlRouterProvider','$locationProvider','$injector','localStorageServiceProvider',
     function($stateProvider,$urlRouterProvider,$locationProvider,$injector,localStorageServiceProvider){
@@ -62,13 +58,12 @@
           var $state = $injector.get("$state");
           $state.go('wizard');
         });
-
     }])
     .factory('user',['$rootScope',function($rootScope){
         return{
             getUser:function(){
                 return $rootScope.appUser;
-                },
+            },
             setUser:function(user){
                 $rootScope.appUser=user;
             }
@@ -77,15 +72,35 @@
     .factory('getSvgList',['$http', function($http){
         return $http.get('bower_components/cui-icons/iconList');
     }])
-    .controller('appCtrl',['$rootScope','$state','$stateParams','user','$timeout','localStorageService','$scope','getSvgList',
-    function($rootScope,$state,$stateParams,user,$timeout,localStorageService,$scope,getSvgList){
+    .factory('auth',['$http', '$rootScope',function($http, $rootScope){
+        return{
+            login: function(){
+                $rootScope.cui.doThreeLeggedOAuth({
+                    clientId: 'WPUodVvicVPIvJdnakomB4nCa3GnyE6r'            
+                })
+                .then(function(token) {
+                    console.log('logged')
+                })
+                .fail(function() {
+                     console.log('fail');                
+                });
+                $rootScope.cui.handleAuthResponse();
+            }
+
+        }
+    }])
+    .controller('appCtrl',['$rootScope','$state','$stateParams','user','$timeout','localStorageService','$scope','getSvgList','auth',
+    function($rootScope,$state,$stateParams,user,$timeout,localStorageService,$scope,getSvgList,auth){
         var app=this;
-        app.appUser={
-            id: 'theMurrMan',
-            name: 'Bill Murray',
-            avatar: '//www.fillmurray.com/200/200',
-            entitlements: ['admin']
-        };
+        app.appUser={};
+
+        //SERVICES -----------------------
+
+        app.doLogin=function(){
+            auth.login();
+        }
+
+
 
         // user.setUser(app.appUser);
 
@@ -184,4 +199,4 @@
         };
     }]);
 
-})(angular);
+})(angular,cui);
