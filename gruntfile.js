@@ -104,11 +104,11 @@ module.exports = function(grunt) {
         dest: 'build/'
       },
       svgList: {
-        src: 'bower_components/cui-icons/svgList',
+        src: 'bower_components/cui-icons/iconList',
         dest: 'build/'
       },
       svgs: {
-        src: 'bower_components/cui-icons/dist/svg/svg-out.svg',
+        src: ['bower_components/cui-icons/dist/**/*.svg'],
         dest: 'build/'
       },
       cuiI18n: {
