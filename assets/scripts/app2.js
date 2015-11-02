@@ -75,7 +75,7 @@
        }
     }])
     .factory('getSvgList',['$http', function($http){
-        return $http.get('bower_components/cui-icons/svgList');
+        return $http.get('bower_components/cui-icons/iconList');
     }])
     .controller('appCtrl',['$rootScope','$state','$stateParams','user','$timeout','localStorageService','$scope','getSvgList',
     function($rootScope,$state,$stateParams,user,$timeout,localStorageService,$scope,getSvgList){
