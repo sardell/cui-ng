@@ -173,7 +173,7 @@
                 if(index>-1){
                     svgList[i]=svgList[i].split('.')[0];
                 }
-                svgList[i]='bower_components/cui-icons/dist/svg/svg-out.svg#' + svgList[i];
+                svgList[i]='bower_components/cui-icons/dist/icons/icons-out.svg#' + svgList[i];
             }
             app.svgList=svgList;
         })
