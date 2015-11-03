@@ -9,7 +9,7 @@ Cui-wizard is an angular directive that, following a few syntax rules, allows th
 ```html
   <cui-wizard step="{{begginingStep}}" clickable-indicators minimum-padding="30">
     <indicator-container></indicator-container>
-    <step title="{{step1Title}}">
+    <step title="{{step1Title}}" state="{{stateName}}">
       *step1 contents go here*
     </step>
     <step title="{{step2Title}}">
@@ -17,6 +17,10 @@ Cui-wizard is an angular directive that, following a few syntax rules, allows th
     </step>
   </cui-wizard>
 ```
+#### Variables
+1. `{{beggining Step}}` -> the step the wizard will start on.
+2. `{{stepXTitle}}` -> the titles that will populate the indicator-container.
+3. `{{stateName}}` -> the name of the state that the user is redirected to when he clicks that indicator, assuming he defined `clickable-indicators`. 
 
 ### How it works / features
 The directive will start by reading the `title` atributes on each `step` element within the `cui-wizard`. 
@@ -26,10 +30,87 @@ The step that is currently active will give it's corresponding indicator an `.ac
 #### Changing steps
 Anywhere inside of this directive you can position an element with an `ng-click` directive that calls one of 4 navigating functions:
 
-1. `next()` - increases the `step` attribute on cui-wizard by 1 and updates the wizard accordingly.
-2. `nextWithErrorChecking()` - checks if every form field in that step is valid and will set a scope variable called `invalidForm[i]` (where i is the current step) to true if there are any errors. If there aren't errors, it simply calls `next()`. (you have to give your form and your inputs `name` attributes for this to work)
-3. `goToStep(i)` - navigates to a step with index i (note, steps start counting from 1)
-4. `previous()` - navigates to the previous step
+*Note: variables in `<< >>` means they are optional. If << stateName >> is defined, it will also update the current state to whatever state is passed.
+
+1. `next(<< nextStateName >>*)` -> increases the `step` attribute on cui-wizard by 1 and updates the wizard accordingly.
+2. `nextWithErrorChecking(formName, << nextStateName >>*)` -> checks if every form field in that step is valid and will set a scope variable called `invalidForm[i]` (where i is the current step) to true if there are any errors. If there aren't errors, it simply calls `next()`. (you have to give your form and your inputs `name` attributes for this to work)
+3. `goToStep(i)` -> navigates to a step with index i (note, steps start counting from 1)
+4. `previous(<< previousStateName >>*)` -> navigates to the previous step
+5. `goToState(state)` ->This is called automatically by `next`,`nextWithErrorChecking` and previous, if states are passed. What it does is use `$rootScope.$broadcast` to broadcast `'stepChange'` with {state:statePassed} as the data. This means you can use `$scope.$on` in your controller and listen for `'stepChange'`,like this:
+```javascript
+angular.module('app',['cui-ng','ui.router'])
+.run(['$rootScope','wizardStep',function($rootScope,wizardStep){
+  $rootScope.$on('$stateChangeStart', function(event, toState){
+    if(toState.data && toState.data.step){
+        wizardStep.set(toState.data.step);
+        $rootScope.$broadcast('stepChange');
+    }
+  })
+}])
+.config(['$stateProvider','$urlRouterProvider','$injector',function($stateProvider,$urlRouterProvider,$injector){
+  $stateProvider
+    .state('wizard',{
+        url: '/wizard',
+        templateUrl: 'assets/angular-templates/cui-wizard.html',
+        data: {
+            step: 1
+        }
+    })
+    .state('wizard.organization',{
+        url: '/organization',
+        data: {
+            step: 1
+        }
+    })
+    .state('wizard.signOn',{
+        url: '/signOn',
+        data: {
+            step: 2
+        }
+    })
+     .state('wizard.user',{
+        url: '/user',
+        data: {
+            step: 3
+        }
+    })
+    .state('wizard.review',{
+        url: '/review',
+        data: {
+            step: 4
+        }
+    });
+    
+    //fixes infinite digest loop with ui-router
+    $urlRouterProvider.otherwise( function($injector) {
+      var $state = $injector.get("$state");
+      $state.go('wizard');
+    });
+}])
+.factory('wizardStep',[function(){
+  var step;
+  return{
+      get: function(){
+          return step;
+      },
+      set: function(newStep){
+          step=newStep;
+      }
+  }
+}])
+.controller('appCtrl',['$scope','$state','wizardStep',function($scope,$state,wizardStep){
+  $scope.$on('stepChange',function(e,data){
+    if(data && data.state){
+        app.goTo(data.state);
+    }
+    app.step=wizardStep.get();
+  })
+    
+  app.goTo= function(state){
+    $state.go(state,{notify:true,reload:true});
+  }
+}])
+```
 
 #### Key features
 One of the key features of this wizard is indicator collision detection. What this means is:
