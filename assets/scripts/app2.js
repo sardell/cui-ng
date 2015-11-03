@@ -5,7 +5,7 @@
     .module('app',['translate','ngMessages','cui.authorization','cui-ng','ui.router','snap','LocalStorageModule'])
     .run(['$rootScope', '$state', 'cui.authorization.routing','user','wizardStep', function($rootScope,$state,routing,user,wizardStep){
         $rootScope.$on('$stateChangeStart', function(event, toState, toParams, fromState, fromParams){
-            if(toState.data.step){
+            if(toState.data && toState.data.step){
                 wizardStep.set(toState.data.step);
                 $rootScope.$broadcast('stepChange');
             }
