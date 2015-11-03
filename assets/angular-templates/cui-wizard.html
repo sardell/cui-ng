@@ -3,7 +3,7 @@
       <div class="cui-container__body">
         <cui-wizard step="{{app.step}}" clickable-indicators minimum-padding="30">
           <indicator-container></indicator-container>
-          <step title="{{'cui-org-info' | translate}}">
+          <step title="{{'cui-org-info' | translate}}" state="wizard.organization">
             <form name="organization" novalidate>
               <!-- organization name -->
               <input type="text" ng-model="app.organization.name" name="name" class="cui-input cui-input--full" disabled></input>
@@ -40,12 +40,12 @@
               <!-- postal code -->
               <input type="text" ng-model="app.organization.postal" class="cui-input cui-input--half--right" placeholder="{{'cui-postal' | translate}}"></input>
               <div class="cui-wizard__controls">
-                <button class="cui-wizard__next" ng-class="{'cui-wizard__next--error' : invalidForm[1] && organization.$invalid}" ng-click="nextWithErrorChecking(organization)">{{'cui-next' | translate}}</button>
-                <button class="cui-wizard__skip" ng-class="{'cui-wizard__skip--show' : invalidForm[1] && organization.$invalid}" ng-click="next()">{{'cui-skip-for-now' | translate}} >></button>
+                <button class="cui-wizard__next" ng-class="{'cui-wizard__next--error' : invalidForm[1] && organization.$invalid}" ng-click="nextWithErrorChecking(organization,'wizard.signOn')">{{'cui-next' | translate}}</button>
+                <button class="cui-wizard__skip" ng-class="{'cui-wizard__skip--show' : invalidForm[1] && organization.$invalid}" ng-click="next('wizard.signOn')">{{'cui-skip-for-now' | translate}} >></button>
               </div>
             </form>
           </step>
-          <step title="{{'cui-sign-on-info' | translate}}">
+          <step title="{{'cui-sign-on-info' | translate}}" state="wizard.signOn">
             <form name="signOn" novalidate>
               <!-- user ID -->
               <input type="text" name="userID" ng-model="app.signOn.userID" class="cui-input cui-input--full" placeholder="{{'cui-user-id' | translate}}"></input>
@@ -73,13 +73,13 @@
               <!-- answer 2 -->
               <input type="text" ng-model="app.signOn.answer2" class="cui-input cui-input--half--right" placeholder="{{'cui-challenge-answer' | translate}} 2"></input>
                <div class="cui-wizard__controls">
-                <button class="cui-wizard__previous" ng-click="previous()"><< {{'cui-previous' | translate}}</button>
-                <button class="cui-wizard__next" ng-class="{'cui-wizard__next--error' : invalidForm[2] && signOn.$invalid}" ng-click="nextWithErrorChecking(signOn)">{{'cui-next' | translate}}</button>
-                <button class="cui-wizard__skip" ng-class="{'cui-wizard__skip--show' : invalidForm[2] && signOn.$invalid}" ng-click="next()">{{'cui-skip-for-now' | translate}} >></button>
+                <button class="cui-wizard__previous" ng-click="previous('wizard.organization')"><< {{'cui-previous' | translate}}</button>
+                <button class="cui-wizard__next" ng-class="{'cui-wizard__next--error' : invalidForm[2] && signOn.$invalid}" ng-click="nextWithErrorChecking(signOn,'wizard.user')">{{'cui-next' | translate}}</button>
+                <button class="cui-wizard__skip" ng-class="{'cui-wizard__skip--show' : invalidForm[2] && signOn.$invalid}" ng-click="next('wizard.user')">{{'cui-skip-for-now' | translate}} >></button>
               </div>
             </form>
           </step>
-          <step title="{{'cui-user-info' | translate}}">
+          <step title="{{'cui-user-info' | translate}}" state="wizard.user">
             <form name="user" novalidate>
               <!-- first name -->
               <input type="text" ng-model="app.user.fName" class="cui-input cui-input--half" placeholder="{{'cui-first-name' | translate}}" required></input>
@@ -118,8 +118,8 @@
                 <option ng-repeat="timezone in app.user.timezones" value="{{timezone}}">{{timezone}}</option>
               </select>
                <div class="cui-wizard__controls">
-                <button class="cui-wizard__previous" ng-click="previous()"><< {{'cui-previous' | translate}}</button>
-                <button class="cui-wizard__next" ng-click="next()">{{'cui-next' | translate}}</button>
+                <button class="cui-wizard__previous" ng-click="previous('wizard.signOn')"><< {{'cui-previous' | translate}}</button>
+                <button class="cui-wizard__next" ng-click="next('wizard.review')">{{'cui-next' | translate}}</button>
               </div>
             </form>
           </step>
@@ -129,7 +129,7 @@
               <button class="cui-wizard__next" ng-click="next()">{{'cui-next' | translate}}</button>
             </div>
           </step> -->
-          <step title="{{'cui-review' | translate}}">
+          <step title="{{'cui-review' | translate}}" state="wizard.review">
             <cui-expandable expanded="true">
               <cui-expandable-title ng-click="toggleExpand()">
                 {{'cui-org-info' | translate}}
@@ -189,7 +189,7 @@
               </cui-expandable-body>
             </cui-expandable> -->
             <div class="cui-wizard__controls">
-              <button class="cui-wizard__previous" ng-click="previous()"><< {{'cui-previous' | translate}}</button>
+              <button class="cui-wizard__previous" ng-click="previous('wizard.user')"><< {{'cui-previous' | translate}}</button>
               <button class="cui-wizard__next" ng-click="">{{'cui-submit' | translate}}</button>
             </div>
           </step>

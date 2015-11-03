@@ -41,7 +41,7 @@ angular.module('cui-ng')
 
 
 angular.module('cui-ng')
-.directive('cuiWizard',['$timeout','$compile','$window',function($timeout,$compile,$window){
+.directive('cuiWizard',['$timeout','$compile','$window','$rootScope',function($timeout,$compile,$window,$rootScope){
     return{
         restrict: 'E',
         scope: true,
@@ -56,22 +56,33 @@ angular.module('cui-ng')
                     scope.currentStep=Number(elem[0].attributes.step.value);
                     scope.clickableIndicators=attrs.clickableIndicators;
                     scope.minimumPadding=attrs.minimumPadding;
-                    scope.next=function(){
-                        scope.currentStep++;
-                        updateIndicators();
-                    };
-                    scope.previous=function(form){
-                        if(form && form.$invalid){
-                            scope.invalidForm[currentStep]=true;
+                    scope.next=function(state){
+                        if(state){
+                            scope.goToState(state);
                         }
-                        scope.currentStep--;
-                        updateIndicators();
+                        else{
+                            scope.currentStep++;
+                            updateIndicators();
+                        }
+                    };
+                    scope.previous=function(state){
+                        if(state){
+                            scope.goToState(state);
+                        }
+                        else{
+                            scope.currentStep--;
+                            updateIndicators(); 
+                        }
                     };
                     scope.goToStep=function(step){
                         scope.currentStep=step;
                         updateIndicators();
                     };
-                    scope.nextWithErrorChecking=function(form){
+                    scope.goToState=function(state){
+                        if(state==='default') return;
+                        $rootScope.$broadcast('stepChange',{state:state});
+                    };
+                    scope.nextWithErrorChecking=function(form,nextState){
                         if(form.$invalid){
                             angular.forEach(form.$error, function (field) {
                                 angular.forEach(field, function(errorField){
@@ -82,7 +93,10 @@ angular.module('cui-ng')
                         }
                         else{
                             scope.invalidForm[scope.currentStep]=false;
-                            scope.next();
+                            if(nextState){
+                                scope.goToState(nextState);
+                            }
+                            else{scope.next();}
                         }
                     };
                     if(isNaN(scope.currentStep)){
@@ -103,15 +117,20 @@ angular.module('cui-ng')
                 },
                 // creates indicators inside of <indicator-container>
                 createIndicators = function(){
-                    var stepTitles=[];
+                    var stepTitles=[],
+                        stepStates=[],
+                        defaultString='default';
                     for(var i=0;i < scope.numberOfSteps;i++){
                         stepTitles[i]=scope.$steps[i].attributes.title.value;
+                        if(scope.$steps[i].attributes.state){
+                            stepStates[i]='' + scope.$steps[i].attributes.state.value + '';
+                        }
                     }
                     stepTitles.forEach(function(e,i){
                         var div;
                         if(scope.clickableIndicators!==undefined){
                             div=angular.element('<span class="step-indicator" ng-click="goToStep(' + 
-                                (i+1) + ')">' + stepTitles[i] + '</span>');
+                                (i+1) + ');goToState(\'' + (stepStates[i] || defaultString) + '\')">' + stepTitles[i] + '</span>');
                             div[0].style.cursor='pointer';
                         }
                         else{
@@ -204,6 +223,7 @@ angular.module('cui-ng')
                         else{
                             scope.currentStep=newStep;
                         }
+                        updateIndicators();
                     })
                 };
             init();   

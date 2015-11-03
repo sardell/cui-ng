@@ -3,8 +3,12 @@
 
     angular
     .module('app',['translate','ngMessages','cui.authorization','cui-ng','ui.router','snap','LocalStorageModule'])
-    .run(['$rootScope', '$state', 'cui.authorization.routing','user', function($rootScope,$state,routing,user){
+    .run(['$rootScope', '$state', 'cui.authorization.routing','user','wizardStep', function($rootScope,$state,routing,user,wizardStep){
         $rootScope.$on('$stateChangeStart', function(event, toState, toParams, fromState, fromParams){
+            if(toState.data.step){
+                wizardStep.set(toState.data.step);
+                $rootScope.$broadcast('stepChange');
+            }
             event.preventDefault();
             routing($rootScope, $state, toState, toParams, fromState, fromParams, user.getUser());
         })
@@ -14,10 +18,38 @@
     .config(['$stateProvider','$urlRouterProvider','$locationProvider','$injector','localStorageServiceProvider',
     function($stateProvider,$urlRouterProvider,$locationProvider,$injector,localStorageServiceProvider){
         localStorageServiceProvider.setPrefix('cui');
+
         $stateProvider
             .state('wizard',{
-                url: '/wizard?step',
-                templateUrl: 'assets/angular-templates/cui-wizard.html'
+                url: '/wizard',
+                templateUrl: 'assets/angular-templates/cui-wizard.html',
+                data: {
+                    step: 1
+                }
+            })
+            .state('wizard.organization',{
+                url: '/organization',
+                data: {
+                    step: 1
+                }
+            })
+            .state('wizard.signOn',{
+                url: '/signOn',
+                data: {
+                    step: 2
+                }
+            })
+             .state('wizard.user',{
+                url: '/user',
+                data: {
+                    step: 3
+                }
+            })
+            .state('wizard.review',{
+                url: '/review',
+                data: {
+                    step: 4
+                }
             })
             .state('login', {
                 url: '/login',
@@ -52,6 +84,8 @@
                     loginRequired: true
                 }
             });
+
+        // $locationProvider.html5Mode(true);
         
         //fixes infinite digest loop with ui-router
         $urlRouterProvider.otherwise( function($injector) {
@@ -89,10 +123,35 @@
 
         }
     }])
-    .controller('appCtrl',['$rootScope','$state','$stateParams','user','$timeout','localStorageService','$scope','getSvgList','auth',
-    function($rootScope,$state,$stateParams,user,$timeout,localStorageService,$scope,getSvgList,auth){
+    .factory('wizardStep',[ function(){
+        var step;
+        return{
+            get: function(){
+                return step;
+            },
+            set: function(newStep){
+                step=newStep;
+            }
+        }
+    }])
+    .controller('appCtrl',['$rootScope','$state','$stateParams','user','$timeout','localStorageService','$scope','getSvgList','auth','wizardStep',
+    function($rootScope,$state,$stateParams,user,$timeout,localStorageService,$scope,getSvgList,auth,wizardStep){
         var app=this;
         app.appUser={};
+
+
+        // $scope.$watch(function() { return wizardStep.get()},function(step){    
+        //     app.step=step;
+        //     console.log(app.step);
+      
+        // })
+ 
+        $scope.$on('stepChange',function(e,data){
+            if(data && data.state){
+                app.goTo(data.state);
+            }
+            app.step=wizardStep.get();
+        })
 
         //SERVICES -----------------------
 
@@ -133,16 +192,11 @@
             app.userPopup=false;
         }
 
-        $scope.$on('$locationChangeSuccess',function(){
-            $timeout(function(){
-                app.step=$stateParams.step || 1;
-            })
-        });
-        //for the wizard
-        $timeout(function(){
-            app.step=$stateParams.step || 1;
-        });
-      
+
+
+
+
+        //for the wizard -------------------------------------------------------------------------------------
 
         //organization
           //get from local storage if available -----------
@@ -178,6 +232,8 @@
 
             //----- MOCK DATA
             app.user.timezones=['-08:00','-07:00','-06:00','-05:00','-04:00'];
+
+
 
 
         // GET THE SVG ICONS
