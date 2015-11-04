@@ -573,6 +573,15 @@ p {
 .cui-input--error, .cui-input--error:focus, .cui-input.ng-touched.ng-invalid, .cui-input.ng-touched.ng-invalid:focus {
   border: 1px solid #f40; }
 
+.cui-input__password--holder {
+  width: 100%;
+  float: none;
+  position: relative; }
+
+.cui-input__password--holder--half {
+  position: relative;
+  float: left; }
+
 .cui-input[type=password]:focus + .cui-error__password {
   display: inline-block; }
 
@@ -740,7 +749,6 @@ select.cui-select:focus {
 .cui-error, .cui-error--half, .cui-error--half {
   color: red;
   font-size: 14px;
-  margin-top: -15px;
   padding: 5px 12px 3px;
   position: relative; }
 
@@ -1233,8 +1241,7 @@ select.cui-select:focus {
     position: relative; }
     .cui-input__password--holder--half {
       position: relative;
-      float: left;
-      width: 48%; }
+      float: left; }
   .cui-input[type="password"]:focus + .cui-error__password {
     display: inline-block; }
   .cui-input.ng-touched.ng-valid {
