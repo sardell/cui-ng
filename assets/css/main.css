@@ -511,7 +511,7 @@ td, th {
   float: right;
   margin-top: 20px; }
 
-.cui-background, .cui-error__password {
+.cui-background {
   background-color: #fff;
   padding: 20px; }
 
@@ -610,13 +610,13 @@ select.cui-select:focus {
 .cui-primary-colors--light, .menu-toggle--button, .menu-toggle--button:before, .menu-toggle--button:after, .menu-toggle__button, .menu-toggle__button:after, .menu-toggle__button:before {
   background-color: #87ceec; }
 
-.cui-container__title, .cui-primary-colors--medium-light, .cui-container__title {
+.cui-container__title, .cui-primary-colors--medium-light {
   background-color: #429dd1; }
 
 .cui-primary-colors--medium, snap-drawer, .desktop-menu, .menu-toggle.active .menu-toggle--button, .menu-toggle.active .menu-toggle--button:before, .menu-toggle.active .menu-toggle--button:after, .menu-toggle.active .menu-toggle--button, .menu-toggle.active .menu-toggle--button:after, .menu-toggle.active .menu-toggle--button:before, .off-canvas {
   background-color: #4582b4; }
 
-.cui-primary-colors--medium-dark, .cui-wizard__next, .snap-menu--option, .desktop-menu--option, .off-canvas__list-item, .off-canvas__option {
+.cui-primary-colors--medium-dark, .snap-menu--option, .desktop-menu--option, .off-canvas__list-item, .off-canvas__option {
   background-color: #165e9b; }
 
 .cui-primary-colors--dark {
@@ -746,7 +746,7 @@ select.cui-select:focus {
 .cui-wizard__field-container {
   display: inline-block; }
 
-.cui-error, .cui-error--half, .cui-error--half {
+.cui-error, .cui-error--half {
   color: red;
   font-size: 14px;
   padding: 5px 12px 3px;
@@ -1187,28 +1187,6 @@ select.cui-select:focus {
     height: 45px;
     width: 200px; }
 
-.cui-container {
-  border-radius: 6px;
-  margin: 0 auto;
-  max-width: 1000px;
-  width: 80%; }
-  .cui-container__body {
-    background: white;
-    border-radius: 0 0 6px 6px;
-    margin: 0 auto;
-    max-width: 100%;
-    padding: 50px; }
-  .cui-container__title {
-    border-radius: 6px 6px 0 0;
-    color: white;
-    padding: 15px;
-    text-align: center; }
-  @media all and (max-width: 600px) {
-    .cui-container {
-      width: 90%; }
-      .cui-container__body {
-        padding: 20px; } }
-
 .cui-input {
   -webkit-appearance: none;
   -webkit-border-radius: 0px;
@@ -1270,46 +1248,6 @@ select.cui-select:focus {
 .cui-container select:focus, .cui-container input:focus {
   outline: 0; }
 
-cui-wizard {
-  display: block;
-  margin: 0 auto;
-  max-width: 800px;
-  width: 100%; }
-
-.cui-wizard__controls {
-  clear: both;
-  text-align: right; }
-
-.cui-wizard__next {
-  border: 0;
-  border-radius: 4px;
-  color: #fff;
-  font-size: 12px;
-  height: 37px;
-  width: 160px; }
-  .cui-wizard__next--error {
-    background-color: lightgray;
-    cursor: default; }
-
-.cui-wizard__previous {
-  border: 0;
-  color: #53abd0;
-  cursor: pointer;
-  font-size: 12px;
-  margin-right: 20px; }
-  .cui-wizard__previous.active {
-    display: inline-block; }
-
-.cui-wizard__skip {
-  border: 0;
-  color: #53abd0;
-  cursor: pointer;
-  font-size: 12px;
-  display: none;
-  margin-left: 20px; }
-  .cui-wizard__skip--show {
-    display: inline-block; }
-
 indicator-container {
   border-bottom: 1px solid #ddd;
   display: flex;
@@ -1370,42 +1308,6 @@ cui-expandable {
   float: right;
   margin-right: 20px;
   transition: all 200ms ease-in-out; }
-
-.cui-error, .cui-error--half {
-  color: red;
-  font-size: 14px;
-  margin-top: 0;
-  padding: 5px 0 5px;
-  position: relative; }
-  .cui-error.ng-inactive, .ng-inactive.cui-error--half {
-    display: none; }
-  .cui-error--half {
-    width: 48%; }
-    @media all and (max-width: 700px) {
-      .cui-error--half {
-        width: 100%; } }
-  .cui-error__password {
-    display: none;
-    border: 1px solid #ddd;
-    box-shadow: 0 0 3px 3px rgba(0, 0, 0, 0.09);
-    padding: 10px 20px 20px;
-    position: absolute;
-    left: 100%;
-    top: 0;
-    width: 300px;
-    border-radius: 7px;
-    z-index: 2;
-    transform: translate(10px, -30%);
-    color: #888; }
-    .cui-error__password::before {
-      color: white;
-      content: '▼';
-      font-size: 16px;
-      left: 0;
-      position: absolute;
-      text-shadow: 2px 2px rgba(0, 0, 0, 0.09);
-      top: 30%;
-      transform: rotate(90deg) translate(7px, 15px); }
 
 .cui-chevron, .cui-chevron--left, .cui-chevron--right, .cui-chevron--top, .cui-chevron--bottom {
   margin-right: 15px;
