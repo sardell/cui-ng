@@ -10,13 +10,13 @@
               <input type="text" ng-model="app.organization.name" name="org-name" class="cui-input cui-input--full" disabled></input>
               <!-- company/division -->
               <label for="company-division">{{"cui-company-division" | translate}}</label>
+              <div class="cui-error" ng-messages="organization.division.$error" ng-if="organization.division.$touched">
+                <div ng-messages-include="assets/angular-templates/messages.html"></div>
+              </div>
               <select ng-model="app.organization.division" name="division" class="cui-input cui-input--full" ng-required="true" ng-class="{'cui-input--error': organization.division.$touched && organization.division.$invalid}">
                 <option value="" disabled selected></option>
                 <option ng-repeat="division in app.organization.divisions" value="{{division}}">{{division}}</option>
               </select>
-              <div class="cui-error" ng-messages="organization.division.$error" ng-if="organization.division.$touched">
-                <div ng-messages-include="assets/angular-templates/messages.html"></div>
-              </div>
               <div>
                 <div class="cui-wizard__field-container cui-input--half">
                   <!-- address -->
