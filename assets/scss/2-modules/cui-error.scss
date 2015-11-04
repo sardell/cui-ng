@@ -1,9 +1,13 @@
 .cui-error {
   color: red;
   font-size: 14px;
-  margin-top: -15px;
+  margin-top: 0;
   padding: $input-error-padding;
   position: relative;
+
+  &.ng-inactive {
+    display: none;
+  }
 
   &--half {
     @extend .cui-error;
