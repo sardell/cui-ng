@@ -2,6 +2,6 @@
 
 npm install
 bower install
-bower update --force
+bower update
 grunt build
 mvn clean package deploy -U
