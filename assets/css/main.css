@@ -409,12 +409,10 @@ A constituent part of a block that can't be used outside of it.
 Styleguide 1.
 */
 .cui-background, .cui-error__password {
-  background-color: #fff;
-  padding: 20px; }
+  background-color: #fff; }
 
 .cui-background--secondary, snap-content {
-  background-color: #DEE9EE;
-  padding: 20px; }
+  background-color: #DEE9EE; }
 
 /* 
 Texts
@@ -573,7 +571,7 @@ Styleguide 1.4.1
 .cui-primary-colors--light, .menu-toggle__button, .menu-toggle__button:before, .menu-toggle__button:after, .menu-toggle--button, .menu-toggle--button:before, .menu-toggle--button:after {
   background-color: #87CEEC; }
 
-.cui-primary-colors--medium-light, .cui-container__title {
+.cui-primary-colors--medium-light, .cui-tile__title {
   background-color: #429DD1; }
 
 .cui-primary-colors--medium, .off-canvas, .menu-toggle.active .menu-toggle--button, .menu-toggle.active .menu-toggle--button:before, .menu-toggle.active .menu-toggle--button:after, snap-drawer, .desktop-menu {
@@ -1026,35 +1024,35 @@ Styleguide 2.3
 Container
 
 Markup: 
-<div class="cui-container">
-    <div class="cui-container__title">Container Title</div>
-    <div class="cui-container__body">
+<div class="cui-tile">
+    <div class="cui-tile__title">Container Title</div>
+    <div class="cui-tile__body">
         <p>Container Body</p>
     </div>
 </div>
 
 Styleguide 2.4
 */
-.cui-container {
+.cui-tile {
   border-radius: 6px;
   margin: 0 auto;
   max-width: 1000px;
   width: 80%; }
-  .cui-container__body {
+  .cui-tile__body {
     background: white;
     border-radius: 0 0 6px 6px;
     margin: 0 auto;
     max-width: 100%;
     padding: 50px; }
-  .cui-container__title {
+  .cui-tile__title {
     border-radius: 6px 6px 0 0;
     color: white;
     padding: 15px;
     text-align: center; }
   @media all and (max-width: 600px) {
-    .cui-container {
+    .cui-tile {
       width: 90%; }
-      .cui-container__body {
+      .cui-tile__body {
         padding: 20px; } }
 
 .off-canvas__list {
