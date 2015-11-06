@@ -83,7 +83,7 @@ snap-drawer,
   width: 265px;
   @media screen and (max-width:$snap-menu-breaking-point-1){
   	position:absolute;
-  	display:inline-block;
+  	display:inline;
   }
 }
 .snap-content {

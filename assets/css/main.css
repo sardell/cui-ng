@@ -377,11 +377,6 @@ th {
   padding-bottom: 50px;
   padding-top: 50px; }
 
-.wrapper {
-  background: #DEE9EE;
-  min-height: 100vh;
-  position: relative; }
-
 .content {
   margin-left: 300px;
   transition: all 100ms ease-in-out; }
@@ -482,7 +477,7 @@ Styleguide 1.3.1
   -webkit-border-radius: 0;
   border: 1px solid #DEE9EE;
   box-sizing: border-box;
-  font-size: 14px;
+  font-size: 0.875em;
   height: 56px;
   margin: 5px 0 20px;
   padding: 8px 12px;
@@ -626,7 +621,7 @@ Styleguide 1.6
   border: 0;
   border-radius: 4px;
   color: #fff;
-  font-size: 12px;
+  font-size: 0.75em;
   height: 37px;
   width: 160px; }
   .cui-button--error, .cui-wizard__next--error {
@@ -648,7 +643,7 @@ Markup:
   <div class="cui-wizard__title ">A description of this form</div>
   <div class="cui-wizard__body">
     <cui-wizard class="cui-wizard__contents" step="1" clickable-indicators="" minimum-padding="30">
-      <indicator-container class="cui-wizard__indicator-container"><span class="step-indicator active" style="cursor: pointer;">Step One</span><span class="step-indicator style="cursor: pointer;">Step 2</span></indicator-container>
+      <indicator-container class="indicator-container"><span class="step-indicator active" style="cursor: pointer;">Step One</span><span class="step-indicator style="cursor: pointer;">Step 2</span></indicator-container>
       <step title="Organization info" class="active">
         <form name="organization" novalidate="" class="">
           <label for="field-1">Input Field Disabled</label>
@@ -1220,7 +1215,7 @@ snap-drawer,
     .x-snap-drawer,
     .snap-drawer {
       position: absolute;
-      display: inline-block; } }
+      display: inline; } }
 
 .snap-content {
   z-index: 2;

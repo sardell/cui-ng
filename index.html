@@ -10,7 +10,7 @@
   <!-- <base href="/" /> -->
 </head>
 <body ng-controller="appCtrl as app" ng-cloak>
-  <div class="wrapper">
+  <div class="cui-wrapper">
     <snap-drawer>
       <span class="snap-menu--option" ng-click="app.goTo('wizard')" snap-close>Wizard</span>
       <span class="snap-menu--option" ng-click="app.goTo('icons')" cui-access='{ "requiredEntitlements":["admin","user"],"entitlementType":"atLeastOne"}' user="{{app.appUser}}" snap-close>Icons</span>
