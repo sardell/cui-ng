@@ -229,53 +229,53 @@
             </div>
           </step> -->
           <step title="{{'cui-review' | translate}}" state="wizard.review">
-            <cui-expandable expanded="true">
-              <cui-expandable-title ng-click="toggleExpand()">
+            <cui-expandable class="cui-expandable" expanded="true">
+              <cui-expandable-title class="cui-expandable__title" ng-click="toggleExpand()">
                 {{'cui-org-info' | translate}}
                 <span class="chevron">></span>
               </cui-expandable-title>
-              <cui-expandable-body>
-                <p>{{'cui-org' | translate}}: {{app.organization.name}}</p>
-                <p>{{'cui-company-division' | translate}}: {{app.organization.division}}</p>
-                <p>{{'cui-address' | translate}} 1: {{app.organization.address1}}</p>
-                <p ng-if="app.organization.address2">{{'cui-address' | translate}} 2: {{app.organization.address2}}</p>
-                <p>{{'cui-country' | translate}}: {{app.organization.country}}</p>
-                <p>{{'cui-state' | translate}}: {{app.organization.state}}</p>
-                <p>{{'cui-city' | translate}}: {{app.organization.city}}</p>
-                <p>{{'cui-postal' | translate}}: {{app.organization.postal}}</p>
+              <cui-expandable-body class="cui-expandable__body">
+                <p class="cui-expandable__review-item">{{'cui-org' | translate}}: {{app.organization.name}}</p>
+                <p class="cui-expandable__review-item">{{'cui-company-division' | translate}}: {{app.organization.division}}</p>
+                <p class="cui-expandable__review-item">{{'cui-address' | translate}} 1: {{app.organization.address1}}</p>
+                <p class="cui-expandable__review-item" ng-if="app.organization.address2">{{'cui-address' | translate}} 2: {{app.organization.address2}}</p>
+                <p class="cui-expandable__review-item">{{'cui-country' | translate}}: {{app.organization.country}}</p>
+                <p class="cui-expandable__review-item">{{'cui-state' | translate}}: {{app.organization.state}}</p>
+                <p class="cui-expandable__review-item">{{'cui-city' | translate}}: {{app.organization.city}}</p>
+                <p class="cui-expandable__review-item">{{'cui-postal' | translate}}: {{app.organization.postal}}</p>
               </cui-expandable-body>
             </cui-expandable>
-            <cui-expandable>
-              <cui-expandable-title ng-click="toggleExpand()">
+            <cui-expandable class="cui-expandable">
+              <cui-expandable-title class="cui-expandable__title" ng-click="toggleExpand()">
                 {{'cui-sign-on-info' | translate}}
                 <span class="chevron">></span>
               </cui-expandable-title>
-              <cui-expandable-body>
-                <p>{{'cui-user-id' | translate}}: {{app.signOn.userID}}</p>
-                <p>{{'cui-password' | translate}}: <input type="password" class="cui-input--display" disabled ng-model="app.signOn.password1"/></p>
-                <p>{{'cui-challenge-question' | translate}} 1: {{app.signOn.questions[app.signOn.question1] | translate}}</p>
-                <p>{{'cui-challenge-answer' | translate}} 1: {{app.signOn.answer1}}</p>
-                <p>{{'cui-challenge-question' | translate}} 2: {{app.signOn.questions[app.signOn.question2] | translate}}</p>
-                <p>{{'cui-challenge-answer' | translate}} 2: {{app.signOn.answer2}}</p>
+              <cui-expandable-body class="cui-expandable__body">
+                <p class="cui-expandable__review-item">{{'cui-user-id' | translate}}: {{app.signOn.userID}}</p>
+                <p class="cui-expandable__review-item">{{'cui-password' | translate}}: <input type="password" class="cui-input--display" disabled ng-model="app.signOn.password1"/></p>
+                <p class="cui-expandable__review-item">{{'cui-challenge-question' | translate}} 1: {{app.signOn.questions[app.signOn.question1] | translate}}</p>
+                <p class="cui-expandable__review-item">{{'cui-challenge-answer' | translate}} 1: {{app.signOn.answer1}}</p>
+                <p class="cui-expandable__review-item">{{'cui-challenge-question' | translate}} 2: {{app.signOn.questions[app.signOn.question2] | translate}}</p>
+                <p class="cui-expandable__review-item">{{'cui-challenge-answer' | translate}} 2: {{app.signOn.answer2}}</p>
               </cui-expandable-body>
             </cui-expandable>
-            <cui-expandable>
-              <cui-expandable-title ng-click="toggleExpand()">
+            <cui-expandable class="cui-expandable">
+              <cui-expandable-title class="cui-expandable__title" ng-click="toggleExpand()">
                 {{'cui-user-info' | translate}}
                 <span class="chevron">></span>
               </cui-expandable-title>
-              <cui-expandable-body>
-                <p>{{'cui-first-name' | translate}}: {{app.user.fName}}</p>
-                <p>{{'cui-last-name' | translate}}: {{app.user.lName}}</p>
-                <p>{{'cui-email' | translate}}: {{app.user.email}}</p>
-                <p>{{'cui-address' | translate}} 1: {{app.user.address1}}</p>
-                <p>{{'cui-address' | translate}} 2: {{app.user.address2}}</p>
-                <p>{{'cui-country' | translate}}: {{app.user.country}}</p>
-                <p>{{'cui-state' | translate}}: {{app.user.state}}</p>
-                <p>{{'cui-city' | translate}}: {{app.user.city}}</p>
-                <p>{{'cui-postal' | translate}}: {{app.user.postal}}</p>
-                <p>{{'cui-telephone' | translate}}: {{app.user.phone}}</p>
-                <p>{{'cui-timezone' | translate}}: {{app.user.timezone}}</p>
+              <cui-expandable-body class="cui-expandable__body">
+                <p class="cui-expandable__review-item">{{'cui-first-name' | translate}}: {{app.user.fName}}</p>
+                <p class="cui-expandable__review-item">{{'cui-last-name' | translate}}: {{app.user.lName}}</p>
+                <p class="cui-expandable__review-item">{{'cui-email' | translate}}: {{app.user.email}}</p>
+                <p class="cui-expandable__review-item">{{'cui-address' | translate}} 1: {{app.user.address1}}</p>
+                <p class="cui-expandable__review-item">{{'cui-address' | translate}} 2: {{app.user.address2}}</p>
+                <p class="cui-expandable__review-item">{{'cui-country' | translate}}: {{app.user.country}}</p>
+                <p class="cui-expandable__review-item">{{'cui-state' | translate}}: {{app.user.state}}</p>
+                <p class="cui-expandable__review-item">{{'cui-city' | translate}}: {{app.user.city}}</p>
+                <p class="cui-expandable__review-item">{{'cui-postal' | translate}}: {{app.user.postal}}</p>
+                <p class="cui-expandable__review-item">{{'cui-telephone' | translate}}: {{app.user.phone}}</p>
+                <p class="cui-expandable__review-item">{{'cui-timezone' | translate}}: {{app.user.timezone}}</p>
               </cui-expandable-body>
             </cui-expandable>
             <!-- <cui-expandable >

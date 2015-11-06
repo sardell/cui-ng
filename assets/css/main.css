@@ -662,7 +662,7 @@ Markup:
               <label for="field-3">Input Field</label>
               <input type="text" name="field-3" class="cui-input cui-input--full" required="required">
             </div>
-            <div class="cui-wizard__field-container cui-input--half cui-input--half--right">
+            <div class="cui-wizard__field-container cui-input--half cui-input--half-right">
               <label for="field-4">Input Field</label>
               <input type="text" name="field-4" class="cui-input cui-input--full">
             </div>
@@ -674,7 +674,7 @@ Markup:
                 <option value="" disabled="" selected="" class=""></option>
               </select>
             </div>
-            <div class="cui-wizard__field-container cui-input--half cui-input--half--right">
+            <div class="cui-wizard__field-container cui-input--half cui-input--half-right">
               <label for="field-6">Select Field</label>
               <select name="field-6" class="cui-input cui-select cui-input--full">
                 <option value="" disabled="" selected="" class=""></option>
@@ -688,7 +688,7 @@ Markup:
                 <option value="" disabled="" selected="" class=""></option>
               </select>
             </div>
-            <div class="cui-wizard__field-container cui-input--half cui-input--half--right">
+            <div class="cui-wizard__field-container cui-input--half cui-input--half-right">
               <label for="field-8">Input Field</label>
               <input type="text" name="field-8" class="cui-input cui-input--full">
             </div>
@@ -829,7 +829,7 @@ Styleguide 2.1
     cursor: pointer;
     display: block;
     padding: 10px 0 0; }
-  .cui-expandable__paragraph {
+  .cui-expandable__review-item {
     color: #666;
     font-size: 14px;
     line-height: .75; }
@@ -1286,38 +1286,6 @@ step {
   display: none; }
   step.active {
     display: block; }
-
-cui-expandable {
-  border-bottom: 1px solid #ddd;
-  display: block;
-  padding-bottom: 10px;
-  width: 100%; }
-  cui-expandable-title {
-    color: #333;
-    cursor: pointer;
-    display: block;
-    padding: 10px 0 0; }
-  cui-expandable p {
-    color: #666;
-    font-size: 14px;
-    line-height: .75; }
-  cui-expandable:last-of-type {
-    margin-bottom: 20px; }
-  cui-expandable-body {
-    display: block;
-    max-height: 0;
-    overflow: hidden;
-    transition: all 200ms ease-in-out; }
-  cui-expandable[expanded="true"] > cui-expandable-body {
-    max-height: 500px; }
-  cui-expandable[expanded="true"] > cui-expandable-title > .chevron {
-    transform: rotate(90deg); }
-
-.chevron {
-  color: #53abd0;
-  float: right;
-  margin-right: 20px;
-  transition: all 200ms ease-in-out; }
 
 .cui-chevron, .cui-chevron--left, .cui-chevron--right, .cui-chevron--top, .cui-chevron--bottom {
   margin-right: 15px;
