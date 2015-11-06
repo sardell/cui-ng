@@ -477,7 +477,7 @@ Markup: <input type="text" class="cui-input {{modifier_class}} cui-input--full"/
 
 Styleguide 1.3.1
 */
-.cui-input {
+.cui-input, select.cui-select {
   -webkit-appearance: none;
   -webkit-border-radius: 0;
   border: 1px solid #DEE9EE;
@@ -487,7 +487,7 @@ Styleguide 1.3.1
   margin: 5px 0 20px;
   padding: 8px 12px;
   position: relative; }
-  .cui-input.pseudo-class-focus, .cui-input:focus {
+  .cui-input.pseudo-class-focus, select.pseudo-class-focus.cui-select, .cui-input:focus, select.cui-select:focus {
     border: 1px solid #828483;
     outline: 0; }
   .cui-input--display {
@@ -500,10 +500,10 @@ Styleguide 1.3.1
     width: 100%; }
   .cui-input--half {
     width: 48%; }
-  .cui-input--half--right {
+  .cui-input--half-right {
     float: right;
     width: 48%; }
-  .cui-input--error, .cui-input--error:focus, .cui-input.ng-touched.ng-invalid, .cui-input.ng-touched.ng-invalid:focus {
+  .cui-input--error, .cui-input--error:focus, .cui-input.ng-touched.ng-invalid, select.ng-touched.ng-invalid.cui-select, .cui-input.ng-touched.ng-invalid:focus, select.ng-touched.ng-invalid.cui-select:focus {
     border: 1px solid #FF4400; }
   .cui-input__password--holder {
     width: 100%;
@@ -512,9 +512,9 @@ Styleguide 1.3.1
     .cui-input__password--holder--half {
       position: relative;
       float: left; }
-  .cui-input[type="password"]:focus + .cui-error__password {
+  .cui-input[type="password"]:focus + .cui-error__password, select[type="password"].cui-select:focus + .cui-error__password {
     display: inline-block; }
-  .cui-input.ng-touched.ng-valid, .cui-input--valid {
+  .cui-input.ng-touched.ng-valid, select.ng-touched.ng-valid.cui-select, .cui-input--valid {
     border: 1px solid #47CBB4; }
   @media all and (max-width: 700px) {
     .cui-input--half {
@@ -547,13 +547,11 @@ Markup: <select class="cui-input cui-input--full cui-select">
 Styleguide 1.3.2
 */
 select.cui-select {
+  appearance: none;
   background: url("img/select-arrows.svg") right 10px center no-repeat;
   background-size: 17px 31px;
-  -webkit-background-size: 17px 31px;
-  border: 1px solid #DEE9EE;
-  padding-right: 10px;
-  -webkit-appearance: none;
-  -webkit-border-radius: 0; }
+  border-radius: 0;
+  padding-right: 10px; }
   select.cui-select:focus {
     outline: 0; }
 
@@ -1199,7 +1197,7 @@ Styleguide 2.4
     height: 45px;
     width: 200px; }
 
-.cui-input {
+.cui-input, select.cui-select {
   -webkit-appearance: none;
   -webkit-border-radius: 0px;
   border: 1px solid #ddd;
@@ -1208,7 +1206,7 @@ Styleguide 2.4
   margin-bottom: 20px;
   padding: 8px 12px;
   position: relative; }
-  .cui-input:focus {
+  .cui-input:focus, select.cui-select:focus {
     border: 1px solid #828483; }
   .cui-input--display {
     border: 0;
@@ -1232,9 +1230,9 @@ Styleguide 2.4
     .cui-input__password--holder--half {
       position: relative;
       float: left; }
-  .cui-input[type="password"]:focus + .cui-error__password {
+  .cui-input[type="password"]:focus + .cui-error__password, select[type="password"].cui-select:focus + .cui-error__password {
     display: inline-block; }
-  .cui-input.ng-touched.ng-valid {
+  .cui-input.ng-touched.ng-valid, select.ng-touched.ng-valid.cui-select {
     border: 1px solid #47CBB4; }
   @media all and (max-width: 700px) {
     .cui-input--half {
