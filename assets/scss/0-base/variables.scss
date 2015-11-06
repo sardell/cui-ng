@@ -1,28 +1,15 @@
 //general
-$snap-menu-breaking-point: 1000px;
-$snap-menu-breaking-point-1: 999px;
-$desktop-menu-width: 300px;
 
+<<<<<<< HEAD
+// colors
+
+=======
+>>>>>>> master
 // header
-
-$header-padding: 0 30px;
-$header-top-padding: 0 0;
-$header-bottom-padding: 0 0;
 
 // container
 
-$container-radius: 6px;
-$container-padding: 50px;
-$container-padding-small: 20px;
-$container-title-background: #53abd0;
-$container-title-padding: 15px;
-$container-body-max-width: 100%;
-
 // inputs
-
-$input-padding:8px 12px;
-$input-error-padding: 5px 0 5px;
-
 
 //helper classes
 .clearfix {
@@ -30,13 +17,13 @@ $input-error-padding: 5px 0 5px;
 }
 
 .container {
-  background: #dfe9ee;
+  background: $secondary-background;
   padding-bottom: 50px;
   padding-top: 50px;
 }
 
 .wrapper{
-	background: #dfe9ee;
+	background: $secondary-background;
 	min-height: 100vh;
 	position:relative;
 }
