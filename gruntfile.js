@@ -134,6 +134,6 @@ module.exports = function(grunt) {
   grunt.loadNpmTasks('grunt-contrib-concat');
 
   grunt.registerTask('default', ['browserSync:dev','watch']);
-  grunt.registerTask('build', ['clean:build','copy:index','copy:angularTemplates','copy:languageFiles','copy:localeFiles','copy:svgList','copy:svgs','copy:cuiI18n','concat','useminPrepare','concat:generated','cssmin:generated','uglify:generated','filerev','usemin']);
+  grunt.registerTask('build', ['sass','clean:build','copy:index','copy:angularTemplates','copy:languageFiles','copy:localeFiles','copy:svgList','copy:svgs','copy:cuiI18n','concat','useminPrepare','concat:generated','cssmin:generated','uglify:generated','filerev','usemin']);
   grunt.registerTask('demo', ['browserSync:demo'])
 }
