@@ -1,11 +1,12 @@
 {
   "name": "cui-ng",
-  "version": "0.0.0",
+  "description": "NG module for CUI products.",
+  "version": "1.0.0",
   "authors": [
     "RicardoAlmeidaMarques <ricardoalmmarques@gmail.com>"
   ],
   "description": "",
-  "main": "",
+  "main": "dist/",
   "moduleType": [],
   "license": "MIT",
   "homepage": "",
@@ -14,21 +15,34 @@
     "node_modules",
     "bower_components",
     "test",
-    "tests"
+    "tests",
+    ".gitignore",
+    ".jshintrc",
+    "assembly.xml",
+    "gruntfile.js",
+    "gulp.config.json",
+    "gulpfile.js",
+    "index.html",
+    "package.json",
+    "pom.xml",
+    "styles.min.css",
+    "assets/",
+    "directives/",
+    "modules/",
+    "scripts/",
+    "utilities/"
   ],
-  "dependencies": {
-    "angular": "~1.4.7",
-    "cui-i18n": "*",
-    "jquery": "~2.1.4",
+  "devDependencies": {
     "lodash": "~3.10.1",
     "angular-messages": "~1.4.7",
     "angular-ui-router": "~0.2.15",
     "cui": "cui-ajax#*",
-    "angular-snap": "~1.8.4",
     "cui-icons": "*",
-    "cui-styleguide": "*"
-  },
-  "devDependencies": {
-    "angular-local-storage": "~0.2.3"
+    "angular-local-storage": "~0.2.3",
+    "cui-styleguide": "*",
+    "angular-snap": "~1.8.4",
+    "angular": "~1.4.7",
+    "cui-i18n": "*",
+    "jquery": "~2.1.4"
   }
 }
