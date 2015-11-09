@@ -369,6 +369,12 @@ th {
   float: right;
   margin-top: 20px; }
 
+.cui-wrapper {
+  background: #DEE9EE;
+  min-height: 100vh;
+  position: relative;
+  overflow-x: hidden; }
+
 .clearfix {
   overflow: auto; }
 
