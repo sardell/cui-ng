@@ -11,7 +11,7 @@
 
               <!-- email input test -->
               <label for="invite-emails">Emails to invite</label>
-              <tags-input ng-model="app.organization.emails" allowed-tags-pattern="{{ app.emailRegex }}">
+              <tags-input name="emails" ng-model="app.organization.emails" min-tags="1" add-on-space="true" allowed-tags-pattern="{{ app.emailRegex }}">
               </tags-input>
               <!-- company/division -->
               <label for="company-division">{{"cui-company-division" | translate}}</label>

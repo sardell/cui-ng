@@ -1334,6 +1334,8 @@ snap-drawer,
 tags-input {
   display: block;
   font-size: 0.875em; }
+  tags-input.ng-touched.ng-invalid .tags {
+    border: 1px solid #FF4400; }
   tags-input.ng-touched.ng-valid .tags {
     border: 1px solid #47CBB4; }
 
@@ -1406,9 +1408,6 @@ tags-input .tags .input.invalid-tag {
 
 tags-input .tags .input::-ms-clear {
   display: none; }
-
-tags-input.ng-invalid .tags {
-  border: 1px solid #FF4400; }
 
 tags-input[disabled] .host:focus {
   outline: none; }

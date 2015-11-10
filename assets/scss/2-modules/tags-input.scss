@@ -2,9 +2,16 @@ tags-input {
   display: block;
   font-size: em(14);
 
-  &.ng-touched.ng-valid{
-    & .tags{
+  &.ng-touched {
+    &.ng-invalid {
+      & .tags {
+        border:1px solid $cui-input-border--invalid;
+      }
+    }
+    &.ng-valid {
+      & .tags {
         border:1px solid $cui-input-border--valid;
+      }
     }
   }
 }
@@ -80,9 +87,6 @@ tags-input .tags .input.invalid-tag {
 }
 tags-input .tags .input::-ms-clear {
   display: none;
-}
-tags-input.ng-invalid .tags {
-  border: 1px solid $cui-input-border--invalid;
 }
 tags-input[disabled] .host:focus {
   outline: none;
