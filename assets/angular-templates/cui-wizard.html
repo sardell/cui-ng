@@ -8,6 +8,11 @@
               <!-- organization name -->
               <label for="org-name">{{'cui-org-info' | translate}}</label>
               <input type="text" ng-model="app.organization.name" name="org-name" class="cui-input " disabled></input>
+
+              <!-- email input test -->
+              <label for="invite-emails">Emails to invite</label>
+              <tags-input ng-model="app.tags" allowed-tags-pattern="^[a-zA-Z0-9.!#$%&'*+\/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*$">
+              </tags-input>
               <!-- company/division -->
               <label for="company-division">{{"cui-company-division" | translate}}</label>
               <div class="cui-error" ng-messages="organization.division.$error" ng-if="organization.division.$touched">

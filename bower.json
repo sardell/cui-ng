@@ -1,11 +1,10 @@
 {
   "name": "cui-ng",
-  "description": "NG module for CUI products.",
+  "description": "",
   "version": "1.0.0",
   "authors": [
     "RicardoAlmeidaMarques <ricardoalmmarques@gmail.com>"
   ],
-  "description": "",
   "main": "dist/",
   "moduleType": [],
   "license": "MIT",
