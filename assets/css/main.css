@@ -578,10 +578,10 @@ Styleguide 1.4.1
 /*
 Secondary Colors
 
-Markup: <div class="cui-styleguide__colors cui-secondary-colors cui-secondary-colors--light">.cui-primary-colors--light</div>
-        <div class="cui-styleguide__colors cui-secondary-colors cui-secondary-colors--medium-light">.cui-primary-colors--medium-light</div>
-        <div class="cui-styleguide__colors cui-secondary-colors cui-secondary-colors--medium">.cui-primary-colors--medium</div>
-        <div class="cui-styleguide__colors cui-secondary-colors cui-secondary-colors--dark">.cui-primary-colors--dark</div>
+Markup: <div class="cui-styleguide__colors cui-secondary-colors cui-secondary-colors--light">.cui-secondary-colors--light</div>
+        <div class="cui-styleguide__colors cui-secondary-colors cui-secondary-colors--medium-light">.cui-secondary-colors--medium-light</div>
+        <div class="cui-styleguide__colors cui-secondary-colors cui-secondary-colors--medium">.cui-secondary-colors--medium</div>
+        <div class="cui-styleguide__colors cui-secondary-colors cui-secondary-colors--dark">.cui-secondary-colors--dark</div>
 
 Styleguide 1.4.2
 */
@@ -976,7 +976,7 @@ Styleguide 2.3
     .cui-avatar--popup::before {
       color: white;
       content: '▼';
-      font-size: 16px;
+      font-size: 1em;
       position: absolute;
       text-shadow: 2px 2px rgba(0, 0, 0, 0.09);
       top: 0;
@@ -985,7 +985,7 @@ Styleguide 2.3
     .cui-avatar--popup__greet {
       display: block;
       color: #AAA;
-      font-size: 15px;
+      font-size: 0.9375em;
       padding: 3px 10px;
       cursor: default; }
       .cui-avatar--popup__greet .small {
@@ -993,7 +993,7 @@ Styleguide 2.3
     .cui-avatar--popup__option {
       color: #AAA;
       display: block;
-      font-size: 14px;
+      font-size: 0.875em;
       padding: 3px 10px; }
       .cui-avatar--popup__option:hover {
         color: #888; }
@@ -1330,3 +1330,147 @@ snap-drawer,
 
 .svg {
   fill: #429DD1; }
+
+tags-input {
+  display: block;
+  font-size: 0.875em; }
+  tags-input.ng-touched.ng-valid .tags {
+    border: 1px solid #47CBB4; }
+
+tags-input *, tags-input *:before, tags-input *:after {
+  -moz-box-sizing: border-box;
+  -webkit-box-sizing: border-box;
+  box-sizing: border-box; }
+
+tags-input .host {
+  position: relative;
+  margin-top: 5px;
+  margin-bottom: 20px; }
+
+tags-input .host:active {
+  outline: none; }
+
+tags-input .tags {
+  padding: 8px 12px;
+  min-height: 56px;
+  overflow: hidden;
+  word-wrap: break-word;
+  cursor: text;
+  background-color: #fff;
+  border: 1px solid #DEE9EE; }
+
+tags-input .tags.focused {
+  border: 1px solid #828483;
+  outline: 0; }
+
+tags-input .tags .tag-list {
+  margin: 0;
+  padding: 4px 20px 0 0;
+  margin-right: 10px;
+  list-style-type: none; }
+
+tags-input .tags .tag-item {
+  background: #429DD1;
+  border-radius: 3px;
+  color: #fff;
+  display: inline-block;
+  float: left;
+  padding: 5px;
+  margin: 0 10px 5px 0; }
+
+tags-input .tags .tag-item.selected {
+  background: #FF4400; }
+
+tags-input .tags .tag-item .remove-button {
+  margin: 0 0 0 5px;
+  padding: 0;
+  border: none;
+  background: none;
+  cursor: pointer;
+  vertical-align: middle;
+  font: bold 16px Arial, sans-serif;
+  color: #fff; }
+
+tags-input .tags .tag-item .remove-button:active {
+  color: #FFD700; }
+
+tags-input .tags .input {
+  border: 0;
+  outline: none;
+  padding: 5px 0 0 0;
+  width: 3px;
+  float: left; }
+
+tags-input .tags .input.invalid-tag {
+  color: #FF4400; }
+
+tags-input .tags .input::-ms-clear {
+  display: none; }
+
+tags-input.ng-invalid .tags {
+  border: 1px solid #FF4400; }
+
+tags-input[disabled] .host:focus {
+  outline: none; }
+
+tags-input[disabled] .tags {
+  background-color: #eee;
+  cursor: default; }
+
+tags-input[disabled] .tags .tag-item {
+  opacity: 0.65;
+  background: -webkit-linear-gradient(top, #f0f9ff 0%, rgba(203, 235, 255, 0.75) 47%, rgba(161, 219, 255, 0.62) 100%);
+  background: linear-gradient(to bottom, #f0f9ff 0%, rgba(203, 235, 255, 0.75) 47%, rgba(161, 219, 255, 0.62) 100%); }
+
+tags-input[disabled] .tags .tag-item .remove-button {
+  cursor: default; }
+
+tags-input[disabled] .tags .tag-item .remove-button:active {
+  color: #585858; }
+
+tags-input[disabled] .tags .input {
+  background-color: #eee;
+  cursor: default; }
+
+tags-input .autocomplete {
+  margin-top: 5px;
+  position: absolute;
+  padding: 5px 0;
+  z-index: 999;
+  width: 100%;
+  background-color: #fff;
+  border: 1px solid rgba(0, 0, 0, 0.2);
+  -webkit-box-shadow: 0 5px 10px rgba(0, 0, 0, 0.2);
+  -moz-box-shadow: 0 5px 10px rgba(0, 0, 0, 0.2);
+  box-shadow: 0 5px 10px rgba(0, 0, 0, 0.2); }
+
+tags-input .autocomplete .suggestion-list {
+  margin: 0;
+  padding: 0;
+  list-style-type: none;
+  max-height: 280px;
+  overflow-y: auto;
+  position: relative; }
+
+tags-input .autocomplete .suggestion-item {
+  padding: 5px 10px;
+  cursor: pointer;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  color: #000;
+  background-color: #fff; }
+
+tags-input .autocomplete .suggestion-item.selected {
+  color: #fff;
+  background-color: #0097cf; }
+
+tags-input .autocomplete .suggestion-item.selected em {
+  color: #fff;
+  background-color: #0097cf; }
+
+tags-input .autocomplete .suggestion-item em {
+  color: #000;
+  background-color: #fff; }
+
+/*# sourceMappingURL=ng-tags-input.css.map */

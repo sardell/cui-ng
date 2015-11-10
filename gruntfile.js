@@ -111,29 +111,21 @@ module.exports = function(grunt) {
       svgs: {
         src: ['bower_components/cui-icons/dist/**/*.svg'],
         dest: 'build/'
-      },
-      cuiI18n: {
-        src: 'bower_components/cui-i18n/translate.js',
-        dest: 'build/'
       }
-
     },
     clean: {
       build: {
         src: ["build"]
       }
+    },
+    uglify: {
+      options: {
+        mangle: false
+      }
     }
-
-
   });
 
- 
-  grunt.loadNpmTasks('grunt-contrib-watch');
-  grunt.loadNpmTasks('grunt-browser-sync');
-  grunt.loadNpmTasks('grunt-sass');
-  grunt.loadNpmTasks('grunt-contrib-concat');
-
-  grunt.registerTask('default', ['sass','browserSync:dev','watch']);
-  grunt.registerTask('build', ['sass','clean:build','copy:index','copy:angularTemplates','copy:languageFiles','copy:localeFiles','copy:svgList','copy:svgs','copy:cuiI18n','concat','useminPrepare','concat:generated','cssmin:generated','uglify:generated','filerev','usemin']);
+  grunt.registerTask('default', ['sass','concat','browserSync:dev','watch']);
+  grunt.registerTask('build', ['sass','clean:build','copy:index','copy:angularTemplates','copy:languageFiles','copy:localeFiles','copy:svgList','copy:svgs','concat','useminPrepare','concat:generated','cssmin:generated','uglify:generated','filerev','usemin']);
   grunt.registerTask('demo', ['browserSync:demo'])
 }

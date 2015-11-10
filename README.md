@@ -12,6 +12,7 @@ Cui-ng is an angular module with a series of custom directives and utilities for
 * [Cui-Expandable](https://github.com/thirdwavellc/cui-ng/tree/master/directives/cui-expandable)
 * [Off-Click](https://github.com/thirdwavellc/cui-ng/tree/master/directives/off-click)
 * [Password-validation](https://github.com/thirdwavellc/cui-ng/tree/master/directives/password-validation)
+* [Tags-input](https://github.com/thirdwavellc/cui-ng/tree/master/directives/tags-input)
 
 ## Utilities
 
