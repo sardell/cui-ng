@@ -11,7 +11,7 @@
 
               <!-- email input test -->
               <label for="invite-emails">Emails to invite</label>
-              <tags-input ng-model="app.tags" allowed-tags-pattern="^[a-zA-Z0-9.!#$%&'*+\/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*$">
+              <tags-input ng-model="app.organization.emails" allowed-tags-pattern="{{ app.emailRegex }}">
               </tags-input>
               <!-- company/division -->
               <label for="company-division">{{"cui-company-division" | translate}}</label>

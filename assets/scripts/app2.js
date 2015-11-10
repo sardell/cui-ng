@@ -206,6 +206,9 @@
             localStorageService.set('app.organization',$scope.app.organization)
         }, true);
 
+        app.emailRegex="^[a-zA-Z0-9.!#$%&'*+\/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}" +
+            "[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*$";
+
             //---- MOCK DATA
             app.organization.name='Thirdwave LLC';
             app.organization.divisions=['Web design','UI development','Wordpress development','Ruby development'];
