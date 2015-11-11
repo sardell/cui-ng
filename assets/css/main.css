@@ -529,6 +529,162 @@ Styleguide 1.3.1
           transform: translate(-50%, -90%) rotate(180deg); } }
 
 /*
+Email tags field
+
+Markup:
+<div name="emails" class="cui-tags-input">
+  <div class="host" tabindex="-1">
+    <div class="tags">
+      <ul class="tag-list">
+        <li class="tag-item"><span>example@gmail.com</span> 
+          <a class="remove-button">×</a>
+        </li>
+      </ul>
+      <input class="input" autocomplete="off" type="text" placeholder="" spellcheck="true"><span class="input" style="visibility: hidden; width: auto; white-space: pre; display: none;">example@gmail.com</span>
+    </div> 
+  </div>
+</div>
+
+Styleguide 1.3.2
+*/
+.cui-tags-input {
+  display: block;
+  font-size: 0.875em; }
+  .cui-tags-input.ng-touched.ng-invalid .tags {
+    border: 1px solid #FF4400; }
+  .cui-tags-input.ng-touched.ng-valid .tags {
+    border: 1px solid #47CBB4; }
+
+.cui-tags-input *, .cui-tags-input *:before, .cui-tags-input *:after {
+  -moz-box-sizing: border-box;
+  -webkit-box-sizing: border-box;
+  box-sizing: border-box; }
+
+.cui-tags-input .host {
+  position: relative;
+  margin-top: 5px;
+  margin-bottom: 20px; }
+
+.cui-tags-input .host:active {
+  outline: 0; }
+
+.cui-tags-input .tags {
+  padding: 8px 12px;
+  min-height: 56px;
+  overflow: hidden;
+  word-wrap: break-word;
+  cursor: text;
+  background-color: #fff;
+  border: 1px solid #DEE9EE; }
+
+.cui-tags-input .tags.focused {
+  border: 1px solid #828483;
+  outline: 0; }
+
+.cui-tags-input .tags .tag-list {
+  padding: 4px 20px 0 0;
+  margin: 0 10px 0 0;
+  list-style-type: none; }
+
+.cui-tags-input .tags .tag-item {
+  background: #429DD1;
+  border-radius: 3px;
+  color: #fff;
+  display: inline-block;
+  float: left;
+  padding: 5px;
+  margin: 0 10px 5px 0; }
+
+.cui-tags-input .tags .tag-item.selected {
+  background: #FF4400; }
+
+.cui-tags-input .tags .tag-item .remove-button {
+  margin: 0 0 0 5px;
+  padding: 0;
+  border: none;
+  background: none;
+  cursor: pointer;
+  vertical-align: middle;
+  font: bold 16px Arial, sans-serif;
+  color: #fff; }
+
+.cui-tags-input .tags .tag-item .remove-button:active {
+  color: #FFD700; }
+
+.cui-tags-input .tags .input {
+  border: 0;
+  outline: 0;
+  padding: 5px 0 0 0;
+  width: 3px;
+  float: left; }
+
+.cui-tags-input .tags .input.invalid-tag {
+  color: #FF4400; }
+
+.cui-tags-input .tags .input::-ms-clear {
+  display: none; }
+
+.cui-tags-input[disabled] .host:focus {
+  outline: 0; }
+
+.cui-tags-input[disabled] .tags {
+  background-color: #eee;
+  cursor: default; }
+
+.cui-tags-input[disabled] .tags .tag-item {
+  opacity: 0.65;
+  background: linear-gradient(to bottom, #f0f9ff 0%, rgba(203, 235, 255, 0.75) 47%, rgba(161, 219, 255, 0.62) 100%); }
+
+.cui-tags-input[disabled] .tags .tag-item .remove-button {
+  cursor: default; }
+
+.cui-tags-input[disabled] .tags .tag-item .remove-button:active {
+  color: #585858; }
+
+.cui-tags-input[disabled] .tags .input {
+  background-color: #eee;
+  cursor: default; }
+
+.cui-tags-input .autocomplete {
+  background-color: #fff;
+  border: 1px solid rgba(0, 0, 0, 0.2);
+  box-shadow: 0 5px 10px rgba(0, 0, 0, 0.2);
+  margin-top: 5px;
+  position: absolute;
+  padding: 5px 0;
+  z-index: 999;
+  width: 100%; }
+
+.cui-tags-input .autocomplete .suggestion-list {
+  margin: 0;
+  padding: 0;
+  list-style-type: none;
+  max-height: 280px;
+  overflow-y: auto;
+  position: relative; }
+
+.cui-tags-input .autocomplete .suggestion-item {
+  padding: 5px 10px;
+  cursor: pointer;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  color: #000;
+  background-color: #fff; }
+
+.cui-tags-input .autocomplete .suggestion-item.selected {
+  color: #fff;
+  background-color: #0097cf; }
+
+.cui-tags-input .autocomplete .suggestion-item.selected em {
+  color: #fff;
+  background-color: #0097cf; }
+
+.cui-tags-input .autocomplete .suggestion-item em {
+  color: #000;
+  background-color: #fff; }
+
+/*
 Dropdown
 
 Markup: <select class="cui-input cui-input--full cui-select">
@@ -538,7 +694,7 @@ Markup: <select class="cui-input cui-input--full cui-select">
             <option value="HELLO"></option>
           </select>
 
-Styleguide 1.3.2
+Styleguide 1.3.3
 */
 select.cui-select {
   appearance: none;
@@ -548,6 +704,45 @@ select.cui-select {
   padding-right: 10px; }
   select.cui-select:focus {
     outline: 0; }
+
+/*
+Radio
+
+Markup:
+<fieldset class="cui-radio__fieldset">
+  <legend class="cui-radio__legend">Accessible description for radio button choice</legend>
+  <div class="cui-radio__container">
+    <input class="cui-radio" type="radio" name="radio-choice" id="radio-choice-1" value="choice-1" />
+    <label class="cui-radio__label" for="radio-choice-1">Choice 1</label>
+  </div>
+  <div class="cui-radio__container">
+    <input class="cui-radio" type="radio" name="radio-choice" id="radio-choice-2" value="choice-2" />
+    <label class="cui-radio__label" for="radio-choice-2">Choice 2</label>
+  </div>
+</fieldset>
+
+Styleguide 1.3.4
+*/
+.cui-radio {
+  position: absolute;
+  left: -999em; }
+  .cui-radio__legend {
+    left: -999em;
+    position: absolute; }
+  .cui-radio__fieldset {
+    border: 0;
+    display: flex; }
+  .cui-radio__container {
+    height: 1.875em; }
+  .cui-radio__label:before {
+    border-radius: 50%;
+    box-shadow: 0 0 0 2px #fff, 0 0 0 3px #A2A19F;
+    content: "\00a0";
+    display: inline-block;
+    height: 1.125rem;
+    margin: -0.125em 0.5em 0 0;
+    vertical-align: top;
+    width: 1.125rem; }
 
 /*
 Primary Colors
@@ -563,7 +758,7 @@ Styleguide 1.4.1
 .cui-primary-colors--light, .menu-toggle__button, .menu-toggle__button:before, .menu-toggle__button:after, .menu-toggle--button, .menu-toggle--button:before, .menu-toggle--button:after {
   background-color: #87CEEC; }
 
-.cui-primary-colors--medium-light, .cui-tile__title {
+.cui-primary-colors--medium-light, .cui-radio:checked + .cui-radio__label::before, .cui-tile__title {
   background-color: #429DD1; }
 
 .cui-primary-colors--medium, .off-canvas, .menu-toggle.active .menu-toggle--button, .menu-toggle.active .menu-toggle--button:before, .menu-toggle.active .menu-toggle--button:after, snap-drawer, .desktop-menu {
@@ -578,10 +773,10 @@ Styleguide 1.4.1
 /*
 Secondary Colors
 
-Markup: <div class="cui-styleguide__colors cui-secondary-colors cui-secondary-colors--light">.cui-secondary-colors--light</div>
-        <div class="cui-styleguide__colors cui-secondary-colors cui-secondary-colors--medium-light">.cui-secondary-colors--medium-light</div>
-        <div class="cui-styleguide__colors cui-secondary-colors cui-secondary-colors--medium">.cui-secondary-colors--medium</div>
-        <div class="cui-styleguide__colors cui-secondary-colors cui-secondary-colors--dark">.cui-secondary-colors--dark</div>
+Markup: <div class="cui-styleguide__colors cui-secondary-colors cui-secondary-colors--light">.cui-primary-colors--light</div>
+        <div class="cui-styleguide__colors cui-secondary-colors cui-secondary-colors--medium-light">.cui-primary-colors--medium-light</div>
+        <div class="cui-styleguide__colors cui-secondary-colors cui-secondary-colors--medium">.cui-primary-colors--medium</div>
+        <div class="cui-styleguide__colors cui-secondary-colors cui-secondary-colors--dark">.cui-primary-colors--dark</div>
 
 Styleguide 1.4.2
 */
@@ -976,7 +1171,7 @@ Styleguide 2.3
     .cui-avatar--popup::before {
       color: white;
       content: '▼';
-      font-size: 1em;
+      font-size: 16px;
       position: absolute;
       text-shadow: 2px 2px rgba(0, 0, 0, 0.09);
       top: 0;
@@ -985,7 +1180,7 @@ Styleguide 2.3
     .cui-avatar--popup__greet {
       display: block;
       color: #AAA;
-      font-size: 0.9375em;
+      font-size: 15px;
       padding: 3px 10px;
       cursor: default; }
       .cui-avatar--popup__greet .small {
@@ -993,7 +1188,7 @@ Styleguide 2.3
     .cui-avatar--popup__option {
       color: #AAA;
       display: block;
-      font-size: 0.875em;
+      font-size: 14px;
       padding: 3px 10px; }
       .cui-avatar--popup__option:hover {
         color: #888; }
@@ -1330,146 +1525,3 @@ snap-drawer,
 
 .svg {
   fill: #429DD1; }
-
-tags-input {
-  display: block;
-  font-size: 0.875em; }
-  tags-input.ng-touched.ng-invalid .tags {
-    border: 1px solid #FF4400; }
-  tags-input.ng-touched.ng-valid .tags {
-    border: 1px solid #47CBB4; }
-
-tags-input *, tags-input *:before, tags-input *:after {
-  -moz-box-sizing: border-box;
-  -webkit-box-sizing: border-box;
-  box-sizing: border-box; }
-
-tags-input .host {
-  position: relative;
-  margin-top: 5px;
-  margin-bottom: 20px; }
-
-tags-input .host:active {
-  outline: none; }
-
-tags-input .tags {
-  padding: 8px 12px;
-  min-height: 56px;
-  overflow: hidden;
-  word-wrap: break-word;
-  cursor: text;
-  background-color: #fff;
-  border: 1px solid #DEE9EE; }
-
-tags-input .tags.focused {
-  border: 1px solid #828483;
-  outline: 0; }
-
-tags-input .tags .tag-list {
-  margin: 0;
-  padding: 4px 20px 0 0;
-  margin-right: 10px;
-  list-style-type: none; }
-
-tags-input .tags .tag-item {
-  background: #429DD1;
-  border-radius: 3px;
-  color: #fff;
-  display: inline-block;
-  float: left;
-  padding: 5px;
-  margin: 0 10px 5px 0; }
-
-tags-input .tags .tag-item.selected {
-  background: #FF4400; }
-
-tags-input .tags .tag-item .remove-button {
-  margin: 0 0 0 5px;
-  padding: 0;
-  border: none;
-  background: none;
-  cursor: pointer;
-  vertical-align: middle;
-  font: bold 16px Arial, sans-serif;
-  color: #fff; }
-
-tags-input .tags .tag-item .remove-button:active {
-  color: #FFD700; }
-
-tags-input .tags .input {
-  border: 0;
-  outline: none;
-  padding: 5px 0 0 0;
-  width: 3px;
-  float: left; }
-
-tags-input .tags .input.invalid-tag {
-  color: #FF4400; }
-
-tags-input .tags .input::-ms-clear {
-  display: none; }
-
-tags-input[disabled] .host:focus {
-  outline: none; }
-
-tags-input[disabled] .tags {
-  background-color: #eee;
-  cursor: default; }
-
-tags-input[disabled] .tags .tag-item {
-  opacity: 0.65;
-  background: -webkit-linear-gradient(top, #f0f9ff 0%, rgba(203, 235, 255, 0.75) 47%, rgba(161, 219, 255, 0.62) 100%);
-  background: linear-gradient(to bottom, #f0f9ff 0%, rgba(203, 235, 255, 0.75) 47%, rgba(161, 219, 255, 0.62) 100%); }
-
-tags-input[disabled] .tags .tag-item .remove-button {
-  cursor: default; }
-
-tags-input[disabled] .tags .tag-item .remove-button:active {
-  color: #585858; }
-
-tags-input[disabled] .tags .input {
-  background-color: #eee;
-  cursor: default; }
-
-tags-input .autocomplete {
-  margin-top: 5px;
-  position: absolute;
-  padding: 5px 0;
-  z-index: 999;
-  width: 100%;
-  background-color: #fff;
-  border: 1px solid rgba(0, 0, 0, 0.2);
-  -webkit-box-shadow: 0 5px 10px rgba(0, 0, 0, 0.2);
-  -moz-box-shadow: 0 5px 10px rgba(0, 0, 0, 0.2);
-  box-shadow: 0 5px 10px rgba(0, 0, 0, 0.2); }
-
-tags-input .autocomplete .suggestion-list {
-  margin: 0;
-  padding: 0;
-  list-style-type: none;
-  max-height: 280px;
-  overflow-y: auto;
-  position: relative; }
-
-tags-input .autocomplete .suggestion-item {
-  padding: 5px 10px;
-  cursor: pointer;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  color: #000;
-  background-color: #fff; }
-
-tags-input .autocomplete .suggestion-item.selected {
-  color: #fff;
-  background-color: #0097cf; }
-
-tags-input .autocomplete .suggestion-item.selected em {
-  color: #fff;
-  background-color: #0097cf; }
-
-tags-input .autocomplete .suggestion-item em {
-  color: #000;
-  background-color: #fff; }
-
-/*# sourceMappingURL=ng-tags-input.css.map */
