@@ -3,7 +3,7 @@
   overflow: auto;
 }
 
-.container {
+.cui-main-content {
   background: $secondary-background;
   padding-bottom: 50px;
   padding-top: 50px;
@@ -33,5 +33,19 @@
 
 .hide{
 	display:none !important;
+}
+
+//helper classes
+
+.language-select {
+  float: right;
+  margin-top: 20px;
+}
+
+.cui-wrapper {
+  background: $secondary-background;
+  min-height: 100vh;
+  position:relative;
+  overflow-x: hidden;
 }
 
