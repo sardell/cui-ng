@@ -25,7 +25,7 @@
               <div class="cui-wizard__field-row">
                 <div class="cui-wizard__field-container cui-wizard__field-container--half">
                   <!-- address -->
-                  <label for="address1">{{'cui-address' | translate}} 1</label>
+                  <label for="address1">{{'cui-org-address' | translate}} 1</label>
                   <div class="cui-error" ng-messages="organization.address1.$error" ng-if="organization.address1.$touched">
                     <div ng-messages-include="assets/angular-templates/messages.html"></div>
                   </div>
@@ -33,7 +33,7 @@
                 </div>
                 <div class="cui-wizard__field-container cui-wizard__field-container--half">
                   <!-- address2 -->
-                  <label for="address2">{{'cui-address' | translate}} 2</label>
+                  <label for="address2">{{'cui-org-address' | translate}} 2</label>
                   <input type="text" ng-model="app.organization.address2" class="cui-input " ></input>
                 </div>
               </div>
@@ -164,12 +164,12 @@
               <div class="cui-wizard__field-row">
                 <div class="cui-wizard__field-container cui-wizard__field-container--half">
                   <!-- Address 1 -->
-                  <label for="address1">{{'cui-address' | translate}} 1</label>
+                  <label for="address1">{{'cui-user-address' | translate}} 1</label>
                   <input type="text" ng-model="app.user.address1" class="cui-input " placeholder="" required></input>
                 </div>
                 <div class="cui-wizard__field-container cui-wizard__field-container--half">
                   <!-- Address 2 -->
-                  <label for="address2">{{'cui-address' | translate}} 2</label>
+                  <label for="address2">{{'cui-user-address' | translate}} 2</label>
                   <input type="text" ng-model="app.user.address2" class="cui-input  " placeholder=""></input>
                 </div>
               </div>
@@ -242,8 +242,8 @@
               <cui-expandable-body class="cui-expandable__body">
                 <p class="cui-expandable__review-item">{{'cui-org' | translate}}: {{app.organization.name}}</p>
                 <p class="cui-expandable__review-item">{{'cui-company-division' | translate}}: {{app.organization.division}}</p>
-                <p class="cui-expandable__review-item">{{'cui-address' | translate}} 1: {{app.organization.address1}}</p>
-                <p class="cui-expandable__review-item" ng-if="app.organization.address2">{{'cui-address' | translate}} 2: {{app.organization.address2}}</p>
+                <p class="cui-expandable__review-item">{{'cui-org-address' | translate}} 1: {{app.organization.address1}}</p>
+                <p class="cui-expandable__review-item" ng-if="app.organization.address2">{{'cui-org-address' | translate}} 2: {{app.organization.address2}}</p>
                 <p class="cui-expandable__review-item">{{'cui-country' | translate}}: {{app.organization.country}}</p>
                 <p class="cui-expandable__review-item">{{'cui-state' | translate}}: {{app.organization.state}}</p>
                 <p class="cui-expandable__review-item">{{'cui-city' | translate}}: {{app.organization.city}}</p>
@@ -273,8 +273,8 @@
                 <p class="cui-expandable__review-item">{{'cui-first-name' | translate}}: {{app.user.fName}}</p>
                 <p class="cui-expandable__review-item">{{'cui-last-name' | translate}}: {{app.user.lName}}</p>
                 <p class="cui-expandable__review-item">{{'cui-email' | translate}}: {{app.user.email}}</p>
-                <p class="cui-expandable__review-item">{{'cui-address' | translate}} 1: {{app.user.address1}}</p>
-                <p class="cui-expandable__review-item">{{'cui-address' | translate}} 2: {{app.user.address2}}</p>
+                <p class="cui-expandable__review-item">{{'cui-user-address' | translate}} 1: {{app.user.address1}}</p>
+                <p class="cui-expandable__review-item">{{'cui-user-address' | translate}} 2: {{app.user.address2}}</p>
                 <p class="cui-expandable__review-item">{{'cui-country' | translate}}: {{app.user.country}}</p>
                 <p class="cui-expandable__review-item">{{'cui-state' | translate}}: {{app.user.state}}</p>
                 <p class="cui-expandable__review-item">{{'cui-city' | translate}}: {{app.user.city}}</p>
