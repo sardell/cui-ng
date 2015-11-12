@@ -378,7 +378,7 @@ th {
 .clearfix {
   overflow: auto; }
 
-.container {
+.cui-main-content {
   background: #DEE9EE;
   padding-bottom: 50px;
   padding-top: 50px; }
@@ -401,6 +401,16 @@ th {
 
 .hide {
   display: none !important; }
+
+.language-select {
+  float: right;
+  margin-top: 20px; }
+
+.cui-wrapper {
+  background: #DEE9EE;
+  min-height: 100vh;
+  position: relative;
+  overflow-x: hidden; }
 
 /*
 Elements
