@@ -3,7 +3,7 @@
 
     angular
     .module('app',['translate','ngMessages','cui.authorization','cui-ng','ui.router','snap','LocalStorageModule'])
-    .run(['$rootScope', '$state', 'cui.authorization.routing','user','wizardStep', function($rootScope,$state,routing,user,wizardStep){
+    .run(['LocaleService','$rootScope', '$state', 'cui.authorization.routing','user','wizardStep', function(LocaleService,$rootScope,$state,routing,user,wizardStep){
         $rootScope.$on('$stateChangeStart', function(event, toState, toParams, fromState, fromParams){
             if(toState.data && toState.data.step){
                 wizardStep.set(toState.data.step);
@@ -14,9 +14,14 @@
         })
         $rootScope.cui=cui.api();
         $rootScope.cui.setService('PRD');
+        
+        LocaleService.setLocales('en_US','English (United States)');
+        LocaleService.setLocales('pl_PL','Polish (Poland)');
+        LocaleService.setLocales('zh_CN', 'Chinese (Simplified)');
+        LocaleService.setLocales('pt_PT','Portuguese (Portugal)');
     }])
-    .config(['$stateProvider','$urlRouterProvider','$locationProvider','$injector','localStorageServiceProvider',
-    function($stateProvider,$urlRouterProvider,$locationProvider,$injector,localStorageServiceProvider){
+    .config(['$translateProvider','$stateProvider','$urlRouterProvider','$locationProvider','$injector','localStorageServiceProvider',
+    function($translateProvider,$stateProvider,$urlRouterProvider,$locationProvider,$injector,localStorageServiceProvider){
         localStorageServiceProvider.setPrefix('cui');
 
         $stateProvider
@@ -91,6 +96,11 @@
         $urlRouterProvider.otherwise( function($injector) {
           var $state = $injector.get("$state");
           $state.go('wizard');
+        });
+        
+        $translateProvider.useLoader('LocaleLoader',{
+            url:'bower_components/cui-i18n/dist/cui-i18n/angular-translate/',
+            prefix:'locale-'
         });
     }])
     .factory('user',['$rootScope',function($rootScope){
