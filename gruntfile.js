@@ -126,6 +126,6 @@ module.exports = function(grunt) {
   });
 
   grunt.registerTask('default', ['sass','concat','browserSync:dev','watch']);
-  grunt.registerTask('build', ['sass','clean:build','copy:index','copy:angularTemplates','copy:languageFiles','copy:localeFiles','copy:svgList','copy:svgs','concat','useminPrepare','concat:generated','cssmin:generated','uglify:generated','filerev','usemin']);
+  grunt.registerTask('build', ['sass','clean','copy','concat','useminPrepare','concat:generated','cssmin:generated','uglify:generated','filerev','usemin']);
   grunt.registerTask('demo', ['browserSync:demo'])
 }
