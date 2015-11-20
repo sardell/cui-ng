@@ -1,6 +1,80 @@
 <div class="cui-tile">
- 	<div class="cui-tile__title">Profile Area</div>
+ 	<div class="cui-tile__title">{{'my-profile-options' | translate}}"</div>
     <div class="cui-tile__body">
-    	<p>This is the profile area. Only users and admins are allowed here.</p>
-    </div>
+    	<cui-wizard class="cui-wizard" step="{{app.step}}" clickable-indicators minimum-padding="30">
+    	 <indicator-container class="indicator-container"></indicator-container>
+    		<step title="{{'edit-profile' | translate}}" state="wizard.editProfile">
+				<form name="user" novalidate>
+					<div class="cui-wizard__field-row">     
+						<!-- First Name -->      
+                		<div class="cui-wizard__field-container cui-wizard__field-container--half">
+                  			<input type="text" ng-model="app.person.name.given" name="firstName" class="cui-input" ng-required="true" placeholder="First Name"></input>
+                		</div>
+                		<!-- Last Name -->
+                		<div class="cui-wizard__field-container cui-wizard__field-container--half">
+                  			<input type="text" ng-model="app.person.name.surname" name="lastName" class="cui-input" ng-required="true" placeholder="Last Name"></input>
+                		</div>
+              		</div>
+					<!-- Company Division -->
+					<div class="cui-error" ng-messages="organization.division.$error" ng-if="organization.division.$touched">
+						<div ng-messages-include="assets/angular-templates/messages.html"></div>
+					</div>
+					<select ng-model="app.organization.division" name="division" class="cui-select " ng-required="true" ng-class="{'cui-input--error': organization.division.$touched && organization.division.$invalid}">
+                		<option value="" disabled selected></option>
+                		<option ng-repeat="division in app.organization.divisions" value="{{division}}">{{division}}</option>
+              		</select>
+              		<div class="cui-wizard__field-row">
+              			<!-- Address 1 -->
+              			<div class="cui-wizard__field-container cui-wizard__field-container--half">
+              				<input type="text" ng-model="app.person.address.street" class="cui-input" name="address1" ng-required="true" placeholder="Address 1"></input>
+              			</div>
+              			<!-- Address 2 -->
+              			<div class="cui-wizard__field-container cui-wizard__field-container--half">
+              				<input type="text" ng-model="app.person.address.street" class="cui-input" name="address2" ng-required="true" placeholder="Address 2"></input>
+              			</div>
+              		</div>
+              		<div class="cui-wizard__field-row">
+              			<!-- City/Region -->
+              			<div class="cui-wizard__field-container cui-wizard__field-container--half">
+              				<input type="text" ng-model="app.person.address.city" class="cui-input" name="city" ng-required="true"  placeholder="City/Region"></input>
+              			</div>
+						<!-- State/Province -->
+						<div class="cui-wizard__field-container cui-wizard__field-container--half">
+              				<input type="text" ng-model="app.person.address.state" class="cui-input" name="state" ng-required="true" placeholder="State/Province"></input>
+              			</div>
+              		</div>
+					<div class="cui-wizard__field-row">
+              			<!-- Postal Code -->
+              			<div class="cui-wizard__field-container cui-wizard__field-container--half">
+              				<input type="text" ng-model="app.person.address.postal" class="cui-input" name="postal" ng-required="true"  placeholder="City/Region"></input>
+              			</div>
+						<!-- Country -->
+						<div class="cui-wizard__field-container cui-wizard__field-container--half">
+              				<input type="text" ng-model="app.person.address.country" class="cui-input" name="country" ng-required="true" placeholder="Country"></input>
+              			</div>
+              		</div>
+              		<div class="cui-wizard__field-row">
+              			<!-- Department -->
+              			<div class="cui-wizard__field-container cui-wizard__field-container--half">
+              				<input type="text" ng-model="app.person.department" class="cui-input" name="department" ng-required="true"  placeholder="Department"></input>
+              			</div>
+						<!-- Language Preference -->
+						<div class="cui-wizard__field-container cui-wizard__field-container--half">
+              				<input type="text" ng-model="app.person.address.country" class="cui-input" name="languagepreference" ng-required="true" placeholder="Language Preference"></input>
+              			</div>
+              		</div>
+				</form>
+			</step>
+			<step title="{{'cui-user-id' | translate}}" state="wizard.contactInfo">
+			</step>
+			<step title="{{'cui-user-contact-info' | translate}}" state="wizard.userStatus">
+			</step>
+			<step title="{{'cui-edit-service-package' | translate}}" state="wizard.editServicePackage">
+			</step>
+			<div class="cui-wizard__controls">
+				<button class="cui-wizard__next" ng-click="">{{'cui-submit' | translate}}</button>
+			</div>
+		</cui-wizard>
+	</div>
 </div>
+			
