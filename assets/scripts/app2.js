@@ -88,6 +88,15 @@
                 access: {
                     loginRequired: true
                 }
+            })
+            .state('profile',{
+                url: '/profile',
+                templateUrl: 'assets/angular-templates/profile.html',
+                access : {
+                    loginRequired: true,
+                    requiredEntitlements: ['admin','user'],
+                    entitlementType: 'atLeastOne'
+                }
             });
 
         // $locationProvider.html5Mode(true);
