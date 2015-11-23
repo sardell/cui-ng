@@ -43,8 +43,5 @@
     "angular": "~1.4.7",
     "cui-i18n": "*",
     "jquery": "~2.1.4"
-  },
-  "dependencies": {
-    "cui-ng-datafactory": "~1.0.2"
   }
 }
