@@ -5,75 +5,75 @@
     	 <indicator-container class="indicator-container"></indicator-container>
     		<step title="{{'edit-profile' | translate}}" state="wizard.editProfile">
 				<form name="user" novalidate>
-					<div class="cui-wizard__field-row">     
-						<!-- First Name -->     
-                		<div class="cui-wizard__field-container cui-wizard__field-container--half">
-                      <label for="user-name-given">{{'cui-first-name' | translate}}</label> 
-                  		<input type="text" name="firstName" class="cui-input" ng-required="true" ng-model="profile.user.name.given"></input>
-                		</div>
-                		<!-- Last Name -->
-                		<div class="cui-wizard__field-container cui-wizard__field-container--half">
-                      <label for="user-name-surname">{{'cui-last-name' | translate}}</label>
-                  		<input type="text" ng-model="profile.user.name.surname" name="lastName" class="cui-input" ng-required="true" ng-model="profile.user.name.surname"></input>
-                		</div>
-              		</div>
+				  <div class="cui-wizard__field-row">     
+					 <!-- First Name -->     
+            <div class="cui-wizard__field-container cui-wizard__field-container--half">
+              <label for="user-name-given">{{'cui-first-name' | translate}}</label> 
+              <input type="text" name="firstName" class="cui-input" ng-required="true" ng-model="profile.user.name.given"></input>
+            </div>
+            <!-- Last Name -->
+            <div class="cui-wizard__field-container cui-wizard__field-container--half">
+              <label for="user-name-surname">{{'cui-last-name' | translate}}</label>
+              <input type="text" ng-model="profile.user.name.surname" name="lastName" class="cui-input" ng-required="true" ng-model="profile.user.name.surname"></input>
+            </div>
+          </div>
 					<!-- Company Division -->
 					<div class="cui-error" ng-messages="organization.division.$error" ng-if="organization.division.$touched">
 						<div ng-messages-include="assets/angular-templates/messages.html"></div>
 					</div>
           <label for="company-division">{{"cui-company-division" | translate}}</label>
-					<select ng-model="app.organization.division" name="division" class="cui-select " ng-required="true" ng-class="{'cui-input--error': organization.division.$touched && organization.division.$invalid}">
-                		<option value="" disabled selected></option>
-                		<option ng-repeat="division in app.organization.divisions" value="{{division}}">{{division}}</option>
-              		</select>
-              		<div class="cui-wizard__field-row">
-              			<!-- Address 1 -->
-              			<div class="cui-wizard__field-container cui-wizard__field-container--half">
-                      <label for="address1">{{"cui-user-address" | translate}} 1</label>
-              				<input type="text" ng-model="profile.user.addresses[0].streets[0]" class="cui-input" name="address1" ng-required="true"></input>
-              			</div>
-              			<!-- Address 2 -->
-              			<div class="cui-wizard__field-container cui-wizard__field-container--half">
-                      <label for="address2">{{"cui-user-address" | translate}} 2</label>
-              				<input type="text" ng-model="profile.user.addresses[1].streets[1]" class="cui-input" name="address2" ng-required="true"></input>
-              			</div>
-              		</div>
-              		<div class="cui-wizard__field-row">
-              			<!-- City/Region -->
-              			<div class="cui-wizard__field-container cui-wizard__field-container--half">
-                      <label for="city-region">{{"cui-city" | translate}}</label>
-              				<input type="text" ng-model="profile.user.addresses[0].city" class="cui-input" name="city" ng-required="true"></input>
-              			</div>
+					  <select ng-model="app.organization.division" name="division" class="cui-select " ng-required="true" ng-class="{'cui-input--error': organization.division.$touched && organization.division.$invalid}">
+              <option value="" disabled selected></option>
+              <option ng-repeat="division in app.organization.divisions" value="{{division}}">{{division}}</option>
+            </select>
+            <div class="cui-wizard__field-row">
+              <!-- Address 1 -->
+              <div class="cui-wizard__field-container cui-wizard__field-container--half">
+                <label for="address1">{{"cui-user-address" | translate}} 1</label>
+              	 <input type="text" ng-model="profile.user.addresses[0].streets[0]" class="cui-input" name="address1" ng-required="true"></input>
+              </div>
+              <!-- Address 2 -->
+              <div class="cui-wizard__field-container cui-wizard__field-container--half">
+                <label for="address2">{{"cui-user-address" | translate}} 2</label>
+              	<input type="text" ng-model="profile.user.addresses[1].streets[1]" class="cui-input" name="address2" ng-required="true"></input>
+              </div>
+            </div>
+            <div class="cui-wizard__field-row">
+              <!-- City/Region -->
+              <div class="cui-wizard__field-container cui-wizard__field-container--half">
+                <label for="city-region">{{"cui-city" | translate}}</label>
+              	<input type="text" ng-model="profile.user.addresses[0].city" class="cui-input" name="city" ng-required="true"></input>
+            </div>
 						<!-- State/Province -->
 						<div class="cui-wizard__field-container cui-wizard__field-container--half">
-                      <label for="state-province">{{"cui-state" | translate}}</label>
-              				<input type="text" ng-model="profile.user.addresses[0].state" class="cui-input" name="state" ng-required="true" ng-model="profile.addresses.state"></input>
-              			</div>
-              		</div>
+              <label for="state-province">{{"cui-state" | translate}}</label>
+              <input type="text" ng-model="profile.user.addresses[0].state" class="cui-input" name="state" ng-required="true" ng-model="profile.addresses.state"></input>
+            </div>
+          </div>
 					<div class="cui-wizard__field-row">
-              			<!-- Postal Code -->
-              			<div class="cui-wizard__field-container cui-wizard__field-container--half">
-                      <label for="postal-code">{{"cui-postal" | translate}}</label>
-              				<input type="text" ng-model="profile.user.addresses[0].postal" class="cui-input" name="postal" ng-required="true" ng-model="profile.user.addresses.postal"></input>
-              			</div>
+            <!-- Postal Code -->
+            <div class="cui-wizard__field-container cui-wizard__field-container--half">
+              <label for="postal-code">{{"cui-postal" | translate}}</label>
+                <input type="text" ng-model="profile.user.addresses[0].postal" class="cui-input" name="postal" ng-required="true" ng-model="profile.user.addresses.postal"></input>
+            </div>
 						<!-- Country -->
 						<div class="cui-wizard__field-container cui-wizard__field-container--half">
               <label for="country">{{"cui-country" | translate}}</label>
-              				<input type="text" ng-model="profile.user.addresses[0].country" class="cui-input" name="country" ng-required="true" ng-model="profile.user.addresses.country"></input>
-              			</div>
-              		</div>
-              		<div class="cui-wizard__field-row">
-              			<!-- Department -->
-              			<div class="cui-wizard__field-container cui-wizard__field-container--half">
-                      <label for="department">{{"cui-department" | translate}}</label>
-              				<input type="text" ng-model="profile.user.organization.classification" class="cui-input" name="department" ng-required="true" ng-model="profile.user.organization.classification"></input>
-              			</div>
+                <input type="text" ng-model="profile.user.addresses[0].country" class="cui-input" name="country" ng-required="true" ng-model="profile.user.addresses.country"></input>
+            </div>
+          </div>
+          <div class="cui-wizard__field-row">
+            <!-- Department -->
+      			<div class="cui-wizard__field-container cui-wizard__field-container--half">
+              <label for="department">{{"cui-department" | translate}}</label>
+      				<input type="text" ng-model="profile.user.organization.classification" class="cui-input" name="department" ng-required="true" ng-model="profile.user.organization.classification"></input>
+      			</div>
 						<!-- Language Preference -->
 						<div class="cui-wizard__field-container cui-wizard__field-container--half">
               <label for="language-preference">{{"cui-language-preference" | translate}}</label>
-              				<input type="text" ng-model="profile.user.language" class="cui-input" name="languagepreference" ng-required="true"></input>
-              			</div>
-              		</div>
+              	<input type="text" ng-model="profile.user.language" class="cui-input" name="languagepreference" ng-required="true"></input>
+            </div>
+          </div>
 				</form>
 				<div class="cui-wizard__controls">
 					<button class="cui-wizard__next" ng-click="profile.save()">{{'cui-submit' | translate}}</button>
