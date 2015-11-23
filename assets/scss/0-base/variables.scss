@@ -4,9 +4,13 @@
 }
 
 .cui-main-content {
+  @include outer-container(90%);
   background: $secondary-background;
   padding-bottom: 50px;
   padding-top: 50px;
+  @media screen and (min-width: $snap-menu-breaking-point) {
+    @include outer-container(80%);
+  }
 }
 
 .content {
