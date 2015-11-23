@@ -111,6 +111,10 @@ module.exports = function(grunt) {
       svgs: {
         src: ['bower_components/cui-icons/dist/**/*.svg'],
         dest: 'build/'
+      },
+      datafactory: {
+        src: ['bower_components/cui-ng-datafactory/dist/cui-ng-datafactory.js'],
+        dest: 'build/'
       }
     },
     clean: {
