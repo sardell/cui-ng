@@ -375,9 +375,25 @@ fieldset {
   overflow: auto; }
 
 .cui-main-content {
+  max-width: 90%;
+  margin-left: auto;
+  margin-right: auto;
   background: #DEE9EE;
   padding-bottom: 50px;
   padding-top: 50px; }
+  .cui-main-content::after {
+    clear: both;
+    content: "";
+    display: table; }
+  @media screen and (min-width: 1000px) {
+    .cui-main-content {
+      max-width: 80%;
+      margin-left: auto;
+      margin-right: auto; }
+      .cui-main-content::after {
+        clear: both;
+        content: "";
+        display: table; } }
 
 .content {
   margin-left: 300px;
@@ -1280,10 +1296,8 @@ Styleguide 2.4
     padding: 15px;
     text-align: center; }
   @media all and (max-width: 600px) {
-    .cui-tile {
-      width: 90%; }
-      .cui-tile__body {
-        padding: 20px; } }
+    .cui-tile__body {
+      padding: 20px; } }
 
 /*
 Off Canvas Nav
@@ -1411,7 +1425,7 @@ Markup:
       </nav>
 
         <article role="main" class="cui-styleguide__main" style="min-height:0">
-
+        
               <div id="kssref-2" class="cui-tile cui-styleguide__section cui-styleguide__section--depth-1">
               </div>
               <section id="kssref-2-6" class="cui-tile cui-styleguide__section cui-styleguide__section--depth-2">
