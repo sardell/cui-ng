@@ -2,7 +2,7 @@
     'use strict';
 
     angular
-    .module('app',['translate','ngMessages','cui.authorization','cui-ng','ui.router','snap','LocalStorageModule'])
+    .module('app',['cui-ng-datafactory','translate','ngMessages','cui.authorization','cui-ng','ui.router','snap','LocalStorageModule'])
     .run(['LocaleService','$rootScope', '$state', 'cui.authorization.routing','user','wizardStep', function(LocaleService,$rootScope,$state,routing,user,wizardStep){
         $rootScope.$on('$stateChangeStart', function(event, toState, toParams, fromState, fromParams){
             if(toState.data && toState.data.step){
@@ -87,6 +87,16 @@
                 templateUrl: 'assets/angular-templates/icons.html',
                 access: {
                     loginRequired: true
+                }
+            })
+            .state('profile',{
+                url: '/profile',
+                templateUrl: 'assets/angular-templates/profile.html',
+                controller:'profileManagementCtrl as profile',
+                access : {
+                    loginRequired: true,
+                    requiredEntitlements: ['admin','user'],
+                    entitlementType: 'atLeastOne'
                 }
             });
 
