@@ -1858,45 +1858,10 @@ Styleguide 1.7
   border-left: 0;
   border-right: 0; }
 
-.cui-chevron, .cui-chevron--left, .cui-chevron--right, .cui-chevron--top, .cui-chevron--bottom {
-  margin-right: 15px;
-  width: 0;
-  height: 0;
-  position: relative; }
-  .cui-chevron:after, .cui-chevron--left:after, .cui-chevron--right:after, .cui-chevron--top:after, .cui-chevron--bottom:after {
-    content: '';
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    border-right: 8px solid #AAA;
-    border-top: 8px solid transparent;
-    border-bottom: 8px solid transparent; }
-  .cui-chevron--right {
-    transform: rotate(-90deg); }
-  .cui-chevron--top {
-    transform: rotate(180deg); }
-
-.svg-display {
-  display: inline-block;
-  overflow: hidden;
-  margin: 0 auto;
-  position: relative; }
-
-.svg-holder {
-  border: 0.4rem solid #429DD1;
-  border-radius: 1rem;
-  width: 6.875rem;
-  padding: 0.5rem;
-  margin: 0.2rem;
-  max-height: 160px;
-  position: relative; }
-
-.svg-holder:hover {
-  border-color: #429DD1;
-  background: #4582B4; }
-  .svg-holder:hover:hover .svg {
-    fill: #FFFFFF; }
-
-.svg {
-  fill: #429DD1; }
+.cui-tile {
+  width: 80%;
+  margin-left: auto;
+  margin-right: auto; }
+  @media all and (max-width: 600px) {
+    .cui-tile {
+      width: 90%; } }
