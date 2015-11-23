@@ -8,7 +8,7 @@
 					<div class="cui-wizard__field-row">     
 						<!-- First Name -->      
                 		<div class="cui-wizard__field-container cui-wizard__field-container--half">
-                  			<input type="text" ng-model="app.person.name.given" name="firstName" class="cui-input" ng-required="true" placeholder="First Name"></input>
+                  			<input type="text" name="firstName" class="cui-input" ng-required="true" ng-model="profile.user.name.given"></input>
                 		</div>
                 		<!-- Last Name -->
                 		<div class="cui-wizard__field-container cui-wizard__field-container--half">
@@ -65,7 +65,7 @@
               		</div>
 				</form>
 				<div class="cui-wizard__controls">
-					<button class="cui-wizard__next" ng-click="">{{'cui-submit' | translate}}</button>
+					<button class="cui-wizard__next" ng-click="profile.save()">{{'cui-submit' | translate}}</button>
 				</div>
 			</step>
 			<step title="{{'cui-contact-info' | translate}}" state="wizard.contactInfo">
