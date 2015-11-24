@@ -1296,8 +1296,10 @@ Styleguide 2.4
     padding: 15px;
     text-align: center; }
   @media all and (max-width: 600px) {
-    .cui-tile__body {
-      padding: 20px; } }
+    .cui-tile {
+      width: 90%; }
+      .cui-tile__body {
+        padding: 20px; } }
 
 /*
 Off Canvas Nav
@@ -1425,7 +1427,7 @@ Markup:
       </nav>
 
         <article role="main" class="cui-styleguide__main" style="min-height:0">
-        
+
               <div id="kssref-2" class="cui-tile cui-styleguide__section cui-styleguide__section--depth-1">
               </div>
               <section id="kssref-2-6" class="cui-tile cui-styleguide__section cui-styleguide__section--depth-2">
@@ -1871,11 +1873,3 @@ Styleguide 1.7
 .cui-table--borderless th, .cui-table--borderless td {
   border-left: 0;
   border-right: 0; }
-
-.cui-tile {
-  width: 80%;
-  margin-left: auto;
-  margin-right: auto; }
-  @media all and (max-width: 600px) {
-    .cui-tile {
-      width: 90%; } }

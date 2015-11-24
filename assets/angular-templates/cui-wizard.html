@@ -86,7 +86,7 @@
                 <div class="cui-wizard__field-container cui-wizard__field-container--half ">
                   <div class="cui-input__password-holder">
                     <label for="password1">{{'cui-password' | translate}}</label>
-                    <input type="password" name="password1" ng-model="app.signOn.password1" class="cui-input  cui-input__password" placeholder="" ng-required="true" ng-class="{'cui-input--error': signOn.password1.$touched && signOn.password1.$invalid}" password-validation style="width:100%"></input>
+                    <input type="password" name="password1" ng-model="app.signOn.password1" class="cui-input  cui-input__password" ng-required="true" ng-class="{'cui-input--error': signOn.password1.$touched && signOn.password1.$invalid}" password-validation="{{app.passwordPolicies}}" style="width:100%"></input>
                     <div class="cui-error__password" ng-messages="signOn.password1.$error" ng-messages-multiple ng-if="signOn.password1.$invalid">
                       <div ng-messages-include="assets/angular-templates/password-messages.html"></div>
                     </div>

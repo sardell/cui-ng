@@ -17,7 +17,7 @@
         
         LocaleService.setLocales('en_US','English (United States)');
         LocaleService.setLocales('pl_PL','Polish (Poland)');
-        LocaleService.setLocales('zh_CN', 'Chinese (Simplified)');
+        LocaleService.setLocales('zh_CN','Chinese (Simplified)');
         LocaleService.setLocales('pt_PT','Portuguese (Portugal)');
     }])
     .config(['$translateProvider','$stateProvider','$urlRouterProvider','$locationProvider','$injector','localStorageServiceProvider',
@@ -189,7 +189,6 @@
                 app.appUser=newUser;    
                 $state.go('login',{notify:true,reload:true});
             })
-
         };
 
         app.goTo= function(state){
@@ -212,9 +211,22 @@
             app.userPopup=false;
         }
 
-
-
-
+        app.passwordPolicies=[
+            {
+                'allowUpperChars':false,
+                'allowLowerChars':true,
+                'allowNumChars':false,
+                'allowSpecialChars':true,
+                'requiredNumberOfCharClasses':2
+            },
+            {
+                'disallowedChars':'^&*)(#$'
+            },
+            {
+                'min':8,
+                'max':18
+            }
+        ];
 
         //for the wizard -------------------------------------------------------------------------------------
 
@@ -243,6 +255,7 @@
             localStorageService.set('app.signOn',$scope.app.signOn)
         }, true);
 
+            //this fixes an issue with the password validators.
             app.signOn.password1='';
             app.signOn.password2='';
 
@@ -279,3 +292,4 @@
     }]);
 
 })(angular,cui);
+// 
