@@ -213,11 +213,11 @@
 
         app.passwordPolicies=[
             {
-                'allowUpperChars':false,
+                'allowUpperChars':true,
                 'allowLowerChars':true,
-                'allowNumChars':false,
+                'allowNumChars':true,
                 'allowSpecialChars':true,
-                'requiredNumberOfCharClasses':2
+                'requiredNumberOfCharClasses':3
             },
             {
                 'disallowedChars':'^&*)(#$'

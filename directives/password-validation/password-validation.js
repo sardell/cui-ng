@@ -19,10 +19,9 @@ angular.module('cui-ng')
 		    		parsedPolicies.count=policies[i];
 		    	}
 		    }
-
 			// if lowercases are allowed and there is at least one
 			ctrl.$validators.lowercase = function(modelValue,viewValue){
-				if(parsedPolicies.classes.allowLowerChars) return (/.*[a-z].*/.test(viewValue));
+				if(parsedPolicies.classes.allowLowerChars && !ctrl.$validators.complex(modelValue,viewValue)) return (/.*[a-z].*/.test(viewValue));
 				return true;
 			};
 
@@ -34,7 +33,7 @@ angular.module('cui-ng')
 
 			// if uppercases are allowed and there is at least one
 			ctrl.$validators.uppercase = function(modelValue,viewValue){
-				if(parsedPolicies.classes.allowUpperChars) return (/.*[A-Z].*/.test(viewValue));
+				if(parsedPolicies.classes.allowUpperChars && !ctrl.$validators.complex(modelValue,viewValue)) return (/.*[A-Z].*/.test(viewValue));
 				return true;
 			};
 
@@ -46,7 +45,7 @@ angular.module('cui-ng')
 
 			// if numbers are allowed and there is at least one
 			ctrl.$validators.number = function(modelValue,viewValue){
-				if(parsedPolicies.classes.allowNumChars) return (/.*[0-9].*/.test(viewValue));
+				if(parsedPolicies.classes.allowNumChars && !ctrl.$validators.complex(modelValue,viewValue)) return (/.*[0-9].*/.test(viewValue));
 				return true;
 			};
 
@@ -58,7 +57,8 @@ angular.module('cui-ng')
 
 			// if special chars are allowed and there is at least one
 			ctrl.$validators.special = function(modelValue,viewValue){
-				return (/[-!$%^&*()_+|~=`{}\[\]:";'<>?,.\/]/.test(viewValue) && parsedPolicies.classes.allowSpecialChars);
+				if(parsedPolicies.classes.allowSpecialChars&& !ctrl.$validators.complex(modelValue,viewValue)) return (/[-!$%^&*()_+|~=`{}\[\]:";'<>?,.\/]/.test(viewValue));
+				return true;
 			};
 
 			// if special chars are not allowed make sure there is none
@@ -71,16 +71,16 @@ angular.module('cui-ng')
 			ctrl.$validators.complex = function(modelValue,viewValue){
 				var numberOfUsedClasses=0;
 				if(parsedPolicies.classes.allowLowerChars){
-					ctrl.$validators.lowercase(modelValue,viewValue) ? numberOfUsedClasses++ : true;
+					/.*[a-z].*/.test(viewValue) ? numberOfUsedClasses++ : true;
 				}
 				if(parsedPolicies.classes.allowUpperChars){
-					ctrl.$validators.uppercase(modelValue,viewValue) ? numberOfUsedClasses++ : true;
+					/.*[A-Z].*/.test(viewValue) ? numberOfUsedClasses++ : true;
 				}
 				if(parsedPolicies.classes.allowSpecialChars){
-					ctrl.$validators.special(modelValue,viewValue) ? numberOfUsedClasses++ : true;
+					/[-!$%^&*()_+|~=`{}\[\]:";'<>?,.\/]/.test(viewValue) ? numberOfUsedClasses++ : true;
 				}
 				if(parsedPolicies.classes.allowNumChars){
-					ctrl.$validators.number(modelValue,viewValue) ? numberOfUsedClasses++ : true;
+					/.*[0-9].*/.test(viewValue) ? numberOfUsedClasses++ : true;
 				}
 				return (numberOfUsedClasses>=parsedPolicies.classes.requiredNumberOfCharClasses);
 			};
