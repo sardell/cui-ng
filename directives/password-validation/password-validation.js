@@ -69,14 +69,25 @@ angular.module('cui-ng')
 
 			// make sure the number of required classes is met
 			ctrl.$validators.complex = function(modelValue,viewValue){
-				return ((ctrl.$validators.lowercase(modelValue,viewValue)+ctrl.$validators.uppercase(modelValue,viewValue)+
-					ctrl.$validators.number(modelValue,viewValue)+ctrl.$validators.special(modelValue,viewValue))>=
-					parsedPolicies.classes.requiredNumberOfCharClasses);
+				var numberOfUsedClasses=0;
+				if(parsedPolicies.classes.allowLowerChars){
+					ctrl.$validators.lowercase(modelValue,viewValue) ? numberOfUsedClasses++ : true;
+				}
+				if(parsedPolicies.classes.allowUpperChars){
+					ctrl.$validators.uppercase(modelValue,viewValue) ? numberOfUsedClasses++ : true;
+				}
+				if(parsedPolicies.classes.allowSpecialChars){
+					ctrl.$validators.special(modelValue,viewValue) ? numberOfUsedClasses++ : true;
+				}
+				if(parsedPolicies.classes.allowNumChars){
+					ctrl.$validators.number(modelValue,viewValue) ? numberOfUsedClasses++ : true;
+				}
+				return (numberOfUsedClasses>=parsedPolicies.classes.requiredNumberOfCharClasses);
 			};
 
 			// make sure the password meets the length requirements
 			ctrl.$validators.length = function(modelValue,viewValue){
-				return (viewValue.length<=parsedPolicies.count.max && viewValue.length>=parsedPolicies.count.min);
+				return ((viewValue.length<=parsedPolicies.count.max) && (viewValue.length>=parsedPolicies.count.min));
 			};
 
 			// make sure there's no disallowed chars
