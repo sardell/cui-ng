@@ -15,6 +15,8 @@ describe('Cui-exandable',function(){
             $rootScope.$digest();
             element.scope().toggleExpand();
             expect(element[0].classList).toMatch(/expanded/);
+            element.scope().toggleExpand();
+            expect(element[0].classList).not.toMatch(/expanded/);
         })
     })
 })
