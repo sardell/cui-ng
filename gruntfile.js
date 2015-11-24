@@ -122,10 +122,34 @@ module.exports = function(grunt) {
       options: {
         mangle: false
       }
+    },
+    jasmine: {
+      cuiAvatar: {
+        src: 'dist/cui-ng.js',
+        options: {
+          specs: 'tests/cui-avatar-spec.js',
+          helpers: ['bower_components/angular/angular.js','node_modules/angular-mocks/angular-mocks.js']
+        }
+      },
+      cuiExpandable: {
+        src: 'dist/cui-ng.js',
+        options: {
+          specs: 'tests/cui-expandable-spec.js',
+          helpers: ['bower_components/angular/angular.js','node_modules/angular-mocks/angular-mocks.js']
+        }
+      },
+      cuiAvatar: {
+        src: 'dist/cui-ng.js',
+        options: {
+          specs: 'tests/cui-wizard-spec.js',
+          helpers: ['bower_components/angular/angular.js','node_modules/angular-mocks/angular-mocks.js']
+        }
+      }
     }
   });
 
   grunt.registerTask('default', ['sass','concat','browserSync:dev','watch']);
   grunt.registerTask('build', ['sass','clean','copy','concat','useminPrepare','concat:generated','cssmin:generated','uglify:generated','filerev','usemin']);
-  grunt.registerTask('demo', ['browserSync:demo'])
+  grunt.registerTask('demo', ['browserSync:demo']);
+  grunt.registerTask('test', ['jasmine:cuiAvatar']);
 }
