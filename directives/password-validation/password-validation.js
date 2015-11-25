@@ -1,13 +1,87 @@
 angular.module('cui-ng')
-.directive('passwordValidation', [function(){		
-	return {		
-		require: 'ngModel',		
-		scope: true,		
-		restrict: 'A',		
-		link: function(scope, element, attrs, ctrl){
-		    var policies=JSON.parse('[' + attrs.passwordValidation + ']')[0];
-		    var parsedPolicies={};
-		    for(var i=0;i<policies.length;i++){
+.factory('Validators',[function(){
+	RegExp.escape = function(text) {
+	  return text.replace(/[-[\]{}()*+?.,\\^$|#\s]/g, "\\$&");
+	};
+	var policies={};
+	var complex=function(modelValue,viewValue){
+		var classes=policies.classes,
+		numberOfUsedClasses=0;
+		if(classes.allowLowerChars){
+			/.*[a-z].*/.test(viewValue) ? numberOfUsedClasses++ : true;
+		}
+		if(classes.allowUpperChars){
+			/.*[A-Z].*/.test(viewValue) ? numberOfUsedClasses++ : true;
+		}
+		if(classes.allowSpecialChars){
+			/[-!$%^&*()_+|~=`{}\[\]:";'<>?,.\/]/.test(viewValue) ? numberOfUsedClasses++ : true;
+		}
+		if(classes.allowNumChars){
+			/.*[0-9].*/.test(viewValue) ? numberOfUsedClasses++ : true;
+		}
+		return numberOfUsedClasses>=policies.classes.requiredNumberOfCharClasses;
+	};
+	var validators={
+		setPolicies: function(newPolicies){
+			policies=newPolicies;
+		},
+		lowercase: function(modelValue,viewValue){
+			if(complex(modelValue,viewValue)) return true;
+			return /.*[a-z].*/.test(viewValue);
+		},
+		uppercase: function(modelValue,viewValue){
+			if(complex(modelValue,viewValue)) return true;
+			return /.*[A-Z].*/.test(viewValue);
+		},
+		number: function(modelValue,viewValue){
+			if(complex(modelValue,viewValue)) return true;
+			return /.*[0-9].*/.test(viewValue);
+		},
+		special: function(modelValue,viewValue){
+			if(complex(modelValue,viewValue)) return true;
+			return /[-!$%^&*()_+|~=`{}\[\]:";'<>?,.\/]/.test(viewValue);
+		},
+		complex: complex,
+		lowercaseNotAllowed: function(modelValue,viewValue){
+			return !(/.*[a-z].*/.test(viewValue));
+		},
+		uppercaseNotAllowed: function(modelValue,viewValue){
+			return !(/.*[A-Z].*/.test(viewValue));
+		},
+		numberNotAllowed: function(modelValue,viewValue){
+			return !(/.*[0-9].*/.test(viewValue));
+		},
+		specialNotAllowed: function(modelValue,viewValue){
+			return !(/[-!$%^&*()_+|~=`{}\[\]:";'<>?,.\/]/.test(viewValue));
+		},
+		numberNotAllowed: function(modelValue,viewValue){
+			return !(/.*[0-9].*/.test(viewValue));
+		},
+		disallowedChars: function(modelValue,viewValue){
+			var regExp=new RegExp('['+RegExp.escape(policies.disallowed.disallowedChars)+']','g');
+			return !regExp.test(viewValue);
+		},
+		length: function(modelValue,viewValue){
+			return ((viewValue.length<=policies.count.max) && (viewValue.length>=policies.count.min));
+		}
+	};
+	return validators;
+}])
+.factory('Policy',['Validators',function(Validators){
+	var policies;
+	var parsedPolicies={};
+	var policy={
+		set: function(policiesString){
+			policies=policiesString;
+			this.parse(policies);
+		},
+		get: function(){
+			return parsedPolicies;
+		},
+		parse: function(policiesString){
+			// needs to parse the array out of the string passed
+			var policies=JSON.parse('[' + policiesString + ']')[0];
+			for(var i=0;i<policies.length;i++){
 		    	var keys=Object.keys(policies[i]);
 		    	if(keys.indexOf('allowUpperChars')>-1){
 		    		parsedPolicies.classes=policies[i];
@@ -18,87 +92,44 @@ angular.module('cui-ng')
 		    	if(keys.indexOf('min')>-1){
 		    		parsedPolicies.count=policies[i];
 		    	}
-		    }
-			// if lowercases are allowed and there is at least one
-			ctrl.$validators.lowercase = function(modelValue,viewValue){
-				if(parsedPolicies.classes.allowLowerChars && !ctrl.$validators.complex(modelValue,viewValue)) return (/.*[a-z].*/.test(viewValue));
-				return true;
-			};
+		    };
+		    return parsedPolicies;
+		},
+		getValidators: function(){
+			var validators={};
+			validators['complex']=Validators.complex;
 
-			// if lowercases are not allowed make sure there is none
-			ctrl.$validators.lowercaseNotAllowed = function(modelValue,viewValue){
-				if(!parsedPolicies.classes.allowLowerChars) return !(/.*[a-z].*/.test(viewValue));
-				return true;
-			};
+			// if lower chars are not allowed add a check to see if there's a lowercase in the input
+			parsedPolicies.classes.allowLowerChars ? ( validators['lowercase']=Validators.lowercase, validators['lowercaseNotAllowed']=function(){ return true ;} ):
+				( validators['lowercase']=function(){ return true ;}, validators['lowercaseNotAllowed']=Validators.lowercaseNotAllowed );
 
-			// if uppercases are allowed and there is at least one
-			ctrl.$validators.uppercase = function(modelValue,viewValue){
-				if(parsedPolicies.classes.allowUpperChars && !ctrl.$validators.complex(modelValue,viewValue)) return (/.*[A-Z].*/.test(viewValue));
-				return true;
-			};
+			parsedPolicies.classes.allowUpperChars ? ( validators['uppercase']=Validators.uppercase, validators['uppercaseNotAllowed']=function(){ return true ;} ):
+				( validators['uppercase']=function(){ return true ;}, validators['uppercaseNotAllowed']=Validators.uppercaseNotAllowed );
 
-			// if uppercases are not allowed make sure there is none
-			ctrl.$validators.uppercaseNotAllowed = function(modelValue,viewValue){
-				if(!parsedPolicies.classes.allowUpperChars) return !(/.*[A-Z].*/.test(viewValue));
-				return true;
-			};
+			parsedPolicies.classes.allowNumChars ? ( validators['number']=Validators.number,validators['numberNotAllowed']=function(){ return true ;} ):
+				( validators['number']=function(){ return true ;}, validators['numberNotAllowed']=Validators.numberNotAllowed );
 
-			// if numbers are allowed and there is at least one
-			ctrl.$validators.number = function(modelValue,viewValue){
-				if(parsedPolicies.classes.allowNumChars && !ctrl.$validators.complex(modelValue,viewValue)) return (/.*[0-9].*/.test(viewValue));
-				return true;
-			};
+			parsedPolicies.classes.allowSpecialChars ? ( validators['special']=Validators.special, validators['specialNotAllowed']=function(){ return true ;} ):
+				( validators['special']=function(){ return true ;}, validators['specialNotAllowed']=Validators.specialNotAllowed );
 
-			// if numbers are not allowed make sure there is none
-			ctrl.$validators.numberNotAllowed = function(modelValue,viewValue){
-				if(!parsedPolicies.classes.allowNumChars) return !(/.*[0-9].*/.test(viewValue));
-				return true;
-			};
+			validators['disallowedChars']=Validators.disallowedChars;
+			validators['length']=Validators.length;
 
-			// if special chars are allowed and there is at least one
-			ctrl.$validators.special = function(modelValue,viewValue){
-				if(parsedPolicies.classes.allowSpecialChars&& !ctrl.$validators.complex(modelValue,viewValue)) return (/[-!$%^&*()_+|~=`{}\[\]:";'<>?,.\/]/.test(viewValue));
-				return true;
-			};
+			return validators;
+		}
+	};
 
-			// if special chars are not allowed make sure there is none
-			ctrl.$validators.specialNotAllowed = function(modelValue,viewValue){
-				if(!parsedPolicies.classes.allowSpecialChars) return !(/[-!$%^&*()_+|~=`{}\[\]:";'<>?,.\/]/.test(viewValue));
-				return true;
-			};
-
-			// make sure the number of required classes is met
-			ctrl.$validators.complex = function(modelValue,viewValue){
-				var numberOfUsedClasses=0;
-				if(parsedPolicies.classes.allowLowerChars){
-					/.*[a-z].*/.test(viewValue) ? numberOfUsedClasses++ : true;
-				}
-				if(parsedPolicies.classes.allowUpperChars){
-					/.*[A-Z].*/.test(viewValue) ? numberOfUsedClasses++ : true;
-				}
-				if(parsedPolicies.classes.allowSpecialChars){
-					/[-!$%^&*()_+|~=`{}\[\]:";'<>?,.\/]/.test(viewValue) ? numberOfUsedClasses++ : true;
-				}
-				if(parsedPolicies.classes.allowNumChars){
-					/.*[0-9].*/.test(viewValue) ? numberOfUsedClasses++ : true;
-				}
-				return (numberOfUsedClasses>=parsedPolicies.classes.requiredNumberOfCharClasses);
-			};
-
-			// make sure the password meets the length requirements
-			ctrl.$validators.length = function(modelValue,viewValue){
-				return ((viewValue.length<=parsedPolicies.count.max) && (viewValue.length>=parsedPolicies.count.min));
-			};
-
-			// make sure there's no disallowed chars
-			ctrl.$validators.disallowedChars = function(modelValue,viewValue){
-				var regExp=new RegExp('['+RegExp.escape(parsedPolicies.disallowed.disallowedChars)+']','g');
-				return !regExp.test(viewValue);
-			}
-
-			RegExp.escape = function(text) {
-			  return text.replace(/[-[\]{}()*+?.,\\^$|#\s]/g, "\\$&");
-			};
+	return policy;
+}])
+.directive('passwordValidation', ['Policy','Validators',function(Policy,Validators){
+	return {		
+		require: 'ngModel',
+		scope: true,	
+		restrict: 'A',
+		link: function(scope, element, attrs, ctrl){
+		    Policy.set(attrs.passwordValidation);
+		    Validators.setPolicies(Policy.get());
+		    ctrl.$validators=Policy.getValidators();
 		}		
 	};		
 }]);
