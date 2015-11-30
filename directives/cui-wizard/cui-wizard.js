@@ -6,10 +6,11 @@ angular.module('cui-ng')
         link:function(scope,elem,attrs){
             //init
             var init = function(){
+         
                     scope.invalidForm=[];
-                    scope.$steps=document.querySelectorAll('cui-wizard>step');
+                    scope.$steps=angular.element(elem[0].querySelectorAll('cui-wizard>step'));
                     scope.numberOfSteps=scope.$steps.length;
-                    scope.$indicatorContainer=document.querySelector('indicator-container');
+                    scope.$indicatorContainer=angular.element(elem[0].querySelector('indicator-container'));
                     scope.$window=angular.element($window);
                     scope.currentStep=Number(elem[0].attributes.step.value);
                     scope.clickableIndicators=attrs.clickableIndicators;
@@ -45,7 +46,7 @@ angular.module('cui-ng')
                             angular.forEach(form.$error, function (field) {
                                 angular.forEach(field, function(errorField){
                                     errorField.$setTouched();
-                                })
+                                });
                             });
                             scope.invalidForm[scope.currentStep]=true;
                         }
@@ -97,7 +98,7 @@ angular.module('cui-ng')
                         var compiled=$compile(div)(scope);
                         angular.element(scope.$indicatorContainer).append(compiled);
                     });
-                    scope.$indicators=document.querySelectorAll('.step-indicator');
+                    scope.$indicators=angular.element(elem[0].querySelectorAll('.step-indicator'));
                 },
                 // updates the current active indicator. Removes active class from other elements.
                 updateIndicators = function(){
@@ -117,7 +118,7 @@ angular.module('cui-ng')
                         var context = this, args = arguments;
                         var later = function() {
                             timeout = null;
-                            if (!immediate) {func.apply(context, args)};
+                            if (!immediate) {func.apply(context, args);}
                         };
                         var callNow = immediate && !timeout;
                         clearTimeout(timeout);
@@ -159,13 +160,13 @@ angular.module('cui-ng')
                 watchForWindowResize = function(){
                     scope.$window.bind('resize',function(){
                         makeSureTheresRoom();
-                    })
+                    });
                 },
                 listenForLanguageChange = function(){
                     scope.$on('languageChange',function(){
                         showAllIndicators();
                         makeSureTheresRoom();
-                    })
+                    });
                 },
                 observeStepAttr = function(){
                     attrs.$observe('step',function(newStep){
@@ -182,7 +183,7 @@ angular.module('cui-ng')
                             scope.currentStep=newStep;
                         }
                         updateIndicators();
-                    })
+                    });
                 };
             init();   
         }

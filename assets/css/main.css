@@ -488,7 +488,12 @@ p {
 .cui-link {
   color: #429DD1; }
 
-.cui-ul, .cui-off-canvas__list--child, .cui-expandable__body, .cui-ol {
+ul,
+ol,
+.cui-ul,
+.cui-off-canvas__list--child,
+.cui-expandable__body,
+.cui-ol {
   list-style-type: none;
   padding-left: 0;
   margin: 0; }
@@ -1296,10 +1301,8 @@ Styleguide 2.4
     padding: 15px;
     text-align: center; }
   @media all and (max-width: 600px) {
-    .cui-tile {
-      width: 90%; }
-      .cui-tile__body {
-        padding: 20px; } }
+    .cui-tile__body {
+      padding: 20px; } }
 
 /*
 Off Canvas Nav
@@ -1458,10 +1461,6 @@ Markup:
 
 Styleguide 2.6
 */
-.cui-off-canvas__list {
-  list-style-type: none;
-  padding: 0; }
-
 .cui-off-canvas__list-item {
   display: block;
   margin: 10px 0;
@@ -1874,6 +1873,23 @@ Styleguide 1.7
   border-left: 0;
   border-right: 0; }
 
+/*
+Popover
+
+Markup:
+<div class="cui-wizard__field-container cui-wizard__field-container--half ">
+                  <div class="cui-input__password-holder">
+                    <label for="password1">Password</label>
+                    <input type="password" name="password1" class="cui-input cui-input__password cui-input--error" placeholder="" required="required">
+<div class="cui-error__password">
+  <p class="">Passwords must:</p>
+  <div class="cui-error__message">have at least 1 lower case letter</div>
+  <div class="cui-error__message">have at least 1 upper case letter</div>
+</div>
+</div>
+
+Styleguide 2.7
+*/
 .circle {
   width: 9px;
   height: 9px;
