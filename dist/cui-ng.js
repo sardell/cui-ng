@@ -10,17 +10,18 @@ angular.module('cui-ng')
         link:function(scope,elem,attrs){
             scope.user={};
             attrs.$observe('userAvatar',function(){
+                var background;
                 if(attrs.userAvatar!==''){
                     scope.user.avatar=attrs.userAvatar;
-                    var background= 'url("' + scope.user.avatar + '")';
+                    background= 'url("' + scope.user.avatar + '")';
                     angular.element(elem).css('background-image',background);
                 } 
                 else{
                     scope.user.color='#AAA';
-                    var background= scope.user.color;
-                    angular.element(elem).css({'background-image':'none','background-color':background})
+                    background= scope.user.color;
+                    angular.element(elem).css({'background-image':'none','background-color':background});
                 }
-            })
+            });
         }
     };
 }]);
@@ -33,7 +34,7 @@ angular.module('cui-ng')
         scope: true,
         link:function(scope,elem,attrs){
           scope.toggleExpand=function(){
-              elem.hasClass('expanded')? elem.removeClass('expanded') : elem.addClass('expanded');
+              elem.toggleClass('expanded');
           };
         }
     };
@@ -88,7 +89,7 @@ angular.module('cui-ng')
                             angular.forEach(form.$error, function (field) {
                                 angular.forEach(field, function(errorField){
                                     errorField.$setTouched();
-                                })
+                                });
                             });
                             scope.invalidForm[scope.currentStep]=true;
                         }
@@ -160,7 +161,7 @@ angular.module('cui-ng')
                         var context = this, args = arguments;
                         var later = function() {
                             timeout = null;
-                            if (!immediate) {func.apply(context, args)};
+                            if (!immediate) {func.apply(context, args);}
                         };
                         var callNow = immediate && !timeout;
                         clearTimeout(timeout);
@@ -202,13 +203,13 @@ angular.module('cui-ng')
                 watchForWindowResize = function(){
                     scope.$window.bind('resize',function(){
                         makeSureTheresRoom();
-                    })
+                    });
                 },
                 listenForLanguageChange = function(){
                     scope.$on('languageChange',function(){
                         showAllIndicators();
                         makeSureTheresRoom();
-                    })
+                    });
                 },
                 observeStepAttr = function(){
                     attrs.$observe('step',function(newStep){
@@ -225,7 +226,7 @@ angular.module('cui-ng')
                             scope.currentStep=newStep;
                         }
                         updateIndicators();
-                    })
+                    });
                 };
             init();   
         }
@@ -424,16 +425,16 @@ angular.module('cui-ng')
 			ctrl.$validators.complex = function(modelValue,viewValue){
 				var numberOfUsedClasses=0;
 				if(parsedPolicies.classes.allowLowerChars){
-					/.*[a-z].*/.test(viewValue) ? numberOfUsedClasses++ : true;
+					if(/.*[a-z].*/.test(viewValue)) { numberOfUsedClasses++; }
 				}
 				if(parsedPolicies.classes.allowUpperChars){
-					/.*[A-Z].*/.test(viewValue) ? numberOfUsedClasses++ : true;
+					if(/.*[A-Z].*/.test(viewValue)) { numberOfUsedClasses++; }
 				}
 				if(parsedPolicies.classes.allowSpecialChars){
-					/[-!$%^&*()_+|~=`{}\[\]:";'<>?,.\/]/.test(viewValue) ? numberOfUsedClasses++ : true;
+					if(/[-!$%^&*()_+|~=`{}\[\]:";'<>?,.\/]/.test(viewValue)) { numberOfUsedClasses++; }
 				}
 				if(parsedPolicies.classes.allowNumChars){
-					/.*[0-9].*/.test(viewValue) ? numberOfUsedClasses++ : true;
+					if(/.*[0-9].*/.test(viewValue)) { numberOfUsedClasses++; }
 				}
 				return (numberOfUsedClasses>=parsedPolicies.classes.requiredNumberOfCharClasses);
 			};
@@ -447,7 +448,7 @@ angular.module('cui-ng')
 			ctrl.$validators.disallowedChars = function(modelValue,viewValue){
 				var regExp=new RegExp('['+RegExp.escape(parsedPolicies.disallowed.disallowedChars)+']','g');
 				return !regExp.test(viewValue);
-			}
+			};
 
 			RegExp.escape = function(text) {
 			  return text.replace(/[-[\]{}()*+?.,\\^$|#\s]/g, "\\$&");
@@ -1426,7 +1427,7 @@ angular.module('cui-ng')
     };
 
     self.safeToString = function(value) {
-        return angular.isUndefined(value) || value == null ? '' : value.toString().trim();
+        return angular.isUndefined(value) || value === null ? '' : value.toString().trim();
     };
 
     self.encodeHTML = function(value) {
@@ -1542,7 +1543,7 @@ angular.module('cui-ng')
               $rootScope.$broadcast('$stateChangeSuccess', toState, toParams, fromState, fromParams);
           });
         }
-      }
+      };
 
       return routing;
     }])
@@ -1604,7 +1605,7 @@ angular.module('cui-ng')
               scope.loginRequired= true;
               scope.requiredEntitlements= access.requiredEntitlements || [];
               scope.entitlementType= access.entitlementType || 'atLeastOne';
-              var elem=angular.element(elem);
+              elem=angular.element(elem);
               attrs.$observe('user',function(){
                   scope.user= JSON.parse(attrs.user);
                   var authorized=authorize.authorize(scope.loginRequired, scope.requiredEntitlements, scope.entitlementType, scope.user);
@@ -1616,7 +1617,7 @@ angular.module('cui-ng')
                   }
               });
           }
-      }
+      };
   }]);
 
 })(angular);

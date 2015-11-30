@@ -71,16 +71,16 @@ angular.module('cui-ng')
 			ctrl.$validators.complex = function(modelValue,viewValue){
 				var numberOfUsedClasses=0;
 				if(parsedPolicies.classes.allowLowerChars){
-					/.*[a-z].*/.test(viewValue) ? numberOfUsedClasses++ : true;
+					if(/.*[a-z].*/.test(viewValue)) { numberOfUsedClasses++; }
 				}
 				if(parsedPolicies.classes.allowUpperChars){
-					/.*[A-Z].*/.test(viewValue) ? numberOfUsedClasses++ : true;
+					if(/.*[A-Z].*/.test(viewValue)) { numberOfUsedClasses++; }
 				}
 				if(parsedPolicies.classes.allowSpecialChars){
-					/[-!$%^&*()_+|~=`{}\[\]:";'<>?,.\/]/.test(viewValue) ? numberOfUsedClasses++ : true;
+					if(/[-!$%^&*()_+|~=`{}\[\]:";'<>?,.\/]/.test(viewValue)) { numberOfUsedClasses++; }
 				}
 				if(parsedPolicies.classes.allowNumChars){
-					/.*[0-9].*/.test(viewValue) ? numberOfUsedClasses++ : true;
+					if(/.*[0-9].*/.test(viewValue)) { numberOfUsedClasses++; }
 				}
 				return (numberOfUsedClasses>=parsedPolicies.classes.requiredNumberOfCharClasses);
 			};
@@ -94,7 +94,7 @@ angular.module('cui-ng')
 			ctrl.$validators.disallowedChars = function(modelValue,viewValue){
 				var regExp=new RegExp('['+RegExp.escape(parsedPolicies.disallowed.disallowedChars)+']','g');
 				return !regExp.test(viewValue);
-			}
+			};
 
 			RegExp.escape = function(text) {
 			  return text.replace(/[-[\]{}()*+?.,\\^$|#\s]/g, "\\$&");

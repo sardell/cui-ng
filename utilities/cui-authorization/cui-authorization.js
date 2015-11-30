@@ -46,7 +46,7 @@
               $rootScope.$broadcast('$stateChangeSuccess', toState, toParams, fromState, fromParams);
           });
         }
-      }
+      };
 
       return routing;
     }])
@@ -108,7 +108,7 @@
               scope.loginRequired= true;
               scope.requiredEntitlements= access.requiredEntitlements || [];
               scope.entitlementType= access.entitlementType || 'atLeastOne';
-              var elem=angular.element(elem);
+              elem=angular.element(elem);
               attrs.$observe('user',function(){
                   scope.user= JSON.parse(attrs.user);
                   var authorized=authorize.authorize(scope.loginRequired, scope.requiredEntitlements, scope.entitlementType, scope.user);
@@ -120,5 +120,5 @@
                   }
               });
           }
-      }
+      };
   }]);

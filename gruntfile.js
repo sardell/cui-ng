@@ -124,32 +124,22 @@ module.exports = function(grunt) {
       }
     },
     jasmine: {
-      cuiAvatar: {
+      cuiNg: {
         src: 'dist/cui-ng.js',
         options: {
-          specs: 'tests/cui-avatar-spec.js',
-          helpers: ['bower_components/angular/angular.js','node_modules/angular-mocks/angular-mocks.js']
-        }
-      },
-      cuiExpandable: {
-        src: 'dist/cui-ng.js',
-        options: {
-          specs: 'tests/cui-expandable-spec.js',
-          helpers: ['bower_components/angular/angular.js','node_modules/angular-mocks/angular-mocks.js']
-        }
-      },
-      cuiAvatar: {
-        src: 'dist/cui-ng.js',
-        options: {
-          specs: 'tests/cui-wizard-spec.js',
+          specs: 'tests/*.js',
           helpers: ['bower_components/angular/angular.js','node_modules/angular-mocks/angular-mocks.js']
         }
       }
+    },
+    jshint: {
+      all: ['directives/**/*.js','utilities/**/*.js']
     }
   });
 
   grunt.registerTask('default', ['sass','concat','browserSync:dev','watch']);
   grunt.registerTask('build', ['sass','clean','copy','concat','useminPrepare','concat:generated','cssmin:generated','uglify:generated','filerev','usemin']);
   grunt.registerTask('demo', ['browserSync:demo']);
-  grunt.registerTask('test', ['jasmine:cuiAvatar']);
+  grunt.registerTask('test', ['concat','jasmine']);
+  grunt.registerTask('lint', ['jshint']);
 }

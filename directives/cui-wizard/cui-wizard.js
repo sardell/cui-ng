@@ -46,7 +46,7 @@ angular.module('cui-ng')
                             angular.forEach(form.$error, function (field) {
                                 angular.forEach(field, function(errorField){
                                     errorField.$setTouched();
-                                })
+                                });
                             });
                             scope.invalidForm[scope.currentStep]=true;
                         }
@@ -118,7 +118,7 @@ angular.module('cui-ng')
                         var context = this, args = arguments;
                         var later = function() {
                             timeout = null;
-                            if (!immediate) {func.apply(context, args)};
+                            if (!immediate) {func.apply(context, args);}
                         };
                         var callNow = immediate && !timeout;
                         clearTimeout(timeout);
@@ -160,13 +160,13 @@ angular.module('cui-ng')
                 watchForWindowResize = function(){
                     scope.$window.bind('resize',function(){
                         makeSureTheresRoom();
-                    })
+                    });
                 },
                 listenForLanguageChange = function(){
                     scope.$on('languageChange',function(){
                         showAllIndicators();
                         makeSureTheresRoom();
-                    })
+                    });
                 },
                 observeStepAttr = function(){
                     attrs.$observe('step',function(newStep){
@@ -183,7 +183,7 @@ angular.module('cui-ng')
                             scope.currentStep=newStep;
                         }
                         updateIndicators();
-                    })
+                    });
                 };
             init();   
         }
