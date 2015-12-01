@@ -13,7 +13,24 @@ describe('Password-validation',function(){
     }));
 
     it('parses a password policies array',inject(function(Policy){
-        console.log(Object.keys(Policy));
+        var policies="[{
+                'allowUpperChars':true,
+                'allowLowerChars':true,
+                'allowNumChars':true,
+                'allowSpecialChars':true,
+                'requiredNumberOfCharClasses':3
+            },
+            {
+                'disallowedChars':'^&*)(#$'
+            },
+            {
+                'min':8,
+                'max':18
+            },
+            {
+                'disallowedWords':['password','admin']
+            }]";
+        console.log(Policy.parse(policies));
     }));
 
 });
