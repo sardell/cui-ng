@@ -13,7 +13,8 @@ describe('Password-validation',function(){
     }));
 
     it('parses a password policies array',inject(function(Policy){
-        var policies="[{
+        var policies=[
+            {
                 'allowUpperChars':true,
                 'allowLowerChars':true,
                 'allowNumChars':true,
@@ -29,8 +30,34 @@ describe('Password-validation',function(){
             },
             {
                 'disallowedWords':['password','admin']
-            }]";
-        console.log(Policy.parse(policies));
+            }
+        ];
+        parsedPolicies=Policy.parse(JSON.stringify(policies));
+        expect(parsedPolicies.disallowed.disallowedChars).toBe('^&*)(#$');
+    }));
+
+    it('returns validators, based on the parsed policies',inject(function(Policy){
+        var policies=[
+            {
+                'allowUpperChars':true,
+                'allowLowerChars':true,
+                'allowNumChars':true,
+                'allowSpecialChars':true,
+                'requiredNumberOfCharClasses':3
+            },
+            {
+                'disallowedChars':'^&*)(#$'
+            },
+            {
+                'min':8,
+                'max':18
+            },
+            {
+                'disallowedWords':['password','admin']
+            }
+        ];
+        Policy.parse(JSON.stringify(policies));
+        expect(Object.keys(Policy.getValidators())).toEqual(["complex","lowercase","lowercaseNotAllowed","uppercase","uppercaseNotAllowed","number","numberNotAllowed","special","specialNotAllowed","disallowedChars","disallowedWords","length"]);
     }));
 
 });
