@@ -61,6 +61,16 @@ angular.module('cui-ng')
 			var regExp=new RegExp('['+RegExp.escape(policies.disallowed.disallowedChars)+']','g');
 			return !regExp.test(viewValue);
 		},
+		disallowedWords: function(modelValue,viewValue){
+			var regExpString='';
+			var numberOfWords=policies.disallowedWords.disallowedWords.length;
+			for(var i=0;i<numberOfWords;i++){
+				if(i<(numberOfWords-1))regExpString+=policies.disallowedWords.disallowedWords[i]+'|';
+				else regExpString+=policies.disallowedWords.disallowedWords[i];
+			}
+			var regExp=new RegExp(regExpString,'g');
+			return !regExp.test(viewValue);
+		},
 		length: function(modelValue,viewValue){
 			return ((viewValue.length<=policies.count.max) && (viewValue.length>=policies.count.min));
 		}
@@ -92,6 +102,9 @@ angular.module('cui-ng')
 		    	if(keys.indexOf('min')>-1){
 		    		parsedPolicies.count=policies[i];
 		    	}
+		    	if(keys.indexOf('disallowedWords')>-1){
+		    		parsedPolicies.disallowedWords=policies[i];
+		    	}
 		    };
 		    return parsedPolicies;
 		},
@@ -113,6 +126,7 @@ angular.module('cui-ng')
 				( validators['special']=function(){ return true ;}, validators['specialNotAllowed']=Validators.specialNotAllowed );
 
 			validators['disallowedChars']=Validators.disallowedChars;
+			validators['disallowedWords']=Validators.disallowedWords;
 			validators['length']=Validators.length;
 
 			return validators;

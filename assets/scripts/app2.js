@@ -225,6 +225,9 @@
             {
                 'min':8,
                 'max':18
+            },
+            {
+                'disallowedWords':['password','admin']
             }
         ];
 
