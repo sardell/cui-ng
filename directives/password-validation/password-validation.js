@@ -8,16 +8,16 @@ angular.module('cui-ng')
 		var classes=policies.classes,
 		numberOfUsedClasses=0;
 		if(classes.allowLowerChars){
-			/.*[a-z].*/.test(viewValue) ? numberOfUsedClasses++ : true;
+			if (/.*[a-z].*/.test(viewValue)) numberOfUsedClasses++;
 		}
 		if(classes.allowUpperChars){
-			/.*[A-Z].*/.test(viewValue) ? numberOfUsedClasses++ : true;
+			if (/.*[A-Z].*/.test(viewValue)) numberOfUsedClasses++;
 		}
 		if(classes.allowSpecialChars){
-			/[-!$%^&*()_+|~=`{}\[\]:";'<>?,.\/]/.test(viewValue) ? numberOfUsedClasses++ : true;
+			if (/[-!$%^&*()_+|~=`{}\[\]:";'<>?,.\/]/.test(viewValue)) numberOfUsedClasses++;
 		}
 		if(classes.allowNumChars){
-			/.*[0-9].*/.test(viewValue) ? numberOfUsedClasses++ : true;
+			if (/.*[0-9].*/.test(viewValue)) numberOfUsedClasses++;
 		}
 		return numberOfUsedClasses>=policies.classes.requiredNumberOfCharClasses;
 	};
@@ -53,9 +53,6 @@ angular.module('cui-ng')
 		},
 		specialNotAllowed: function(modelValue,viewValue){
 			return !(/[-!$%^&*()_+|~=`{}\[\]:";'<>?,.\/]/.test(viewValue));
-		},
-		numberNotAllowed: function(modelValue,viewValue){
-			return !(/.*[0-9].*/.test(viewValue));
 		},
 		disallowedChars: function(modelValue,viewValue){
 			var regExp=new RegExp('['+RegExp.escape(policies.disallowed.disallowedChars)+']','g');
@@ -105,29 +102,53 @@ angular.module('cui-ng')
 		    	if(keys.indexOf('disallowedWords')>-1){
 		    		parsedPolicies.disallowedWords=policies[i];
 		    	}
-		    };
+		    }
 		    return parsedPolicies;
 		},
 		getValidators: function(){
 			var validators={};
-			validators['complex']=Validators.complex;
+			validators.complex=Validators.complex;
 
 			// if lower chars are not allowed add a check to see if there's a lowercase in the input
-			parsedPolicies.classes.allowLowerChars ? ( validators['lowercase']=Validators.lowercase, validators['lowercaseNotAllowed']=function(){ return true ;} ):
-				( validators['lowercase']=function(){ return true ;}, validators['lowercaseNotAllowed']=Validators.lowercaseNotAllowed );
+			if (parsedPolicies.classes.allowLowerChars) { 
+				validators.lowercase=Validators.lowercase; 
+				validators.lowercaseNotAllowed=function(){ return true ;};
+			}
+			else {
+				validators.lowercase=function() { return true ;};
+				validators.lowercaseNotAllowed=Validators.lowercaseNotAllowed;
+			}
 
-			parsedPolicies.classes.allowUpperChars ? ( validators['uppercase']=Validators.uppercase, validators['uppercaseNotAllowed']=function(){ return true ;} ):
-				( validators['uppercase']=function(){ return true ;}, validators['uppercaseNotAllowed']=Validators.uppercaseNotAllowed );
+			if (parsedPolicies.classes.allowUpperChars) {
+				validators.uppercase=Validators.uppercase;
+				validators.uppercaseNotAllowed=function(){ return true ;};
+			}
+			else {
+				validators.uppercase=function(){ return true ;};
+				validators.uppercaseNotAllowed=Validators.uppercaseNotAllowed;
+			}
 
-			parsedPolicies.classes.allowNumChars ? ( validators['number']=Validators.number,validators['numberNotAllowed']=function(){ return true ;} ):
-				( validators['number']=function(){ return true ;}, validators['numberNotAllowed']=Validators.numberNotAllowed );
+			if (parsedPolicies.classes.allowNumChars){
+				validators.number=Validators.number;
+				validators.numberNotAllowed=function(){ return true ;};
+			} 
+			else{
+				validators.number=function(){ return true ;};
+				validators.numberNotAllowed=Validators.numberNotAllowed;
+			}
 
-			parsedPolicies.classes.allowSpecialChars ? ( validators['special']=Validators.special, validators['specialNotAllowed']=function(){ return true ;} ):
-				( validators['special']=function(){ return true ;}, validators['specialNotAllowed']=Validators.specialNotAllowed );
+			if(parsedPolicies.classes.allowSpecialChars){
+				validators.special=Validators.special;
+				validators.specialNotAllowed=function(){ return true ;};
+			}
+			else{
+				validators.special=function(){ return true ;};
+				validators.specialNotAllowed=Validators.specialNotAllowed;
+			}
 
-			validators['disallowedChars']=Validators.disallowedChars;
-			validators['disallowedWords']=Validators.disallowedWords;
-			validators['length']=Validators.length;
+			validators.disallowedChars=Validators.disallowedChars;
+			validators.disallowedWords=Validators.disallowedWords;
+			validators.length=Validators.length;
 
 			return validators;
 		}
