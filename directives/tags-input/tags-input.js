@@ -968,7 +968,7 @@ angular.module('cui-ng')
     };
 
     self.safeToString = function(value) {
-        return angular.isUndefined(value) || value == null ? '' : value.toString().trim();
+        return angular.isUndefined(value) || value === null ? '' : value.toString().trim();
     };
 
     self.encodeHTML = function(value) {

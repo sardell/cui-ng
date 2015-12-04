@@ -5,7 +5,7 @@ angular.module('cui-ng')
         scope: true,
         link:function(scope,elem,attrs){
           scope.toggleExpand=function(){
-              elem.hasClass('expanded')? elem.removeClass('expanded') : elem.addClass('expanded');
+              elem.toggleClass('expanded');
           };
         }
     };

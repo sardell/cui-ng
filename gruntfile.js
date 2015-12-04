@@ -122,10 +122,24 @@ module.exports = function(grunt) {
       options: {
         mangle: false
       }
+    },
+    jasmine: {
+      cuiNg: {
+        src: 'dist/cui-ng.js',
+        options: {
+          specs: 'tests/*.js',
+          helpers: ['bower_components/angular/angular.js','node_modules/angular-mocks/angular-mocks.js']
+        }
+      }
+    },
+    jshint: {
+      all: ['directives/**/*.js','utilities/**/*.js']
     }
   });
 
   grunt.registerTask('default', ['sass','concat','browserSync:dev','watch']);
   grunt.registerTask('build', ['sass','clean','copy','concat','useminPrepare','concat:generated','cssmin:generated','uglify:generated','filerev','usemin']);
-  grunt.registerTask('demo', ['browserSync:demo'])
+  grunt.registerTask('demo', ['browserSync:demo']);
+  grunt.registerTask('test', ['concat','jasmine']);
+  grunt.registerTask('lint', ['jshint']);
 }

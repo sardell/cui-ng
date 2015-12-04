@@ -6,17 +6,18 @@ angular.module('cui-ng')
         link:function(scope,elem,attrs){
             scope.user={};
             attrs.$observe('userAvatar',function(){
+                var background;
                 if(attrs.userAvatar!==''){
                     scope.user.avatar=attrs.userAvatar;
-                    var background= 'url("' + scope.user.avatar + '")';
+                    background= 'url("' + scope.user.avatar + '")';
                     angular.element(elem).css('background-image',background);
                 } 
                 else{
                     scope.user.color='#AAA';
-                    var background= scope.user.color;
-                    angular.element(elem).css({'background-image':'none','background-color':background})
+                    background= scope.user.color;
+                    angular.element(elem).css({'background-image':'none','background-color':background});
                 }
-            })
+            });
         }
     };
 }]);

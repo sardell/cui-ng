@@ -10,17 +10,18 @@ angular.module('cui-ng')
         link:function(scope,elem,attrs){
             scope.user={};
             attrs.$observe('userAvatar',function(){
+                var background;
                 if(attrs.userAvatar!==''){
                     scope.user.avatar=attrs.userAvatar;
-                    var background= 'url("' + scope.user.avatar + '")';
+                    background= 'url("' + scope.user.avatar + '")';
                     angular.element(elem).css('background-image',background);
                 } 
                 else{
                     scope.user.color='#AAA';
-                    var background= scope.user.color;
-                    angular.element(elem).css({'background-image':'none','background-color':background})
+                    background= scope.user.color;
+                    angular.element(elem).css({'background-image':'none','background-color':background});
                 }
-            })
+            });
         }
     };
 }]);
@@ -33,7 +34,7 @@ angular.module('cui-ng')
         scope: true,
         link:function(scope,elem,attrs){
           scope.toggleExpand=function(){
-              elem.hasClass('expanded')? elem.removeClass('expanded') : elem.addClass('expanded');
+              elem.toggleClass('expanded');
           };
         }
     };
@@ -48,10 +49,11 @@ angular.module('cui-ng')
         link:function(scope,elem,attrs){
             //init
             var init = function(){
+         
                     scope.invalidForm=[];
-                    scope.$steps=document.querySelectorAll('cui-wizard>step');
+                    scope.$steps=angular.element(elem[0].querySelectorAll('cui-wizard>step'));
                     scope.numberOfSteps=scope.$steps.length;
-                    scope.$indicatorContainer=document.querySelector('indicator-container');
+                    scope.$indicatorContainer=angular.element(elem[0].querySelector('indicator-container'));
                     scope.$window=angular.element($window);
                     scope.currentStep=Number(elem[0].attributes.step.value);
                     scope.clickableIndicators=attrs.clickableIndicators;
@@ -87,7 +89,7 @@ angular.module('cui-ng')
                             angular.forEach(form.$error, function (field) {
                                 angular.forEach(field, function(errorField){
                                     errorField.$setTouched();
-                                })
+                                });
                             });
                             scope.invalidForm[scope.currentStep]=true;
                         }
@@ -139,7 +141,7 @@ angular.module('cui-ng')
                         var compiled=$compile(div)(scope);
                         angular.element(scope.$indicatorContainer).append(compiled);
                     });
-                    scope.$indicators=document.querySelectorAll('.step-indicator');
+                    scope.$indicators=angular.element(elem[0].querySelectorAll('.step-indicator'));
                 },
                 // updates the current active indicator. Removes active class from other elements.
                 updateIndicators = function(){
@@ -159,7 +161,7 @@ angular.module('cui-ng')
                         var context = this, args = arguments;
                         var later = function() {
                             timeout = null;
-                            if (!immediate) {func.apply(context, args)};
+                            if (!immediate) {func.apply(context, args);}
                         };
                         var callNow = immediate && !timeout;
                         clearTimeout(timeout);
@@ -201,13 +203,13 @@ angular.module('cui-ng')
                 watchForWindowResize = function(){
                     scope.$window.bind('resize',function(){
                         makeSureTheresRoom();
-                    })
+                    });
                 },
                 listenForLanguageChange = function(){
                     scope.$on('languageChange',function(){
                         showAllIndicators();
                         makeSureTheresRoom();
-                    })
+                    });
                 },
                 observeStepAttr = function(){
                     attrs.$observe('step',function(newStep){
@@ -224,7 +226,7 @@ angular.module('cui-ng')
                             scope.currentStep=newStep;
                         }
                         updateIndicators();
-                    })
+                    });
                 };
             init();   
         }
@@ -351,15 +353,96 @@ angular.module('cui-ng')
 
 
 angular.module('cui-ng')
-.directive('passwordValidation', [function(){		
-	return {		
-		require: 'ngModel',		
-		scope: true,		
-		restrict: 'A',		
-		link: function(scope, element, attrs, ctrl){
-		    var policies=JSON.parse('[' + attrs.passwordValidation + ']')[0];
-		    var parsedPolicies={};
-		    for(var i=0;i<policies.length;i++){
+.factory('Validators',[function(){
+	RegExp.escape = function(text) {
+	  return text.replace(/[-[\]{}()*+?.,\\^$|#\s]/g, "\\$&");
+	};
+	var policies={};
+	var complex=function(modelValue,viewValue){
+		var classes=policies.classes,
+		numberOfUsedClasses=0;
+		if(classes.allowLowerChars){
+			if (/.*[a-z].*/.test(viewValue)) numberOfUsedClasses++;
+		}
+		if(classes.allowUpperChars){
+			if (/.*[A-Z].*/.test(viewValue)) numberOfUsedClasses++;
+		}
+		if(classes.allowSpecialChars){
+			if (/[-!$%^&*()_+|~=`{}\[\]:";'<>?,.\/]/.test(viewValue)) numberOfUsedClasses++;
+		}
+		if(classes.allowNumChars){
+			if (/.*[0-9].*/.test(viewValue)) numberOfUsedClasses++;
+		}
+		return numberOfUsedClasses>=policies.classes.requiredNumberOfCharClasses;
+	};
+	var validators={
+		setPolicies: function(newPolicies){
+			policies=newPolicies;
+		},
+		lowercase: function(modelValue,viewValue){
+			if(complex(modelValue,viewValue)) return true;
+			return /.*[a-z].*/.test(viewValue);
+		},
+		uppercase: function(modelValue,viewValue){
+			if(complex(modelValue,viewValue)) return true;
+			return /.*[A-Z].*/.test(viewValue);
+		},
+		number: function(modelValue,viewValue){
+			if(complex(modelValue,viewValue)) return true;
+			return /.*[0-9].*/.test(viewValue);
+		},
+		special: function(modelValue,viewValue){
+			if(complex(modelValue,viewValue)) return true;
+			return /[-!$%^&*()_+|~=`{}\[\]:";'<>?,.\/]/.test(viewValue);
+		},
+		complex: complex,
+		lowercaseNotAllowed: function(modelValue,viewValue){
+			return !(/.*[a-z].*/.test(viewValue));
+		},
+		uppercaseNotAllowed: function(modelValue,viewValue){
+			return !(/.*[A-Z].*/.test(viewValue));
+		},
+		numberNotAllowed: function(modelValue,viewValue){
+			return !(/.*[0-9].*/.test(viewValue));
+		},
+		specialNotAllowed: function(modelValue,viewValue){
+			return !(/[-!$%^&*()_+|~=`{}\[\]:";'<>?,.\/]/.test(viewValue));
+		},
+		disallowedChars: function(modelValue,viewValue){
+			var regExp=new RegExp('['+RegExp.escape(policies.disallowed.disallowedChars)+']','g');
+			return !regExp.test(viewValue);
+		},
+		disallowedWords: function(modelValue,viewValue){
+			var regExpString='';
+			var numberOfWords=policies.disallowedWords.disallowedWords.length;
+			for(var i=0;i<numberOfWords;i++){
+				if(i<(numberOfWords-1))regExpString+=policies.disallowedWords.disallowedWords[i]+'|';
+				else regExpString+=policies.disallowedWords.disallowedWords[i];
+			}
+			var regExp=new RegExp(regExpString,'g');
+			return !regExp.test(viewValue);
+		},
+		length: function(modelValue,viewValue){
+			return ((viewValue.length<=policies.count.max) && (viewValue.length>=policies.count.min));
+		}
+	};
+	return validators;
+}])
+.factory('Policy',['Validators',function(Validators){
+	var policies;
+	var parsedPolicies={};
+	var policy={
+		set: function(policiesString){
+			policies=policiesString;
+			this.parse(policies);
+		},
+		get: function(){
+			return parsedPolicies;
+		},
+		parse: function(policiesString){
+			// needs to parse the array out of the string passed
+			var policies=JSON.parse('[' + policiesString + ']')[0];
+			for(var i=0;i<policies.length;i++){
 		    	var keys=Object.keys(policies[i]);
 		    	if(keys.indexOf('allowUpperChars')>-1){
 		    		parsedPolicies.classes=policies[i];
@@ -370,76 +453,72 @@ angular.module('cui-ng')
 		    	if(keys.indexOf('min')>-1){
 		    		parsedPolicies.count=policies[i];
 		    	}
+		    	if(keys.indexOf('disallowedWords')>-1){
+		    		parsedPolicies.disallowedWords=policies[i];
+		    	}
 		    }
+		    return parsedPolicies;
+		},
+		getValidators: function(){
+			var validators={};
+			validators.complex=Validators.complex;
 
-			// if lowercases are allowed and there is at least one
-			ctrl.$validators.lowercase = function(modelValue,viewValue){
-				if(parsedPolicies.classes.allowLowerChars) return (/.*[a-z].*/.test(viewValue));
-				return true;
-			};
-
-			// if lowercases are not allowed make sure there is none
-			ctrl.$validators.lowercaseNotAllowed = function(modelValue,viewValue){
-				if(!parsedPolicies.classes.allowLowerChars) return !(/.*[a-z].*/.test(viewValue));
-				return true;
-			};
-
-			// if uppercases are allowed and there is at least one
-			ctrl.$validators.uppercase = function(modelValue,viewValue){
-				if(parsedPolicies.classes.allowUpperChars) return (/.*[A-Z].*/.test(viewValue));
-				return true;
-			};
-
-			// if uppercases are not allowed make sure there is none
-			ctrl.$validators.uppercaseNotAllowed = function(modelValue,viewValue){
-				if(!parsedPolicies.classes.allowUpperChars) return !(/.*[A-Z].*/.test(viewValue));
-				return true;
-			};
-
-			// if numbers are allowed and there is at least one
-			ctrl.$validators.number = function(modelValue,viewValue){
-				if(parsedPolicies.classes.allowNumChars) return (/.*[0-9].*/.test(viewValue));
-				return true;
-			};
-
-			// if numbers are not allowed make sure there is none
-			ctrl.$validators.numberNotAllowed = function(modelValue,viewValue){
-				if(!parsedPolicies.classes.allowNumChars) return !(/.*[0-9].*/.test(viewValue));
-				return true;
-			};
-
-			// if special chars are allowed and there is at least one
-			ctrl.$validators.special = function(modelValue,viewValue){
-				return (/[-!$%^&*()_+|~=`{}\[\]:";'<>?,.\/]/.test(viewValue) && parsedPolicies.classes.allowSpecialChars);
-			};
-
-			// if special chars are not allowed make sure there is none
-			ctrl.$validators.specialNotAllowed = function(modelValue,viewValue){
-				if(!parsedPolicies.classes.allowSpecialChars) return !(/[-!$%^&*()_+|~=`{}\[\]:";'<>?,.\/]/.test(viewValue));
-				return true;
-			};
-
-			// make sure the number of required classes is met
-			ctrl.$validators.complex = function(modelValue,viewValue){
-				return ((ctrl.$validators.lowercase(modelValue,viewValue)+ctrl.$validators.uppercase(modelValue,viewValue)+
-					ctrl.$validators.number(modelValue,viewValue)+ctrl.$validators.special(modelValue,viewValue))>=
-					parsedPolicies.classes.requiredNumberOfCharClasses);
-			};
-
-			// make sure the password meets the length requirements
-			ctrl.$validators.length = function(modelValue,viewValue){
-				return (viewValue.length<=parsedPolicies.count.max && viewValue.length>=parsedPolicies.count.min);
-			};
-
-			// make sure there's no disallowed chars
-			ctrl.$validators.disallowedChars = function(modelValue,viewValue){
-				var regExp=new RegExp('['+RegExp.escape(parsedPolicies.disallowed.disallowedChars)+']','g');
-				return !regExp.test(viewValue);
+			// if lower chars are not allowed add a check to see if there's a lowercase in the input
+			if (parsedPolicies.classes.allowLowerChars) { 
+				validators.lowercase=Validators.lowercase; 
+				validators.lowercaseNotAllowed=function(){ return true ;};
+			}
+			else {
+				validators.lowercase=function() { return true ;};
+				validators.lowercaseNotAllowed=Validators.lowercaseNotAllowed;
 			}
 
-			RegExp.escape = function(text) {
-			  return text.replace(/[-[\]{}()*+?.,\\^$|#\s]/g, "\\$&");
-			};
+			if (parsedPolicies.classes.allowUpperChars) {
+				validators.uppercase=Validators.uppercase;
+				validators.uppercaseNotAllowed=function(){ return true ;};
+			}
+			else {
+				validators.uppercase=function(){ return true ;};
+				validators.uppercaseNotAllowed=Validators.uppercaseNotAllowed;
+			}
+
+			if (parsedPolicies.classes.allowNumChars){
+				validators.number=Validators.number;
+				validators.numberNotAllowed=function(){ return true ;};
+			} 
+			else{
+				validators.number=function(){ return true ;};
+				validators.numberNotAllowed=Validators.numberNotAllowed;
+			}
+
+			if(parsedPolicies.classes.allowSpecialChars){
+				validators.special=Validators.special;
+				validators.specialNotAllowed=function(){ return true ;};
+			}
+			else{
+				validators.special=function(){ return true ;};
+				validators.specialNotAllowed=Validators.specialNotAllowed;
+			}
+
+			validators.disallowedChars=Validators.disallowedChars;
+			validators.disallowedWords=Validators.disallowedWords;
+			validators.length=Validators.length;
+
+			return validators;
+		}
+	};
+
+	return policy;
+}])
+.directive('passwordValidation', ['Policy','Validators',function(Policy,Validators){
+	return {		
+		require: 'ngModel',
+		scope: true,	
+		restrict: 'A',
+		link: function(scope, element, attrs, ctrl){
+		    Policy.set(attrs.passwordValidation);
+		    Validators.setPolicies(Policy.get());
+		    ctrl.$validators=Policy.getValidators();
 		}		
 	};		
 }]);
@@ -1414,7 +1493,7 @@ angular.module('cui-ng')
     };
 
     self.safeToString = function(value) {
-        return angular.isUndefined(value) || value == null ? '' : value.toString().trim();
+        return angular.isUndefined(value) || value === null ? '' : value.toString().trim();
     };
 
     self.encodeHTML = function(value) {
@@ -1530,7 +1609,7 @@ angular.module('cui-ng')
               $rootScope.$broadcast('$stateChangeSuccess', toState, toParams, fromState, fromParams);
           });
         }
-      }
+      };
 
       return routing;
     }])
@@ -1592,7 +1671,7 @@ angular.module('cui-ng')
               scope.loginRequired= true;
               scope.requiredEntitlements= access.requiredEntitlements || [];
               scope.entitlementType= access.entitlementType || 'atLeastOne';
-              var elem=angular.element(elem);
+              elem=angular.element(elem);
               attrs.$observe('user',function(){
                   scope.user= JSON.parse(attrs.user);
                   var authorized=authorize.authorize(scope.loginRequired, scope.requiredEntitlements, scope.entitlementType, scope.user);
@@ -1604,7 +1683,7 @@ angular.module('cui-ng')
                   }
               });
           }
-      }
+      };
   }]);
 
 })(angular);
