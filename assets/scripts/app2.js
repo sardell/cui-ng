@@ -1,4 +1,4 @@
-(function(angular,cui){
+(function(angular){
     'use strict';
 
     angular
@@ -12,9 +12,7 @@
             event.preventDefault();
             routing($rootScope, $state, toState, toParams, fromState, fromParams, user.getUser());
         })
-        $rootScope.cui=cui.api();
-        $rootScope.cui.setService('PRD');
-        
+
         LocaleService.setLocales('en_US','English (United States)');
         LocaleService.setLocales('pl_PL','Polish (Poland)');
         LocaleService.setLocales('zh_CN','Chinese (Simplified)');
@@ -294,5 +292,5 @@
         };
     }]);
 
-})(angular,cui);
+})(angular);
 // 
