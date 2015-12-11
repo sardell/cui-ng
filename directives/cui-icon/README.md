@@ -26,6 +26,9 @@ When using SVGs:
 ### Simple provider usage
 Use the $cuiIconProvider to configure your application with svg iconsets (see the 'sample icon files' folder for iconset examples).
 ```js
+// Include module...
+angular.module('app', ['cuiIcons'])
+
 // Load desires svg iconsets... 
 .config(['$cuiIconProvider', function($cuiIconProvider) {
     $cuiIconProvider
