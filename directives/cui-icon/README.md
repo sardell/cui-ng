@@ -51,4 +51,4 @@ Use the $cuiIconProvider to configure your application with svg iconsets (see th
 ```
 
 ### All the features
-All directive features documented [here](https://material.angularjs.org/1.0.0-rc7/api/directive/mdIcon)and [here](https://material.angularjs.org/1.0.0-rc7/api/service/$mdIcon), and the provider features documented [here](https://material.angularjs.org/1.0.0-rc7/api/service/$mdIconProvider) are supported.
+All directive features documented [here](https://material.angularjs.org/1.0.0-rc7/api/directive/mdIcon) and [here](https://material.angularjs.org/1.0.0-rc7/api/service/$mdIcon), and the provider features documented [here](https://material.angularjs.org/1.0.0-rc7/api/service/$mdIconProvider) are supported.
