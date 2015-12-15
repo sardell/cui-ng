@@ -8,7 +8,7 @@ angular.module('cui-ng')
             var init = function(){
          
                     scope.invalidForm=[];
-                    scope.$steps=angular.element(elem[0].querySelectorAll('cui-wizard>step'));
+                    scope.$steps=angular.element(elem[0].querySelectorAll('step'));
                     scope.numberOfSteps=scope.$steps.length;
                     scope.$indicatorContainer=angular.element(elem[0].querySelector('indicator-container'));
                     scope.$window=angular.element($window);
@@ -135,13 +135,13 @@ angular.module('cui-ng')
                     return totalWidth+((Number(scope.minimumPadding) || 0)*(scope.numberOfSteps-1));
                 },
                 getIndicatorContainerWidth = function(){
-                    return scope.$indicatorContainer.clientWidth;
+                    return scope.$indicatorContainer[0].clientWidth;
                 },
                 onlyShowCurrentIndicator = function(){
-                    scope.$indicatorContainer.classList.add('small');
+                    scope.$indicatorContainer[0].classList.add('small');
                 },
                 showAllIndicators = function(){
-                    scope.$indicatorContainer.classList.remove('small');
+                    scope.$indicatorContainer[0].classList.remove('small');
                 },
                 //makes sure there's still room for the step indicators, has a debounce on it so it
                 //doesn't fire too often.
