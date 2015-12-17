@@ -70,6 +70,7 @@
                   <input type="text" ng-model="app.organization.postal" class="cui-input "></input>
                 </div>
               </div>
+              
               <div class="cui-wizard__controls">
                 <button class="cui-wizard__next" ng-class="{'cui-wizard__next--error' : invalidForm[1] && organization.$invalid}" ng-click="nextWithErrorChecking(organization,'wizard.signOn')">{{'cui-next' | translate}}</button>
                 <button class="cui-wizard__skip" ng-class="{'cui-wizard__skip--show' : invalidForm[1] && organization.$invalid}" ng-click="next('wizard.signOn')">{{'cui-skip-for-now' | translate}} >></button>

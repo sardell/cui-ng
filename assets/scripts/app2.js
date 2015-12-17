@@ -284,7 +284,8 @@
                 svgList[i]='bower_components/cui-icons/dist/icons/icons-out.svg#' + svgList[i];
             }
             app.svgList=svgList;
-        })
+        });
+        
     }])
     .filter('svgIconCardHref', ['$sce' ,function ($sce) {
         return function(svg) {
