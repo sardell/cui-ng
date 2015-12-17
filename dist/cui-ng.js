@@ -147,9 +147,19 @@ CuiIconProvider.prototype = {
   defaultIconSize: function defaultIconSize(iconSize) {
     config.defaultIconSize = iconSize;
     return this;
-  }
+  },
+
+
+  $get: ['$http', '$q', '$templateCache', 
+    function($http, $q, $templateCache) {
+      this.preloadIcons($templateCache);
+      return new CuiIconService(config, $http, $q, $templateCache);
+    }
+  ]
 
 };
+
+
 
 // -------------------------------
 
