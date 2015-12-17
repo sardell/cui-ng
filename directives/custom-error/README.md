@@ -25,6 +25,7 @@ app.customErrors=[
 ];
 ```
 
+Then link the errors in your template.
 ```html
 <form name="myForm">
     <input type="text" custom-error="app.customErrors" ng-model="app.test" name="myField" />
