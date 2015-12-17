@@ -15,12 +15,12 @@ angular.module('cui-ng')
           }
           else ctrl.$setValidity(scope.customError[i].name,false);
         }
-      }
+      };
       if(scope.customError.length){
         scope.$watch(function(){
           checkErrors();
         });
       }
     }
-  }
+  };
 }]);
