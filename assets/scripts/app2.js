@@ -121,6 +121,11 @@
             }
        }
     }])
+    .factory('getCountries',['$http',function($http){
+        return function(locale){
+            return $http.get('bower_components/cui-i18n/dist/cui-i18n/angular-translate/countries/' + locale + '.json');
+        };
+    }])
     .factory('getSvgList',['$http', function($http){
         return $http.get('bower_components/cui-icons/iconList');
     }])
@@ -152,8 +157,8 @@
             }
         }
     }])
-    .controller('appCtrl',['$rootScope','$state','$stateParams','user','$timeout','localStorageService','$scope','getSvgList','auth','wizardStep',
-    function($rootScope,$state,$stateParams,user,$timeout,localStorageService,$scope,getSvgList,auth,wizardStep){
+    .controller('appCtrl',['$rootScope','$state','$stateParams','user','$timeout','localStorageService','$scope','getSvgList','auth','wizardStep','$translate','getCountries',
+    function($rootScope,$state,$stateParams,user,$timeout,localStorageService,$scope,getSvgList,auth,wizardStep,$translate,getCountries){
         var app=this;
         app.appUser={};
 
@@ -235,6 +240,7 @@
           //get from local storage if available -----------
         var organizationInStorage = localStorageService.get('app.organization');
         app.organization = organizationInStorage || {};
+        app.organization.country=undefined;
         $scope.$watch('app.organization',function(){
             localStorageService.set('app.organization',$scope.app.organization)
         }, true);
@@ -285,6 +291,27 @@
             }
             app.svgList=svgList;
         });
+        
+
+        var setCountries=function(language){
+            if(language.indexOf('_')>-1){
+                language=language.split('_')[0];   
+            }
+            getCountries(language)
+            .then(function(res){
+                app.countries=res.data;
+            })
+            .catch(function(err){
+                console.log(err);
+            });
+        }
+
+        $scope.$on('languageChange',function(e,args){
+            setCountries(args);
+        });
+
+        setCountries($translate.proposedLanguage());
+
         
     }])
     .filter('svgIconCardHref', ['$sce' ,function ($sce) {

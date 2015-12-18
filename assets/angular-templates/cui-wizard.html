@@ -1,10 +1,11 @@
 <div class="cui-tile">
       <div class="cui-tile__title">{{"cui-create-security-admin-account" | translate}}</div>
       <div class="cui-tile__body">
+
         <cui-wizard class="cui-wizard" step="{{app.step}}" clickable-indicators minimum-padding="30">
           <indicator-container class="indicator-container"></indicator-container>
           <step title="{{'cui-org-info' | translate}}" state="wizard.organization">
-            <form name="organization" novalidate>
+            <form name="organization" novalidate autocomplete="off">
               <!-- organization name -->
               <label for="org-name">{{'cui-org-info' | translate}}</label>
               <input type="text" ng-model="app.organization.name" name="org-name" class="cui-input " disabled></input>
@@ -41,11 +42,12 @@
                 <div class="cui-wizard__field-container cui-wizard__field-container--half">
                   <!-- country -->
                   <label for="country">{{"cui-country" | translate}}</label>
-                  <select ng-model="app.organization.country" class="cui-select ">
-                    <option value="" disabled selected></option>
-                    <option ng-repeat="country in app.organization.countries" value="{{country}}">{{country}}</option>
-                  </select>
+                  <div class="cui-error" ng-messages="organization.country.$error" ng-if="organization.country.$touched">
+                    <div ng-messages-include="assets/angular-templates/messages.html"></div>
+                  </div>
+                  <div auto-complete input-name="country" pause="100" selected-object="app.organization.country" local-data="app.countries" search-fields="name" title-field="name" minlength="1" input-class="cui-input" match-class="highlight" auto-match="true" field-required="app.organization.country" input-changed="app.organization.country"></div>
                 </div>
+  
                 <div class="cui-wizard__field-container cui-wizard__field-container--half">
                   <!-- state/province -->
                   <label for="state-province">{{"cui-state" | translate}}</label>
@@ -228,6 +230,7 @@
               </div>
             </form>
           </step>
+          
  <!--          <step title="{{'cui-preferences' | translate}}">
             <div class="cui-wizard__controls">
               <button class="cui-wizard__previous" ng-click="previous()"><< {{'cui-previous' | translate}}</button>
@@ -245,7 +248,7 @@
                 <p class="cui-expandable__review-item">{{'cui-company-division' | translate}}: {{app.organization.division}}</p>
                 <p class="cui-expandable__review-item">{{'cui-org-address' | translate}} 1: {{app.organization.address1}}</p>
                 <p class="cui-expandable__review-item" ng-if="app.organization.address2">{{'cui-org-address' | translate}} 2: {{app.organization.address2}}</p>
-                <p class="cui-expandable__review-item">{{'cui-country' | translate}}: {{app.organization.country}}</p>
+                <p class="cui-expandable__review-item">{{'cui-country' | translate}}: {{app.organization.country.originalObject.name}}</p>
                 <p class="cui-expandable__review-item">{{'cui-state' | translate}}: {{app.organization.state}}</p>
                 <p class="cui-expandable__review-item">{{'cui-city' | translate}}: {{app.organization.city}}</p>
                 <p class="cui-expandable__review-item">{{'cui-postal' | translate}}: {{app.organization.postal}}</p>

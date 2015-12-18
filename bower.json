@@ -39,9 +39,9 @@
     "angular-snap": "~1.8.4",
     "angular": "~1.4.7",
     "jquery": "~2.1.4",
-    "cui-ng-datafactory": "~1",
-    "cui-styleguide": "~1",
-    "cui-i18n": "~1",
-    "cui-icons": "~1"
+    "cui-ng-datafactory": "#master",
+    "cui-styleguide": "#master",
+    "cui-i18n": "#master",
+    "cui-icons": "#master"
   }
 }

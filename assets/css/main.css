@@ -367,7 +367,7 @@ fieldset {
   border: 0;
   margin: 0; }
 
-.cui-radio, .cui-checkbox__legend, .cui-off-canvas__list--child,
+.cui-radio, .cui-checkbox__legend, .cui-switch__input, .cui-off-canvas__list--child,
 .cui-off-canvas__sub-section-list {
   left: -999em;
   position: absolute; }
@@ -538,30 +538,18 @@ Styleguide Elements.Forms.Input
   .cui-input--error, .cui-input--error:focus, .cui-input.ng-touched.ng-invalid, select.ng-touched.ng-invalid.cui-select, .cui-input.ng-touched.ng-invalid:focus, select.ng-touched.ng-invalid.cui-select:focus {
     border: 1px solid #FF4400; }
   .cui-input__password-holder {
-    width: 100%;
-    float: none;
+    display: flex;
+    flex-direction: column;
+    flex-grow: 1;
+    justify-content: space-between;
     position: relative; }
-    .cui-input__password-holder--half {
-      position: relative;
-      float: left; }
   .cui-input[type="password"]:focus + .cui-error__password, select[type="password"].cui-select:focus + .cui-error__password {
     display: inline-block; }
   .cui-input.ng-touched.ng-valid, select.ng-touched.ng-valid.cui-select, .cui-input--valid {
     border: 1px solid #47CBB4; }
   @media all and (max-width: 700px) {
     .cui-input--half {
-      width: 100%; }
-    .cui-input__password--holder--half {
-      width: 100%;
-      float: none; }
-      .cui-input__password--holder--half > .cui-error__password {
-        top: 100%;
-        right: 0;
-        transform: translate(-100%, 0); }
-        .cui-input__password--holder--half > .cui-error__password:before {
-          top: 0;
-          left: 50%;
-          transform: translate(-50%, -90%) rotate(180deg); } }
+      width: 100%; } }
 
 /*
 Email tags field
@@ -831,6 +819,76 @@ Styleguide Elements.Forms.Checkbox
     box-shadow: inset 0 0 0 2px #fff; }
 
 /*
+Switch
+
+Markup:
+<div class="cui-switch">
+  <input class="cui-switch__input" name="switch" id="cui-switch-1" type="checkbox" /> 
+  <label class="cui-switch__label" for="cui-switch-1">
+    <div class="cui-switch__container">
+      <span class="cui-switch__checked-message">Accept</span>
+      <span class="cui-switch__unchecked-message">Don't Accept</span>
+    </div>
+  </label> 
+</div>
+
+Styleguide Elements.Forms.Switch
+*/
+.cui-switch {
+  display: flex; }
+
+.cui-switch__container {
+  align-items: center;
+  border: 1px solid #6D6D6D;
+  border-radius: 8px;
+  cursor: pointer;
+  display: flex;
+  font-size: 12px;
+  height: 50px;
+  justify-content: space-around;
+  width: 209px; }
+  .cui-switch__container span {
+    margin-left: 15px; }
+
+.cui-switch__checked-message {
+  color: black;
+  transition: color .5s ease-in-out;
+  z-index: 10; }
+
+.cui-switch__unchecked-message {
+  color: white;
+  transition: color .5s ease-in-out;
+  z-index: 10; }
+
+.cui-switch__label {
+  content: '';
+  position: relative; }
+
+.cui-switch__label:before {
+  background-color: #00BD9C;
+  border-radius: 0 6px 6px 0;
+  content: '';
+  cursor: pointer;
+  height: calc(100% - 2px);
+  position: absolute;
+  right: 1px;
+  top: 1px;
+  transition: all .15s ease-in;
+  width: 104px; }
+
+.cui-switch__input:checked + .cui-switch__label:before {
+  border-radius: 6px 0 0 6px;
+  transform: translateX(-103px); }
+
+.cui-switch__input:checked + .cui-switch__label .cui-switch__unchecked-message {
+  color: black;
+  transition: color .5s; }
+
+.cui-switch__input:checked + .cui-switch__label .cui-switch__checked-message {
+  color: white;
+  transition: color .5s; }
+
+/*
 Primary Colors
 
 Markup: <div class="cui-styleguide__colors cui-primary-colors cui-primary-colors--light">.cui-primary-colors--light</div>
@@ -1062,8 +1120,16 @@ Styleguide Blocks.Wizard
   margin-top: 0;
   padding: 5px 0 5px;
   position: relative; }
+  .cui-error.ng-active, .ng-active.cui-error--half {
+    animation: error-opacity .3s;
+    min-height: 26px;
+    opacity: 1;
+    transition: min-height .15s ease-in, opacity .3s ease-in; }
   .cui-error.ng-inactive, .ng-inactive.cui-error--half {
-    display: none; }
+    min-height: 0px;
+    opacity: 0;
+    padding: 0;
+    transition: min-height .15s ease-out, opacity .3s ease-out; }
   .cui-error--half {
     width: 48%; }
     @media all and (max-width: 700px) {
@@ -1076,8 +1142,8 @@ Styleguide Blocks.Wizard
     padding: 10px 20px 20px;
     position: absolute;
     left: 100%;
-    top: 0;
-    width: 300px;
+    top: 30%;
+    width: 310px;
     border-radius: 7px;
     z-index: 2;
     transform: translate(10px, -30%);
@@ -1091,6 +1157,16 @@ Styleguide Blocks.Wizard
       text-shadow: 2px 2px rgba(0, 0, 0, 0.09);
       top: 30%;
       transform: rotate(90deg) translate(7px, 15px); }
+    @media all and (max-width: 700px) {
+      .cui-error__password {
+        left: 50%;
+        top: 100%;
+        width: 90%;
+        transform: translate(-50%, -10px); }
+        .cui-error__password:before {
+          top: 3px;
+          left: 20%;
+          transform: rotate(180deg) translate(0, 100%); } }
 
 .step-indicator {
   color: #bbb;
@@ -1825,6 +1901,9 @@ Styleguide Blocks.Expandable
   .cui-expandable.expanded > .cui-expandable__title > .chevron {
     transform: rotate(90deg); }
 
+.cui-expandable__body {
+  padding-left: 10px; }
+
 .indicator-container {
   border-bottom: 1px solid #ddd;
   display: flex;
@@ -2261,3 +2340,69 @@ Styleguide Blocks.Expandable With Table Layout
   transform: translate(0, -1px); }
   .circle.green {
     background: #3CB371; }
+
+.angucomplete-holder {
+  position: relative; }
+
+.angucomplete-dropdown {
+  border-color: #ececec;
+  border-width: 1px;
+  border-style: solid;
+  border-radius: 2px;
+  width: 100%;
+  padding: 6px;
+  max-height: 200px;
+  overflow-y: auto;
+  cursor: pointer;
+  z-index: 9999;
+  position: absolute;
+  /*top: 32px;
+    left: 0px;
+    */
+  margin-top: -6px;
+  background-color: #ffffff; }
+
+.angucomplete-searching {
+  color: #acacac;
+  font-size: 14px; }
+
+.angucomplete-description {
+  font-size: 14px; }
+
+.angucomplete-row {
+  padding: 5px;
+  color: #000000;
+  margin-bottom: 4px;
+  clear: both; }
+
+.angucomplete-selected-row {
+  background-color: orange;
+  color: #ffffff; }
+  .angucomplete-selected-row .highlight {
+    color: white; }
+
+.angucomplete-image-holder {
+  padding-top: 2px;
+  float: left;
+  margin-right: 10px;
+  margin-left: 5px; }
+
+.angucomplete-image {
+  height: 34px;
+  width: 34px;
+  border-radius: 50%;
+  border-color: #ececec;
+  border-style: solid;
+  border-width: 1px; }
+
+.angucomplete-image-default {
+  /* Add your own default image here
+     background-image: url('/assets/default.png');
+    */
+  background-position: center;
+  background-size: contain;
+  height: 34px;
+  width: 34px; }
+
+.highlight {
+  color: orange; }
