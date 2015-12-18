@@ -111,6 +111,10 @@ module.exports = function(grunt) {
       svgs: {
         src: ['bower_components/cui-icons/dist/**/*.svg'],
         dest: 'build/'
+      },
+      countries: {
+        src: ['bower_components/cui-i18n/dist/cui-i18n/angular-translate/countries/*.json'],
+        dest: 'build/'
       }
     },
     clean: {
