@@ -51,10 +51,17 @@ Cui-authorization is a module that depends on [ui-router](https://github.com/ang
 
 ```
 
+#### HTML Element Blocking
+
+```html
+<any-element cui-access='{ "requiredEntitlements":["admin","user"],"entitlementType":"atLeastOne"}' user="{{app.appUser}}">Test</any-element>
+```
+
+This will add a `.hide` class to the element, if the user defined in app.appUser doesn't have permission to see it.
+
 ### How it works / features
 With this implementation, this module will listen to the `$stateChangeStart` event on $rootScope that is fired by ui-router everytime that the state changes. Then, based on the user's `entitlements` it determines if the user is allowed to see that page or not.
 
-TODO - element blocking
 
 #### Redirecting
 There are 2 types of redirection:

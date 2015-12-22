@@ -9,7 +9,7 @@ Tags input is an angular directive made to convert an input field to a tag style
 #### Markup
 
 ```html
-   <tags-input ng-model="app.tags">
+   <tags-input class="cui-tags-input" ng-model="app.tags">
    </tags-input>
 ```
 #### Options
