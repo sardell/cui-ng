@@ -9,7 +9,6 @@ angular.module('cui-ng')
     link: function(scope,ele,attrs,ctrl){
       var checkErrors=function(){
         for(var i=0;i<scope.customError.length;i++){
-          console.log(scope.customError[i].check());
           if(scope.customError[i].check()){
             ctrl.$setValidity(scope.customError[i].name,true);
           }
