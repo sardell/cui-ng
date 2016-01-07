@@ -443,34 +443,44 @@ Texts
 
 Styles for text. Heading tags have the same base font size and weight to encourage writing semantic markup.
 
-Markup: <h1>H1 Heading</h1>
-        <h2>H2 Heading</h2>
-        <h3>H3 Heading</h3>
-        <h4>H4 Heading</h4>
-        <h5>H5 Heading</h5>
-        <h6>H6 Heading</h6>
-        <div class="cui-styleguide__text-section">
-          <span class="cui-italic">Italics should be used sparingly.</span><br>
-          <span class="cui-bold">Bolds should never be used.</span><br>
-          The heaviest weight of Helvetica Neue <br>
-          that should be used is Medium. <br>
-          <p>Paragraph text. Donec sed odio dui. Cras justo odio, dapibus 
-          ac facilisis in. Egestas eget quam. Maecenas faucibus mollis 
-          interdum maecenas faucibus.</p> 
-        </div>
-        <a class="cui-link" href="">Link Style</a>
-        <ul class="cui-ul">
-          <li>Unordered List</li>
-          <li>Unordered List</li>
-        </ul>
-        <ol class="cui-ol">
-          <li>Ordered List</li>
-        </ol>
+Markup: 
+<h1>H1 Heading</h1>
+<h2>H2 Heading</h2>
+<h3>H3 Heading</h3>
+<h4>H4 Heading</h4>
+<h5>H5 Heading</h5>
+<h6>H6 Heading</h6>
+<div class="cui-styleguide__text-section">
+  <span class="cui-italic">Italics should be used sparingly.</span><br>
+  <span class="cui-bold">Bolds should never be used.</span><br>
+  The heaviest weight of Helvetica Neue <br>
+  that should be used is Medium. <br>
+  <p>Paragraph text. Donec sed odio dui. Cras justo odio, dapibus 
+  ac facilisis in. Egestas eget quam. Maecenas faucibus mollis 
+  interdum maecenas faucibus.</p> 
+</div>
+<a class="cui-link" href="">Link Style</a>
+<ul class="cui-ul">
+  <li>Unordered List</li>
+  <li>Unordered List</li>
+</ul>
+<ol class="cui-ol">
+  <li>Ordered List</li>
+</ol>
 
 Styleguide Elements.Text
 */
+@font-face {
+  font-family: "lato-regular";
+  font-style: normal;
+  font-weight: normal;
+  src: url("fonts/lato-regular.woff2") format("woff2"), url("fonts/lato-regular.woff") format("woff"); }
+
 body {
-  color: #929292; }
+  color: #929292;
+  font-size: 16px;
+  font-family: "lato-regular", sans-serif;
+  font-weight: 400; }
 
 h1, h2, h3, h4, h5, h6 {
   color: #000;
@@ -486,7 +496,7 @@ h1, h2, h3, h4, h5, h6 {
 p {
   color: #929292; }
 
-.cui-link, .cui-search__dropdown a, .cui-expandable__link {
+.cui-link, .cui-search__dropdown a, .cui-expandable__link, .cui-pagination__link a, .cui-pagination__display-amount {
   color: #429DD1; }
 
 ul,
@@ -710,12 +720,13 @@ Styleguide Elements.Forms.Tags
 /*
 Dropdown
 
-Markup: <select class="cui-input cui-input--full cui-select">
-            <option value="helloo"></option>
-            <option value="hellloooo"></option>
-            <option value="hellllooooooo"></option>
-            <option value="HELLO"></option>
-          </select>
+Markup: 
+<select class="cui-input cui-input--full cui-select">
+  <option value="helloo"></option>
+  <option value="hellloooo"></option>
+  <option value="hellllooooooo"></option>
+  <option value="HELLO"></option>
+</select>
 
 Styleguide Elements.Forms.Dropdown
 */
@@ -891,11 +902,12 @@ Styleguide Elements.Forms.Switch
 /*
 Primary Colors
 
-Markup: <div class="cui-styleguide__colors cui-primary-colors cui-primary-colors--light">.cui-primary-colors--light</div>
-        <div class="cui-styleguide__colors cui-primary-colors cui-primary-colors--medium-light">.cui-primary-colors--medium-light</div>
-        <div class="cui-styleguide__colors cui-primary-colors cui-primary-colors--medium">.cui-primary-colors--medium</div>
-        <div class="cui-styleguide__colors cui-primary-colors cui-primary-colors--medium-dark">.cui-primary-colors--medium-dark</div>
-        <div class="cui-styleguide__colors cui-primary-colors cui-primary-colors--dark">.cui-primary-colors--dark</div>
+Markup: 
+<div class="cui-styleguide__colors cui-primary-colors cui-primary-colors--light">.cui-primary-colors--light</div>
+<div class="cui-styleguide__colors cui-primary-colors cui-primary-colors--medium-light">.cui-primary-colors--medium-light</div>
+<div class="cui-styleguide__colors cui-primary-colors cui-primary-colors--medium">.cui-primary-colors--medium</div>
+<div class="cui-styleguide__colors cui-primary-colors cui-primary-colors--medium-dark">.cui-primary-colors--medium-dark</div>
+<div class="cui-styleguide__colors cui-primary-colors cui-primary-colors--dark">.cui-primary-colors--dark</div>
 
 Styleguide Elements.Colors.Primary-Colors
 */
@@ -919,10 +931,11 @@ Styleguide Elements.Colors.Primary-Colors
 /*
 Secondary Colors
 
-Markup: <div class="cui-styleguide__colors cui-secondary-colors cui-secondary-colors--light">.cui-secondary-colors--light</div>
-        <div class="cui-styleguide__colors cui-secondary-colors cui-secondary-colors--medium-light">.cui-secondary-colors--medium-light</div>
-        <div class="cui-styleguide__colors cui-secondary-colors cui-secondary-colors--medium">.cui-secondary-colors--medium</div>
-        <div class="cui-styleguide__colors cui-secondary-colors cui-secondary-colors--dark">.cui-secondary-colors--dark</div>
+Markup: 
+<div class="cui-styleguide__colors cui-secondary-colors cui-secondary-colors--light">.cui-secondary-colors--light</div>
+<div class="cui-styleguide__colors cui-secondary-colors cui-secondary-colors--medium-light">.cui-secondary-colors--medium-light</div>
+<div class="cui-styleguide__colors cui-secondary-colors cui-secondary-colors--medium">.cui-secondary-colors--medium</div>
+<div class="cui-styleguide__colors cui-secondary-colors cui-secondary-colors--dark">.cui-secondary-colors--dark</div>
 
 Styleguide Elements.Colors.Secondary-Colors
 */
@@ -1193,28 +1206,27 @@ step {
 /*
 Header
 
-Markup: <header class="cui-header">
-          <div class="cui-header__top">
-            <svg class="cui-header__svg-logo" viewBox="0 0 640 124"><use xlink:href="public/img/svg-out.svg#covisint-logo"></use></svg>
-            <div class="cui-header__user" onclick="toggle_visibility('cui-avatar__popup--header');">
-            <span class="cui-header__user--name">Bill Murray</span>
-            <div class="cui-chevron--left"></div>
-            <cui-avatar class="cui-header__user--avatar cui-avatar">
-              <div id="cui-avatar__popup--header" class="cui-avatar--popup" style="opacity:0">
-                <span class="cui-avatar--popup__greet">
-                  Hello, Bill!<br/>
-                  <span class="small">Logged in as Bill Murray</span>
-                </span>
-                <span class="cui-avatar--popup__greet">You should login.<br/>
-                </span>
-                <hr/>
-              </div>
-            </cui-avatar>
-          </div>
-          </div>
-          <cui-top-menu ng-if="cuiTopMenu"></cui-top-menu>
-          <!-- TODO : Search bar? -->
-        </header>
+Markup: 
+<header class="cui-header">
+  <div class="cui-header__top">
+    <svg class="cui-header__svg-logo" viewBox="0 0 640 124"><use xlink:href="public/img/svg-out.svg#covisint-logo"></use></svg>
+    <div class="cui-header__user" onclick="toggle_visibility('cui-avatar__popup--header');">
+    <span class="cui-header__user--name">Bill Murray</span>
+    <div class="cui-chevron--left"></div>
+    <cui-avatar class="cui-header__user--avatar cui-avatar">
+      <div id="cui-avatar__popup--header" class="cui-avatar--popup" style="opacity:0">
+        <span class="cui-avatar--popup__greet">
+          Hello, Bill!<br/>
+          <span class="small">Logged in as Bill Murray</span>
+        </span>
+        <span class="cui-avatar--popup__greet">You should login.<br/>
+        </span>
+        <hr/>
+      </div>
+    </cui-avatar>
+  </div>
+  </div>
+</header>
 
 Styleguide Blocks.Header
 */
@@ -1358,14 +1370,14 @@ Styleguide Blocks.Avatar
     transform: rotate(180deg); }
 
 /*
-Container
+Tile
 
 Markup: 
 <div class="cui-tile">
-    <div class="cui-tile__title">Container Title</div>
-    <div class="cui-tile__body">
-        <p>Container Body</p>
-    </div>
+  <div class="cui-tile__title">Container Title</div>
+  <div class="cui-tile__body">
+    <p>Container Body</p>
+  </div>
 </div>
 
 Styleguide Blocks.Container
@@ -1924,36 +1936,36 @@ Tables
 
 Markup:
 <table class="cui-table cui-table--borderless">
-    <thead>
-      <tr>
-        <th scope="col">Column Title</th>
-        <th scope="col">Column Title</th>
-        <th scope="col">Column Title</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr style="">
-        <td scope="row">Row Information</td>
-        <td>Row Information</td>
-        <td>Row Information</td>
-      </tr>
-      <tr>
-        <td scope="row">Row Information</td>
-        <td>Row Information</td>
-        <td>Row Information</td>
-      </tr>
-      <tr>
-        <td scope="row">Row Information</td>
-        <td>Row Information</td>
-        <td>Row Information</td>
-      </tr>
-      <tr>
-        <td scope="row">Row Information</td>
-        <td>Row Information</td>
-        <td>Row Information</td>
-      </tr>      
-    </tbody>
-  </table>
+  <thead>
+    <tr>
+      <th scope="col">Column Title 1</th>
+      <th scope="col">Column Title 2</th>
+      <th scope="col">Column Title 3</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr style="">
+      <td data-label="Column Title 1 "scope="row">Row Information</td>
+      <td data-label="Column Title 2">Row Information</td>
+      <td data-label="Column Title 3">Row Information</td>
+    </tr>
+    <tr>
+      <td data-label="Column Title 1 "scope="row">Row Information</td>
+      <td data-label="Column Title 2">Row Information</td>
+      <td data-label="Column Title 3">Row Information</td>
+    </tr>
+    <tr>
+      <td data-label="Column Title 1 "scope="row">Row Information</td>
+      <td data-label="Column Title 2">Row Information</td>
+      <td data-label="Column Title 3">Row Information</td>
+    </tr>
+    <tr>
+      <td data-label="Column Title 1 "scope="row">Row Information</td>
+      <td data-label="Column Title 2">Row Information</td>
+      <td data-label="Column Title 3">Row Information</td>
+    </tr>      
+  </tbody>
+</table>
 
 Styleguide Elements.Tables
 
@@ -1979,19 +1991,53 @@ Styleguide Elements.Tables
   border-left: 0;
   border-right: 0; }
 
+@media only screen and (max-width: 760px), (min-device-width: 768px) and (max-device-width: 1024px) {
+  .cui-table--borderless {
+    /* Force table to not be like tables anymore */
+    /*
+  Label the data
+  */ }
+    .cui-table--borderless table, .cui-table--borderless thead, .cui-table--borderless tbody, .cui-table--borderless th, .cui-table--borderless td, .cui-table--borderless tr {
+      display: flex; }
+    .cui-table--borderless thead tr {
+      position: absolute;
+      top: -9999px;
+      left: -9999px; }
+    .cui-table--borderless tbody {
+      flex-direction: column; }
+    .cui-table--borderless tr {
+      border: 1px solid #ccc;
+      flex-direction: column; }
+    .cui-table--borderless td {
+      /* Behave  like a "row" */
+      border: none;
+      border-bottom: 1px solid #eee; }
+    .cui-table--borderless td:before {
+      display: flex;
+      font-weight: 900;
+      padding-right: 20px;
+      max-width: 40%; }
+    .cui-table--borderless td:nth-of-type(1):before {
+      content: attr(data-label); }
+    .cui-table--borderless td:nth-of-type(2):before {
+      content: attr(data-label); }
+    .cui-table--borderless td:nth-of-type(3):before {
+      content: attr(data-label); } }
+
 /*
 Popover
 
 Markup:
 <div class="cui-wizard__field-container cui-wizard__field-container--half ">
-                  <div class="cui-input__password-holder">
-                    <label for="password1">Password</label>
-                    <input type="password" name="password1" class="cui-input cui-input__password cui-input--error" placeholder="" required="required">
-<div class="cui-error__password">
-  <p class="">Passwords must:</p>
-  <div class="cui-error__message">have at least 1 lower case letter</div>
-  <div class="cui-error__message">have at least 1 upper case letter</div>
-</div>
+  <div class="cui-input__password-holder">
+    <label for="password1">Password</label>
+    <input type="password" name="password1" class="cui-input cui-input__password cui-input--error" placeholder="" required="required">
+    <div class="cui-error__password">
+      <p class="">Passwords must:</p>
+      <div class="cui-error__message">have at least 1 lower case letter</div>
+      <div class="cui-error__message">have at least 1 upper case letter</div>
+    </div>
+  </div>
 </div>
 
 Styleguide Blocks.Popover
@@ -2244,56 +2290,56 @@ Expandable with Table Layout
 
 Markup:
 <div class="cui-expandable__container">
-<div class="cui-expandable__tr">
-  <span class="cui-expandable__td">Invitation ID</span>
-  <span class="cui-expandable__td">Email</span>
-  <span class="cui-expandable__td"></span>
-</div>
-<div class="cui-expandable expanded">
-  <div class="cui-expandable__title">
-    <div class="cui-expandable__tr">
-      <span class="cui-expandable__td">11545385</span>
-      <span class="cui-expandable__td">william.murray@thirdwavellc.com</span>
-      <span class="cui-expandable__td"><span class="cui-expandable__link">view</span></span>
-    </div>
+  <div class="cui-expandable__tr">
+    <span class="cui-expandable__td">Invitation ID</span>
+    <span class="cui-expandable__td">Email</span>
+    <span class="cui-expandable__td"></span>
   </div>
-  <ul class="cui-expandable__body">
-    <li class="cui-expandable__review-item">Revealed item</li>
-    <li class="cui-expandable__review-item">Revealed item</li>
-    <li class="cui-expandable__review-item">Revealed item</li>
-    <li class="cui-expandable__review-item">Revealed item</li>
-  </ul>
-</div>
-<div class="cui-expandable">
-  <div class="cui-expandable__title">
-    <div class="cui-expandable__tr">
-      <span class="cui-expandable__td">11545385</span>
-      <span class="cui-expandable__td">william.murray@thirdwavellc.com</span>
-      <span class="cui-expandable__td"><span class="cui-link">view</span></span>
+  <div class="cui-expandable expanded">
+    <div class="cui-expandable__title">
+      <div class="cui-expandable__tr">
+        <span class="cui-expandable__td">11545385</span>
+        <span class="cui-expandable__td">william.murray@thirdwavellc.com</span>
+        <span class="cui-expandable__td"><span class="cui-expandable__link">view</span></span>
+      </div>
     </div>
+    <ul class="cui-expandable__body">
+      <li class="cui-expandable__review-item">Revealed item</li>
+      <li class="cui-expandable__review-item">Revealed item</li>
+      <li class="cui-expandable__review-item">Revealed item</li>
+      <li class="cui-expandable__review-item">Revealed item</li>
+    </ul>
   </div>
-  <ul class="cui-expandable__body">
-    <li class="cui-expandable__review-item">Hidden item</li>
-    <li class="cui-expandable__review-item">Hidden item</li>
-    <li class="cui-expandable__review-item">Hidden item</li>
-    <li class="cui-expandable__review-item">Hidden item</li>
-  </ul>
-</div>
-<div class="cui-expandable">
-  <div class="cui-expandable__title">
-    <div class="cui-expandable__tr">
-      <span class="cui-expandable__td">11545385</span>
-      <span class="cui-expandable__td">william.murray@thirdwavellc.com</span>
-      <span class="cui-expandable__td"><span class="cui-link">view</span></span>
+  <div class="cui-expandable">
+    <div class="cui-expandable__title">
+      <div class="cui-expandable__tr">
+        <span class="cui-expandable__td">11545385</span>
+        <span class="cui-expandable__td">william.murray@thirdwavellc.com</span>
+        <span class="cui-expandable__td"><span class="cui-link">view</span></span>
+      </div>
     </div>
+    <ul class="cui-expandable__body">
+      <li class="cui-expandable__review-item">Hidden item</li>
+      <li class="cui-expandable__review-item">Hidden item</li>
+      <li class="cui-expandable__review-item">Hidden item</li>
+      <li class="cui-expandable__review-item">Hidden item</li>
+    </ul>
   </div>
-  <ul class="cui-expandable__body">
-    <li class="cui-expandable__review-item">Another hidden item</li>
-    <li class="cui-expandable__review-item">Another hidden item</li>
-    <li class="cui-expandable__review-item">Another hidden item</li>
-    <li class="cui-expandable__review-item">Another hidden item</li>
-  </ul>
-</div>
+  <div class="cui-expandable">
+    <div class="cui-expandable__title">
+      <div class="cui-expandable__tr">
+        <span class="cui-expandable__td">11545385</span>
+        <span class="cui-expandable__td">william.murray@thirdwavellc.com</span>
+        <span class="cui-expandable__td"><span class="cui-link">view</span></span>
+      </div>
+    </div>
+    <ul class="cui-expandable__body">
+      <li class="cui-expandable__review-item">Another hidden item</li>
+      <li class="cui-expandable__review-item">Another hidden item</li>
+      <li class="cui-expandable__review-item">Another hidden item</li>
+      <li class="cui-expandable__review-item">Another hidden item</li>
+    </ul>
+  </div>
 </div>
 
 
@@ -2330,6 +2376,112 @@ Styleguide Blocks.Expandable With Table Layout
       margin-right: 0; }
   .cui-expandable__td:nth-of-type(3) {
     text-align: center; }
+
+/*
+Pagination
+
+Markup:
+<nav class="cui-pagination">
+  <span class="cui-pagination__total">Showing 1-300 of 1500 items</span>
+  <a class="cui-pagination__display-amount" href="#">Show 50</a> 
+  <ul class="cui-pagination__links">
+    <li class="cui-pagination__link">
+      <a href="#" aria-label="Previous">
+        <span class="cui-pagination__previous cui-pagination__previous--disabled" aria-hidden="true">&lsaquo;Prev</span>
+      </a>
+    </li>
+    <li class="cui-pagination__link cui-pagination__link--current">
+      <a href="">1</a>
+    </li>
+    <li class="cui-pagination__link">
+      <a href="">2</a>
+    </li>
+    <li class="cui-pagination__link">
+      <a href="">3</a>
+    </li>
+    <li class="cui-pagination__link">
+      <a href="#" aria-label="Next">
+        <span class="cui-pagination__next" aria-hidden="true">Next&rsaquo;</span>
+      </a>
+    </li>
+  </ul>
+</nav>
+
+Styleguide Blocks.Pagination
+*/
+.cui-pagination {
+  align-items: center;
+  display: flex;
+  flex-direction: column;
+  height: 100px;
+  justify-content: space-between;
+  max-width: 550px;
+  text-align: center; }
+  @media screen and (min-width: 500px) {
+    .cui-pagination {
+      flex-direction: row;
+      height: auto; } }
+
+.cui-pagination__total {
+  flex-grow: 1; }
+
+.cui-pagination__links {
+  display: flex;
+  flex-grow: 1;
+  flex-direction: row;
+  justify-content: space-between;
+  padding-left: 20px;
+  text-align: center; }
+  @media screen and (min-width: 500px) {
+    .cui-pagination__links {
+      border-left: 1px solid black;
+      margin-left: -1px; } }
+
+.cui-pagination__link {
+  flex-grow: 1;
+  list-style-type: none;
+  padding: 0 10px; }
+  @media screen and (min-width: 500px) {
+    .cui-pagination__link {
+      padding: 0; } }
+  .cui-pagination__link a {
+    text-decoration: none; }
+  .cui-pagination__link .cui-pagination__link--current {
+    color: #929292;
+    cursor: text; }
+
+.cui-pagination__previous--disabled {
+  color: #929292;
+  cursor: default; }
+
+.cui-pagination__display-amount {
+  flex-grow: 1;
+  text-decoration: none; }
+  @media screen and (min-width: 500px) {
+    .cui-pagination__display-amount {
+      border-left: 1px solid black;
+      margin-left: -1px; } }
+
+/*
+Loading
+
+Markup:
+<div class="cui-loading"></div>
+
+Styleguide Blocks.Loading
+*/
+.cui-loading {
+  animation: spin 1s infinite linear;
+  background-color: #fff;
+  border: 0.625em solid #429DD1;
+  border-radius: 2.5em;
+  border-top-color: #87CEEC;
+  height: 5em;
+  width: 5em; }
+
+@keyframes spin {
+  100% {
+    transform: rotate(360deg); } }
 
 .circle {
   width: 9px;

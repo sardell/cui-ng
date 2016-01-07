@@ -941,7 +941,6 @@ CuiIconProvider.prototype = {
 
   $get: ['$http', '$q', '$templateCache', 
     function($http, $q, $templateCache) {
-      this.preloadIcons($templateCache);
       return new CuiIconService(config, $http, $q, $templateCache);
     }
   ]
@@ -1325,7 +1324,6 @@ angular.module('cui-ng')
     link: function(scope,ele,attrs,ctrl){
       var checkErrors=function(){
         for(var i=0;i<scope.customError.length;i++){
-          console.log(scope.customError[i].check());
           if(scope.customError[i].check()){
             ctrl.$setValidity(scope.customError[i].name,true);
           }
