@@ -149,7 +149,6 @@ angular.module('cui-ng')
                                 scope.$indicators[i].classList.remove('visited');
                             }
                         }
-                        console.log(scope.$steps);
                         scope.$steps[currentStep-1].classList.add('active');
                         scope.$indicators[currentStep-1].classList.add('active');
                     });
@@ -195,9 +194,11 @@ angular.module('cui-ng')
                 },
                 onlyShowCurrentIndicator = function(){
                     scope.$indicatorContainer[0].classList.add('small');
+                    if(scope.bar) updateBar();
                 },
                 showAllIndicators = function(){
                     scope.$indicatorContainer[0].classList.remove('small');
+                    if(scope.bar) updateBar();
                 },
                 //makes sure there's still room for the step indicators, has a debounce on it so it
                 //doesn't fire too often.
