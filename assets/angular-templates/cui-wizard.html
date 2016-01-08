@@ -1,10 +1,68 @@
+<style>
+  .step-indicator{
+    text-align:center;
+    position:relative;
+  }
+
+  .step-indicator>.icon-container{
+    margin-top:10px;
+  }
+
+  .icon-container>.icon{
+    border:2px solid #ccc;
+    border-radius:50%;
+    width:50px;
+    height:50px;
+    z-index:1;
+    position:relative;
+    background:white;
+  }
+
+  .step-indicator.active>.icon-container>.icon{
+    border:2px solid #429DD1;
+  }
+
+  .step-indicator.visited>.icon-container>.icon{
+    border:2px solid #666;
+  }
+
+  .indicator-container{
+    position:relative;
+    border:none;
+  }
+
+  .indicator-container>.steps-bar{
+    z-index:0;
+    position:absolute;
+    top:62%;
+    height:2px;
+    background:#ccc;
+  }
+
+  .indicator-container>.steps-bar>.steps-bar-fill{
+    height:2px;
+    display:inline-block;
+    background:#666;
+    position:absolute;
+  }
+
+  .step-indicator.visited{
+    color:#666;
+  }
+
+  .step-indicator.active{
+    color:#429DD1;
+    border:none;
+  }
+</style>
+
 <div class="cui-tile">
       <div class="cui-tile__title">{{"cui-create-security-admin-account" | translate}}</div>
       <div class="cui-tile__body">
 
-        <cui-wizard class="cui-wizard" step="{{app.step}}" clickable-indicators minimum-padding="30">
+        <cui-wizard class="cui-wizard" step="{{app.step}}" clickable-indicators minimum-padding="30" bar>
           <indicator-container class="indicator-container"></indicator-container>
-          <step title="{{'cui-org-info' | translate}}" state="wizard.organization">
+          <step title="{{'cui-org-info' | translate}}" state="wizard.organization" icon="assets/img/hamburger.png">
             <form name="organization" novalidate autocomplete="off">
               <!-- organization name -->
               <label for="org-name">{{'cui-org-info' | translate}}</label>
@@ -79,7 +137,7 @@
               </div>
             </form>
           </step>
-          <step title="{{'cui-sign-on-info' | translate}}" state="wizard.signOn">
+          <step title="{{'cui-sign-on-info' | translate}}" state="wizard.signOn" icon="assets/img/hamburger.png">
             <form name="signOn" novalidate>
               <!-- user ID -->
               <label for="userID">{{'cui-user-id' | translate}}</label>
@@ -138,7 +196,7 @@
               </div>
             </form>
           </step>
-          <step title="{{'cui-user-info' | translate}}" state="wizard.user">
+          <step title="{{'cui-user-info' | translate}}" state="wizard.user" icon="assets/img/hamburger.png">
             <form name="user" novalidate>
               <div class="cui-wizard__field-row">
                 <div class="cui-wizard__field-container cui-wizard__field-container--half">
@@ -237,7 +295,7 @@
               <button class="cui-wizard__next" ng-click="next()">{{'cui-next' | translate}}</button>
             </div>
           </step> -->
-          <step title="{{'cui-review' | translate}}" state="wizard.review">
+          <step title="{{'cui-review' | translate}}" state="wizard.review" icon="assets/img/hamburger.png">
             <cui-expandable class="cui-expandable expanded">
               <cui-expandable-title class="cui-expandable__title" ng-click="toggleExpand()">
                 {{'cui-org-info' | translate}}

@@ -209,7 +209,7 @@ function CuiIconService(config, $http, $q, $templateCache) {
 
     function announceIdNotFound(id) {
       var msg = 'icon ' + id + ' not found';
-      cui.log(msg);
+      console.log(msg);
       return $q.reject(msg || id);
     }
   }
@@ -229,7 +229,7 @@ function CuiIconService(config, $http, $q, $templateCache) {
   // Catch HTTP or generic errors not related to incorrect icon IDs.
   function announceNotFound(err) {
     var msg = angular.isString(err) ? err : (err.message || err.data || err.statusText);
-    cui.log(msg);
+    console.log(msg);
     return $q.reject(msg);
   }
 

@@ -6,8 +6,8 @@ angular.module('cui-ng')
         link:function(scope,elem,attrs){
             //init
             var init = function(){
-         
                     scope.invalidForm=[];
+                    scope.bar=attrs.bar!==undefined;
                     scope.$steps=angular.element(elem[0].querySelectorAll('step'));
                     scope.numberOfSteps=scope.$steps.length;
                     scope.$indicatorContainer=angular.element(elem[0].querySelector('indicator-container'));
@@ -22,6 +22,7 @@ angular.module('cui-ng')
                         else{
                             scope.currentStep++;
                             updateIndicators();
+                            if(scope.bar) updateBar();
                         }
                     };
                     scope.previous=function(state){
@@ -30,12 +31,14 @@ angular.module('cui-ng')
                         }
                         else{
                             scope.currentStep--;
-                            updateIndicators(); 
+                            updateIndicators();
+                            if(scope.bar) updateBar();
                         }
                     };
                     scope.goToStep=function(step){
                         scope.currentStep=step;
                         updateIndicators();
+                        if(scope.bar) updateBar();
                     };
                     scope.goToState=function(state){
                         if(state==='default') return;
@@ -68,7 +71,9 @@ angular.module('cui-ng')
                         scope.currentStep=1;
                     }
                     createIndicators();
+                    createBar();
                     updateIndicators();
+                    if(scope.bar) updateBar();
                     makeSureTheresRoom();
                     watchForWindowResize();
                     listenForLanguageChange();
@@ -78,27 +83,57 @@ angular.module('cui-ng')
                 createIndicators = function(){
                     var stepTitles=[],
                         stepStates=[],
+                        stepIcons=[],
                         defaultString='default';
                     for(var i=0;i < scope.numberOfSteps;i++){
                         stepTitles[i]=scope.$steps[i].attributes.title.value;
                         if(scope.$steps[i].attributes.state){
                             stepStates[i]='' + scope.$steps[i].attributes.state.value + '';
                         }
+                        if(scope.$steps[i].attributes.icon){
+                            stepIcons[i]='' + scope.$steps[i].attributes.icon.value + '';
+                        }
                     }
                     stepTitles.forEach(function(e,i){
-                        var div;
-                        if(scope.clickableIndicators!==undefined){
+                        var div,icons=[];
+                        if(stepIcons[i]!==undefined){
+                            if(stepIcons[i].indexOf('.')>-1){
+                                icons[i]='<div class="icon-container"><img src="' +  stepIcons[i] + '" class="icon"/></div>';
+                            }
+                            else{
+                                icons[i]='<div class="icon-container"><cui-icon cui-svg-icon="' + stepIcons[i] + '" class="icon"></cui-icon></div>';
+                            }
+                        }
+                        if(scope.clickableIndicators!==undefined && icons[i]!==undefined){
                             div=angular.element('<span class="step-indicator" ng-click="goToStep(' + 
-                                (i+1) + ');goToState(\'' + (stepStates[i] || defaultString) + '\')">' + stepTitles[i] + '</span>');
+                                (i+1) + ');goToState(\'' + (stepStates[i] || defaultString) + '\')">' + 
+                            stepTitles[i] + icons[i] + '</span>');
+                            div[0].style.cursor='pointer';
+                        }
+                        else if(scope.clickableIndicators!==undefined && !icons[i]){
+                            div=angular.element('<span class="step-indicator" ng-click="goToStep(' + 
+                                (i+1) + ');goToState(\'' + (stepStates[i] || defaultString) + '\')">' + 
+                            stepTitles[i] + '</span>');
                             div[0].style.cursor='pointer';
                         }
                         else{
-                            div=angular.element('<span class="step-indicator">' + stepTitles[i] + '</span>');
+                            div=angular.element('<span class="step-indicator">' + stepTitles[i] + 
+                            (icons[i]? (icons[i]) : ('')) +
+                            '</span>');
                         }
                         var compiled=$compile(div)(scope);
                         angular.element(scope.$indicatorContainer).append(compiled);
                     });
                     scope.$indicators=angular.element(elem[0].querySelectorAll('.step-indicator'));
+                },
+                createBar = function(){
+                    //create a bar
+                    if(scope.bar){
+                        angular.element(scope.$indicatorContainer).append('<div class="steps-bar"></div>');
+                        scope.$bar=$('.steps-bar');
+                        scope.$bar[0].innerHTML='<div class="steps-bar-fill"></div>';
+                        scope.$barFill=$('.steps-bar-fill');
+                    } 
                 },
                 // updates the current active indicator. Removes active class from other elements.
                 updateIndicators = function(){
@@ -107,10 +142,31 @@ angular.module('cui-ng')
                         for(var i=0; i<scope.$steps.length ; i++){
                             scope.$steps[i].classList.remove('active');
                             scope.$indicators[i].classList.remove('active');
+                            if(i<(currentStep-1)){
+                                scope.$indicators[i].classList.add('visited');
+                            }
+                            else{
+                                scope.$indicators[i].classList.remove('visited');
+                            }
                         }
+                        console.log(scope.$steps);
                         scope.$steps[currentStep-1].classList.add('active');
                         scope.$indicators[currentStep-1].classList.add('active');
                     });
+                },
+                updateBar = function(){
+                       $timeout(function(){
+                            var currentStep=scope.currentStep;
+                            scope.$bar[0].style.left=scope.$indicators[0].scrollWidth/2+'px';
+                            scope.$bar[0].style.right=scope.$indicators[scope.$indicators.length-1].scrollWidth/2+'px';
+                            if(currentStep==='1'){
+                                scope.$barFill[0].style.width='0px';
+                            }
+                            else{
+                                scope.$barFill[0].style.width=(scope.$indicators[currentStep-1].offsetLeft+
+                                (scope.$indicators[scope.$indicators.length-1].scrollWidth/2)-(scope.$indicators[0].scrollWidth/2))+'px';
+                            }
+                        });
                 },
                 debounce = function(func, wait, immediate) {
                     var timeout;

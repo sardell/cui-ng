@@ -7,9 +7,9 @@ Cui-wizard is an angular directive that, following a few syntax rules, allows th
 
 ### Usage Example
 ```html
-  <cui-wizard step="{{begginingStep}}" clickable-indicators minimum-padding="30">
+  <cui-wizard step="{{begginingStep}}" clickable-indicators minimum-padding="30" bar>
     <indicator-container></indicator-container>
-    <step title="{{step1Title}}" state="{{stateName}}">
+    <step title="{{step1Title}}" state="{{stateName}}" icon="{{iconRef/Link}}">
       *step1 contents go here*
     </step>
     <step title="{{step2Title}}">
@@ -20,12 +20,15 @@ Cui-wizard is an angular directive that, following a few syntax rules, allows th
 #### Variables
 1. `{{beggining Step}}` -> the step the wizard will start on.
 2. `{{stepXTitle}}` -> the titles that will populate the indicator-container.
-3. `{{stateName}}` -> the name of the state that the user is redirected to when he clicks that indicator, assuming he defined `clickable-indicators`. 
+3. `{{stateName}}` -> the name of the state that the user is redirected to when he clicks that indicator, assuming he defined `clickable-indicators`.
+4. `{{iconRef/Link}}` -> reference to the icon that will appear under the for the step. (look below for more info on how this works)
 
 ### How it works / features
 The directive will start by reading the `title` atributes on each `step` element within the `cui-wizard`. 
 Then it creates step indicators (these are given `.step-indicator` class) which will be clickable depending on the presence of the `clickable-indicators` atribute.
 The step that is currently active will give it's corresponding indicator an `.active` class.
+
+As for the `icon`, if it contains a dot (.) the directive will interpret it as a link to an img and will create an img tag with a class of `.icon`. If it does not contain any dots it will automatically use the [`cui-icon directive`](https://github.com/thirdwavellc/cui-ng/tree/master/directives/cui-icon) to create an svg icon under the label, once again with an `.icon` class.
 
 #### Changing steps
 Anywhere inside of this directive you can position an element with an `ng-click` directive that calls one of 4 navigating functions:
@@ -117,5 +120,7 @@ One of the key features of this wizard is indicator collision detection. What th
 Whenever the wizard is first shown or the window is rezised the directive will check that there is enough space within `indicator-container` to show all the step indicators AND the minimum padding (in px) between each of them, which is defined by `minimum-padding`. 
 
 If there isn't enough space then `indicator-container` gets applied a class of `.small` that can then be used to style accordingly with css. (tip: use this in conjunction with `.active` class on the indicators to give emphasis to the currently active step, by, for example, only showing the active step when there isn't enough room.
+
+The `bar` attribute activates a bar with `.steps-bar` class within the `indicator-container`. Inside of this bar there will be another bar with a class of `.steps-bar-fill` that will increase in width based on the current step. (Note: Currently the bar grows from the middle of the 1st step indicator up to the middle of the last one)
 
 Cui-wizard will also listen for `'languageChange'` broadcasts on scope, and will fire the function that ensures there's enough room to show all of the indicators (and apply the class of `.small` to the `indicator-container` if there isn't). This is specifically built in for use with the [cui-i18n](https://github.com/thirdwavellc/cui-i18n) module.
