@@ -3,7 +3,8 @@
 
     angular
     .module('app',['translate','ngMessages','cui.authorization','cui-ng','ui.router','snap','LocalStorageModule', 'cui-ng-datafactory'])
-    .run(['LocaleService','$rootScope', '$state', 'cui.authorization.routing','user','wizardStep', function(LocaleService,$rootScope,$state,routing,user,wizardStep){
+    .run(['LocaleService','$rootScope', '$state', 'cui.authorization.routing','user','wizardStep','$http','$templateCache', 
+        function(LocaleService,$rootScope,$state,routing,user,wizardStep,$http,$templateCache){
         $rootScope.$on('$stateChangeStart', function(event, toState, toParams, fromState, fromParams){
             if(toState.data && toState.data.step){
                 wizardStep.set(toState.data.step);
@@ -17,9 +18,17 @@
         LocaleService.setLocales('pl_PL','Polish (Poland)');
         LocaleService.setLocales('zh_CN','Chinese (Simplified)');
         LocaleService.setLocales('pt_PT','Portuguese (Portugal)');
+
+        var icons=['bower_components/cui-icons/dist/icons/icons-out.svg'];
+
+        angular.forEach(icons,function(icon){
+            $http.get(icon,{
+                cache: $templateCache
+            });
+        });
     }])
-    .config(['$translateProvider','$stateProvider','$urlRouterProvider','$locationProvider','$injector','localStorageServiceProvider',
-    function($translateProvider,$stateProvider,$urlRouterProvider,$locationProvider,$injector,localStorageServiceProvider){
+    .config(['$translateProvider','$stateProvider','$urlRouterProvider','$locationProvider','$injector','localStorageServiceProvider','$cuiIconProvider',
+    function($translateProvider,$stateProvider,$urlRouterProvider,$locationProvider,$injector,localStorageServiceProvider,$cuiIconProvider){
         localStorageServiceProvider.setPrefix('cui');
 
         $stateProvider
@@ -110,6 +119,8 @@
             url:'bower_components/cui-i18n/dist/cui-i18n/angular-translate/',
             prefix:'locale-'
         });
+
+        $cuiIconProvider.iconSet('cui','bower_components/cui-icons/dist/icons/icons-out.svg',48,true);
     }])
     .factory('user',['$rootScope',function($rootScope){
         return{

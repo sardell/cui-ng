@@ -16,6 +16,13 @@
     z-index:1;
     position:relative;
     background:white;
+    text-align:center;
+  }
+
+  .cui-icon-rotate{
+    height:24px;
+    width:24px;
+    margin:0 auto;
   }
 
   .step-indicator.active>.icon-container>.icon{
@@ -34,7 +41,7 @@
   .indicator-container>.steps-bar{
     z-index:0;
     position:absolute;
-    top:62%;
+    top:62%; /* This needs to be set by the developer */
     height:2px;
     background:#ccc;
   }
@@ -62,7 +69,7 @@
 
         <cui-wizard class="cui-wizard" step="{{app.step}}" clickable-indicators minimum-padding="30" bar>
           <indicator-container class="indicator-container"></indicator-container>
-          <step title="{{'cui-org-info' | translate}}" state="wizard.organization" icon="assets/img/hamburger.png">
+          <step title="{{'cui-org-info' | translate}}" state="wizard.organization" icon="cui:skyscraper">
             <form name="organization" novalidate autocomplete="off">
               <!-- organization name -->
               <label for="org-name">{{'cui-org-info' | translate}}</label>
