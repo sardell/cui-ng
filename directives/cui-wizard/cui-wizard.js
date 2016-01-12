@@ -84,13 +84,13 @@ angular.module('cui-ng')
                 // creates indicators inside of <indicator-container>
                 createIndicators = function(){
                     var stepTitles=[],
-                        stepStates=[],
                         stepIcons=[],
                         defaultString='default';
+                    scope.stepStates=[];
                     for(var i=0;i < scope.numberOfSteps;i++){
                         stepTitles[i]=scope.$steps[i].attributes.title.value;
                         if(scope.$steps[i].attributes.state){
-                            stepStates[i]='' + scope.$steps[i].attributes.state.value + '';
+                            scope.stepStates[i]='' + scope.$steps[i].attributes.state.value + '';
                         }
                         if(scope.$steps[i].attributes.icon){
                             stepIcons[i]='' + scope.$steps[i].attributes.icon.value + '';
@@ -109,13 +109,13 @@ angular.module('cui-ng')
                         }
                         if(scope.clickableIndicators!==undefined && scope.icons[i]!==undefined){
                             div=angular.element('<span class="step-indicator" ng-click="goToStep(' + 
-                                (i+1) + ');goToState(\'' + (stepStates[i] || defaultString) + '\')">' + 
+                                (i+1) + ');goToState(\'' + (scope.stepStates[i] || defaultString) + '\')">' + 
                             stepTitles[i] + scope.icons[i] + '</span>');
                             div[0].style.cursor='pointer';
                         }
                         else if(scope.clickableIndicators!==undefined && !scope.icons[i]){
                             div=angular.element('<span class="step-indicator" ng-click="goToStep(' + 
-                                (i+1) + ');goToState(\'' + (stepStates[i] || defaultString) + '\')">' + 
+                                (i+1) + ');goToState(\'' + (scope.stepStates[i] || defaultString) + '\')">' + 
                             stepTitles[i] + '</span>');
                             div[0].style.cursor='pointer';
                         }
@@ -175,14 +175,14 @@ angular.module('cui-ng')
                         });
                 },
                 createMobileStack = function(){
-                    // elem[0].classList.add('desktop-view');
                     angular.forEach(scope.$steps,function(step,i){
                         step.classList.add('desktop-element');
                         console.log(i,scope.icons[i]);
                         var newElement=$compile(
                             '<cui-expandable class="cui-expandable mobile-element">' +
                             '<cui-expandable-title class="cui-expandable__title"' +  
-                            (scope.clickableIndicators!==undefined? 'ng-click="toggleExpand()">' : '>') +
+                            (scope.clickableIndicators!==undefined? 'ng-click="goToStep(' + 
+                            (i+1) + ');goToState(\'' + (scope.stepStates[i] || defaultString) + '\')">' : '>') +
                             (scope.icons[i]? scope.icons[i] : '') + step.title + '</cui-expandable-title>' +
                             '<cui-expandable-body class="cui-expandable__body">' +
                             step.innerHTML + '</cui-expandable-body>' +
