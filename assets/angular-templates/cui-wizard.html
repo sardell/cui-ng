@@ -243,9 +243,10 @@
                 {{'cui-org-info' | translate}}
                 <span class="chevron">></span>
               </cui-expandable-title>
+              {{app.Editorganization.name}}
               <cui-expandable-body class="cui-expandable__body">
-                <p class="cui-expandable__review-item">{{'cui-org' | translate}}: {{app.organization.name}}</p>
-                <p class="cui-expandable__review-item">{{'cui-company-division' | translate}}: {{app.organization.division}}</p>
+                <cui-review label="cui-org" model="app.organization.name"></cui-review>
+                <cui-review label="cui-company-division" model="app.organization.division"></cui-review>
                 <p class="cui-expandable__review-item">{{'cui-org-address' | translate}} 1: {{app.organization.address1}}</p>
                 <p class="cui-expandable__review-item" ng-if="app.organization.address2">{{'cui-org-address' | translate}} 2: {{app.organization.address2}}</p>
                 <p class="cui-expandable__review-item">{{'cui-country' | translate}}: {{app.organization.country.originalObject.name}}</p>

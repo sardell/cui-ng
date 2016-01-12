@@ -173,7 +173,6 @@
         var app=this;
         app.appUser={};
 
-
         // $scope.$watch(function() { return wizardStep.get()},function(step){    
         //     app.step=step;
         //     console.log(app.step);
