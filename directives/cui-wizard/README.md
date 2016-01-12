@@ -6,8 +6,9 @@ Version 1.0
 Cui-wizard is an angular directive that, following a few syntax rules, allows the developer to easily create a multi-step form or any other component that requires a "step-through" approach.
 
 ### Usage Example
+
 ```html
-  <cui-wizard step="{{begginingStep}}" clickable-indicators minimum-padding="30" bar>
+  <cui-wizard step="{{begginingStep}}" clickable-indicators minimum-padding="30" bar mobile-stack>
     <indicator-container></indicator-container>
     <step title="{{step1Title}}" state="{{stateName}}" icon="{{iconRef/Link}}">
       *step1 contents go here*
@@ -17,6 +18,9 @@ Cui-wizard is an angular directive that, following a few syntax rules, allows th
     </step>
   </cui-wizard>
 ```
+
+WARNING: If you're using ng-include to populate each step and you're using the `mobile-stack` feature, make sure to use only 1 ng-include with all of the content and use this syntax : '<div ng-include="'<path>.html'"></div>'
+
 #### Variables
 1. `{{beggining Step}}` -> the step the wizard will start on.
 2. `{{stepXTitle}}` -> the titles that will populate the indicator-container.
@@ -122,5 +126,7 @@ Whenever the wizard is first shown or the window is rezised the directive will c
 If there isn't enough space then `indicator-container` gets applied a class of `.small` that can then be used to style accordingly with css. (tip: use this in conjunction with `.active` class on the indicators to give emphasis to the currently active step, by, for example, only showing the active step when there isn't enough room.
 
 The `bar` attribute activates a bar with `.steps-bar` class within the `indicator-container`. Inside of this bar there will be another bar with a class of `.steps-bar-fill` that will increase in width based on the current step. (Note: Currently the bar grows from the middle of the 1st step indicator up to the middle of the last one)
+
+The `mobile-stack` attribute will create dupes of your wizard's steps, using the `cui-expandable` directive. These dupes will have a `mobile-element` class and the original steps will be given a `desktop-element` class. We can then style these classes to give a different look and feel on mobile (the styling will be included in cui-styleguide).
 
 Cui-wizard will also listen for `'languageChange'` broadcasts on scope, and will fire the function that ensures there's enough room to show all of the indicators (and apply the class of `.small` to the `indicator-container` if there isn't). This is specifically built in for use with the [cui-i18n](https://github.com/thirdwavellc/cui-i18n) module.
