@@ -104,7 +104,7 @@ angular.module('cui-ng')
                                 scope.icons[i]='<div class="icon-container"><img src="' +  stepIcons[i] + '" class="icon"/></div>';
                             }
                             else{
-                                scope.icons[i]='<div class="icon-container"><cui-icon cui-svg-icon="' + stepIcons[i] + '" class="icon"></cui-icon></div>';
+                                scope.icons[i]='<div class="icon-container"><div class="icon"><cui-icon cui-svg-icon="' + stepIcons[i] + '"></cui-icon></div></div>';
                             }
                         }
                         if(scope.clickableIndicators!==undefined && scope.icons[i]!==undefined){
@@ -169,8 +169,8 @@ angular.module('cui-ng')
                                 scope.$barFill[0].style.width='0px';
                             }
                             else{
-                                scope.$barFill[0].style.width=scope.$indicators[currentStep-1].offsetLeft-(scope.$indicators[0].scrollWidth/2)
-                                +(scope.$indicators[currentStep-1].scrollWidth/2)+'px';
+                                scope.$barFill[0].style.width=scope.$indicators[currentStep-1].offsetLeft-(scope.$indicators[0].scrollWidth/2) +
+                                (scope.$indicators[currentStep-1].scrollWidth/2)+'px';
                             }
                         });
                 },
@@ -180,12 +180,13 @@ angular.module('cui-ng')
                         step.classList.add('desktop-element');
                         console.log(i,scope.icons[i]);
                         var newElement=$compile(
-                            '<cui-expandable class="cui-expandable mobile-element">'
-                            + '<cui-expandable-title class="cui-expandable__title" ng-click="toggleExpand()">' 
-                            + (scope.icons[i]? scope.icons[i] : '') + step.title + '</cui-expandable-title>'
-                            + '<cui-expandable-body class="cui-expandable__body">'
-                            + step.innerHTML + '</cui-expandable-body>'
-                            + '</cui-expandable>')(scope);
+                            '<cui-expandable class="cui-expandable mobile-element">' +
+                            '<cui-expandable-title class="cui-expandable__title"' +  
+                            (scope.clickableIndicators!==undefined? 'ng-click="toggleExpand()">' : '>') +
+                            (scope.icons[i]? scope.icons[i] : '') + step.title + '</cui-expandable-title>' +
+                            '<cui-expandable-body class="cui-expandable__body">' +
+                            step.innerHTML + '</cui-expandable-body>' +
+                            '</cui-expandable>')(scope);
                         angular.element(elem[0]).append(newElement);
                     });
                     scope.$mobileSteps=angular.element(elem[0].querySelectorAll('cui-expandable.mobile-element'));
