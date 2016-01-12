@@ -1302,8 +1302,10 @@ angular.module('cui-ng')
                 },
                 createMobileStack = function(){
                     angular.forEach(scope.$steps,function(step,i){
+                        if(step.innerHTML.indexOf('<!-- ngInclude:')>-1){
+                          var ngIncludeSrc=step.innerHTML.split('<!-- ngInclude:')[1].split(' -->')[0];
+                        }
                         step.classList.add('desktop-element');
-                        console.log(i,scope.icons[i]);
                         var newElement=$compile(
                             '<cui-expandable class="cui-expandable mobile-element">' +
                             '<cui-expandable-title class="cui-expandable__title"' +  
@@ -1311,7 +1313,7 @@ angular.module('cui-ng')
                             (i+1) + ');goToState(\'' + (scope.stepStates[i] || defaultString) + '\')">' : '>') +
                             (scope.icons[i]? scope.icons[i] : '') + step.title + '</cui-expandable-title>' +
                             '<cui-expandable-body class="cui-expandable__body">' +
-                            step.innerHTML + '</cui-expandable-body>' +
+                            (ngIncludeSrc? '<div ng-include="' + ngIncludeSrc + '"></div>' : step.innerHTML) + '</cui-expandable-body>' +
                             '</cui-expandable>')(scope);
                         angular.element(elem[0]).append(newElement);
                     });
