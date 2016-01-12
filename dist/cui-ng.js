@@ -1148,7 +1148,7 @@ angular.module('cui-ng')
                         else{
                             scope.currentStep++;
                             updateIndicators();
-                            if(scope.bar) updateBar();
+                            updateBar();
                         }
                     };
                     scope.previous=function(state){
@@ -1158,13 +1158,13 @@ angular.module('cui-ng')
                         else{
                             scope.currentStep--;
                             updateIndicators();
-                            if(scope.bar) updateBar();
+                            updateBar();
                         }
                     };
                     scope.goToStep=function(step){
                         scope.currentStep=step;
                         updateIndicators();
-                        if(scope.bar) updateBar();
+                        updateBar();
                     };
                     scope.goToState=function(state){
                         if(state==='default') return;
@@ -1286,18 +1286,19 @@ angular.module('cui-ng')
                     });
                 },
                 updateBar = function(){
-                       $timeout(function(){
-                            var currentStep=scope.currentStep;
-                            scope.$bar[0].style.left=scope.$indicators[0].scrollWidth/2+'px';
-                            scope.$bar[0].style.right=scope.$indicators[scope.$indicators.length-1].scrollWidth/2+'px';
-                            if(currentStep==1){
-                                scope.$barFill[0].style.width='0px';
-                            }
-                            else{
-                                scope.$barFill[0].style.width=scope.$indicators[currentStep-1].offsetLeft-(scope.$indicators[0].scrollWidth/2) +
-                                (scope.$indicators[currentStep-1].scrollWidth/2)+'px';
-                            }
-                        });
+                    if(!scope.bar) return;
+                    $timeout(function(){
+                        var currentStep=scope.currentStep;
+                        scope.$bar[0].style.left=scope.$indicators[0].scrollWidth/2+'px';
+                        scope.$bar[0].style.right=scope.$indicators[scope.$indicators.length-1].scrollWidth/2+'px';
+                        if(currentStep==1){
+                            scope.$barFill[0].style.width='0px';
+                        }
+                        else{
+                            scope.$barFill[0].style.width=scope.$indicators[currentStep-1].offsetLeft-(scope.$indicators[0].scrollWidth/2) +
+                            (scope.$indicators[currentStep-1].scrollWidth/2)+'px';
+                        }
+                    });
                 },
                 createMobileStack = function(){
                     angular.forEach(scope.$steps,function(step,i){
@@ -1343,11 +1344,11 @@ angular.module('cui-ng')
                 },
                 onlyShowCurrentIndicator = function(){
                     scope.$indicatorContainer[0].classList.add('small');
-                    if(scope.bar) updateBar();
+                    updateBar();
                 },
                 showAllIndicators = function(){
                     scope.$indicatorContainer[0].classList.remove('small');
-                    if(scope.bar) updateBar();
+                    updateBar();
                 },
                 //makes sure there's still room for the step indicators, has a debounce on it so it
                 //doesn't fire too often.
