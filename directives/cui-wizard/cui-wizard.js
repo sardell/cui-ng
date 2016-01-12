@@ -227,7 +227,7 @@ angular.module('cui-ng')
                 //makes sure there's still room for the step indicators, has a debounce on it so it
                 //doesn't fire too often.
                 makeSureTheresRoom = debounce(function(){
-                    updateBar();
+                    if(scope.bar) updateBar();
                     var indicatorsWidth=getIndicatorsWidth();
                     var indicatorContainerWidth=getIndicatorContainerWidth();
                     if((indicatorContainerWidth < indicatorsWidth) && 
