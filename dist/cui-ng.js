@@ -1226,7 +1226,7 @@ angular.module('cui-ng')
                         var div;
                         if(stepIcons[i]!==undefined){
                             if(stepIcons[i].indexOf('.')>-1){
-                                scope.icons[i]='<div class="icon-container"><img src="' +  stepIcons[i] + '" class="icon"/></div>';
+                                scope.icons[i]='<div class="icon-container"><div class="icon"><img src="' +  stepIcons[i] + '" class="cui-icon-rotate"/></div></div>';
                             }
                             else{
                                 scope.icons[i]='<div class="icon-container"><div class="icon"><cui-icon cui-svg-icon="' + stepIcons[i] + '"></cui-icon></div></div>';
