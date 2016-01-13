@@ -13,7 +13,7 @@ This will compile to
 ```html
     <p class="cui-expandable__review-item">
         {{"cui-org"| translate}}: <span ng-if="!edit">{{app.organization.name}}</span>
-        <input type="text" ng-model="$parent.editInput" class="cui-input" ng-change="sayInput()" ng-init="matchModels()" ng-if="edit"/>
+        <input type="text" ng-model="$parent.editInput" class="cui-input" ng-init="matchModels()" ng-if="edit"/>
         <span class="cui-link" ng-click="toggleEdit()" ng-if="!edit"> Edit</span>
         <span class="cui-link" ng-if="edit" ng-click="saveInput();toggleEdit();"> Save</span>
         <span class="cui-link" ng-if="edit" ng-click="toggleEdit()"> Cancel</span>
@@ -21,3 +21,14 @@ This will compile to
 ```
 
 Note that whatever is put into the `label` attribute will compile using the cui-i18n filter `translate`. If instead you just want to use a static text label, change the attribute to `name` instead of `label`.
+
+You can use the attribute `type` to set the input to any type that's compatible with the `input` tag (text is default, password, email, etc.). You can also use `type="dropdown"`. 
+If you do set it to dropdown you'll have to add 2 more attributes: `options` and `options-expression`. 
+`options` needs to be the array that contains the options and `options-expression` is the condition to track the value of the item.
+
+If you have an array of strings, for example `app.options=['value 1','value 2','value 3'];` you can do 
+```html  
+     <inline-edit type="dropdown" name="options" model="app.selectedOption" options-expression="x as x for x in options" options="app.options"></inline-edit>
+```
+
+IMPORTANT: in `options-expression` - x as x for x in options - that last bit `options` is MANDATORY. This is the name of the scope variable that will point to the `options` variable. For more complex filters see [this](https://docs.angularjs.org/api/ng/directive/ngOptions).
