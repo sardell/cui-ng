@@ -488,6 +488,27 @@ h1, h2, h3, h4, h5, h6 {
   font-weight: 400;
   margin: 0; }
 
+.h1 {
+  font-size: 2.5em; }
+
+.h2 {
+  font-size: 2em; }
+
+.h3 {
+  font-size: 1.75em; }
+
+.h4 {
+  font-size: 1.5em; }
+
+.h5 {
+  font-size: 1.25em; }
+
+.h6 {
+  font-size: 1em; }
+
+.h1, .h2, .h3, .h4, .h5, .h6 {
+  font-weight: 700; }
+
 .cui-italic,
 .cui-bold {
   color: #929292;
@@ -1198,6 +1219,7 @@ Styleguide Blocks.Wizard
     border: 0.125em solid #ccc;
     height: 3.125em;
     position: relative;
+    margin: auto 0;
     width: 3.125em;
     z-index: 1; }
   .step-indicator.active {
@@ -1211,14 +1233,25 @@ Styleguide Blocks.Wizard
       border: 0.125em solid #666; }
 
 .cui-icon-rotate {
-  height: 24px;
-  width: 24px;
-  margin: 0 auto; }
+  height: 1.5em;
+  width: 1.5em; }
+  @media screen and (min-width: 700px) {
+    .cui-icon-rotate {
+      margin: 0.625em auto 0; } }
 
 step {
   display: none; }
   step.active {
     display: block; }
+
+@media screen and (max-width: 700px) {
+  .cui-wizard[mobile-stack] .desktop-element,
+  .cui-wizard[mobile-stack] .indicator-container {
+    display: none; } }
+
+@media screen and (min-width: 701px) {
+  .cui-wizard[mobile-stack] .mobile-element {
+    display: none; } }
 
 .chevron {
   color: #53abd0;
@@ -1991,7 +2024,7 @@ Styleguide Blocks.Expandable
     overflow: hidden;
     transition: all 200ms ease-in-out; }
   .cui-expandable.expanded > .cui-expandable__body {
-    max-height: 500px; }
+    max-height: 2000px; }
   .cui-expandable.expanded > .cui-expandable__title > .chevron {
     transform: rotate(90deg); }
 
