@@ -231,21 +231,14 @@
             </form>
           </step>
           
- <!--          <step title="{{'cui-preferences' | translate}}">
-            <div class="cui-wizard__controls">
-              <button class="cui-wizard__previous" ng-click="previous()"><< {{'cui-previous' | translate}}</button>
-              <button class="cui-wizard__next" ng-click="next()">{{'cui-next' | translate}}</button>
-            </div>
-          </step> -->
           <step title="{{'cui-review' | translate}}" state="wizard.review">
             <cui-expandable class="cui-expandable expanded">
               <cui-expandable-title class="cui-expandable__title" ng-click="toggleExpand()">
                 {{'cui-org-info' | translate}}
                 <span class="chevron">></span>
               </cui-expandable-title>
-              {{app.Editorganization.name}}
               <cui-expandable-body class="cui-expandable__body">
-                <cui-review label="cui-org" model="app.organization.name"></cui-review>
+                <inline-edit label="cui-org" model="app.organization.name"></inline-edit>
                 <cui-review label="cui-company-division" model="app.organization.division"></cui-review>
                 <p class="cui-expandable__review-item">{{'cui-org-address' | translate}} 1: {{app.organization.address1}}</p>
                 <p class="cui-expandable__review-item" ng-if="app.organization.address2">{{'cui-org-address' | translate}} 2: {{app.organization.address2}}</p>
