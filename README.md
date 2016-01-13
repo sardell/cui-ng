@@ -17,6 +17,7 @@ Cui-ng is an angular module with a series of custom directives and utilities for
 * [Custom-error](https://github.com/thirdwavellc/cui-ng/tree/master/directives/custom-error)
 * [Cui-Icon](https://github.com/thirdwavellc/cui-ng/tree/master/directives/cui-icon)
 * [Auto-complete](https://github.com/thirdwavellc/cui-ng/tree/master/directives/auto-complete)
+* [Inline-edit](https://github.com/thirdwavellc/cui-ng/tree/master/directives/inline-edit)
 
 ## Utilities
 

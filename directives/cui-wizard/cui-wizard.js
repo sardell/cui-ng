@@ -177,8 +177,9 @@ angular.module('cui-ng')
                 },
                 createMobileStack = function(){
                     angular.forEach(scope.$steps,function(step,i){
+                        var ngIncludeSrc;
                         if(step.innerHTML.indexOf('<!-- ngInclude:')>-1){
-                          var ngIncludeSrc=step.innerHTML.split('<!-- ngInclude:')[1].split(' -->')[0];
+                          ngIncludeSrc=step.innerHTML.split('<!-- ngInclude:')[1].split(' -->')[0];
                         }
                         step.classList.add('desktop-element');
                         var newElement=$compile(

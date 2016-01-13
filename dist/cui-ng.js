@@ -1302,8 +1302,9 @@ angular.module('cui-ng')
                 },
                 createMobileStack = function(){
                     angular.forEach(scope.$steps,function(step,i){
+                        var ngIncludeSrc;
                         if(step.innerHTML.indexOf('<!-- ngInclude:')>-1){
-                          var ngIncludeSrc=step.innerHTML.split('<!-- ngInclude:')[1].split(' -->')[0];
+                          ngIncludeSrc=step.innerHTML.split('<!-- ngInclude:')[1].split(' -->')[0];
                         }
                         step.classList.add('desktop-element');
                         var newElement=$compile(
@@ -1431,7 +1432,8 @@ angular.module('cui-ng')
   return {
     restrict: 'E',
     scope:{
-      model: '=' 
+      model: '=',
+      type: '='
     },
     link: function(scope,ele,attrs){
       scope.edit=false;
@@ -1444,10 +1446,24 @@ angular.module('cui-ng')
       scope.saveInput=function(){
         scope.model=scope.editInput;
       };
+      scope.listenForEnter=function(e){
+        if(e.keyCode===13) {scope.toggleEdit();scope.saveInput();}
+      };
+
+      var getLabel=function(){
+        if(attrs.label!==undefined) return '{{"' + attrs.label + '"| translate}}';
+        else if(attrs.name!==undefined) return attrs.name;
+        else console.log('Inline-edit needs 1 of the following attributes: label or name.');
+      };
+
+      var getInput=function(){
+        attrs.type=attrs.type || 'text';
+        return '<input type="' + attrs.type + '" ng-model="$parent.editInput" class="cui-input" ng-init="matchModels()" ng-if="edit" ng-focus="edit" ng-keypress="listenForEnter($event)"/>';
+      };
 
       var element= $compile(
-        '<p class="cui-expandable__review-item">{{"' + attrs.label + '"| translate}}: <span ng-if="!edit">{{model}}</span>' +
-        '<input type="text" ng-model="$parent.editInput" class="cui-input" ng-change="sayInput()" ng-init="matchModels()" ng-if="edit"/>' +
+        '<p class="cui-expandable__review-item">' + getLabel() + ': <span ng-if="!edit">{{model}}</span>' +
+        getInput() +
         '<span class="cui-link" ng-click="toggleEdit()" ng-if="!edit"> Edit</span>' + 
         '<span class="cui-link" ng-if="edit" ng-click="saveInput();toggleEdit();"> Save</span>'+
         '<span class="cui-link" ng-if="edit" ng-click="toggleEdit()"> Cancel</span></p>'
