@@ -1433,7 +1433,8 @@ angular.module('cui-ng')
     restrict: 'E',
     scope:{
       model: '=',
-      type: '='
+      type: '@',
+      options: '='
     },
     link: function(scope,ele,attrs){
       scope.edit=false;
@@ -1458,7 +1459,11 @@ angular.module('cui-ng')
 
       var getInput=function(){
         attrs.type=attrs.type || 'text';
-        return '<input type="' + attrs.type + '" ng-model="$parent.editInput" class="cui-input" ng-init="matchModels()" ng-if="edit" ng-focus="edit" ng-keypress="listenForEnter($event)"/>';
+        console.log(attrs);
+        if(attrs.type==='dropdown') return '<select ng-model="$parent.editInput" class="cui-select" ' +
+          'ng-init="matchModels()" ng-options="' + attrs.optionsExpression + '" ng-if="edit"></select>';
+        return '<input type="' + attrs.type + '" ng-model="$parent.editInput" class="cui-input" ' +
+          'ng-init="matchModels()" ng-if="edit" ng-keypress="listenForEnter($event)"/>';
       };
 
       var element= $compile(
