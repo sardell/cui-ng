@@ -286,6 +286,12 @@
             //----- MOCK DATA
             app.user.timezones=['-08:00','-07:00','-06:00','-05:00','-04:00'];
 
+        app.customError=[{
+            name:'test',
+            check:function(){
+                return app.organization.name!=='test';
+            }
+        }]
 
 
 

@@ -1402,7 +1402,7 @@ angular.module('cui-ng')
 }]);
 
 angular.module('cui-ng')
-.directive('customError', ['$parse', function($parse){
+.directive('customError', [function(){
   return {
     restrict: 'A',
     require:'ngModel',
@@ -1410,19 +1410,20 @@ angular.module('cui-ng')
       customError: '=customError'
     },
     link: function(scope,ele,attrs,ctrl){
-      var checkErrors=function(){
-        for(var i=0;i<scope.customError.length;i++){
-          if(scope.customError[i].check()){
-            ctrl.$setValidity(scope.customError[i].name,true);
+      var index;
+      var check=function(valid){
+        if(valid){
+            ctrl.$setValidity(scope.customError[index].name,true);
           }
-          else ctrl.$setValidity(scope.customError[i].name,false);
+        else ctrl.$setValidity(scope.customError[index].name,false);
+      };
+      var startWatching=function(){
+        for(var i=0;i<scope.customError.length;i++){
+          index=i;
+          scope.$watch(scope.customError[i].check,check);
         }
       };
-      if(scope.customError.length){
-        scope.$watch(function(){
-          checkErrors();
-        });
-      }
+      startWatching();
     }
   };
 }]);
@@ -1459,7 +1460,6 @@ angular.module('cui-ng')
 
       var getInput=function(){
         attrs.type=attrs.type || 'text';
-        console.log(attrs);
         if(attrs.type==='dropdown') return '<select ng-model="$parent.editInput" class="cui-select" ' +
           'ng-init="matchModels()" ng-options="' + attrs.optionsExpression + '" ng-if="edit"></select>';
         return '<input type="' + attrs.type + '" ng-model="$parent.editInput" class="cui-input" ' +
