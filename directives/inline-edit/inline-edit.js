@@ -30,7 +30,6 @@ angular.module('cui-ng')
 
       var getInput=function(){
         attrs.type=attrs.type || 'text';
-        console.log(attrs);
         if(attrs.type==='dropdown') return '<select ng-model="$parent.editInput" class="cui-select" ' +
           'ng-init="matchModels()" ng-options="' + attrs.optionsExpression + '" ng-if="edit"></select>';
         return '<input type="' + attrs.type + '" ng-model="$parent.editInput" class="cui-input" ' +
