@@ -2,19 +2,20 @@ angular.module('cui-ng')
 .directive('cuiAvatar',[function(){
     return{
         restrict: 'E',
-        scope:{},
+        scope:{
+            userAvatar:'='
+        },
         link:function(scope,elem,attrs){
             scope.user={};
-            attrs.$observe('userAvatar',function(){
+            scope.$watch('userAvatar',function(){
                 var background;
-                if(attrs.userAvatar!==''){
-                    scope.user.avatar=attrs.userAvatar;
-                    background= 'url("' + scope.user.avatar + '")';
+                if(scope.userAvatar){
+                    background= 'url("' + scope.userAvatar + '")';
                     angular.element(elem).css('background-image',background);
                 } 
                 else{
-                    scope.user.color='#AAA';
-                    background= scope.user.color;
+                    var color='#AAA',
+                    background= color;
                     angular.element(elem).css({'background-image':'none','background-color':background});
                 }
             });

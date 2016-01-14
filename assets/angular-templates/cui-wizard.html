@@ -1,318 +1,68 @@
 <div class="cui-tile">
-      <div class="cui-tile__title">{{"cui-create-security-admin-account" | translate}}</div>
-      <div class="cui-tile__body">
+  <div class="cui-tile__title">Cui-Wizard</div>
+  <div class="cui-tile__body">
 
-        <cui-wizard class="cui-wizard" step="{{app.step}}" clickable-indicators minimum-padding="30" mobile-stack>
-          <indicator-container class="indicator-container"></indicator-container>
-          <step title="{{'cui-org-info' | translate}}" state="wizard.organization">
-            <form name="organization" novalidate autocomplete="off">
-              <!-- organization name -->
-              <label for="org-name">{{'cui-org-info' | translate}}</label>
-              <input type="text" ng-model="app.organization.name" name="org-name" class="cui-input " disabled></input>
+    <cui-wizard class="cui-wizard" step="1" clickable-indicators minimum-padding="30">
 
-              <!-- email input test -->
-              <label for="invite-emails">Emails to invite</label>
-              <tags-input class="cui-tags-input" name="emails" ng-model="app.organization.emails" min-tags="1" add-on-space="true" allowed-tags-pattern="{{ app.emailRegex }}">
-              </tags-input>
-              <!-- company/division -->
-              <label for="company-division">{{"cui-company-division" | translate}}</label>
-              <div class="cui-error" ng-messages="organization.division.$error" ng-if="organization.division.$touched">
-                <div ng-messages-include="assets/angular-templates/messages.html"></div>
+      <indicator-container class="indicator-container"></indicator-container>
+
+
+      <step title="First Step">
+        <span>Cui-wizard is an angular directive that, following a few syntax rules, allows the developer to easily create a multi-step form or any other component that requires a "step-through" approach.</span><br/><br/>
+        <a class="cui-link" href="https://github.com/thirdwavellc/cui-ng/tree/master/directives/cui-wizard" target="blank">Click here for the extended documentation.</a>
+        <div class="cui-wizard__controls" style="margin-top:50px;">
+          <button class="cui-wizard__next" ng-click="next()">Go to the next step with the next() function</button>
+        </div>
+      </step>
+
+
+      <step title="Second Step">
+        <span>Anything can be put inside of these steps - from static html content to rich dynamic forms. If you are using this for forms you can use the nextWithErrorChecking() function to help you out!</span><br/><br/>
+        <form name="formName">
+          <div class="cui-wizard__field-row"> 
+
+            <!-- Input1 -->
+            <div class="cui-wizard__field-container cui-wizard__field-container--half">
+              <label for="input1">Input 1</label>
+              <div class="cui-error" ng-messages="formName.input1Name.$error" ng-if="formName.input1Name.$touched">
+                 <div class="cui-error__message" ng-message="required">This field is required.</div>
               </div>
-              <select ng-model="app.organization.division" name="division" class="cui-select" ng-required="true" ng-class="{'cui-input--error': organization.division.$touched && organization.division.$invalid}" ng-options="division as division for division in app.organization.divisions">
-
-              </select>
-              <div class="cui-wizard__field-row">
-                <div class="cui-wizard__field-container cui-wizard__field-container--half">
-                  <!-- address -->
-                  <label for="address1">{{'cui-org-address' | translate}} 1</label>
-                  <div class="cui-error" ng-messages="organization.address1.$error" ng-if="organization.address1.$touched">
-                    <div ng-messages-include="assets/angular-templates/messages.html"></div>
-                  </div>
-                  <input type="text" ng-model="app.organization.address1" name="address1" class="cui-input " ng-required="true" ng-minlength="10" ng-class="{'cui-input--error': organization.address1.$touched && organization.address1.$invalid}" placeholder=""></input>
-                </div>
-                <div class="cui-wizard__field-container cui-wizard__field-container--half">
-                  <!-- address2 -->
-                  <label for="address2">{{'cui-org-address' | translate}} 2</label>
-                  <input type="text" ng-model="app.organization.address2" class="cui-input " ></input>
-                </div>
-              </div>
-              <div class="cui-wizard__field-row">
-                <div class="cui-wizard__field-container cui-wizard__field-container--half">
-                  <!-- country -->
-                  <label for="country">{{"cui-country" | translate}}</label>
-                  <div class="cui-error" ng-messages="organization.country.$error" ng-if="organization.country.$touched">
-                    <div ng-messages-include="assets/angular-templates/messages.html"></div>
-                  </div>
-                  <div auto-complete input-name="country" pause="100" selected-object="app.organization.country" local-data="app.countries" search-fields="name" title-field="name" minlength="1" input-class="cui-input" match-class="highlight" auto-match="true" input-changed="app.organization.country"></div>
-                </div>
-  
-                <div class="cui-wizard__field-container cui-wizard__field-container--half">
-                  <!-- state/province -->
-                  <label for="state-province">{{"cui-state" | translate}}</label>
-                  <select ng-model="app.organization.state" class="cui-select ">
-                    <option value="" disabled selected></option>
-                    <option ng-repeat="state in app.organization.states" value="{{state}}">{{state}}</option>
-                  </select>
-                </div>
-              </div>
-              <div class="cui-wizard__field-row">
-                <div class="cui-wizard__field-container cui-wizard__field-container--half">
-                  <!-- city/region -->
-                  <label for="city-region">{{"cui-city" | translate}}</label>
-                  <select ng-model="app.organization.city" class="cui-select ">
-                    <option value="" disabled selected></option>
-                    <option ng-repeat="city in app.organization.cities" value="{{city}}">{{city}}</option>
-                  </select>
-                </div>
-                <div class="cui-wizard__field-container cui-wizard__field-container--half">
-                  <!-- postal code -->
-                  <label for="postal-code">{{'cui-postal' | translate}}</label>
-                  <input type="text" ng-model="app.organization.postal" class="cui-input "></input>
-                </div>
-              </div>
-              
-              <div class="cui-wizard__controls">
-                <button class="cui-wizard__next" ng-class="{'cui-wizard__next--error' : invalidForm[1] && organization.$invalid}" ng-click="nextWithErrorChecking(organization,'wizard.signOn')">{{'cui-next' | translate}}</button>
-                <button class="cui-wizard__skip" ng-class="{'cui-wizard__skip--show' : invalidForm[1] && organization.$invalid}" ng-click="next('wizard.signOn')">{{'cui-skip-for-now' | translate}} >></button>
-              </div>
-            </form>
-          </step>
-          <step title="{{'cui-sign-on-info' | translate}}" state="wizard.signOn">
-            <form name="signOn" novalidate>
-              <!-- user ID -->
-              <label for="userID">{{'cui-user-id' | translate}}</label>
-              <input type="text" name="userID" ng-model="app.signOn.userID" class="cui-input " placeholder=""></input>
-              <!-- password -->
-              <div class="cui-wizard__field-row">
-                <div class="cui-wizard__field-container cui-wizard__field-container--half ">
-                  <div class="cui-input__password-holder">
-                    <label for="password1">{{'cui-password' | translate}}</label>
-                    <input type="password" name="password1" ng-model="app.signOn.password1" class="cui-input  cui-input__password" ng-required="true" ng-class="{'cui-input--error': signOn.password1.$touched && signOn.password1.$invalid}" password-validation="{{app.passwordPolicies}}" style="width:100%"></input>
-                    <div class="cui-error__password" ng-messages="signOn.password1.$error" ng-messages-multiple ng-if="signOn.password1.$invalid">
-                      <div ng-messages-include="assets/angular-templates/password-messages.html"></div>
-                    </div>
-                  </div>
-                </div>
-                <div class="cui-wizard__field-container cui-wizard__field-container--half">
-                <!-- password -->
-                  <label for="password">{{'cui-password-re' | translate}}</label>
-                  <input type="password" ng-model="app.signOn.password2" class="cui-input " placeholder=""></input>
-                </div>
-              </div>
-              <div class="cui-wizard__field-row">
-                <div class="cui-wizard__field-container cui-wizard__field-container--half">
-                  <!-- question 1 -->
-                  <label for="challenge-question-1">{{"cui-challenge-question" | translate}} 1</label>
-                  <select ng-model="app.signOn.question1" class="cui-select ">
-                    <option value="" disabled selected></option>
-                    <option ng-repeat="question in app.signOn.questions" value="{{$index}}">{{question | translate}}</option>
-                  </select>
-                </div>
-                <div class="cui-wizard__field-container cui-wizard__field-container--half">
-                  <label for="challenge-answer-1">{{'cui-challenge-answer' | translate}} 1</label>
-                  <!-- answer 1 -->
-                  <input type="text" ng-model="app.signOn.answer1" class="cui-input " placeholder=""></input>
-                </div>
-              </div>
-              <div class="cui-wizard__field-row">
-                <div class="cui-wizard__field-container cui-wizard__field-container--half">
-                  <!-- question 2 -->
-                  <label for="challenge-question-2">{{"cui-challenge-question" | translate}} 2</label>
-                  <select ng-model="app.signOn.question2" class="cui-select ">
-                    <option value="" disabled selected></option>
-                    <option ng-repeat="question in app.signOn.questions" value="{{$index}}">{{question | translate}}</option>
-                  </select>
-                </div>
-                  <div class="cui-wizard__field-container cui-wizard__field-container--half">
-                  <!-- answer 2 -->
-                  <label for="challenge-answer-2">{{'cui-challenge-answer' | translate}} 2</label>
-                  <input type="text" ng-model="app.signOn.answer2" class="cui-input " placeholder=""></input>
-                </div>
-              </div>
-               <div class="cui-wizard__controls">
-                <button class="cui-wizard__previous" ng-click="previous('wizard.organization')"><< {{'cui-previous' | translate}}</button>
-                <button class="cui-wizard__next" ng-class="{'cui-wizard__next--error' : invalidForm[2] && signOn.$invalid}" ng-click="nextWithErrorChecking(signOn,'wizard.user')">{{'cui-next' | translate}}</button>
-                <button class="cui-wizard__skip" ng-class="{'cui-wizard__skip--show' : invalidForm[2] && signOn.$invalid}" ng-click="next('wizard.user')">{{'cui-skip-for-now' | translate}} >></button>
-              </div>
-            </form>
-          </step>
-          <step title="{{'cui-user-info' | translate}}" state="wizard.user">
-            <form name="user" novalidate>
-              <div class="cui-wizard__field-row">
-                <div class="cui-wizard__field-container cui-wizard__field-container--half">
-                  <!-- first name -->
-                  <label for="first-name">{{'cui-first-name' | translate}}</label>
-                  <input type="text" ng-model="app.user.fName" class="cui-input " placeholder="" required></input>
-                </div>
-                <div class="cui-wizard__field-container cui-wizard__field-container--half">
-                  <!-- Last name -->
-                  <label for="last-name">{{'cui-last-name' | translate}}</label>
-                  <input type="text" ng-model="app.user.lName" class="cui-input " placeholder=""></input>
-                </div>
-              </div>
-              <div class="cui-wizard__field-row">
-                <div class="cui-wizard__field-container cui-wizard__field-container--half">
-                  <!-- Email -->
-                  <label for="email">{{'cui-email' | translate}}</label>
-                  <input type="email" ng-model="app.user.email" class="cui-input " placeholder="" required></input>
-                </div>
-                <div class="cui-wizard__field-container cui-wizard__field-container--half">
-                  <!-- Email 2 -->
-                  <label for="email-re">{{'cui-email-re' | translate}}</label>
-                  <input type="email" ng-model="app.user.email2" class="cui-input " placeholder=""></input>
-                </div>
-              </div>
-              <div class="cui-wizard__field-row">
-                <div class="cui-wizard__field-container cui-wizard__field-container--half">
-                  <!-- Address 1 -->
-                  <label for="address1">{{'cui-user-address' | translate}} 1</label>
-                  <input type="text" ng-model="app.user.address1" class="cui-input " placeholder="" required></input>
-                </div>
-                <div class="cui-wizard__field-container cui-wizard__field-container--half">
-                  <!-- Address 2 -->
-                  <label for="address2">{{'cui-user-address' | translate}} 2</label>
-                  <input type="text" ng-model="app.user.address2" class="cui-input  " placeholder=""></input>
-                </div>
-              </div>
-              <div class="cui-wizard__field-row">
-                <div class="cui-wizard__field-container cui-wizard__field-container--half">
-                  <!-- country -->
-                  <label for="user-country">{{"cui-country" | translate}}</label>
-                  <select ng-model="app.user.country" class="cui-select ">
-                    <option value="" disabled selected></option>
-                    <option ng-repeat="country in app.organization.countries" value="{{country}}">{{country}}</option>
-                  </select>
-                </div>
-                <div class="cui-wizard__field-container cui-wizard__field-container--half">
-                  <!-- state/province -->
-                  <label for="">{{'cui-state' | translate}}</label>
-                  <select ng-model="app.user.state" class="cui-select ">
-                    <option value="" disabled selected></option>
-                    <option ng-repeat="state in app.organization.states" value="{{state}}">{{state}}</option>
-                  </select>
-                </div>
-              </div>
-              <div class="cui-wizard__field-row">
-                <div class="cui-wizard__field-container cui-wizard__field-container--half">
-                  <!-- city/region -->
-                  <label for="user-city">{{"cui-city" | translate}}</label>
-                  <select ng-model="app.user.city" class="cui-select ">
-                    <option value="" disabled selected></option>
-                    <option ng-repeat="city in app.organization.cities" value="{{city}}">{{city}}</option>
-                  </select>
-                </div>
-                <div class="cui-wizard__field-container cui-wizard__field-container--half">
-                  <!-- postal code -->
-                  <label for="user-postal">{{'cui-postal' | translate}}</label>
-                  <input type="text" ng-model="app.user.postal" class="cui-input " placeholder=""></input>
-                </div>
-              </div>
-              <div class="cui-wizard__field-row">
-                <div class="cui-wizard__field-container cui-wizard__field-container--half">
-                  <!-- phone -->
-                  <label for="number">{{'cui-telephone' | translate}}</label>
-                  <input type="number" ng-model="app.user.phone" class="cui-input " placeholder=""></input>
-                </div>
-                <div class="cui-wizard__field-container cui-wizard__field-container--half">
-                  <!-- timezone -->
-                  <label for="timezone">{{'cui-timezone' | translate}}</label>
-                  <select ng-model="app.user.timezone" class="cui-select ">
-                    <option value="" disabled selected></option>
-                    <option ng-repeat="timezone in app.user.timezones" value="{{timezone}}">{{timezone}}</option>
-                  </select>
-                </div>
-              </div>
-               <div class="cui-wizard__controls">
-                <button class="cui-wizard__previous" ng-click="previous('wizard.signOn')"><< {{'cui-previous' | translate}}</button>
-                <button class="cui-wizard__next" ng-click="next('wizard.review')">{{'cui-next' | translate}}</button>
-              </div>
-            </form>
-          </step>
-          
-
-          <step title="{{'cui-review' | translate}}" state="wizard.review">
-            <cui-expandable class="cui-expandable expanded">
-              <cui-expandable-title class="cui-expandable__title" ng-click="toggleExpand()">
-                {{'cui-org-info' | translate}}
-                <span class="chevron">></span>
-              </cui-expandable-title>
-              <cui-expandable-body class="cui-expandable__body">
-
-
-
-
-
-
-                <!-- <inline-edit label="cui-org" model="app.organization.name"></inline-edit> -->
-                <inline-edit type="dropdown" label="cui-company-division" model="app.organization.division" options-expression="division as division for division in options" options="app.organization.divisions"></inline-edit>
-
-
-
-
-
-
-
-
-
-                <p class="cui-expandable__review-item">{{'cui-org-address' | translate}} 1: {{app.organization.address1}}</p>
-                <p class="cui-expandable__review-item" ng-if="app.organization.address2">{{'cui-org-address' | translate}} 2: {{app.organization.address2}}</p>
-                <p class="cui-expandable__review-item">{{'cui-country' | translate}}: {{app.organization.country.originalObject.name}}</p>
-                <p class="cui-expandable__review-item">{{'cui-state' | translate}}: {{app.organization.state}}</p>
-                <p class="cui-expandable__review-item">{{'cui-city' | translate}}: {{app.organization.city}}</p>
-                <p class="cui-expandable__review-item">{{'cui-postal' | translate}}: {{app.organization.postal}}</p>
-              </cui-expandable-body>
-            </cui-expandable>
-            <cui-expandable class="cui-expandable">
-              <cui-expandable-title class="cui-expandable__title" ng-click="toggleExpand()">
-                {{'cui-sign-on-info' | translate}}
-                <span class="chevron">></span>
-              </cui-expandable-title>
-              <cui-expandable-body class="cui-expandable__body">
-                <p class="cui-expandable__review-item">{{'cui-user-id' | translate}}: {{app.signOn.userID}}</p>
-                <p class="cui-expandable__review-item">{{'cui-password' | translate}}: <input type="password" class="cui-input--display" disabled ng-model="app.signOn.password1"/></p>
-                <p class="cui-expandable__review-item">{{'cui-challenge-question' | translate}} 1: {{app.signOn.questions[app.signOn.question1] | translate}}</p>
-
-
-
-                <p class="cui-expandable__review-item">{{'cui-challenge-answer' | translate}} 1: {{app.signOn.answer1}}</p>
-                <p class="cui-expandable__review-item">{{'cui-challenge-question' | translate}} 2: {{app.signOn.questions[app.signOn.question2] | translate}}</p>
-                <p class="cui-expandable__review-item">{{'cui-challenge-answer' | translate}} 2: {{app.signOn.answer2}}</p>
-              </cui-expandable-body>
-            </cui-expandable>
-            <cui-expandable class="cui-expandable">
-              <cui-expandable-title class="cui-expandable__title" ng-click="toggleExpand()">
-                {{'cui-user-info' | translate}}
-                <span class="chevron">></span>
-              </cui-expandable-title>
-              <cui-expandable-body class="cui-expandable__body">
-                <p class="cui-expandable__review-item">{{'cui-first-name' | translate}}: {{app.user.fName}}</p>
-                <p class="cui-expandable__review-item">{{'cui-last-name' | translate}}: {{app.user.lName}}</p>
-                <p class="cui-expandable__review-item">{{'cui-email' | translate}}: {{app.user.email}}</p>
-                <p class="cui-expandable__review-item">{{'cui-user-address' | translate}} 1: {{app.user.address1}}</p>
-                <p class="cui-expandable__review-item">{{'cui-user-address' | translate}} 2: {{app.user.address2}}</p>
-                <p class="cui-expandable__review-item">{{'cui-country' | translate}}: {{app.user.country}}</p>
-                <p class="cui-expandable__review-item">{{'cui-state' | translate}}: {{app.user.state}}</p>
-                <p class="cui-expandable__review-item">{{'cui-city' | translate}}: {{app.user.city}}</p>
-                <p class="cui-expandable__review-item">{{'cui-postal' | translate}}: {{app.user.postal}}</p>
-                <p class="cui-expandable__review-item">{{'cui-telephone' | translate}}: {{app.user.phone}}</p>
-                <p class="cui-expandable__review-item">{{'cui-timezone' | translate}}: {{app.user.timezone}}</p>
-              </cui-expandable-body>
-            </cui-expandable>
-            <!-- <cui-expandable >
-              <cui-expandable-title ng-click="toggleExpand()">
-                {{'cui-preferences' | translate}}
-                <span class="chevron">></span>
-              </cui-expandable-title>
-              <cui-expandable-body>
-
-              </cui-expandable-body>
-            </cui-expandable> -->
-            <div class="cui-wizard__controls">
-              <button class="cui-wizard__previous" ng-click="previous('wizard.user')"><< {{'cui-previous' | translate}}</button>
-              <button class="cui-wizard__next" ng-click="">{{'cui-submit' | translate}}</button>
+              <input type="text" name="input1Name" id="input1" class="cui-input" ng-required="true" ng-model="app.field1"/>
             </div>
-          </step>
-        </cui-wizard>
-      </div>
-    </div>
+
+            <!-- Input2 -->
+            <div class="cui-wizard__field-container cui-wizard__field-container--half">
+              <label for="input2">Input 2</label>
+              <div class="cui-error" ng-messages="formName.input2Name.$error" ng-if="formName.input2Name.$touched">
+                <div class="cui-error__message" ng-message="required">This field is required.</div>
+              </div>
+              <input type="text" name="input2Name" id="input2" class="cui-input" ng-required="true" ng-model="app.field2"/>
+            </div>
+          </div>
+
+        </form>
+
+        <div class="cui-wizard__controls" style="margin-top:50px;">
+          <button class="cui-wizard__next" ng-click="previous()">Go to the previous step with the previous() function</button>
+          <button class="cui-wizard__next" ng-class="{'cui-wizard__next--error' : formName.$invalid}" ng-click="nextWithErrorChecking(formName)">Try to go to the next step without filling both fields</button>
+        </div>
+      </step>
+
+
+      <step title="Third Step">
+        <h1>Other, more discrete, features of this wizard include:</h1><br/><br/>
+        <ul class="cui-ul" style="list-style:circle inside;">
+          <li>Collapsable Indicators (try making this page smaller so that there's not enough space for all of the step titles)</li>
+          <li>Mobile-Stacking feature where the wizard will behave in a verticall manner</li>
+          <li>Ability to assign different states to each step <a class="cui-link" href="https://github.com/thirdwavellc/cui-ng/tree/master/directives/cui-wizard" target="blank">(see the full documentation)</a></li>
+        </ul>
+        <br/><br/>
+        <a class="cui-link" href="https://github.com/thirdwavellc/cui-ng/tree/master/assets/angular-templates/cui-wizard.html" target="blank">Find the code for this wizard here</a> 
+        <div class="cui-wizard__controls" style="margin-top:50px;">
+          <button class="cui-wizard__next" ng-click="previous()">Go to the previous step with the previous() function</button>
+        </div>
+      </step>
+    
+    </cui-wizard>
+  </div>
+</div>

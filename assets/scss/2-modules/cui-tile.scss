@@ -1,0 +1,11 @@
+.cui-tile{
+    width:90%;
+    margin:30px auto;
+    -moz-user-select: none;
+     -ms-user-select: none;
+         user-select: none;
+    -webkit-user-select: none;
+    @media all and (max-width:600px){
+        width:97%;
+    }
+}

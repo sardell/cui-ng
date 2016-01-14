@@ -12,58 +12,36 @@
 <body ng-controller="appCtrl as app" ng-cloak>
   <div class="cui-wrapper">
     <snap-drawer>
-      <span class="snap-menu--option" ng-click="app.goTo('wizard')" snap-close>Wizard</span>
-      <span class="snap-menu--option" ng-click="app.goTo('icons')" cui-access='{ "requiredEntitlements":["admin","user"],"entitlementType":"atLeastOne"}' user="{{app.appUser}}" snap-close>Icons</span>
-      <span class="snap-menu--option" ng-click="app.goTo('user')" cui-access='{ "requiredEntitlements":["admin","user"],"entitlementType":"atLeastOne"}' user="{{app.appUser}}" snap-close>User Area</span>
-      <span class="snap-menu--option" ng-click="app.goTo('admin')" cui-access='{ "requiredEntitlements":["admin"] }' user="{{app.appUser}}" snap-close>Admin Area</span>
-      <span class="snap-menu--option" ng-click="app.goTo('profile')" cui-access='{ "requiredEntitlements":["admin","user"] }' user="{{app.appUser}}" snap-close>Profile</span>
+      <span class="snap-menu--option" ui-sref="cui-wizard" snap-close>cui-wizard</span>
+      <span class="snap-menu--option" ui-sref="cui-avatar" snap-close>cui-avatar</span>
+      <span class="snap-menu--option" ui-sref="cui-expandable" snap-close>cui-expandable</span>
+      <span class="snap-menu--option" ui-sref="off-click" snap-close>off-click</span>
+
     </snap-drawer>
     <snap-content snap-opt-disable="'right'">
+
       <header class="cui-header">
         <div class="cui-header__top">
-          <div class="menu-toggle" snap-toggle="left" ng-click="app.toggleDestkopMenu()" ng-class="app.desktopMenu ? 'active' : ''">
+          <div class="menu-toggle" snap-toggle="left" ng-init="app.menuOpen=true" ng-click="app.menuOpen=!app.menuOpen" ng-class="{'active': app.menuOpen}">
             <div class="menu-toggle--button"></div>
           </div>
           <svg class="cui-header__svg-logo" viewBox="0 0 640 124"><use xlink:href="bower_components/cui-icons/dist/logos/logos-out.svg#covisint-logo"></use></svg>
-          <div class="cui-header__user">
-            <span class="cui-header__user--name" ng-click="app.doLogin()">
-              <span ng-if="app.appUser.name">{{ app.appUser.name }}</span>
-              <a href="#" ng-if="!app.appUser.name">Sign In</a>
-            </span>
-            <div class="cui-chevron--left"></div>
-            <cui-avatar class="cui-header__user--avatar cui-avatar" user-avatar="{{app.appUser.avatar}}" ng-click="app.openUserPopup()">
-              <div class="cui-avatar--popup" ng-class="app.userPopup? 'active' : ''" off-click="app.closeUserPopup()" off-click-if="app.userPopup">
-                <span class="cui-avatar--popup__greet" ng-if="app.appUser.id">
-                  Hello, {{app.appUser.name}}!<br/>
-                  <span class="small">Logged in as {{app.appUser.id}}</span>
-                </span>
-                <span class="cui-avatar--popup__greet" ng-if="!app.appUser.id">You should login.<br/>
-                </span>
-                <hr/>
-                <span class="cui-avatar--popup__option" ng-click="app.setUser({id:'consolePeasant', name: 'Chad McChadson',avatar: '//i.ytimg.com/vi/C7zoZe-ZATs/hqdefault.jpg',entitlements: ['user']})">Impersonate a user</span>
-                <span class="cui-avatar--popup__option" ng-click="app.setUser({id:'theMurrMan', name: 'Bill Murray', avatar: '//www.fillmurray.com/200/200',entitlements: ['admin']})">Impersonate an admin</span>
-                <hr/>
-                <span class="cui-avatar--popup__option logout" ng-click="app.setUser({})">Sign Out</span>
-              </div>
-            </cui-avatar>
-          </div>
         </div>
       </header>
-      <div class="cui-nav__content-wrapper" ng-class="base.desktopMenu ? '' : 'desktop-menu--collapse'">
-        <div class="cui-main-content">
-          <div class="desktop-menu" ng-class="app.desktopMenu ? '' : 'desktop-menu--collapse'">
-            <span class="desktop-menu--option" ng-click="app.goTo('wizard')">Wizard</span>
-            <span class="desktop-menu--option" ng-click="app.goTo('icons')" cui-access='{ "requiredEntitlements":["admin","user"],"entitlementType":"atLeastOne"}' user="{{app.appUser}}">Icons</span>
-            <span class="desktop-menu--option" ng-click="app.goTo('user')" cui-access='{ "requiredEntitlements":["admin","user"],"entitlementType":"atLeastOne"}' user="{{app.appUser}}">User Area</span>
-            <span class="desktop-menu--option" ng-click="app.goTo('admin')" cui-access='{ "requiredEntitlements":["admin"] }' user="{{app.appUser}}">Admin Area</span>
-            <span class="snap-menu--option" ng-click="app.goTo('profile')" cui-access='{ "requiredEntitlements":["admin","user"] }' user="{{app.appUser}}" snap-close>Profile</span>
-          </div>
-          <div ui-view class="content" ng-class="app.desktopMenu ? '' : 'desktop-menu--collapse'"></div>
-          <div class="content" ng-class="app.desktopMenu ? '' : 'desktop-menu--collapse'">
-            <div class="cui-tile">
-              <div ng-translate-language-select></div>
-            </div>
-          </div>
+
+       <div class="desktop-menu" ng-class="{'desktop-menu--collapse': !app.menuOpen}">
+          <span class="snap-menu--option" ui-sref="cui-wizard" snap-close>cui-wizard</span>
+          <span class="snap-menu--option" ui-sref="cui-avatar" snap-close>cui-avatar</span>
+          <span class="snap-menu--option" ui-sref="cui-expandable" snap-close>cui-expandable</span>
+          <span class="snap-menu--option" ui-sref="off-click" snap-close>off-click</span>
+        </div>
+
+        <div class="cui-nav__content-wrapper" ng-class="{'desktop-menu--collapse': !app.menuOpen}">
+          
+          <div ui-view></div>
+
+        </div>
+         
         </div>
       </div>
     </snap-content>
@@ -97,8 +75,7 @@
 
   <!-- build:js assets/js/app.js -->
   <script src="dist/cui-ng.js"></script>
-  <script src="assets/scripts/app2.js"></script>
-  <script src="assets/scripts/profileManagement.js"></script>
+  <script src="assets/scripts/app.js"></script>
   <!-- endbuild -->
 
 

@@ -7,6 +7,26 @@ angular.module('cui-ng')
           scope.toggleExpand=function(){
               elem.toggleClass('expanded');
           };
+          scope.expand=function(){
+              if(scope.expanded){
+              	return;
+              }
+              else{
+              	scope.toggleExpand();
+              }
+          };
+          scope.collapse=function(){
+          	if(!scope.expanded){
+              	return;
+              }
+              else{
+              	scope.toggleExpand();
+              }
+          };
+          scope.$watch(function() {return elem.attr('class'); }, function(newValue){
+          	  if(newValue.indexOf('expanded')>-1) scope.expanded=true;
+          	  else scope.expanded=false;
+          });
         }
     };
 }]);

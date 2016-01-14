@@ -1,0 +1,16 @@
+.cui-expandable{
+	padding:0;
+	border:none;
+}
+
+.cui-expandable{
+	&__body{
+		border:none;
+	}
+}
+
+
+.sky-blue{
+	color:skyblue;
+	transition:color 200ms ease-in-out;
+}
