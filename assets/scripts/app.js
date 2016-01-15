@@ -99,8 +99,19 @@
 
         }
     }])
-    .controller('appCtrl',['$rootScope','$state','$stateParams','user','$timeout','localStorageService','$scope','$translate','getCountries',
-    function($rootScope,$state,$stateParams,user,$timeout,localStorageService,$scope,$translate,getCountries){
+    .factory('fakeApi',['$q','$timeout',function($q,$timeout){
+        return {
+            checkIfUsernameAvailable:function(username){
+                var deferred=$q.defer();
+                $timeout(function(){
+                    deferred.resolve(username!=='Steven.Seagal');
+                },600);
+                return deferred.promise;
+            }
+        }
+    }])
+    .controller('appCtrl',['$rootScope','$state','$stateParams','user','$timeout','localStorageService','$scope','$translate','getCountries','fakeApi',
+    function($rootScope,$state,$stateParams,user,$timeout,localStorageService,$scope,$translate,getCountries,fakeApi){
         var app=this;
         app.appUser={};
         app.hits=0;
@@ -139,7 +150,30 @@
             }
         ];
 
-        
+
+        app.checkUsername=function(){
+            app.checkingUsername=true;
+            fakeApi.checkIfUsernameAvailable(app.username)
+            .then(function(res){
+                app.usernameAvailable=res;
+                app.checkingUsername=false;
+            })
+        }
+
+        app.customErrors=[
+            {
+                name:'usernameTaken',
+                check:function(){
+                    return app.usernameAvailable;
+                }
+            },
+            {
+                name:'notAdmin',
+                check:function(){
+                    return app.username!=='admin' && app.username!=='Admin';
+                }
+            }
+        ]
         
 
         var setCountries=function(language){

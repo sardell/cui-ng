@@ -1,19 +1,43 @@
 <div class="cui-tile">
-  <div class="cui-tile__title">Password-Validation</div>
+  <div class="cui-tile__title">Custom-error</div>
   <div class="cui-tile__body">
-    <cui-expandable class="cui-expandable">
-      <cui-expandable-title class="cui-expandable__title" ng-click="toggleExpand()">Cui-expandable - click me to expand the body</cui-expandable-title>
-      <cui-expandable-body class="cui-expandable__body">
-        <span style="padding:20px;margin:30px;display:block;">Cui-expandable is an angular directive that allows for the easy creation of an element that collapses its contents.
-        <a href="https://github.com/thirdwavellc/cui-ng/tree/master/directives/cui-expandable" target="blank" class="cui-link">Click here for the full docs.</a><span>
-      </cui-expandable-body>
-
-      <br/><br/><input type="checkbox" ng-change="toggleExpand()" ng-model="expanded" id="toggle"><label for="toggle"> I can also be toggled from any other element from inside the cui-expandable. Like this checkbox.</label><br/>
-      <input type="text" class="cui-input" ng-model="app.magicWord" ng-change="app.magicWord==='open' && expand() || app.magicWord==='close' && collapse()" placeholder="Or even from this input, if you say the magic word (hint: it's definitely not 'open' to expand and 'close' to collapse)"/>
-      <br/><br/><span ng-class="{'sky-blue' : expanded}">You can even control other elements based on the state of the expandable using the expanded scope variable, like this span's class.</span>
-    </cui-expandable>
-
+    <span>Custom-error is very lightweight directive to allow you to easily attach custom errors to an input field. These errors could be anything that you can imagine - from client side regex comparisons to server side checking.</span>
     <br/><br/>
-    <a class="cui-link" href="https://github.com/thirdwavellc/cui-ng/tree/master/assets/angular-templates/cui-expandable.html" target="blank">Click here to see the code used on this page.</a>
+    This field will check a faked API to see if the username is taken. Try making your username Steven.Seagal (simulated server side checking, loading time added for demo purposes) or admin/Admin for client side checking.<br/><br/>
+    <form name="formName">
+  
+     <!--  app.checkUsername=function(){
+          app.checkingUsername=true;
+          fakeApi.checkIfUsernameAvailable(app.username)
+          .then(function(res){
+              app.usernameTaken=res;
+              app.checkingUsername=false;
+          })
+      }
+
+      app.customErrors=[
+          {
+              name:'usernameTaken',
+              check:function(){
+                  return app.usernameTaken;
+              }
+          },
+          {
+              name:'notAdmin',
+              check:function(){
+                  return app.username!=='admin' && app.username!=='Admin';
+              }
+          }
+      ] -->
+
+      <div style="position:relative;display:inline-block;width:50%;">
+        <input class="cui-input" name="inputName" custom-error="app.customErrors" ng-model="app.username" placeholder="Choose your username" ng-change="app.checkUsername()" ng-class="{'cui-input--error' : formName.inputName.$error.usernameTaken}" ng-model-options='{ debounce: 500 }'/>
+        <div ng-if="app.checkingUsername" class="cui-loading" style="position:absolute;height:30px;width:30px;right:10px;top:19px;"></div>
+      </div>
+      <span ng-if="formName.inputName.$error.notAdmin" class="error-message">Can't be admin</span>
+      <span ng-if="formName.inputName.$error.usernameTaken" class="error-message">Username is taken</span>
+    </form>
+    <br/><br/>
+    <a class="cui-link" href="https://github.com/thirdwavellc/cui-ng/tree/master/assets/angular-templates/custom-error.html" target="blank">Click here to see the code used on this page</a> or <a class="cui-link" href="https://github.com/thirdwavellc/cui-ng/tree/master/directives/custom-error" target="blank">here to see the extended docs.</a>
   </div>
 </div>

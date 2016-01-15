@@ -1431,9 +1431,9 @@ angular.module('cui-ng')
       customError: '=customError'
     },
     link: function(scope,ele,attrs,ctrl){
-      angular.forEach(scope.customError,function(customError){
-        scope.$watch(customError.check,function(valid){
-          ctrl.$setValidity(customError.name,valid);
+      angular.forEach(scope.customError,function(error,i){
+        scope.$watch(scope.customError[i].check,function(valid){
+          ctrl.$setValidity(scope.customError[i].name,valid);
         });
       });
     }
@@ -1641,6 +1641,7 @@ angular.module('cui-ng')
 	};
 	var policies={};
 	var complex=function(modelValue,viewValue){
+		if(!modelValue) return false;
 		var classes=policies.classes,
 		numberOfUsedClasses=0;
 		if(classes.allowLowerChars){
@@ -1667,14 +1668,17 @@ angular.module('cui-ng')
 			return /.*[a-z].*/.test(viewValue);
 		},
 		uppercase: function(modelValue,viewValue){
+			if(!modelValue) return false;
 			if(complex(modelValue,viewValue)) return true;
 			return /.*[A-Z].*/.test(viewValue);
 		},
 		number: function(modelValue,viewValue){
+			if(!modelValue) return false;
 			if(complex(modelValue,viewValue)) return true;
 			return /.*[0-9].*/.test(viewValue);
 		},
 		special: function(modelValue,viewValue){
+			if(!modelValue) return false;
 			if(complex(modelValue,viewValue)) return true;
 			return /[-!$%^&*()_+|~=`{}\[\]:";'<>?,.\/]/.test(viewValue);
 		},

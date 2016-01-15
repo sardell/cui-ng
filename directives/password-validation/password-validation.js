@@ -5,6 +5,7 @@ angular.module('cui-ng')
 	};
 	var policies={};
 	var complex=function(modelValue,viewValue){
+		if(!modelValue) return false;
 		var classes=policies.classes,
 		numberOfUsedClasses=0;
 		if(classes.allowLowerChars){
@@ -31,14 +32,17 @@ angular.module('cui-ng')
 			return /.*[a-z].*/.test(viewValue);
 		},
 		uppercase: function(modelValue,viewValue){
+			if(!modelValue) return false;
 			if(complex(modelValue,viewValue)) return true;
 			return /.*[A-Z].*/.test(viewValue);
 		},
 		number: function(modelValue,viewValue){
+			if(!modelValue) return false;
 			if(complex(modelValue,viewValue)) return true;
 			return /.*[0-9].*/.test(viewValue);
 		},
 		special: function(modelValue,viewValue){
+			if(!modelValue) return false;
 			if(complex(modelValue,viewValue)) return true;
 			return /[-!$%^&*()_+|~=`{}\[\]:";'<>?,.\/]/.test(viewValue);
 		},

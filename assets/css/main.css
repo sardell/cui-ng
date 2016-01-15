@@ -2747,3 +2747,7 @@ Styleguide Blocks.Loading
   transform: translate(0, -1px); }
   .circle.green {
     background: #3CB371; }
+
+.error-message {
+  color: red;
+  margin-left: 5px; }

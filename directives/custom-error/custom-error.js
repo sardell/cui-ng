@@ -7,9 +7,9 @@ angular.module('cui-ng')
       customError: '=customError'
     },
     link: function(scope,ele,attrs,ctrl){
-      angular.forEach(scope.customError,function(customError){
-        scope.$watch(customError.check,function(valid){
-          ctrl.$setValidity(customError.name,valid);
+      angular.forEach(scope.customError,function(error,i){
+        scope.$watch(scope.customError[i].check,function(valid){
+          ctrl.$setValidity(scope.customError[i].name,valid);
         });
       });
     }
