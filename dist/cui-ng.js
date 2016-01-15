@@ -1431,20 +1431,11 @@ angular.module('cui-ng')
       customError: '=customError'
     },
     link: function(scope,ele,attrs,ctrl){
-      var index;
-      var check=function(valid){
-        if(valid){
-            ctrl.$setValidity(scope.customError[index].name,true);
-          }
-        else ctrl.$setValidity(scope.customError[index].name,false);
-      };
-      var startWatching=function(){
-        for(var i=0;i<scope.customError.length;i++){
-          index=i;
-          scope.$watch(scope.customError[i].check,check);
-        }
-      };
-      startWatching();
+      angular.forEach(scope.customError,function(error,i){
+        scope.$watch(scope.customError[i].check,function(valid){
+          ctrl.$setValidity(scope.customError[i].name,valid);
+        });
+      });
     }
   };
 }]);
@@ -1650,6 +1641,7 @@ angular.module('cui-ng')
 	};
 	var policies={};
 	var complex=function(modelValue,viewValue){
+		if(!modelValue) return false;
 		var classes=policies.classes,
 		numberOfUsedClasses=0;
 		if(classes.allowLowerChars){
@@ -1671,18 +1663,22 @@ angular.module('cui-ng')
 			policies=newPolicies;
 		},
 		lowercase: function(modelValue,viewValue){
+			if(!modelValue) return false;
 			if(complex(modelValue,viewValue)) return true;
 			return /.*[a-z].*/.test(viewValue);
 		},
 		uppercase: function(modelValue,viewValue){
+			if(!modelValue) return false;
 			if(complex(modelValue,viewValue)) return true;
 			return /.*[A-Z].*/.test(viewValue);
 		},
 		number: function(modelValue,viewValue){
+			if(!modelValue) return false;
 			if(complex(modelValue,viewValue)) return true;
 			return /.*[0-9].*/.test(viewValue);
 		},
 		special: function(modelValue,viewValue){
+			if(!modelValue) return false;
 			if(complex(modelValue,viewValue)) return true;
 			return /[-!$%^&*()_+|~=`{}\[\]:";'<>?,.\/]/.test(viewValue);
 		},
@@ -1714,6 +1710,7 @@ angular.module('cui-ng')
 			return !regExp.test(viewValue);
 		},
 		length: function(modelValue,viewValue){
+			if(!modelValue) return false;
 			return ((viewValue.length<=policies.count.max) && (viewValue.length>=policies.count.min));
 		}
 	};
@@ -1723,16 +1720,14 @@ angular.module('cui-ng')
 	var policies;
 	var parsedPolicies={};
 	var policy={
-		set: function(policiesString){
-			policies=policiesString;
+		set: function(policies){
+			policies=policies;
 			this.parse(policies);
 		},
 		get: function(){
 			return parsedPolicies;
 		},
-		parse: function(policiesString){
-			// needs to parse the array out of the string passed
-			var policies=JSON.parse('[' + policiesString + ']')[0];
+		parse: function(policies){
 			for(var i=0;i<policies.length;i++){
 		    	var keys=Object.keys(policies[i]);
 		    	if(keys.indexOf('allowUpperChars')>-1){
@@ -1804,10 +1799,12 @@ angular.module('cui-ng')
 .directive('passwordValidation', ['Policy','Validators',function(Policy,Validators){
 	return {		
 		require: 'ngModel',
-		scope: true,	
+		scope: {
+			passwordValidation:'='
+		},	
 		restrict: 'A',
 		link: function(scope, element, attrs, ctrl){
-		    Policy.set(attrs.passwordValidation);
+		    Policy.set(scope.passwordValidation);
 		    Validators.setPolicies(Policy.get());
 		    ctrl.$validators=Policy.getValidators();
 		}		

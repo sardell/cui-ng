@@ -7,20 +7,11 @@ angular.module('cui-ng')
       customError: '=customError'
     },
     link: function(scope,ele,attrs,ctrl){
-      var index;
-      var check=function(valid){
-        if(valid){
-            ctrl.$setValidity(scope.customError[index].name,true);
-          }
-        else ctrl.$setValidity(scope.customError[index].name,false);
-      };
-      var startWatching=function(){
-        for(var i=0;i<scope.customError.length;i++){
-          index=i;
-          scope.$watch(scope.customError[i].check,check);
-        }
-      };
-      startWatching();
+      angular.forEach(scope.customError,function(error,i){
+        scope.$watch(scope.customError[i].check,function(valid){
+          ctrl.$setValidity(scope.customError[i].name,valid);
+        });
+      });
     }
   };
 }]);

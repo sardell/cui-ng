@@ -10,7 +10,7 @@ describe('Cui-avatar',function(){
     }));
 
     it('Replaces the background image with the given url',function(){
-        var element = $compile('<cui-avatar user-avatar="http://imgurl.com/image.jpg">')($rootScope);
+        var element = $compile('<cui-avatar user-avatar="\'http://imgurl.com/image.jpg\'">')($rootScope);
         $rootScope.$digest();
         expect(element[0].style.backgroundImage).toBe('url(http://imgurl.com/image.jpg)');
     })

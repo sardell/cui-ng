@@ -43,6 +43,18 @@
             .state('off-click',{
                 url: '/off-click',
                 templateUrl: './assets/angular-templates/off-click.html'
+            })
+            .state('password-validation',{
+                url: '/password-validation',
+                templateUrl: './assets/angular-templates/password-validation.html'
+            })
+            .state('custom-error',{
+                url: '/custom-error',
+                templateUrl: './assets/angular-templates/custom-error.html'
+            })
+            .state('tags-input',{
+                url: '/tags-input',
+                templateUrl: './assets/angular-templates/tags-input.html'
             });
 
         //fixes infinite digest loop with ui-router
@@ -74,9 +86,6 @@
             return $http.get('bower_components/cui-i18n/dist/cui-i18n/angular-translate/countries/' + locale + '.json');
         };
     }])
-    .factory('getSvgList',['$http', function($http){
-        return $http.get('bower_components/cui-icons/iconList');
-    }])
     .factory('auth',['$http', '$rootScope',function($http, $rootScope){
         return{
             login: function(){
@@ -94,8 +103,19 @@
 
         }
     }])
-    .controller('appCtrl',['$rootScope','$state','$stateParams','user','$timeout','localStorageService','$scope','getSvgList','auth','$translate','getCountries',
-    function($rootScope,$state,$stateParams,user,$timeout,localStorageService,$scope,getSvgList,auth,$translate,getCountries){
+    .factory('fakeApi',['$q','$timeout',function($q,$timeout){
+        return {
+            checkIfUsernameAvailable:function(username){
+                var deferred=$q.defer();
+                $timeout(function(){
+                    deferred.resolve(username!=='Steven.Seagal');
+                },600);
+                return deferred.promise;
+            }
+        }
+    }])
+    .controller('appCtrl',['$rootScope','$state','$stateParams','user','$timeout','localStorageService','$scope','$translate','getCountries','fakeApi',
+    function($rootScope,$state,$stateParams,user,$timeout,localStorageService,$scope,$translate,getCountries,fakeApi){
         var app=this;
         app.appUser={};
         app.hits=0;
@@ -107,11 +127,6 @@
                 app.hits=((app.hits || 0)+1);
             }
         }
-
-        app.doLogin=function(){
-            auth.login();
-        }
-
 
         app.desktopMenu=true;
 
@@ -139,7 +154,30 @@
             }
         ];
 
-        
+
+        app.checkUsername=function(){
+            app.checkingUsername=true;
+            fakeApi.checkIfUsernameAvailable(app.username)
+            .then(function(res){
+                app.usernameAvailable=res;
+                app.checkingUsername=false;
+            })
+        }
+
+        app.customErrors=[
+            {
+                name:'usernameTaken',
+                check:function(){
+                    return app.usernameAvailable;
+                }
+            },
+            {
+                name:'notAdmin',
+                check:function(){
+                    return app.username!=='admin' && app.username!=='Admin';
+                }
+            }
+        ]
         
 
         var setCountries=function(language){
@@ -164,4 +202,3 @@
         
     }]);
 })(angular);
-// 
