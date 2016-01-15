@@ -1,13 +1,5 @@
 angular.module('cui-ng')
 .directive('match', ['$parse', matchDirective]);
-
-/**
- * Match directive.
- *
- * @example
- * <input type="password" ng-match="password">
- */
-
 function matchDirective($parse) {
   return {
     restrict: 'A',
