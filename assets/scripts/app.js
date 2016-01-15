@@ -51,6 +51,10 @@
             .state('custom-error',{
                 url: '/custom-error',
                 templateUrl: './assets/angular-templates/custom-error.html'
+            })
+            .state('tags-input',{
+                url: '/tags-input',
+                templateUrl: './assets/angular-templates/tags-input.html'
             });
 
         //fixes infinite digest loop with ui-router
