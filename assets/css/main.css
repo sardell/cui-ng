@@ -2751,3 +2751,10 @@ Styleguide Blocks.Loading
 .error-message {
   color: red;
   margin-left: 5px; }
+
+.ellapsed {
+  margin-left: 10px;
+  font-size: 25px;
+  font-weight: bold;
+  position: absolute;
+  transform: translate(0px, 5px); }

@@ -46,7 +46,7 @@ angular.module('cui-ng')
                         $rootScope.$broadcast('stepChange',{state:state});
                     };
                     scope.nextWithErrorChecking=function(form,nextState){
-                        if(form.$invalid){
+                        if(!form.$valid){
                             angular.forEach(form.$error, function (field) {
                                 angular.forEach(field, function(errorField){
                                     errorField.$setTouched();

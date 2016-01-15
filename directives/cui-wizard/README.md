@@ -130,3 +130,7 @@ The `bar` attribute activates a bar with `.steps-bar` class within the `indicato
 The `mobile-stack` attribute will create dupes of your wizard's steps, using the `cui-expandable` directive. These dupes will have a `mobile-element` class and the original steps will be given a `desktop-element` class. We can then style these classes to give a different look and feel on mobile (the styling will be included in cui-styleguide).
 
 Cui-wizard will also listen for `'languageChange'` broadcasts on scope, and will fire the function that ensures there's enough room to show all of the indicators (and apply the class of `.small` to the `indicator-container` if there isn't). This is specifically built in for use with the [cui-i18n](https://github.com/thirdwavellc/cui-i18n) module.
+
+## Change Log 1/15/2016
+
+* Now checks for `!form.$valid` rather than `form.$invalid` on `nextWithErrorChecking`.

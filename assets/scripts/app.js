@@ -55,6 +55,10 @@
             .state('tags-input',{
                 url: '/tags-input',
                 templateUrl: './assets/angular-templates/tags-input.html'
+            })
+            .state('match',{
+                url: '/match',
+                templateUrl: './assets/angular-templates/match.html'
             });
 
         //fixes infinite digest loop with ui-router
@@ -114,11 +118,19 @@
             }
         }
     }])
-    .controller('appCtrl',['$rootScope','$state','$stateParams','user','$timeout','localStorageService','$scope','$translate','getCountries','fakeApi',
-    function($rootScope,$state,$stateParams,user,$timeout,localStorageService,$scope,$translate,getCountries,fakeApi){
+    .factory('words',['$http',function($http){
+        return {
+            get: function(){
+                return $http.get('http://randomword.setgetgo.com/get.php');
+            }
+        };
+    }])
+    .controller('appCtrl',['$rootScope','$state','$stateParams','user','$timeout','localStorageService','$scope','$translate','getCountries','fakeApi','$interval','words',
+    function($rootScope,$state,$stateParams,user,$timeout,localStorageService,$scope,$translate,getCountries,fakeApi,$interval,words){
         var app=this;
         app.appUser={};
         app.hits=0;
+
         //SERVICES -----------------------
 
         app.addPoints=function(){
@@ -177,8 +189,33 @@
                     return app.username!=='admin' && app.username!=='Admin';
                 }
             }
-        ]
-        
+        ];
+
+        var timer;
+
+        app.startGame=function(){
+            if(angular.isDefined(timer)) $interval.cancel(timer);
+            app.userInput='';
+            app.counter=0;
+            words.get()
+            .then(function(res){
+                app.random=res.data;
+                app.gameStarted=true;
+                timer=$interval(function(){
+                    app.counter+=0.01;
+                },10)
+            });
+        };
+
+        app.stopGame=function(){
+            $interval.cancel(timer);
+            timer=undefined;
+        }
+
+        app.restartGame=function(){
+            app.gameStarted=false;
+            app.startGame();
+        }
 
         var setCountries=function(language){
             if(language.indexOf('_')>-1){
