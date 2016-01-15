@@ -43,6 +43,14 @@
             .state('off-click',{
                 url: '/off-click',
                 templateUrl: './assets/angular-templates/off-click.html'
+            })
+            .state('password-validation',{
+                url: '/password-validation',
+                templateUrl: './assets/angular-templates/password-validation.html'
+            })
+            .state('custom-error',{
+                url: '/custom-error',
+                templateUrl: './assets/angular-templates/custom-error.html'
             });
 
         //fixes infinite digest loop with ui-router
@@ -74,9 +82,6 @@
             return $http.get('bower_components/cui-i18n/dist/cui-i18n/angular-translate/countries/' + locale + '.json');
         };
     }])
-    .factory('getSvgList',['$http', function($http){
-        return $http.get('bower_components/cui-icons/iconList');
-    }])
     .factory('auth',['$http', '$rootScope',function($http, $rootScope){
         return{
             login: function(){
@@ -94,8 +99,8 @@
 
         }
     }])
-    .controller('appCtrl',['$rootScope','$state','$stateParams','user','$timeout','localStorageService','$scope','getSvgList','auth','$translate','getCountries',
-    function($rootScope,$state,$stateParams,user,$timeout,localStorageService,$scope,getSvgList,auth,$translate,getCountries){
+    .controller('appCtrl',['$rootScope','$state','$stateParams','user','$timeout','localStorageService','$scope','$translate','getCountries',
+    function($rootScope,$state,$stateParams,user,$timeout,localStorageService,$scope,$translate,getCountries){
         var app=this;
         app.appUser={};
         app.hits=0;
@@ -107,11 +112,6 @@
                 app.hits=((app.hits || 0)+1);
             }
         }
-
-        app.doLogin=function(){
-            auth.login();
-        }
-
 
         app.desktopMenu=true;
 
@@ -164,4 +164,3 @@
         
     }]);
 })(angular);
-// 

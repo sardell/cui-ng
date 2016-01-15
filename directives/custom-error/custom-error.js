@@ -11,7 +11,7 @@ angular.module('cui-ng')
         scope.$watch(customError.check,function(valid){
           ctrl.$setValidity(customError.name,valid);
         });
-      })
+      });
     }
   };
 }]);

@@ -14,7 +14,7 @@ NOTE: If you need more customized password validation rules use [`custom-error`]
 ```html  
 <input type="password" name="password" ng-model="app.password" ng-required="true" 
 ng-class="{'error-class': signOn.password.$touched && signOn.password.$invalid}" 
-password-validation="{{app.passwordPolicies}}"></input>
+password-validation="app.passwordPolicies"></input>
 
 <div ng-messages="signOn.password.$error" ng-messages-multiple ng-if="signOn.password.$invalid">
    <div ng-messages-include="assets/angular-templates/password-messages.html"></div>
@@ -24,7 +24,7 @@ password-validation="{{app.passwordPolicies}}"></input>
 
 The div appended with the ng-messages attribute uses the ng-messages directive to display the errors, ng-if ensures that they are only shown when the field is invalid.
 
-`{{app.passwordPolicies}}` is an array that looks like this
+`app.passwordPolicies` is an array that looks like this
 ```js
   app.passwordPolicies=[
       {
@@ -112,3 +112,8 @@ This file will contain the markup shown for each error message. Use this to buil
 
 
 ```
+
+## Change Log 1/15/2016
+
+* Now accepts the value of `password-validation` passed as a variable directly (`password-validation="app.policies"`) vs. as a pointer to the variable that needs to be compiled and then parsed as a string (`password-validation="{{app.policies}}"`).
+* Fixed attributes passing validation rules when the input was empty and not touched (no more need to set the ng-model to an empty string).

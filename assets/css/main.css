@@ -2737,3 +2737,13 @@ Styleguide Blocks.Loading
 
 .crosshair {
   cursor: crosshair; }
+
+.circle {
+  width: 9px;
+  height: 9px;
+  background: #FF4400;
+  display: inline-block;
+  border-radius: 50%;
+  transform: translate(0, -1px); }
+  .circle.green {
+    background: #3CB371; }
