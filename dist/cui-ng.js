@@ -1431,16 +1431,15 @@ angular.module('cui-ng')
       customError: '=customError'
     },
     link: function(scope,ele,attrs,ctrl){
-      var index;
-      var check=function(valid){
-        if(valid){
-            ctrl.$setValidity(scope.customError[index].name,true);
-          }
-        else ctrl.$setValidity(scope.customError[index].name,false);
-      };
       var startWatching=function(){
+        var check;
         for(var i=0;i<scope.customError.length;i++){
-          index=i;
+          check=function(valid){
+            if(valid){
+                ctrl.$setValidity(scope.customError[i].name,true);
+              }
+            else ctrl.$setValidity(scope.customError[i].name,false);
+          };
           scope.$watch(scope.customError[i].check,check);
         }
       };
