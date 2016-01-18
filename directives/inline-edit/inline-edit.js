@@ -20,7 +20,10 @@ angular.module('cui-ng')
         scope.model=scope.editInput;
       };
       scope.listenForEnter=function(e){
-        if(e.keyCode===13) {scope.toggleEdit();scope.saveInput();}
+        if(e.keyCode===13) {
+          scope.toggleEdit();
+          scope.saveInput();
+        }
       };
 
       var getLabel=function(){

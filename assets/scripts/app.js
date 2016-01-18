@@ -89,7 +89,8 @@
         
         $translateProvider.useLoader('LocaleLoader',{
             url:'bower_components/cui-i18n/dist/cui-i18n/angular-translate/',
-            prefix:'locale-'
+            prefix:'locale-',
+            suffix:'.json'
         });
 
         $cuiIconProvider.iconSet('cui','bower_components/cui-icons/dist/icons/icons-out.svg',48,true);
