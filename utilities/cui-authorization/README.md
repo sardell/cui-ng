@@ -8,12 +8,11 @@ Cui-authorization is a module that depends on [ui-router](https://github.com/ang
 ### Usage Example
 
 ```javascript
-//note, the user object must have an 'entitlements' property,
-//which is an array of entitlement strings. ex: ['admin','user']
+// note: entitlements must be an array of entitlement strings. ex: ['admin','user']
   angular.module('app',['cui.authorization','ui.router']
   .run(['$rootScope','$state','cui.athorization.routing',function($rootScope,$state,routing){
     $rootScope.$on('$stateChangeStart', function(event, toState, toParams, fromState, fromParams){
-      routing($rootScope, $state, toState, toParams, fromState, fromParams, *user object goes here*);
+      routing($rootScope, $state, toState, toParams, fromState, fromParams, *entitlements array goes here*);
     }
   }])
   .config(['$stateProvider','$urlRouterProvider','$locationProvider',function($stateProvider,$urlRouterProvider,$locationProvider){
@@ -54,7 +53,7 @@ Cui-authorization is a module that depends on [ui-router](https://github.com/ang
 #### HTML Element Blocking
 
 ```html
-<any-element cui-access='{ "requiredEntitlements":["admin","user"],"entitlementType":"atLeastOne"}' user="{{app.appUser}}">Test</any-element>
+<any-element cui-access="{requiredEntitlements:['admin','user'],entitlementType:'atLeastOne'}" user-entitlements="app.user.entitlements">Test</any-element>
 ```
 
 This will add a `.hide` class to the element, if the user defined in app.appUser doesn't have permission to see it.
@@ -66,8 +65,13 @@ With this implementation, this module will listen to the `$stateChangeStart` eve
 #### Redirecting
 There are 2 types of redirection:
 
-1. The user is not logged in (the user object is undefined or empty), in this case the module will redirect him to the `login` state.
+1. The user entitlement array is undefined, in this case the module will redirect him to the `login` state.
 2. The user does not have permission to view the page (no entitlement), in this case he gets redirected to the `notAuthorized` state.
 
 #### Key features
 Within `entitlementType` in the `access` object of each state there are 2 options for how the authorization will be evaluated - `'atLeastOne'` and `'all'`. The first will give the user authorization if he satisfies <b>at least one</b> of the `requiredEntitlements`. The second will only give him permission if he satisfies <b>all</b> of the entitlements.
+
+## Change Log 1/18/2016
+
+* Now takes an array of entitlements rather than a user object, this gives the developer more flexibility.
+* Now takes javascript syntax directly in `cui-access` and `user-entitlements`, rather than a string that has to be parsed.

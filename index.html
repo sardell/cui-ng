@@ -2,7 +2,7 @@
 <html lang="en" ng-app="app">
 <head>
   <meta charset="UTF-8">
-  <title>Cui-UI</title>
+  <title>CUI-NG directives/utilities</title>
   <!-- build:css assets/css/main.css -->
   <link rel="stylesheet" href="assets/css/main.css">
   <!-- endbuild -->
@@ -12,14 +12,7 @@
 <body ng-controller="appCtrl as app" ng-cloak>
   <div class="cui-wrapper">
     <snap-drawer>
-      <span class="snap-menu--option" ui-sref="cui-wizard" snap-close>cui-wizard</span>
-      <span class="snap-menu--option" ui-sref="cui-avatar" snap-close>cui-avatar</span>
-      <span class="snap-menu--option" ui-sref="cui-expandable" snap-close>cui-expandable</span>
-      <span class="snap-menu--option" ui-sref="off-click" snap-close>off-click</span>
-      <span class="snap-menu--option" ui-sref="password-validation" snap-close>password-validation</span>
-      <span class="snap-menu--option" ui-sref="custom-error" snap-close>custom-error</span>
-      <span class="snap-menu--option" ui-sref="match" snap-close>match</span>
-      <span class="snap-menu--option" ui-sref="tags-input" snap-close>tags-input</span>
+      <span ng-repeat="route in app.routes" class="snap-menu--option" ui-sref="{{route}}" snap-close>{{route}}</span>
     </snap-drawer>
     <snap-content snap-opt-disable="'right'">
 
@@ -32,16 +25,10 @@
         </div>
       </header>
 
-       <div class="desktop-menu" ng-class="{'desktop-menu--collapse': !app.menuOpen}">
-          <span class="desktop-menu--option" ui-sref="cui-wizard">cui-wizard</span>
-          <span class="desktop-menu--option" ui-sref="cui-avatar">cui-avatar</span>
-          <span class="desktop-menu--option" ui-sref="cui-expandable">cui-expandable</span>
-          <span class="desktop-menu--option" ui-sref="off-click">off-click</span>
-          <span class="desktop-menu--option" ui-sref="password-validation">password-validation</span>
-          <span class="desktop-menu--option" ui-sref="custom-error">custom-error</span>
-          <span class="desktop-menu--option" ui-sref="match">match</span>
-          <span class="desktop-menu--option" ui-sref="tags-input">tags-input</span>
-        </div>
+      <div class="desktop-menu" ng-class="{'desktop-menu--collapse': !app.menuOpen}">
+          <input ng-model="app.routeSearch" class="cui-input" style="margin:10px auto;display:block;width:90%;height:30px;padding:10px;" placeholder="Search for components"/>
+          <span class="desktop-menu--option" ng-repeat="route in app.routes | filter:app.routeSearch" ui-sref="{{route}}" ng-click="app.routeSearch=''">{{route}}</span>
+      </div>
 
         <div class="cui-nav__content-wrapper" ng-class="{'desktop-menu--collapse': !app.menuOpen}">
           

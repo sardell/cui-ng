@@ -9,8 +9,9 @@ angular.module('cui-ng')
     },
     link: function(scope,ele,attrs){
       scope.edit=false;
+      scope.focus=false;
       scope.toggleEdit=function(){
-        scope.edit=!scope.edit;
+        scope.focus=scope.edit=!scope.edit;
       };
       scope.matchModels=function(){
         scope.editInput=scope.model;
@@ -33,7 +34,7 @@ angular.module('cui-ng')
         if(attrs.type==='dropdown') return '<select ng-model="$parent.editInput" class="cui-select" ' +
           'ng-init="matchModels()" ng-options="' + attrs.optionsExpression + '" ng-if="edit"></select>';
         return '<input type="' + attrs.type + '" ng-model="$parent.editInput" class="cui-input" ' +
-          'ng-init="matchModels()" ng-if="edit" ng-keypress="listenForEnter($event)"/>';
+          'ng-init="matchModels()" ng-if="edit" ng-keypress="listenForEnter($event)" focus-if="focus"/>';
       };
 
       var element= $compile(
