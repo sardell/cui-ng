@@ -809,8 +809,7 @@ angular.module('cui-ng')
                     angular.element(elem).css('background-image',background);
                 } 
                 else{
-                    var color='#AAA',
-                    background= color;
+                    background = '#AAA';
                     angular.element(elem).css({'background-image':'none','background-color':background});
                 }
             });
@@ -1230,8 +1229,8 @@ angular.module('cui-ng')
                 // creates indicators inside of <indicator-container>
                 createIndicators = function(){
                     var stepTitles=[],
-                        stepIcons=[],
-                        defaultString='default';
+                        stepIcons=[];
+                    scope.defaultString='default';
                     scope.stepStates=[];
                     for(var i=0;i < scope.numberOfSteps;i++){
                         stepTitles[i]=scope.$steps[i].attributes.title.value;
@@ -1255,13 +1254,13 @@ angular.module('cui-ng')
                         }
                         if(scope.clickableIndicators!==undefined && scope.icons[i]!==undefined){
                             div=angular.element('<span class="step-indicator" ng-click="goToStep(' + 
-                                (i+1) + ');goToState(\'' + (scope.stepStates[i] || defaultString) + '\')">' + 
+                                (i+1) + ');goToState(\'' + (scope.stepStates[i] || scope.defaultString) + '\')">' + 
                             stepTitles[i] + scope.icons[i] + '</span>');
                             div[0].style.cursor='pointer';
                         }
                         else if(scope.clickableIndicators!==undefined && !scope.icons[i]){
                             div=angular.element('<span class="step-indicator" ng-click="goToStep(' + 
-                                (i+1) + ');goToState(\'' + (scope.stepStates[i] || defaultString) + '\')">' + 
+                                (i+1) + ');goToState(\'' + (scope.stepStates[i] || scope.defaultString) + '\')">' + 
                             stepTitles[i] + '</span>');
                             div[0].style.cursor='pointer';
                         }
@@ -1332,7 +1331,7 @@ angular.module('cui-ng')
                             '<cui-expandable class="cui-expandable mobile-element">' +
                             '<cui-expandable-title class="cui-expandable__title"' +  
                             (scope.clickableIndicators!==undefined? 'ng-click="goToStep(' + 
-                            (i+1) + ');goToState(\'' + (scope.stepStates[i] || defaultString) + '\')">' : '>') +
+                            (i+1) + ');goToState(\'' + (scope.stepStates[i] || scope.defaultString) + '\')">' : '>') +
                             (scope.icons[i]? scope.icons[i] : '') + step.title + '</cui-expandable-title>' +
                             '<cui-expandable-body class="cui-expandable__body">' +
                             (ngIncludeSrc? '<div ng-include="' + ngIncludeSrc + '"></div>' : step.innerHTML) + '</cui-expandable-body>' +
@@ -1457,7 +1456,7 @@ angular.module('cui-ng')
                         dom.focus();
                     }, $scope.$eval($attrs.focusDelay) || 0);
                 }
-            };
+            }
         }
     };
 }]);
@@ -1473,8 +1472,9 @@ angular.module('cui-ng')
     },
     link: function(scope,ele,attrs){
       scope.edit=false;
+      scope.focus=false;
       scope.toggleEdit=function(){
-        scope.edit=!scope.edit;
+        scope.focus=scope.edit=!scope.edit;
       };
       scope.matchModels=function(){
         scope.editInput=scope.model;
@@ -1497,7 +1497,7 @@ angular.module('cui-ng')
         if(attrs.type==='dropdown') return '<select ng-model="$parent.editInput" class="cui-select" ' +
           'ng-init="matchModels()" ng-options="' + attrs.optionsExpression + '" ng-if="edit"></select>';
         return '<input type="' + attrs.type + '" ng-model="$parent.editInput" class="cui-input" ' +
-          'ng-init="matchModels()" ng-if="edit" ng-keypress="listenForEnter($event)"/>';
+          'ng-init="matchModels()" ng-if="edit" ng-keypress="listenForEnter($event)" focus-if="focus"/>';
       };
 
       var element= $compile(
@@ -2866,24 +2866,24 @@ angular.module('cui-ng')
   // how to use:
   // .run(['$rootScope', '$state', 'cui.authorization.routing' function($rootScope,$state){
   //   $rootScope.$on('$stateChangeStart', function(event, toState){
-  //     cui.authorization.routing($state,toState,user);
+  //     cui.authorization.routing($state,toState,userEntitlements);
   //   })
   // }])
   //
-  // User must be an object with a property called 'entitlements'
+  // userEntitlements must be an array of entitlements.
   // It will redirect to a state called 'login' if no user is defined
   // It will redirect to a state called 'notAuthorized' if the user doesn't have permission
   angular.module('cui.authorization',[])
   .factory('cui.authorization.routing', ['cui.authorization.authorize', '$timeout',
     function (authorize,$timeout){
-      var routing = function($rootScope, $state, toState, toParams, fromState, fromParams, user){
+      var routing = function($rootScope, $state, toState, toParams, fromState, fromParams, userEntitlements){
         var authorized;
         if (toState.access !== undefined) {
           // console.log('Access rules for this route: \n' +
           // 'loginRequired: ' + toState.access.loginRequired + '\n' +
           // 'requiredEntitlements: ' + toState.access.requiredEntitlements);
             authorized = authorize.authorize(toState.access.loginRequired,
-                 toState.access.requiredEntitlements, toState.access.entitlementType, user);
+                 toState.access.requiredEntitlements, toState.access.entitlementType, userEntitlements);
             // console.log('authorized: ' + authorized);
             if (authorized === 'login required') {
                 $timeout(function(){
@@ -2919,20 +2919,20 @@ angular.module('cui-ng')
 
   .factory('cui.authorization.authorize', [
     function () {
-     var authorize = function (loginRequired, requiredEntitlements, entitlementType, user) {
+     var authorize = function (loginRequired, requiredEntitlements, entitlementType, userEntitlements) {
         var loweredPermissions = [],
             hasPermission = true,
             permission, i, 
             result='not authorized';
         entitlementType = entitlementType || 'atLeastOne';
-        if (loginRequired === true && ((user === undefined) || (user.id === undefined))) {
+        if (loginRequired === true && userEntitlements == undefined) {
             result = 'login required';
-        } else if ((loginRequired === true && user !== undefined) &&
+        } else if ((loginRequired === true && userEntitlements !== undefined) &&
             (requiredEntitlements === undefined || requiredEntitlements.length === 0)) {
             // Login is required but no specific permissions are specified.
             result = 'authorized';
         } else if (requiredEntitlements) {
-            angular.forEach(user.entitlements, function (permission) {
+            angular.forEach(userEntitlements, function (permission) {
                 loweredPermissions.push(permission.toLowerCase());
             });
             for (i = 0; i < requiredEntitlements.length; i++) {
@@ -2967,16 +2967,17 @@ angular.module('cui-ng')
   .directive('cuiAccess',['cui.authorization.authorize',function(authorize){
       return{
           restrict:'A',
-          scope: true,
+          scope: {
+            userEntitlements:'=',
+            cuiAccess:'='
+          },
           link: function(scope,elem,attrs){
-              var access= JSON.parse(attrs.cuiAccess);
               scope.loginRequired= true;
-              scope.requiredEntitlements= access.requiredEntitlements || [];
-              scope.entitlementType= access.entitlementType || 'atLeastOne';
+              scope.requiredEntitlements= scope.cuiAccess.requiredEntitlements || [];
+              scope.entitlementType= scope.cuiAccess.entitlementType || 'atLeastOne';
               elem=angular.element(elem);
-              attrs.$observe('user',function(){
-                  scope.user= JSON.parse(attrs.user);
-                  var authorized=authorize.authorize(scope.loginRequired, scope.requiredEntitlements, scope.entitlementType, scope.user);
+              scope.$watch('userEntitlements',function(){
+                  var authorized=authorize.authorize(scope.loginRequired, scope.requiredEntitlements, scope.entitlementType, scope.userEntitlements);
                   if(authorized!=='authorized'){
                       elem.addClass('hide');
                   }

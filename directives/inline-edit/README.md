@@ -32,3 +32,7 @@ If you have an array of strings, for example `app.options=['value 1','value 2','
 ```
 
 IMPORTANT: in `options-expression` - x as x for x in options - that last bit `options` is MANDATORY. This is the name of the scope variable that will point to the `options` variable. For more complex filters see [this](https://docs.angularjs.org/api/ng/directive/ngOptions).
+
+## Change Log 1/18/2016
+
+* Now auto focuses the input when the edit button is clicked, with the help of focus-if.

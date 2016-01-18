@@ -59,6 +59,26 @@
             .state('match',{
                 url: '/match',
                 templateUrl: './assets/angular-templates/match.html'
+            })
+            .state('cui-icon',{
+                url: '/cui-icon',
+                templateUrl: './assets/angular-templates/cui-icon.html'
+            })
+            .state('auto-complete',{
+                url: '/auto-complete',
+                templateUrl: './assets/angular-templates/auto-complete.html'
+            })
+            .state('inline-edit',{
+                url: '/inline-edit',
+                templateUrl: './assets/angular-templates/inline-edit.html'
+            })
+            .state('cui-authorization',{
+                url: '/cui-authorization',
+                templateUrl: './assets/angular-templates/cui-authorization.html'
+            })
+            .state('focus-if',{
+                url: '/focus-if',
+                templateUrl: './assets/angular-templates/focus-if.html'
             });
 
         //fixes infinite digest loop with ui-router
@@ -130,6 +150,9 @@
         var app=this;
         app.appUser={};
         app.hits=0;
+
+        app.routes=['cui-avatar','cui-wizard','cui-expandable','off-click','password-validation','tags-input','match','custom-error',
+        'cui-icon','auto-complete','inline-edit','focus-if','cui-authorization'];
 
         //SERVICES -----------------------
 
@@ -234,7 +257,30 @@
             setCountries(args);
         });
 
-        setCountries($translate.proposedLanguage());
+        setCountries('en');
+
+        app.getRandomWord=function(){
+            words.get()
+            .then(function(res){
+                app.random2=res.data;
+            });
+        }
+
+        app.buildEntitlements=function(){
+            if(Object.keys(app.entitlements).length===0){
+                app.userEntitlements=[];
+            }
+            else{
+                var entitlements=[],i=0;
+                angular.forEach(app.entitlements,function(value,key){
+                    if(value) {
+                        entitlements[i]=key;
+                        i++
+                    }
+                });
+                app.userEntitlements=entitlements;
+            }
+        }
 
         
     }]);

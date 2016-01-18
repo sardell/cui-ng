@@ -15,7 +15,7 @@ angular.module('cui-ng')
                         dom.focus();
                     }, $scope.$eval($attrs.focusDelay) || 0);
                 }
-            };
+            }
         }
     };
 }]);

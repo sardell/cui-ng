@@ -84,8 +84,8 @@ angular.module('cui-ng')
                 // creates indicators inside of <indicator-container>
                 createIndicators = function(){
                     var stepTitles=[],
-                        stepIcons=[],
-                        defaultString='default';
+                        stepIcons=[];
+                    scope.defaultString='default';
                     scope.stepStates=[];
                     for(var i=0;i < scope.numberOfSteps;i++){
                         stepTitles[i]=scope.$steps[i].attributes.title.value;
@@ -109,13 +109,13 @@ angular.module('cui-ng')
                         }
                         if(scope.clickableIndicators!==undefined && scope.icons[i]!==undefined){
                             div=angular.element('<span class="step-indicator" ng-click="goToStep(' + 
-                                (i+1) + ');goToState(\'' + (scope.stepStates[i] || defaultString) + '\')">' + 
+                                (i+1) + ');goToState(\'' + (scope.stepStates[i] || scope.defaultString) + '\')">' + 
                             stepTitles[i] + scope.icons[i] + '</span>');
                             div[0].style.cursor='pointer';
                         }
                         else if(scope.clickableIndicators!==undefined && !scope.icons[i]){
                             div=angular.element('<span class="step-indicator" ng-click="goToStep(' + 
-                                (i+1) + ');goToState(\'' + (scope.stepStates[i] || defaultString) + '\')">' + 
+                                (i+1) + ');goToState(\'' + (scope.stepStates[i] || scope.defaultString) + '\')">' + 
                             stepTitles[i] + '</span>');
                             div[0].style.cursor='pointer';
                         }
@@ -186,7 +186,7 @@ angular.module('cui-ng')
                             '<cui-expandable class="cui-expandable mobile-element">' +
                             '<cui-expandable-title class="cui-expandable__title"' +  
                             (scope.clickableIndicators!==undefined? 'ng-click="goToStep(' + 
-                            (i+1) + ');goToState(\'' + (scope.stepStates[i] || defaultString) + '\')">' : '>') +
+                            (i+1) + ');goToState(\'' + (scope.stepStates[i] || scope.defaultString) + '\')">' : '>') +
                             (scope.icons[i]? scope.icons[i] : '') + step.title + '</cui-expandable-title>' +
                             '<cui-expandable-body class="cui-expandable__body">' +
                             (ngIncludeSrc? '<div ng-include="' + ngIncludeSrc + '"></div>' : step.innerHTML) + '</cui-expandable-body>' +

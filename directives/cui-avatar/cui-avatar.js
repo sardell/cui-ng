@@ -14,8 +14,7 @@ angular.module('cui-ng')
                     angular.element(elem).css('background-image',background);
                 } 
                 else{
-                    var color='#AAA',
-                    background= color;
+                    background = '#AAA';
                     angular.element(elem).css({'background-image':'none','background-color':background});
                 }
             });
