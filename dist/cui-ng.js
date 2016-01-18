@@ -828,20 +828,10 @@ angular.module('cui-ng')
               elem.toggleClass('expanded');
           };
           scope.expand=function(){
-              if(scope.expanded){
-              	return;
-              }
-              else{
-              	scope.toggleExpand();
-              }
+            !scope.expanded && scope.toggleExpand();
           };
           scope.collapse=function(){
-          	if(!scope.expanded){
-              	return;
-              }
-              else{
-              	scope.toggleExpand();
-              }
+          	scope.expanded && scope.toggleExpand();
           };
           scope.$watch(function() {return elem.attr('class'); }, function(newValue){
           	  if(newValue.indexOf('expanded')>-1) scope.expanded=true;
@@ -1483,7 +1473,10 @@ angular.module('cui-ng')
         scope.model=scope.editInput;
       };
       scope.listenForEnter=function(e){
-        if(e.keyCode===13) {scope.toggleEdit();scope.saveInput();}
+        if(e.keyCode===13) {
+          scope.toggleEdit();
+          scope.saveInput();
+        }
       };
 
       var getLabel=function(){
