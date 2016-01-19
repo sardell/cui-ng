@@ -3,17 +3,17 @@
 
   <div class="cui-tile__body">
     <span>Cui-avatar is a directive that inserts the user's avatar into the background of the div it's applied to. This can be used in conjunction with <a href="https://github.com/thirdwavellc/cui-ng/tree/master/directives/off-click" target="blank" class="cui-link">off-click</a> to create a login / logout box, like this one. <a href="https://github.com/thirdwavellc/cui-ng/tree/master/assets/angular-templates/cui-avatar.html" target="blank" class="cui-link">Click here for the code for this page.</a>
-    <cui-avatar class="cui-avatar cui-header__user--avatar" user-avatar="app.appUser.avatar" ng-click="app.userPopup=true" style="display:block; margin-left:auto">
-      <div class="cui-avatar--popup" ng-class="{'active' : app.userPopup}" off-click="app.userPopup=false" off-click-if="app.userPopup">
+    <cui-avatar class="cui-header__user-avatar" user-avatar="app.appUser.avatar" ng-click="app.userPopup=true" style="display:block; margin-left:auto">
+      <div class="cui-header__user-menu" ng-class="{'active' : app.userPopup}" off-click="app.userPopup=false" off-click-if="app.userPopup">
         <div ng-if="app.appUser.id">
-          <span class="cui-avatar--popup__greet">
+          <span class="cui-header__menu-greet">
             Hello, {{app.appUser.name}} !!<br/>
             <span class="small">Logged in as {{app.appUser.id}}.</span><br/><br/>
             <span class="cui-link" ng-click="app.appUser={}">Logout</span>
           </span>
         </div>
         <div ng-if="!app.appUser.id">
-          <span class="cui-avatar--popup__greet">
+          <span class="cui-header__menu-greet">
             <span class="cui-link" ng-click="app.appUser={id:'Steven.Seagal',name:'Steven Seagal',avatar:'http://stevensegallery.com/g/200/300'}">Login as Steven Seagal</span>
           </span>
         </div>
