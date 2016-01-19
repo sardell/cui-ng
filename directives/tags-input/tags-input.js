@@ -757,7 +757,7 @@ angular.module('cui-ng')
             var threshold = tagsInputConfig.getTextAutosizeThreshold(),
                 span, resize;
 
-            span = angular.element('<span class="input"></span>');
+            span = angular.element('<span class="cui-tags__registered-tag"></span>');
             span.css('display', 'none')
                 .css('visibility', 'hidden')
                 .css('width', 'auto')
@@ -1020,11 +1020,11 @@ angular.module('cui-ng')
 
 .run(["$templateCache", function($templateCache) {
     $templateCache.put('ngTagsInput/tags-input.html',
-    "<div class=\"host\" tabindex=\"-1\" ng-click=\"eventHandlers.host.click()\" ti-transclude-append><div class=\"tags\" ng-class=\"{focused: hasFocus}\"><ul class=\"tag-list\"><li class=\"tag-item\" ng-repeat=\"tag in tagList.items track by track(tag)\" ng-class=\"{ selected: tag == tagList.selected }\" ng-click=\"eventHandlers.tag.click(tag)\"><ti-tag-item data=\"::tag\"></ti-tag-item></li></ul><input class=\"input\" autocomplete=\"off\" ng-model=\"newTag.text\" ng-model-options=\"{getterSetter: true}\" ng-keydown=\"eventHandlers.input.keydown($event)\" ng-focus=\"eventHandlers.input.focus($event)\" ng-blur=\"eventHandlers.input.blur($event)\" ng-paste=\"eventHandlers.input.paste($event)\" ng-trim=\"false\" ng-class=\"{'invalid-tag': newTag.invalid}\" ng-disabled=\"disabled\" ti-bind-attrs=\"{type: options.type, placeholder: options.placeholder, tabindex: options.tabindex, spellcheck: options.spellcheck}\" ti-autosize></div></div>"
+    "<div class=\"cui-tags__host\" tabindex=\"-1\" ng-click=\"eventHandlers.host.click()\" ti-transclude-append><div class=\"cui-tags__container\" ng-class=\"{'cui-tags__container--focused': hasFocus}\"><ul class=\"cui-tags__tag-list\"><li class=\"cui-tags__tag\" ng-repeat=\"tag in tagList.items track by track(tag)\" ng-class=\"{'cui-tags__tag--selected': tag == tagList.selected }\" ng-click=\"eventHandlers.tag.click(tag)\"><ti-tag-item data=\"::tag\"></ti-tag-item></li></ul><input class=\"cui-tags__input\" autocomplete=\"off\" ng-model=\"newTag.text\" ng-model-options=\"{getterSetter: true}\" ng-keydown=\"eventHandlers.input.keydown($event)\" ng-focus=\"eventHandlers.input.focus($event)\" ng-blur=\"eventHandlers.input.blur($event)\" ng-paste=\"eventHandlers.input.paste($event)\" ng-trim=\"false\" ng-class=\"{'cui-tags__input--invalid': newTag.invalid}\" ng-disabled=\"disabled\" ti-bind-attrs=\"{type: options.type, placeholder: options.placeholder, tabindex: options.tabindex, spellcheck: options.spellcheck}\" ti-autosize></div></div>"
   );
 
   $templateCache.put('ngTagsInput/tag-item.html',
-    "<span ng-bind=\"$getDisplayText()\"></span> <a class=\"remove-button\" ng-click=\"$removeTag()\" ng-bind=\"::$$removeTagSymbol\"></a>"
+    "<span ng-bind=\"$getDisplayText()\"></span> <a class=\"cui-tags__remove\" ng-click=\"$removeTag()\" ng-bind=\"::$$removeTagSymbol\"></a>"
   );
 
   $templateCache.put('ngTagsInput/auto-complete.html',
