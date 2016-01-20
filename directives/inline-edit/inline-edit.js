@@ -42,9 +42,8 @@ angular.module('cui-ng')
       };
 
       var getDisplayValue=function(){
-        if(scope.display) return '{{display}}';
-        else return '{{model}}';
-      }
+        return '{{ display || model }}';
+      };
 
 
       var element= $compile(
