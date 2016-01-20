@@ -6,7 +6,8 @@ angular.module('cui-ng')
       model: '=',
       type: '@',
       options: '=',
-      display: '='
+      display: '=',
+      localData: '=localData'
     },
     link: function(scope,ele,attrs){
       scope.edit=false;
@@ -37,18 +38,22 @@ angular.module('cui-ng')
         attrs.type=attrs.type || 'text';
         if(attrs.type==='dropdown') return '<select ng-model="$parent.editInput" class="cui-select" ' +
           'ng-init="matchModels()" ng-options="' + attrs.optionsExpression + '" ng-if="edit"></select>';
+        else if(attrs.type==='auto-complete') return '<div auto-complete selected-object="$parent.editInput" local-data="localData"' +
+          ' search-fields="' + attrs.searchFields + ' " title-field="' + attrs.titleField + '" input-class="cui-input" '+
+          ' match-class="highlight" ng-init="matchModels()" auto-match="true"' +
+          ' ng-if="edit" ng-keypress="listenForEnter($event)" initial-value="$parent.editInput.title"></div>';
         return '<input type="' + attrs.type + '" ng-model="$parent.editInput" class="cui-input" ' +
           'ng-init="matchModels()" ng-if="edit" ng-keypress="listenForEnter($event)" focus-if="focus"/>';
       };
 
       var getDisplayValue=function(){
         return '{{ display || model }}';
-      };
+      }
 
 
       var element= $compile(
-        '<p class="cui-expandable__review-item">' + getLabel() + ': <span ng-if="!edit">' + getDisplayValue() + '</span>' +
-        getInput() +
+        '<p class="cui-expandable__review-item">' + getLabel() + ': <span ng-if="!edit">' +
+        getDisplayValue() + '</span>' + getInput() +
         '<span class="cui-link" ng-click="toggleEdit()" ng-if="!edit"> Edit</span>' +
         '<span class="cui-link" ng-if="edit" ng-click="saveInput();toggleEdit();"> Save</span>'+
         '<span class="cui-link" ng-if="edit" ng-click="toggleEdit()"> Cancel</span></p>'

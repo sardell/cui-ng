@@ -42,3 +42,7 @@ IMPORTANT: in `options-expression` - x as x for x in options - that last bit `op
 ## Change Log 1/20/2016
 
 * Adds display attribute so the developer can choose what shows before you hit edit - this is useful for cases where the field to edit is a dropdown that has a model that contains the ID of the selected option rather than its text.
+* Adds another possible `type`, 'auto-complete'. Needs to be used like this
+```html
+    <inline-edit type="auto-complete" model="newTLO.user.addresses[0].country" display="newTLO.user.addresses[0].country.title || newTLO.user.addresses[0].country" label="cui-country" selected-object="newTLO.user.addresses[0].country" model="newTLO.user.addresses[0].country" local-data="base.countries" search-fields="name" title-field="name"></inline-edit>
+```
