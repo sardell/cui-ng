@@ -12,7 +12,7 @@ angular.module('cui-ng')
                 if(scope.userAvatar){
                     background= 'url("' + scope.userAvatar + '")';
                     angular.element(elem).css('background-image',background);
-                } 
+                }
                 else{
                     background = '#AAA';
                     angular.element(elem).css({'background-image':'none','background-color':background});
