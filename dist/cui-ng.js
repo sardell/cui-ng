@@ -807,7 +807,7 @@ angular.module('cui-ng')
                 if(scope.userAvatar){
                     background= 'url("' + scope.userAvatar + '")';
                     angular.element(elem).css('background-image',background);
-                } 
+                }
                 else{
                     background = '#AAA';
                     angular.element(elem).css({'background-image':'none','background-color':background});
@@ -824,19 +824,19 @@ angular.module('cui-ng')
         restrict:'E',
         scope: true,
         link:function(scope,elem,attrs){
-          scope.toggleExpand=function(){
-              elem.toggleClass('expanded');
-          };
-          scope.expand=function(){
-            !scope.expanded && scope.toggleExpand();
-          };
-          scope.collapse=function(){
-          	scope.expanded && scope.toggleExpand();
-          };
-          scope.$watch(function() {return elem.attr('class'); }, function(newValue){
-          	  if(newValue.indexOf('expanded')>-1) scope.expanded=true;
-          	  else scope.expanded=false;
-          });
+            scope.toggleExpand=function(){
+                elem.toggleClass('expanded');
+            };
+            scope.expand=function(){
+                if(!scope.expanded) scope.toggleExpand();
+            };
+            scope.collapse=function(){
+            	if(scope.expanded) scope.toggleExpand();
+            };
+            scope.$watch(function() {return elem.attr('class'); }, function(newValue){
+                if(newValue.indexOf('expanded')>-1) scope.expanded=true;
+                else scope.expanded=false;
+            });
         }
     };
 }]);
@@ -2915,10 +2915,10 @@ angular.module('cui-ng')
      var authorize = function (loginRequired, requiredEntitlements, entitlementType, userEntitlements) {
         var loweredPermissions = [],
             hasPermission = true,
-            permission, i, 
+            permission, i,
             result='not authorized';
         entitlementType = entitlementType || 'atLeastOne';
-        if (loginRequired === true && userEntitlements == undefined) {
+        if (loginRequired === true && userEntitlements === undefined) {
             result = 'login required';
         } else if ((loginRequired === true && userEntitlements !== undefined) &&
             (requiredEntitlements === undefined || requiredEntitlements.length === 0)) {
