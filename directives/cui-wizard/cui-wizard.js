@@ -18,9 +18,6 @@ angular.module('cui-ng')
                     scope.clickableIndicators=attrs.clickableIndicators;
                     scope.minimumPadding=attrs.minimumPadding;
                     scope.next=function(state){
-
-                        $location.hash('cui-wizard-ref-pointer-' + (scope.currentStep+2));
-                        $anchorScroll();
                         if(state) scope.goToState(state);
                         else{
                             scope.currentStep++;
@@ -29,8 +26,6 @@ angular.module('cui-ng')
                         }
                     };
                     scope.previous=function(state){
-                        $location.hash('cui-wizard-ref-pointer-' + (scope.currentStep+2));
-                        $anchorScroll();
                         if(state){
                             scope.goToState(state);
                         }
