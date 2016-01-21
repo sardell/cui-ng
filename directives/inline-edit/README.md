@@ -13,10 +13,10 @@ This will compile to
 ```html
     <p class="cui-expandable__review-item">
         {{"cui-org"| translate}}: <span ng-if="!edit">{{app.organization.name}}</span>
-        <input type="text" ng-model="$parent.editInput" class="cui-input" ng-init="matchModels()" ng-if="edit"/>
-        <span class="cui-link" ng-click="toggleEdit()" ng-if="!edit"> Edit</span>
-        <span class="cui-link" ng-if="edit" ng-click="saveInput();toggleEdit();"> Save</span>
-        <span class="cui-link" ng-if="edit" ng-click="toggleEdit()"> Cancel</span>
+        <input type="text" ng-model="$parent.editInput" class="cui-expandable__review-input" ng-init="matchModels()" ng-if="edit"/>
+        <span class="cui-expandable__review-button" ng-click="toggleEdit()" ng-if="!edit"> Edit</span>
+        <span class="cui-expandable__review-button" ng-if="edit" ng-click="saveInput();toggleEdit();"> Save</span>
+        <span class="cui-expandable__review-button" ng-if="edit" ng-click="toggleEdit()"> Cancel</span>
     </p>
 ```
 

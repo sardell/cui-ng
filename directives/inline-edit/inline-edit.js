@@ -7,7 +7,7 @@ angular.module('cui-ng')
       type: '@',
       options: '=',
       display: '=',
-      localData: '=localData'
+      localData: '='
     },
     link: function(scope,ele,attrs){
       scope.edit=false;
@@ -36,13 +36,13 @@ angular.module('cui-ng')
 
       var getInput=function(){
         attrs.type=attrs.type || 'text';
-        if(attrs.type==='dropdown') return '<select ng-model="$parent.editInput" class="cui-select" ' +
+        if(attrs.type==='dropdown') return '<select ng-model="$parent.editInput" class="cui-expandable__review-select" ' +
           'ng-init="matchModels()" ng-options="' + attrs.optionsExpression + '" ng-if="edit"></select>';
         else if(attrs.type==='auto-complete') return '<div auto-complete selected-object="$parent.editInput" local-data="localData"' +
-          ' search-fields="' + attrs.searchFields + ' " title-field="' + attrs.titleField + '" input-class="cui-input" '+
+          ' search-fields="' + attrs.searchFields + ' " title-field="' + attrs.titleField + '" input-class="cui-expandable__review-input" '+
           ' match-class="highlight" ng-init="matchModels()" auto-match="true"' +
           ' ng-if="edit" ng-keypress="listenForEnter($event)" initial-value="$parent.editInput.title"></div>';
-        return '<input type="' + attrs.type + '" ng-model="$parent.editInput" class="cui-input" ' +
+        return '<input type="' + attrs.type + '" ng-model="$parent.editInput" class="cui-expandable__review-input" ' +
           'ng-init="matchModels()" ng-if="edit" ng-keypress="listenForEnter($event)" focus-if="focus"/>';
       };
 
@@ -54,9 +54,9 @@ angular.module('cui-ng')
       var element= $compile(
         '<p class="cui-expandable__review-item">' + getLabel() + ': <span ng-if="!edit">' +
         getDisplayValue() + '</span>' + getInput() +
-        '<span class="cui-link" ng-click="toggleEdit()" ng-if="!edit"> Edit</span>' +
-        '<span class="cui-link" ng-if="edit" ng-click="saveInput();toggleEdit();"> Save</span>'+
-        '<span class="cui-link" ng-if="edit" ng-click="toggleEdit()"> Cancel</span></p>'
+        '<span class="cui-expandable__review-button" ng-click="toggleEdit()" ng-if="!edit"> Edit</span>' +
+        '<span class="cui-expandable__review-button" ng-if="edit" ng-click="saveInput();toggleEdit();"> Save</span>'+
+        '<span class="cui-expandable__review-button" ng-if="edit" ng-click="toggleEdit()"> Cancel</span></p>'
       )(scope);
       angular.element(ele[0]).html(element);
 
