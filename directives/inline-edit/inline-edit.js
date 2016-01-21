@@ -21,10 +21,13 @@ angular.module('cui-ng')
       scope.saveInput=function(){
         scope.model=scope.editInput;
       };
-      scope.listenForEnter=function(e){
-        if(e.keyCode===13) {
+      scope.parseKeyCode=function(e){
+        if(e.keyCode===13) { // if enter is pressed save input and toggle eddit.
           scope.toggleEdit();
           scope.saveInput();
+        }
+        if(e.keyCode===27) { // if escape is pressed toggle edit and don't save.
+          scope.toggleEdit();
         }
       };
 
@@ -41,22 +44,21 @@ angular.module('cui-ng')
         else if(attrs.type==='auto-complete') return '<div auto-complete selected-object="$parent.editInput" local-data="localData"' +
           ' search-fields="' + attrs.searchFields + ' " title-field="' + attrs.titleField + '" input-class="cui-expandable__review-input" '+
           ' match-class="highlight" ng-init="matchModels()" auto-match="true"' +
-          ' ng-if="edit" ng-keypress="listenForEnter($event)" initial-value="$parent.editInput.title"></div>';
+          ' ng-if="edit" ng-keypress="parseKeyCode($event)" initial-value="$parent.editInput.title"></div>';
         return '<input type="' + attrs.type + '" ng-model="$parent.editInput" class="cui-expandable__review-input" ' +
-          'ng-init="matchModels()" ng-if="edit" ng-keypress="listenForEnter($event)" focus-if="focus"/>';
+          'ng-init="matchModels()" ng-if="edit" ng-keyup="parseKeyCode($event)" focus-if="focus"/>';
       };
 
       var getDisplayValue=function(){
         return '{{ display || model }}';
-      }
-
+      };
 
       var element= $compile(
-        '<p class="cui-expandable__review-item">' + getLabel() + ': <span ng-if="!edit">' +
+        '<div class="cui-expandable__review-item">' + getLabel() + ': <span ng-if="!edit">' +
         getDisplayValue() + '</span>' + getInput() +
         '<span class="cui-expandable__review-button" ng-click="toggleEdit()" ng-if="!edit"> Edit</span>' +
         '<span class="cui-expandable__review-button" ng-if="edit" ng-click="saveInput();toggleEdit();"> Save</span>'+
-        '<span class="cui-expandable__review-button" ng-if="edit" ng-click="toggleEdit()"> Cancel</span></p>'
+        '<span class="cui-expandable__review-button" ng-if="edit" ng-click="toggleEdit()"> Cancel</span></div>'
       )(scope);
       angular.element(ele[0]).html(element);
 

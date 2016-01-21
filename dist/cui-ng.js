@@ -1134,7 +1134,8 @@ CuiIconService.$inject = ['config', '$http', '$q', '$templateCache'];
 
 
 angular.module('cui-ng')
-.directive('cuiWizard',['$timeout','$compile','$window','$rootScope',function($timeout,$compile,$window,$rootScope){
+.directive('cuiWizard',['$timeout','$compile','$window','$rootScope','$location','$anchorScroll',
+    function($timeout,$compile,$window,$rootScope,$location,$anchorScroll){
     return{
         restrict: 'E',
         scope: true,
@@ -1152,9 +1153,10 @@ angular.module('cui-ng')
                     scope.clickableIndicators=attrs.clickableIndicators;
                     scope.minimumPadding=attrs.minimumPadding;
                     scope.next=function(state){
-                        if(state){
-                            scope.goToState(state);
-                        }
+
+                        $location.hash('cui-wizard-ref-pointer-' + (scope.currentStep+2));
+                        $anchorScroll();
+                        if(state) scope.goToState(state);
                         else{
                             scope.currentStep++;
                             updateIndicators();
@@ -1162,6 +1164,8 @@ angular.module('cui-ng')
                         }
                     };
                     scope.previous=function(state){
+                        $location.hash('cui-wizard-ref-pointer-' + (scope.currentStep+2));
+                        $anchorScroll();
                         if(state){
                             scope.goToState(state);
                         }
@@ -1243,19 +1247,19 @@ angular.module('cui-ng')
                             }
                         }
                         if(scope.clickableIndicators!==undefined && scope.icons[i]!==undefined){
-                            div=angular.element('<span class="step-indicator" ng-click="goToStep(' + 
-                                (i+1) + ');goToState(\'' + (scope.stepStates[i] || scope.defaultString) + '\')">' + 
+                            div=angular.element('<span class="step-indicator" id="cui-wizard-ref-pointer-'+ i + '" ng-click="goToStep(' +
+                                (i+1) + ');goToState(\'' + (scope.stepStates[i] || scope.defaultString) + '\')">' +
                             stepTitles[i] + scope.icons[i] + '</span>');
                             div[0].style.cursor='pointer';
                         }
                         else if(scope.clickableIndicators!==undefined && !scope.icons[i]){
-                            div=angular.element('<span class="step-indicator" ng-click="goToStep(' + 
-                                (i+1) + ');goToState(\'' + (scope.stepStates[i] || scope.defaultString) + '\')">' + 
+                            div=angular.element('<span class="step-indicator" id="cui-wizard-ref-pointer-'+ i + '" ng-click="goToStep(' +
+                                (i+1) + ');goToState(\'' + (scope.stepStates[i] || scope.defaultString) + '\')">' +
                             stepTitles[i] + '</span>');
                             div[0].style.cursor='pointer';
                         }
                         else{
-                            div=angular.element('<span class="step-indicator">' + stepTitles[i] + 
+                            div=angular.element('<span class="step-indicator" id="cui-wizard-ref-pointer-'+ i + '">' + stepTitles[i] +
                             (scope.icons[i]? (scope.icons[i]) : ('')) +
                             '</span>');
                         }
@@ -1271,7 +1275,7 @@ angular.module('cui-ng')
                         scope.$bar=$('.steps-bar');
                         scope.$bar[0].innerHTML='<div class="steps-bar-fill"></div>';
                         scope.$barFill=$('.steps-bar-fill');
-                    } 
+                    }
                 },
                 // updates the current active indicator. Removes active class from other elements.
                 updateIndicators = function(){
@@ -1318,9 +1322,9 @@ angular.module('cui-ng')
                         }
                         step.classList.add('desktop-element');
                         var newElement=$compile(
-                            '<cui-expandable class="cui-expandable mobile-element">' +
-                            '<cui-expandable-title class="cui-expandable__title"' +  
-                            (scope.clickableIndicators!==undefined? 'ng-click="goToStep(' + 
+                            '<cui-expandable id="cui-wizard-ref-pointer-'+ (i+scope.numberOfSteps) + '" class="cui-expandable mobile-element">' +
+                            '<cui-expandable-title class="cui-expandable__title"' +
+                            (scope.clickableIndicators!==undefined? 'ng-click="goToStep(' +
                             (i+1) + ');goToState(\'' + (scope.stepStates[i] || scope.defaultString) + '\')">' : '>') +
                             (scope.icons[i]? scope.icons[i] : '') + step.title + '</cui-expandable-title>' +
                             '<cui-expandable-body class="cui-expandable__body">' +
@@ -1369,7 +1373,7 @@ angular.module('cui-ng')
                     updateBar();
                     var indicatorsWidth=getIndicatorsWidth();
                     var indicatorContainerWidth=getIndicatorContainerWidth();
-                    if((indicatorContainerWidth < indicatorsWidth) && 
+                    if((indicatorContainerWidth < indicatorsWidth) &&
                             (indicatorContainerWidth < (Math.max((scope.indicatorsWidth || 0),indicatorsWidth)))){
                         scope.indicatorsWidth=indicatorsWidth;
                         onlyShowCurrentIndicator();
@@ -1406,7 +1410,7 @@ angular.module('cui-ng')
                         updateIndicators();
                     });
                 };
-            init();   
+            init();
         }
     };
 }]);
@@ -1474,10 +1478,13 @@ angular.module('cui-ng')
       scope.saveInput=function(){
         scope.model=scope.editInput;
       };
-      scope.listenForEnter=function(e){
-        if(e.keyCode===13) {
+      scope.parseKeyCode=function(e){
+        if(e.keyCode===13) { // if enter is pressed save input and toggle eddit.
           scope.toggleEdit();
           scope.saveInput();
+        }
+        if(e.keyCode===27) { // if escape is pressed toggle edit and don't save.
+          scope.toggleEdit();
         }
       };
 
@@ -1494,22 +1501,21 @@ angular.module('cui-ng')
         else if(attrs.type==='auto-complete') return '<div auto-complete selected-object="$parent.editInput" local-data="localData"' +
           ' search-fields="' + attrs.searchFields + ' " title-field="' + attrs.titleField + '" input-class="cui-expandable__review-input" '+
           ' match-class="highlight" ng-init="matchModels()" auto-match="true"' +
-          ' ng-if="edit" ng-keypress="listenForEnter($event)" initial-value="$parent.editInput.title"></div>';
+          ' ng-if="edit" ng-keypress="parseKeyCode($event)" initial-value="$parent.editInput.title"></div>';
         return '<input type="' + attrs.type + '" ng-model="$parent.editInput" class="cui-expandable__review-input" ' +
-          'ng-init="matchModels()" ng-if="edit" ng-keypress="listenForEnter($event)" focus-if="focus"/>';
+          'ng-init="matchModels()" ng-if="edit" ng-keyup="parseKeyCode($event)" focus-if="focus"/>';
       };
 
       var getDisplayValue=function(){
         return '{{ display || model }}';
-      }
-
+      };
 
       var element= $compile(
-        '<p class="cui-expandable__review-item">' + getLabel() + ': <span ng-if="!edit">' +
+        '<div class="cui-expandable__review-item">' + getLabel() + ': <span ng-if="!edit">' +
         getDisplayValue() + '</span>' + getInput() +
         '<span class="cui-expandable__review-button" ng-click="toggleEdit()" ng-if="!edit"> Edit</span>' +
         '<span class="cui-expandable__review-button" ng-if="edit" ng-click="saveInput();toggleEdit();"> Save</span>'+
-        '<span class="cui-expandable__review-button" ng-if="edit" ng-click="toggleEdit()"> Cancel</span></p>'
+        '<span class="cui-expandable__review-button" ng-if="edit" ng-click="toggleEdit()"> Cancel</span></div>'
       )(scope);
       angular.element(ele[0]).html(element);
 
