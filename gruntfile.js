@@ -132,7 +132,7 @@ module.exports = function(grunt) {
         src: 'dist/cui-ng.js',
         options: {
           specs: 'tests/*.js',
-          helpers: ['bower_components/angular/angular.js','node_modules/angular-mocks/angular-mocks.js']
+          helpers: ['bower_components/jquery/dist/jquery.js','bower_components/angular/angular.js','node_modules/angular-mocks/angular-mocks.js']
         }
       }
     },
