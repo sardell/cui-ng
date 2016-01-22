@@ -12,9 +12,9 @@ Cui-expandable is an angular directive that allows for the easy creation of an e
     <cui-expandable-title class="cui-expandable__title" ng-click="toggleExpand()">
       Not expanded
     </cui-expandable-title>
-    <cui-expandable-body>
+    <cui-expandable-body class="cui-expandable__body">
       Expanded
-    </cui-expandable-body class="cui-expandable__body">
+    </cui-expandable-body>
   </cui-expandable>
 ```
 
