@@ -18,11 +18,31 @@ app.customErrors=[
     {
         name:'idTaken',
         check:function(){
-            var idTaken=API.checkIfIDIsTaken(app.test);
-            return idTaken;
+            var idTaken=API.checkIfIDIsAvailable(app.test); // If the check function returns true then 
+            return idTaken;                                 // the error will not be passed.
         }
     }
 ];
+```
+
+Note: When doing server side checking _do not_ put promises in the check function. This will create an infinit dygest cycle error, due to $watch trying to re-evaluate an $http request ($watch will fire infinetely). Instead do this:
+
+```javascript 
+     app.checkUsername=function(){
+            fakeApi.checkIfUsernameAvailable(app.username)
+            .then(function(res){
+                app.usernameAvailable=res;
+            })
+        };
+
+        app.customErrors=[
+            {
+                name:'usernameTaken',
+                check:function(){
+                    return app.usernameAvailable;
+                }
+            }
+        ];
 ```
 
 Then link the errors in your template.
