@@ -8,7 +8,7 @@ function matchDirective($parse) {
       scope.$watch(function () {
         return [scope.$eval(attrs.match), ctrl.$viewValue];
       }, function (values) {
-        ctrl.$setValidity('match', values[0] === values[1]);
+        ctrl.$setValidity('match', values[0] === (values[1] || ''));
       }, true);
     }
   };
