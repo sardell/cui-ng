@@ -57,9 +57,8 @@ angular.module('cui-ng')
         else scope.displayValue = scope.display || scope.model;
       };
 
-      scope.$watch('display',function(newDisplay){
-        scope.displayValue=newDisplay;
-      });
+      scope.$watch('display',getDisplayValue);
+      scope.$watch('model',getDisplayValue);
 
       var element= $compile(
         '<div class="cui-expandable__review-item">' + getLabel() + ': <span ng-if="!edit">' +
