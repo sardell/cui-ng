@@ -1495,6 +1495,7 @@ angular.module('cui-ng')
       };
       scope.saveInput=function(){
         scope.model=scope.editInput;
+        getDisplayValue();
       };
       scope.parseKeyCode=function(e){
         if(e.keyCode===13) { // if enter is pressed save input and toggle eddit.
@@ -1525,12 +1526,19 @@ angular.module('cui-ng')
       };
 
       var getDisplayValue=function(){
-        return '{{ display || model }}';
+        if(attrs.type==="password") {
+          scope.displayValue=Array(scope.model? scope.model.length+1 : 0).join('•');
+        }
+        else scope.displayValue = scope.display || scope.model;
       };
+
+      scope.$watch('display',function(newDisplay){
+        scope.displayValue=newDisplay;
+      });
 
       var element= $compile(
         '<div class="cui-expandable__review-item">' + getLabel() + ': <span ng-if="!edit">' +
-        getDisplayValue() + '</span>' + getInput() +
+        '{{displayValue}}' + '</span>' + getInput() +
         '<span class="cui-expandable__review-button" ng-click="toggleEdit()" ng-if="!edit"> Edit</span>' +
         '<span class="cui-expandable__review-button" ng-if="edit" ng-click="saveInput();toggleEdit();"> Save</span>'+
         '<span class="cui-expandable__review-button" ng-if="edit" ng-click="toggleEdit()"> Cancel</span></div>'

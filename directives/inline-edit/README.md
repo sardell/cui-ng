@@ -46,3 +46,7 @@ IMPORTANT: in `options-expression` - x as x for x in options - that last bit `op
 ```html
     <inline-edit type="auto-complete" model="newTLO.user.addresses[0].country" display="newTLO.user.addresses[0].country.title || newTLO.user.addresses[0].country" label="cui-country" selected-object="newTLO.user.addresses[0].country" model="newTLO.user.addresses[0].country" local-data="base.countries" search-fields="name" title-field="name"></inline-edit>
 ```
+
+## Change Log 1/28/2016
+
+* Inline-edit fields with type password will now display a hidden password using `'•'`.
