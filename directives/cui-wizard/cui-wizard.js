@@ -258,14 +258,15 @@ angular.module('cui-ng')
                     });
                 },
                 calculateWhereToScroll = function(){
+                    var wizardOffset;
                     if(scope.snap.length!==0){
                         var snapOffset=scope.snap.scrollTop();
-                        var wizardOffset=elem[0].getBoundingClientRect().top;
+                        wizardOffset=elem[0].getBoundingClientRect().top;
                         scrollTo(snapOffset+wizardOffset);
                     }
                     else{
                         var bodyOffset=scope.body.scrollTop();
-                        var wizardOffset=elem[0].getBoundingClientRect().top;
+                        wizardOffset=elem[0].getBoundingClientRect().top;
                         scrollTo(bodyOffset+wizardOffset);
                     }
                 },
