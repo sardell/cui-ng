@@ -28,7 +28,7 @@ WARNING: If you're using ng-include to populate each step and you're using the `
 4. `{{iconRef/Link}}` -> reference to the icon that will appear under the for the step. (look below for more info on how this works)
 
 ### How it works / features
-The directive will start by reading the `title` atributes on each `step` element within the `cui-wizard`. 
+The directive will start by reading the `title` atributes on each `step` element within the `cui-wizard`.
 Then it creates step indicators (these are given `.step-indicator` class) which will be clickable depending on the presence of the `clickable-indicators` atribute.
 The step that is currently active will give it's corresponding indicator an `.active` class.
 
@@ -87,7 +87,7 @@ angular.module('app',['cui-ng','ui.router'])
             step: 4
         }
     });
-    
+
     //fixes infinite digest loop with ui-router
     $urlRouterProvider.otherwise( function($injector) {
       var $state = $injector.get("$state");
@@ -112,7 +112,7 @@ angular.module('app',['cui-ng','ui.router'])
     }
     app.step=wizardStep.get();
   })
-    
+
   app.goTo= function(state){
     $state.go(state,{notify:true,reload:true});
   }
@@ -121,7 +121,7 @@ angular.module('app',['cui-ng','ui.router'])
 
 #### Key features
 One of the key features of this wizard is indicator collision detection. What this means is:
-Whenever the wizard is first shown or the window is rezised the directive will check that there is enough space within `indicator-container` to show all the step indicators AND the minimum padding (in px) between each of them, which is defined by `minimum-padding`. 
+Whenever the wizard is first shown or the window is rezised the directive will check that there is enough space within `indicator-container` to show all the step indicators AND the minimum padding (in px) between each of them, which is defined by `minimum-padding`.
 
 If there isn't enough space then `indicator-container` gets applied a class of `.small` that can then be used to style accordingly with css. (tip: use this in conjunction with `.active` class on the indicators to give emphasis to the currently active step, by, for example, only showing the active step when there isn't enough room.
 
@@ -134,3 +134,7 @@ Cui-wizard will also listen for `'languageChange'` broadcasts on scope, and will
 ## Change Log 1/15/2016
 
 * Now checks for `!form.$valid` rather than `form.$invalid` on `nextWithErrorChecking`.
+
+## Change Log 1/28/2016
+
+* Correctly updates the step attribute on step change.

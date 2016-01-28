@@ -26,6 +26,7 @@ angular.module('cui-ng')
                             scope.currentStep++;
                             updateIndicators();
                             updateBar();
+                            updateStep();
                         }
                     };
                     scope.previous=function(state){
@@ -37,6 +38,7 @@ angular.module('cui-ng')
                             scope.currentStep--;
                             updateIndicators();
                             updateBar();
+                            updateStep();
                         }
                     };
                     scope.goToStep=function(step){
@@ -45,6 +47,7 @@ angular.module('cui-ng')
                         scope.currentStep=step;
                         updateIndicators();
                         updateBar();
+                        updateStep();
                     };
                     scope.goToState=function(state){
                         if(state==='default') return;
@@ -269,6 +272,9 @@ angular.module('cui-ng')
                 scrollTo = function(position){
                     if(scope.snap.length!==0) scope.snap.animate({scrollTop:position},300);
                     else scope.body.animate({scrollTop:position},300);
+                },
+                updateStep = function(){
+                    attrs.$set('step',scope.currentStep);
                 },
                 observeStepAttr = function(){
                     attrs.$observe('step',function(newStep){
