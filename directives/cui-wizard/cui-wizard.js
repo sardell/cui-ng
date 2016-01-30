@@ -19,6 +19,7 @@ angular.module('cui-ng')
                     scope.minimumPadding=attrs.minimumPadding;
                     scope.snap=angular.element(document.querySelector('snap-content'));
                     scope.body=angular.element('body');
+                    scope.wizardFinished=false;
                     scope.next=function(state){
                         calculateWhereToScroll();
                         if(state) scope.goToState(state);
@@ -28,6 +29,7 @@ angular.module('cui-ng')
                             updateBar();
                             updateStep();
                         }
+                        if(scope.currentStep>=scope.numberOfSteps) scope.wizardFinished=true;
                     };
                     scope.previous=function(state){
                         calculateWhereToScroll();
@@ -48,6 +50,7 @@ angular.module('cui-ng')
                         updateIndicators();
                         updateBar();
                         updateStep();
+                        if(scope.currentStep>=scope.numberOfSteps) scope.wizardFinished=true;
                     };
                     scope.goToState=function(state){
                         if(state==='default') return;
