@@ -142,3 +142,7 @@ Cui-wizard will also listen for `'languageChange'` broadcasts on scope, and will
 ## Change Log 1/29/2016
 
 * New directive scope variable added - `wizardFinished` - true if the last step has been visited.
+
+## Change Log 2/2/2016
+
+* Now only renders progress bar between steps if there's more than 1 step (you shouldn't be using this directive if you only have 1 step, but in the case that maybe you're dinamically assigning steps this might be useful)

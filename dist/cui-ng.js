@@ -1143,10 +1143,10 @@ angular.module('cui-ng')
             //init
             var init = function(){
                 scope.invalidForm=[];
-                scope.bar=attrs.bar!==undefined;
                 scope.mobileStack=attrs.mobileStack!==undefined;
                 scope.$steps=angular.element(elem[0].querySelectorAll('step'));
                 scope.numberOfSteps=scope.$steps.length;
+                scope.bar=(attrs.bar!==undefined && scope.numberOfSteps!==1);
                 scope.$indicatorContainer=angular.element(elem[0].querySelector('indicator-container'));
                 scope.$window=angular.element($window);
                 scope.currentStep=Number(elem[0].attributes.step.value);
@@ -1164,7 +1164,7 @@ angular.module('cui-ng')
                         updateBar();
                         updateStep();
                     }
-                    if(!scope.wizardFinished && scope.currentStep===(scope.numberOfSteps+1)) scope.wizardFinished=true;
+                    if(!scope.wizardFinished && scope.currentStep===scope.numberOfSteps) scope.wizardFinished=true;
                 };
                 scope.previous=function(state){
                     calculateWhereToScroll();
@@ -1185,7 +1185,7 @@ angular.module('cui-ng')
                     updateIndicators();
                     updateBar();
                     updateStep();
-                    if(!scope.wizardFinished && scope.currentStep===(scope.numberOfSteps+1)) scope.wizardFinished=true;
+                    if(!scope.wizardFinished && scope.currentStep===scope.numberOfSteps) scope.wizardFinished=true;
                 };
                 scope.goToState=function(state){
                     if(state==='default') return;
