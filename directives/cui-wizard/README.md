@@ -138,3 +138,7 @@ Cui-wizard will also listen for `'languageChange'` broadcasts on scope, and will
 ## Change Log 1/28/2016
 
 * Correctly updates the step attribute on step change.
+
+## Change Log 1/29/2016
+
+* New directive scope variable added - `wizardFinished` - true if the last step has been visited.

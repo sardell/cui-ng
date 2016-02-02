@@ -29,7 +29,7 @@ angular.module('cui-ng')
                         updateBar();
                         updateStep();
                     }
-                    if(!scope.wizardFinished && scope.currentStep===(scope.numberOfSteps+1)) scope.wizardFinished=true;
+                    if(!scope.wizardFinished && scope.currentStep===scope.numberOfSteps) scope.wizardFinished=true;
                 };
                 scope.previous=function(state){
                     calculateWhereToScroll();
@@ -50,7 +50,7 @@ angular.module('cui-ng')
                     updateIndicators();
                     updateBar();
                     updateStep();
-                    if(!scope.wizardFinished && scope.currentStep===(scope.numberOfSteps+1)) scope.wizardFinished=true;
+                    if(!scope.wizardFinished && scope.currentStep===scope.numberOfSteps) scope.wizardFinished=true;
                 };
                 scope.goToState=function(state){
                     if(state==='default') return;
