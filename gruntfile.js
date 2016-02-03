@@ -115,6 +115,10 @@ module.exports = function(grunt) {
       countries: {
         src: ['bower_components/cui-i18n/dist/cui-i18n/angular-translate/countries/*.json'],
         dest: 'build/'
+      },
+      lato:{
+        src: ['bower_components/lato/font/lato-regular/*.*'],
+        dest: 'build/'
       }
     },
     clean: {

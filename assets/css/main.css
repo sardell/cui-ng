@@ -438,7 +438,7 @@ Styleguide Elements
 .cui-background--secondary {
   background-color: #DEE9EE; }
 
-/* 
+/*
 Texts
 
 Styles for text. Please refer to _vars.scss for variable values.
@@ -450,7 +450,7 @@ Headers
 
 Header styling is applied through the use of classes. Our recommended method for applying h1 styling is to @extend the %h1 placeholder selector in a class's CSS style declaration block and apply that class to your element.
 
-Markup: 
+Markup:
 <h1 class="h1">H1 Heading</h1>
 <h2 class="h2">H2 Heading</h2>
 <h3 class="h3">H3 Heading</h3>
@@ -468,7 +468,7 @@ Styleguide Elements.Texts.Headers
   font-family: "lato-regular";
   font-style: normal;
   font-weight: normal;
-  src: url("bower_components/lato/font/lato-regular/lato-regular.woff2") format("woff2"), url("bower_components/lato/font/lato-regular/lato-regular.woff") format("woff"); }
+  src: url("/bower_components/lato/font/lato-regular/lato-regular.woff2") format("woff2"), url("/bower_components/lato/font/lato-regular/lato-regular.woff") format("woff"); }
 
 body {
   color: #929292;
@@ -506,7 +506,7 @@ h1, h2, h3, h4, h5, h6 {
 p {
   color: #929292; }
 
-/* 
+/*
 Links
 
 Also available as the placeholder selector %cui-link.
@@ -518,14 +518,14 @@ Styleguide Elements.Texts.Links
 .cui-link, .cui-search__dropdown a, .cui-expandable__link, .cui-pagination__link a, .cui-pagination__display-amount {
   color: #429DD1; }
 
-/* 
+/*
 Paragraphs
 
 Default styling for paragraphs
 
 Markup:
-<p>Paragraph text. Donec sed odio dui. Cras justo odio, dapibus 
-ac facilisis in. Egestas eget quam. Maecenas faucibus mollis 
+<p>Paragraph text. Donec sed odio dui. Cras justo odio, dapibus
+ac facilisis in. Egestas eget quam. Maecenas faucibus mollis
 interdum maecenas faucibus.</p>
 
 Weight: -10
@@ -1081,7 +1081,7 @@ Styleguide Elements.Colors.Secondary-Colors
 /* 
 Logos
 
-Markup: <svg class="cui-header__svg-logo" viewBox="0 0 640 124"><use xlink:href="public/bower_components/cui-icons/dist/logos/logos-out.svg#covisint-logo"></use></svg>
+Markup: <svg class="cui-header__svg-logo" viewBox="0 0 640 124"><use xlink:href="bower_components/cui-icons/dist/logos/logos-out.svg#covisint-logo"></use></svg>
 
 Styleguide Elements.Logo
 */
@@ -1736,7 +1736,7 @@ Header
 Markup: 
 <header class="cui-header">
   <div class="cui-header__top">
-    <svg class="cui-header__svg-logo" viewBox="0 0 640 124"><use xlink:href="public/bower_components/cui-icons/dist/logos/logos-out.svg#covisint-logo"></use></svg>
+    <svg class="cui-header__svg-logo" viewBox="0 0 640 124"><use xlink:href="bower_components/cui-icons/dist/logos/logos-out.svg#covisint-logo"></use></svg>
     <div class="cui-header__user" onclick="toggle_visibility('cui-header__user-menu');">
     <span class="cui-header__user-name">Bill Murray</span>
     <div class="cui-header__chevron--left"></div>
@@ -2602,7 +2602,7 @@ Markup:
     <div class="cui-card__image-container">
       <svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" width="88px"
          height="88px" viewBox="0 0 48 48" enable-background="new 0 0 48 48" xml:space="preserve">
-        <use class="cui-card__icon" xlink:href="public/bower_components/cui-icons/dist/icons/icons-out.svg#user"></use>
+        <use class="cui-card__icon" xlink:href="bower_components/cui-icons/dist/icons/icons-out.svg#user"></use>
       </svg>
     </div>
     <div class="cui-card__content">
@@ -3071,7 +3071,7 @@ Markup:
       <div class="icon">
         <div cui-svg-icon="cui:skyscraper" class="ng-isolate-scope">
           <svg xmlns="http://www.w3.org/2000/svg" class="cui-icon-rotate" preserveAspectRatio="xMidYMid meet" viewBox="0 0 48 48">
-            <use xlink:href="public/bower_components/cui-icons/dist/icons/icons-out.svg#skyscraper"></use>
+            <use xlink:href="/bower_components/cui-icons/dist/icons/icons-out.svg#skyscraper"></use>
           </svg>
         </div>
       </div>
@@ -3082,7 +3082,7 @@ Markup:
       <div class="icon">
         <div cui-svg-icon="cui:skyscraper" class="ng-isolate-scope">
           <svg xmlns="http://www.w3.org/2000/svg" class="cui-icon-rotate" preserveAspectRatio="xMidYMid meet" viewBox="0 0 48 48">
-            <use xlink:href="public/bower_components/cui-icons/dist/icons/icons-out.svg#user"></use>
+            <use xlink:href="/bower_components/cui-icons/dist/icons/icons-out.svg#user"></use>
           </svg>
         </div>
       </div>
@@ -3093,7 +3093,7 @@ Markup:
       <div class="icon">
         <div cui-svg-icon="cui:skyscraper" class="ng-isolate-scope">
           <svg xmlns="http://www.w3.org/2000/svg" class="cui-icon-rotate" preserveAspectRatio="xMidYMid meet" viewBox="0 0 48 48">
-            <use xlink:href="public/bower_components/cui-icons/dist/icons/icons-out.svg#division"></use>
+            <use xlink:href="/bower_components/cui-icons/dist/icons/icons-out.svg#division"></use>
           </svg>
         </div>
       </div>
@@ -3104,7 +3104,7 @@ Markup:
       <div class="icon">
         <div cui-svg-icon="cui:skyscraper" class="ng-isolate-scope">
           <svg xmlns="http://www.w3.org/2000/svg" class="cui-icon-rotate" preserveAspectRatio="xMidYMid meet" viewBox="0 0 48 48">
-            <use xlink:href="public/bower_components/cui-icons/dist/icons/icons-out.svg#review"></use>
+            <use xlink:href="/bower_components/cui-icons/dist/icons/icons-out.svg#review"></use>
           </svg>
         </div>
       </div>
