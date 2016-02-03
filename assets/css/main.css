@@ -468,7 +468,7 @@ Styleguide Elements.Texts.Headers
   font-family: "lato-regular";
   font-style: normal;
   font-weight: normal;
-  src: url("fonts/lato-regular.woff2") format("woff2"), url("fonts/lato-regular.woff") format("woff"); }
+  src: url("bower_components/lato/font/lato-regular/lato-regular.woff2") format("woff2"), url("bower_components/lato/font/lato-regular/lato-regular.woff") format("woff"); }
 
 body {
   color: #929292;
@@ -978,20 +978,36 @@ Styleguide Elements.Forms.Switch
   position: relative; }
 
 .cui-switch__label:before {
-  background-color: #00BD9C;
+  background-color: #555;
   border-radius: 0 6px 6px 0;
   content: '';
   cursor: pointer;
   height: calc(100% - 2px);
   position: absolute;
-  right: 1px;
+  left: 50%;
   top: 1px;
   transition: all .15s ease-in;
-  width: 104px; }
+  width: calc(50% - 1px); }
+
+.cui-switch__label:after {
+  background-color: #00BD9C;
+  border-radius: 6px 0 0 6px;
+  content: '';
+  cursor: pointer;
+  height: calc(100% - 2px);
+  position: absolute;
+  right: calc(50% - 1px);
+  top: 1px;
+  transition: all .15s ease-in;
+  width: 0; }
 
 .cui-switch__input:checked + .cui-switch__label:before {
-  border-radius: 6px 0 0 6px;
-  transform: translateX(-103px); }
+  width: 0;
+  border-radius: 0; }
+
+.cui-switch__input:checked + .cui-switch__label:after {
+  width: 50%;
+  border-radius: 6px 0 0 6px; }
 
 .cui-switch__input:checked + .cui-switch__label .cui-switch__unchecked-message {
   color: black;
@@ -1011,19 +1027,20 @@ Styleguide Elements.Colors
 /*
 Primary Colors
 
+
 Markup: 
-<div class="cui-styleguide__colors cui-primary-colors cui-primary-colors--light">$cui-primary-colors--light</div>
-<div class="cui-styleguide__colors cui-primary-colors cui-primary-colors--medium-light">$cui-primary-colors--medium-light</div>
-<div class="cui-styleguide__colors cui-primary-colors cui-primary-colors--medium">$cui-primary-colors--medium</div>
-<div class="cui-styleguide__colors cui-primary-colors cui-primary-colors--medium-dark">$cui-primary-colors--medium-dark</div>
-<div class="cui-styleguide__colors cui-primary-colors cui-primary-colors--dark">$cui-primary-colors--dark</div>
+<div class="cui-styleguide__colors cui-primary-colors cui-primary-colors--light">$cui-primary-colors--light #87CEEC</div>
+<div class="cui-styleguide__colors cui-primary-colors cui-primary-colors--medium-light">$cui-primary-colors--medium-light #429DD1</div>
+<div class="cui-styleguide__colors cui-primary-colors cui-primary-colors--medium">$cui-primary-colors--medium #4582B4</div>
+<div class="cui-styleguide__colors cui-primary-colors cui-primary-colors--medium-dark">$cui-primary-colors--medium-dark #165E9B</div>
+<div class="cui-styleguide__colors cui-primary-colors cui-primary-colors--dark">$cui-primary-colors--dark #0A2741</div>
 
 Styleguide Elements.Colors.Primary-Colors
 */
 .cui-primary-colors--light {
   background-color: #87CEEC; }
 
-.cui-primary-colors--medium-light, .cui-radio:checked + .cui-radio__label:before, .cui-checkbox:checked + .cui-checkbox__label:before, .cui-tile__title {
+.cui-primary-colors--medium-light, .cui-radio:checked + .cui-radio__label:before, .cui-checkbox:checked + .cui-checkbox__label:before, .cui-tile__title, .cui-form--mobile-steps .cui-form__title {
   background-color: #429DD1; }
 
 .cui-primary-colors--medium, .cui-off-canvas, .cui-off-canvas__list--child,
@@ -1040,11 +1057,12 @@ Styleguide Elements.Colors.Primary-Colors
 /*
 Secondary Colors
 
+
 Markup: 
-<div class="cui-styleguide__colors cui-secondary-colors cui-secondary-colors--light">$cui-secondary-colors--light</div>
-<div class="cui-styleguide__colors cui-secondary-colors cui-secondary-colors--medium-light">$cui-secondary-colors--medium-light</div>
-<div class="cui-styleguide__colors cui-secondary-colors cui-secondary-colors--medium">$cui-secondary-colors--medium</div>
-<div class="cui-styleguide__colors cui-secondary-colors cui-secondary-colors--dark">$cui-secondary-colors--dark</div>
+<div class="cui-styleguide__colors cui-secondary-colors cui-secondary-colors--light">$cui-secondary-colors--light #3CB371</div>
+<div class="cui-styleguide__colors cui-secondary-colors cui-secondary-colors--medium-light">$cui-secondary-colors--medium-light #FFD700</div>
+<div class="cui-styleguide__colors cui-secondary-colors cui-secondary-colors--medium">$cui-secondary-colors--medium #FF8C00</div>
+<div class="cui-styleguide__colors cui-secondary-colors cui-secondary-colors--dark">$cui-secondary-colors--dark #FF4400</div>
 
 Styleguide Elements.Colors.Secondary-Colors
 */
@@ -1063,7 +1081,7 @@ Styleguide Elements.Colors.Secondary-Colors
 /* 
 Logos
 
-Markup: <svg class="cui-header__svg-logo" viewBox="0 0 640 124"><use xlink:href="public/img/svg-out.svg#covisint-logo"></use></svg>
+Markup: <svg class="cui-header__svg-logo" viewBox="0 0 640 124"><use xlink:href="public/bower_components/cui-icons/dist/logos/logos-out.svg#covisint-logo"></use></svg>
 
 Styleguide Elements.Logo
 */
@@ -1082,25 +1100,83 @@ Markup: <button class="cui-button {{modifier_class}}">Button</button>
 
 Styleguide Elements.Buttons
 */
-.cui-button, .cui-wizard__next, .cui-card__button {
+.cui-button, .cui-wizard__next,
+.cui-form__next, .cui-card__button {
+  align-items: center;
   background-color: #429DD1;
+  border-radius: 0.25em;
   border: 0;
-  border-radius: 4px;
   color: #fff;
-  font-size: 0.75em;
-  height: 37px;
-  width: 160px; }
-  .cui-button:focus, .cui-wizard__next:focus, .cui-card__button:focus, .cui-button.pseudo-class-focus, .pseudo-class-focus.cui-wizard__next, .pseudo-class-focus.cui-card__button, .cui-button:hover, .cui-wizard__next:hover, .cui-card__button:hover, .cui-button.pseudo-class-hover, .pseudo-class-hover.cui-wizard__next, .pseudo-class-hover.cui-card__button {
+  display: inline-flex;
+  font-size: 12px;
+  height: 3.0833333333em;
+  justify-content: center;
+  width: 13.3333333333em; }
+  .cui-button:focus, .cui-wizard__next:focus,
+  .cui-form__next:focus, .cui-card__button:focus, .cui-button.pseudo-class-focus, .pseudo-class-focus.cui-wizard__next,
+  .pseudo-class-focus.cui-form__next, .pseudo-class-focus.cui-card__button, .cui-button:hover, .cui-wizard__next:hover,
+  .cui-form__next:hover, .cui-card__button:hover, .cui-button.pseudo-class-hover, .pseudo-class-hover.cui-wizard__next,
+  .pseudo-class-hover.cui-form__next, .pseudo-class-hover.cui-card__button {
     box-shadow: 0 0 3px #A2A19F, 0 0 7px #A2A19F;
     outline: 0; }
-  .cui-button:active, .cui-wizard__next:active, .cui-card__button:active, .cui-button.pseudo-class-active, .pseudo-class-active.cui-wizard__next, .pseudo-class-active.cui-card__button {
+  .cui-button:active, .cui-wizard__next:active,
+  .cui-form__next:active, .cui-card__button:active, .cui-button.pseudo-class-active, .pseudo-class-active.cui-wizard__next,
+  .pseudo-class-active.cui-form__next, .pseudo-class-active.cui-card__button {
     background-color: #165E9B; }
-  .cui-button--error, .cui-wizard__next--error {
+  .cui-button--error, .cui-wizard__next--error,
+  .cui-form__next--error {
     background-color: #dbdbdb;
     cursor: default; }
-    .cui-button--error:active, .cui-wizard__next--error:active, .cui-button--error.pseudo-class-active, .pseudo-class-active.cui-wizard__next--error {
+    .cui-button--error:active, .cui-wizard__next--error:active,
+    .cui-form__next--error:active, .cui-button--error.pseudo-class-active, .pseudo-class-active.cui-wizard__next--error,
+    .pseudo-class-active.cui-form__next--error {
       background-color: #A2A19F; }
 
+/*
+Grid
+
+An example of a few grid layouts that can be used. We utilize thoughtbot's lightweight semantic grid system, <a class="cui-link" href="http://neat.bourbon.io/">Neat</a>. Please refer to their documentation for recommended usage. 
+
+Markup:
+<div class="cui-styleguide__outer-container">
+  <code>@include outer-container;</code>
+  <div class="cui-styleguide__row">
+    <div class="cui-styleguide__half">
+      <code>@include span-columns(6);</code>
+    </div>
+    <div class="cui-styleguide__half">
+      <code>@include span-columns(6);</code>
+    </div>  
+  </div>
+  <div class="cui-styleguide__row">
+    <div class="cui-styleguide__thirds">
+      <code>@include span-columns(4);</code>
+    </div>
+    <div class="cui-styleguide__thirds">
+      <code>@include span-columns(4);</code>
+    </div>
+    <div class="cui-styleguide__thirds">
+      <code>@include span-columns(4);</code>
+    </div>
+  </div>
+  <div class="cui-styleguide__row">
+    <div class="cui-styleguide__quarters">
+      <code>@include span-columns(3);</code>
+    </div>
+    <div class="cui-styleguide__quarters">
+      <code>@include span-columns(3);</code>
+    </div>
+    <div class="cui-styleguide__quarters">
+      <code>@include span-columns(3);</code>
+    </div>
+    <div class="cui-styleguide__quarters">
+      <code>@include span-columns(3);</code>
+    </div>
+  </div>
+</div>
+
+Styleguide Elements.Grid
+*/
 /*
 Blocks
 
@@ -1111,106 +1187,118 @@ Weight: 200
 Styleguide Blocks
 */
 /*
-Wizard
+Form
 
 Markup: 
-<div class="cui-wizard">
-  <div class="cui-wizard__title ">A description of this form</div>
-  <div class="cui-wizard__body">
-    <cui-wizard class="cui-wizard__contents" step="1" clickable-indicators="" minimum-padding="30">
-      <indicator-container class="indicator-container"><span class="step-indicator active" style="cursor: pointer;">Step One</span><span class="step-indicator style="cursor: pointer;">Step 2</span></indicator-container>
-      <step title="Organization info" class="active">
-        <form name="organization" novalidate="" class="">
+<div class="cui-form">
+  <div class="cui-form__title ">A description of this form</div>
+  <div class="cui-form__body">
+    <div class="cui-form__contents">
+      <div class="indicator-container">
+        <span class="step-indicator active">Step One</span>
+        <span class="step-indicator">Step Two</span>
+      </div>
+      <div title="Organization info" class="step active">
+        <form name="organization">
           <label for="field-1">Input Field Disabled</label>
           <input type="text" name="field-1" class="cui-input" disabled="">
           <label for="field-2">Select Field</label>
           <select name="field-2" class="cui-input cui-select" required="required">
             <option value="" disabled="" selected="" class=""></option>
           </select>
-          <div class="cui-wizard__field-row">
-            <div class="cui-wizard__field-container cui-wizard__field-container--half">
+          <div class="cui-form__field-row">
+            <div class="cui-form__field-container cui-form__field-container--half">
               <label for="field-3">Input Field</label>
               <input type="text" name="field-3" class="cui-input" required="required">
             </div>
-            <div class="cui-wizard__field-container cui-wizard__field-container--half">
+            <div class="cui-form__field-container cui-form__field-container--half">
               <label for="field-4">Input Field</label>
               <input type="text" name="field-4" class="cui-input">
             </div>
           </div>
-          <div class="cui-wizard__field-row">
-            <div class="cui-wizard__field-container cui-wizard__field-container--half">
+          <div class="cui-form__field-row">
+            <div class="cui-form__field-container cui-form__field-container--half">
               <label for="field-5">Select Field</label>
               <select name="field-5" class="cui-input cui-select">
                 <option value="" disabled="" selected="" class=""></option>
               </select>
             </div>
-            <div class="cui-wizard__field-container cui-wizard__field-container--half">
+            <div class="cui-form__field-container cui-form__field-container--half">
               <label for="field-6">Select Field</label>
               <select name="field-6" class="cui-input cui-select">
                 <option value="" disabled="" selected="" class=""></option>
               </select>
             </div>
           </div>
-          <div class="cui-wizard__field-row">
-            <div class="cui-wizard__field-container cui-wizard__field-container--half">
+          <div class="cui-form__field-row">
+            <div class="cui-form__field-container cui-form__field-container--half">
               <label for="field-7">Select Field</label>
               <select name="field-7" class="cui-input cui-select">
                 <option value="" disabled="" selected="" class=""></option>
               </select>
             </div>
-            <div class="cui-wizard__field-container cui-wizard__field-container--half">
+            <div class="cui-form__field-container cui-form__field-container--half">
               <label for="field-8">Input Field</label>
               <input type="text" name="field-8" class="cui-input">
             </div>
           </div>
-          <div class="cui-wizard__controls">
-            <button class="cui-wizard__next">Button</button>
-            <button class="cui-wizard__skip">cui-skip-for-now &gt;&gt;</button>
+          <div class="cui-form__controls">
+            <button class="cui-form__next">Button</button>
           </div>
         </form>
-      </step>
-    </cui-wizard>
+      </div>
+    </div>
   </div>
 </div>
 
-Styleguide Blocks.Wizard
+Styleguide Blocks.Form
 */
-.cui-wizard {
+.cui-wizard,
+.cui-form {
   border-radius: 6px; }
-  .cui-wizard__body {
+  .cui-wizard__body,
+  .cui-form__body {
     background: white;
     border-radius: 0 0 6px 6px;
     margin: 0 auto;
     max-width: 100%;
     padding: 50px; }
-  .cui-wizard__title {
+  .cui-wizard__title,
+  .cui-form__title {
     background-color: #429DD1;
     border-radius: 6px 6px 0 0;
     color: white;
     padding: 15px;
     text-align: center; }
   @media all and (max-width: 600px) {
-    .cui-wizard {
+    .cui-wizard,
+    .cui-form {
       width: 90%; }
-      .cui-wizard__body {
+      .cui-wizard__body,
+      .cui-form__body {
         padding: 20px; } }
-  .cui-wizard__contents {
+  .cui-wizard__contents,
+  .cui-form__contents {
     display: block;
     margin: 0 auto;
     max-width: 800px;
     width: 100%; }
-  .cui-wizard__controls {
+  .cui-wizard__controls,
+  .cui-form__controls {
     text-align: right; }
-  .cui-wizard__previous {
+  .cui-wizard__previous,
+  .cui-form__previous {
     background: #fff;
     border: 0;
     color: #53abd0;
     cursor: pointer;
     font-size: 12px;
     margin-right: 20px; }
-    .cui-wizard__previous.active {
+    .cui-wizard__previous.active,
+    .cui-form__previous.active {
       display: inline-block; }
-  .cui-wizard__skip {
+  .cui-wizard__skip,
+  .cui-form__skip {
     background: #fff;
     border: 0;
     color: #53abd0;
@@ -1218,23 +1306,29 @@ Styleguide Blocks.Wizard
     font-size: 12px;
     display: none;
     margin-left: 20px; }
-    .cui-wizard__skip--show {
+    .cui-wizard__skip--show,
+    .cui-form__skip--show {
       display: inline-block; }
-  .cui-wizard__field-row {
+  .cui-wizard__field-row,
+  .cui-form__field-row {
     display: flex;
     flex-direction: column;
     justify-content: space-between; }
     @media screen and (min-width: 700px) {
-      .cui-wizard__field-row {
+      .cui-wizard__field-row,
+      .cui-form__field-row {
         flex-direction: row; } }
-  .cui-wizard__field-container {
+  .cui-wizard__field-container,
+  .cui-form__field-container {
     display: flex;
     flex-direction: column;
     justify-content: space-between; }
     @media screen and (min-width: 700px) {
-      .cui-wizard__field-container--half {
+      .cui-wizard__field-container--half,
+      .cui-form__field-container--half {
         width: 48%; } }
-  .cui-wizard label {
+  .cui-wizard label,
+  .cui-form label {
     text-transform: capitalize; }
 
 .cui-error, .cui-error--half {
@@ -1334,9 +1428,11 @@ Styleguide Blocks.Wizard
     .cui-icon-rotate {
       margin: 0.625em auto 0; } }
 
-step {
+step,
+.step {
   display: none; }
-  step.active {
+  step.active,
+  .step.active {
     display: block; }
 
 @media screen and (max-width: 700px) {
@@ -1640,7 +1736,7 @@ Header
 Markup: 
 <header class="cui-header">
   <div class="cui-header__top">
-    <svg class="cui-header__svg-logo" viewBox="0 0 640 124"><use xlink:href="public/img/svg-out.svg#covisint-logo"></use></svg>
+    <svg class="cui-header__svg-logo" viewBox="0 0 640 124"><use xlink:href="public/bower_components/cui-icons/dist/logos/logos-out.svg#covisint-logo"></use></svg>
     <div class="cui-header__user" onclick="toggle_visibility('cui-header__user-menu');">
     <span class="cui-header__user-name">Bill Murray</span>
     <div class="cui-header__chevron--left"></div>
@@ -1739,21 +1835,29 @@ Markup:
 
 Styleguide Blocks.Tile
 */
-.cui-tile {
+.cui-tile, .cui-form--mobile-steps {
   border-radius: 6px; }
-  .cui-tile__body {
+  .cui-tile__body, .cui-form--mobile-steps .cui-form__body {
     background: white;
-    border-radius: 0 0 6px 6px;
+    border-radius: 0;
     margin: 0 auto;
     max-width: 100%;
-    padding: 50px; }
-  .cui-tile__title {
-    border-radius: 6px 6px 0 0;
+    padding: 1.75em;
+    position: relative; }
+    @media screen and (min-width: 701px) {
+      .cui-tile__body, .cui-form--mobile-steps .cui-form__body {
+        border-radius: 0 0 6px 6px;
+        padding: 50px; } }
+  .cui-tile__title, .cui-form--mobile-steps .cui-form__title {
+    border-radius: 0;
     color: white;
     padding: 15px;
     text-align: center; }
+    @media screen and (min-width: 701px) {
+      .cui-tile__title, .cui-form--mobile-steps .cui-form__title {
+        border-radius: 6px 6px 0 0; } }
   @media all and (max-width: 600px) {
-    .cui-tile__body {
+    .cui-tile__body, .cui-form--mobile-steps .cui-form__body {
       padding: 20px; } }
 
 /*
@@ -2284,8 +2388,9 @@ Styleguide Blocks.Expandable
     height: 0.125em;
     position: absolute;
     top: 62%;
-    width: 100%;
     z-index: 0; }
+    .indicator-container .steps-bar--no-js {
+      width: 100%; }
     .indicator-container .steps-bar .steps-bar-fill {
       background: #D0D0D0;
       display: inline-block;
@@ -2497,7 +2602,7 @@ Markup:
     <div class="cui-card__image-container">
       <svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" width="88px"
          height="88px" viewBox="0 0 48 48" enable-background="new 0 0 48 48" xml:space="preserve">
-        <use class="cui-card__icon" xlink:href="public/img/icons/icons-out.svg#user"></use>
+        <use class="cui-card__icon" xlink:href="public/bower_components/cui-icons/dist/icons/icons-out.svg#user"></use>
       </svg>
     </div>
     <div class="cui-card__content">
@@ -2526,7 +2631,7 @@ Styleguide Blocks.Cards
   box-sizing: border-box;
   display: flex;
   flex-direction: column;
-  height: 28.75em;
+  min-height: 28.75em;
   margin: 0.625em;
   max-width: 20em;
   padding: 2.5em 2.5em;
@@ -2918,6 +3023,17 @@ Markup:
 
 Styleguide Blocks.Loading
 */
+.cui-loading__container {
+  background: white;
+  bottom: 0;
+  left: 0;
+  pointer-events: none;
+  position: absolute;
+  right: 0;
+  top: 0;
+  transition: all 200ms ease-in-out;
+  z-index: 10; }
+
 .cui-loading {
   animation: spin 1s infinite linear;
   background-color: #fff;
@@ -2949,13 +3065,13 @@ Step Indicator With Icons
 
 Markup:
 <div class="indicator-container indicator-container--icons">
-  <div class="steps-bar"><div class="steps-bar-fill"></div></div>
+  <div class="steps-bar steps-bar--no-js"><div class="steps-bar-fill"></div></div>
   <span class="step-indicator ng-binding ng-scope active">Step 1
     <div class="icon-container">
       <div class="icon">
         <div cui-svg-icon="cui:skyscraper" class="ng-isolate-scope">
           <svg xmlns="http://www.w3.org/2000/svg" class="cui-icon-rotate" preserveAspectRatio="xMidYMid meet" viewBox="0 0 48 48">
-            <use xlink:href="public/img/icons/icons-out.svg#skyscraper"></use>
+            <use xlink:href="public/bower_components/cui-icons/dist/icons/icons-out.svg#skyscraper"></use>
           </svg>
         </div>
       </div>
@@ -2966,7 +3082,7 @@ Markup:
       <div class="icon">
         <div cui-svg-icon="cui:skyscraper" class="ng-isolate-scope">
           <svg xmlns="http://www.w3.org/2000/svg" class="cui-icon-rotate" preserveAspectRatio="xMidYMid meet" viewBox="0 0 48 48">
-            <use xlink:href="public/img/icons/icons-out.svg#user"></use>
+            <use xlink:href="public/bower_components/cui-icons/dist/icons/icons-out.svg#user"></use>
           </svg>
         </div>
       </div>
@@ -2977,7 +3093,7 @@ Markup:
       <div class="icon">
         <div cui-svg-icon="cui:skyscraper" class="ng-isolate-scope">
           <svg xmlns="http://www.w3.org/2000/svg" class="cui-icon-rotate" preserveAspectRatio="xMidYMid meet" viewBox="0 0 48 48">
-            <use xlink:href="public/img/icons/icons-out.svg#division"></use>
+            <use xlink:href="public/bower_components/cui-icons/dist/icons/icons-out.svg#division"></use>
           </svg>
         </div>
       </div>
@@ -2988,7 +3104,7 @@ Markup:
       <div class="icon">
         <div cui-svg-icon="cui:skyscraper" class="ng-isolate-scope">
           <svg xmlns="http://www.w3.org/2000/svg" class="cui-icon-rotate" preserveAspectRatio="xMidYMid meet" viewBox="0 0 48 48">
-            <use xlink:href="public/img/icons/icons-out.svg#review"></use>
+            <use xlink:href="public/bower_components/cui-icons/dist/icons/icons-out.svg#review"></use>
           </svg>
         </div>
       </div>
@@ -2998,7 +3114,119 @@ Markup:
 
 Styleguide Blocks.Step-Indicator-With-Icons
 */
-.cui-tile {
+.cui-form--mobile-steps .cui-form__title {
+  left: -9999px;
+  position: absolute; }
+  @media screen and (min-width: 700px) {
+    .cui-form--mobile-steps .cui-form__title {
+      left: 0;
+      position: relative; } }
+
+.cui-form--mobile-steps .cui-form__body {
+  padding: 0; }
+  @media screen and (min-width: 700px) {
+    .cui-form--mobile-steps .cui-form__body {
+      padding: 3.125em; } }
+
+.cui-form--mobile-steps .cui-expandable.mobile-element {
+  padding-bottom: 0; }
+
+.cui-form--mobile-steps .mobile-element.cui-expandable:first-of-type {
+  border-bottom: 1px solid #929292;
+  border-top: 1px solid #929292; }
+
+.cui-form--mobile-steps .mobile-element.cui-expandable {
+  border-bottom: 1px solid #929292; }
+
+.cui-form--mobile-steps .mobile-element.cui-expandable.expanded > .cui-expandable__body {
+  padding-top: 2.5em;
+  padding-bottom: 2.5em; }
+
+.cui-form--mobile-steps .mobile-element > .cui-expandable__title {
+  background-color: #F3F3F3;
+  height: 7.5em;
+  padding-left: 1.25em;
+  padding-top: 0;
+  position: relative; }
+  .cui-form--mobile-steps .mobile-element > .cui-expandable__title::before {
+    background-color: #D0D0D0;
+    content: '';
+    left: 2.5em;
+    height: 100%;
+    position: absolute;
+    width: 1px; }
+  .cui-form--mobile-steps .mobile-element > .cui-expandable__title span {
+    color: #D0D0D0;
+    font-size: 1.5em;
+    padding-left: 1.0416666667em; }
+
+.cui-form--mobile-steps .mobile-element.expanded > .cui-expandable__title {
+  background-color: #fff;
+  border-bottom: 1px solid #929292; }
+  .cui-form--mobile-steps .mobile-element.expanded > .cui-expandable__title::before {
+    background-color: #979797; }
+  .cui-form--mobile-steps .mobile-element.expanded > .cui-expandable__title span {
+    color: #009FD3; }
+
+.cui-form--mobile-steps .mobile-element.visited > .cui-expandable__title {
+  background-color: #D9EAEE; }
+  .cui-form--mobile-steps .mobile-element.visited > .cui-expandable__title::before {
+    background-color: #979797; }
+  .cui-form--mobile-steps .mobile-element.visited > .cui-expandable__title span {
+    color: #6D6D6D; }
+
+.cui-form--mobile-steps .cui-expandable:first-of-type.mobile-element > .cui-expandable__title::before {
+  background-color: #979797;
+  content: '';
+  left: 2.5em;
+  height: 100%;
+  position: absolute;
+  width: 1px; }
+
+.cui-form--mobile-steps .cui-expandable:first-of-type.mobile-element > .cui-expandable__title:nth-of-type(1)::before {
+  bottom: 0;
+  height: 50%; }
+
+.cui-form--mobile-steps .cui-expandable:first-of-type.mobile-element > .cui-expandable__title span {
+  font-size: 1.5em;
+  padding-left: 1.0416666667em; }
+
+.cui-form--mobile-steps .cui-expandable:last-of-type.mobile-element > .cui-expandable__title:nth-of-type(1)::before {
+  top: 0;
+  height: 50%; }
+
+.cui-form--mobile-steps .mobile-element.visited .icon {
+  border: 2px solid #6D6D6D; }
+
+.cui-form--mobile-steps .mobile-element .icon {
+  background: #fff;
+  border: 2px solid #D0D0D0;
+  border-radius: 50%;
+  height: 2.5em;
+  position: relative;
+  margin: 0 auto;
+  width: 2.5em;
+  z-index: 1; }
+
+.cui-form--mobile-steps .mobile-element.expanded .icon {
+  border: 2px solid #009FD3; }
+
+.cui-form--mobile-steps .mobile-element.visited .cui-icon-rotate {
+  fill: #6D6D6D; }
+
+.cui-form--mobile-steps .mobile-element.expanded .cui-icon-rotate {
+  fill: #009FD3; }
+
+.cui-form--mobile-steps .mobile-element .cui-icon-rotate {
+  height: 1.25em;
+  margin: 0.5em auto 0;
+  width: 1.25em; }
+
+.cui-form--mobile-steps .mobile-element .cui-expandable__title {
+  align-items: center;
+  display: flex; }
+
+.cui-tile, .cui-form--mobile-steps {
   width: 90%;
   margin: 30px auto;
   -moz-user-select: none;
@@ -3006,7 +3234,7 @@ Styleguide Blocks.Step-Indicator-With-Icons
   user-select: none;
   -webkit-user-select: none; }
   @media all and (max-width: 600px) {
-    .cui-tile {
+    .cui-tile, .cui-form--mobile-steps {
       width: 97%; } }
 
 .cui-expandable {
