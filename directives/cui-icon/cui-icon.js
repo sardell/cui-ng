@@ -258,7 +258,6 @@ function CuiIconService(config, $http, $q, $templateCache) {
     // Handle icon(s) that are in need of rotation...
     if (angular.isDefined(config.doRotate) && config.doRotate === true) {
       el.setAttribute('class', 'cui-icon-rotate');
-      console.log(el);
     }
 
     this.element = el;
