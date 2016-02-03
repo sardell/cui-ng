@@ -867,6 +867,12 @@ angular.module('cui-ng')
             element.empty();
             if (attrVal) {
               $cuiIcon(attrVal).then(function(svg) {
+                if(attr.svgClass){
+                  var svgClasses=attr.svgClass.split(' ');
+                  angular.forEach(svgClasses, function(className){
+                    svg.classList.add(className);
+                  });
+                }
                 element.append(svg);
               });
             }
@@ -951,7 +957,7 @@ CuiIconProvider.prototype = {
   },
 
 
-  $get: ['$http', '$q', '$templateCache', 
+  $get: ['$http', '$q', '$templateCache',
     function($http, $q, $templateCache) {
       return new CuiIconService(config, $http, $q, $templateCache);
     }
@@ -1096,6 +1102,7 @@ function CuiIconService(config, $http, $q, $templateCache) {
     // Handle icon(s) that are in need of rotation...
     if (angular.isDefined(config.doRotate) && config.doRotate === true) {
       el.setAttribute('class', 'cui-icon-rotate');
+      console.log(el);
     }
 
     this.element = el;
