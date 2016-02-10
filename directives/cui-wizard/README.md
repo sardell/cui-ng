@@ -19,7 +19,7 @@ Cui-wizard is an angular directive that, following a few syntax rules, allows th
   </cui-wizard>
 ```
 
-WARNING: If you're using ng-include to populate each step and you're using the `mobile-stack` feature, make sure to use only 1 ng-include with all of the content and use this syntax : '<div ng-include="'<path>.html'"></div>'
+WARNING: If you're using ng-include to populate each step and you're using the `mobile-stack` feature, make sure to use only 1 ng-include with all of the content and use this syntax : `<div ng-include="'<path>.html'"></div>`
 
 #### Variables
 1. `{{beggining Step}}` -> the step the wizard will start on.
