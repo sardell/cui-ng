@@ -1147,19 +1147,23 @@ angular.module('cui-ng')
         scope: true,
         link:function(scope,elem,attrs){
             //init
+
+            var numberOfSteps,invalidForm,mobileStack,$steps,bar,$indicatorContainer,clickableIndicators,minimumPadding,
+                snap,$body,$mobileSteps;
+
             var init = function(){
-                scope.invalidForm=[];
-                scope.mobileStack=attrs.mobileStack!==undefined;
-                scope.$steps=angular.element(elem[0].querySelectorAll('step'));
-                scope.numberOfSteps=scope.$steps.length;
-                scope.bar=(attrs.bar!==undefined && scope.numberOfSteps!==1);
-                scope.$indicatorContainer=angular.element(elem[0].querySelector('indicator-container'));
-                scope.$window=angular.element($window);
+                invalidForm=[];
+                mobileStack=attrs.mobileStack!==undefined;
+                $steps=angular.element(elem[0].querySelectorAll('step'));
+                numberOfSteps=$steps.length;
+                bar=(attrs.bar!==undefined && numberOfSteps!==1);
+                $indicatorContainer=angular.element(elem[0].querySelector('indicator-container'));
+                $window=angular.element($window);
                 scope.currentStep=Number(elem[0].attributes.step.value);
-                scope.clickableIndicators=attrs.clickableIndicators;
-                scope.minimumPadding=attrs.minimumPadding;
-                scope.snap=angular.element(document.querySelector('snap-content'));
-                scope.body=angular.element('body');
+                clickableIndicators=attrs.clickableIndicators;
+                minimumPadding=attrs.minimumPadding;
+                snap=angular.element(document.querySelector('snap-content'));
+                $body=angular.element('body');
                 scope.wizardFinished=false;
                 scope.next=function(state){
                     calculateWhereToScroll();
@@ -1170,7 +1174,7 @@ angular.module('cui-ng')
                         updateBar();
                         updateStep();
                     }
-                    if(!scope.wizardFinished && scope.currentStep===scope.numberOfSteps) scope.wizardFinished=true;
+                    if(!scope.wizardFinished && scope.currentStep===numberOfSteps) scope.wizardFinished=true;
                 };
                 scope.previous=function(state){
                     calculateWhereToScroll();
@@ -1191,7 +1195,7 @@ angular.module('cui-ng')
                     updateIndicators();
                     updateBar();
                     updateStep();
-                    if(!scope.wizardFinished && scope.currentStep===scope.numberOfSteps) scope.wizardFinished=true;
+                    if(!scope.wizardFinished && scope.currentStep===numberOfSteps) scope.wizardFinished=true;
                 };
                 scope.goToState=function(state){
                     if(state==='default') return;
@@ -1204,10 +1208,10 @@ angular.module('cui-ng')
                                 errorField.$setTouched();
                             });
                         });
-                        scope.invalidForm[scope.currentStep]=true;
+                        invalidForm[scope.currentStep]=true;
                     }
                     else{
-                        scope.invalidForm[scope.currentStep]=false;
+                        invalidForm[scope.currentStep]=false;
                         calculateWhereToScroll();
                         if(nextState){
                             scope.goToState(nextState);
@@ -1216,12 +1220,12 @@ angular.module('cui-ng')
                     }
                 };
                 if(isNaN(scope.currentStep)) scope.currentStep=1; // check if step is not a number, only runs once
-                else if(scope.currentStep>scope.numberOfSteps) scope.currentStep=scope.numberOfSteps;
+                else if(scope.currentStep>numberOfSteps) scope.currentStep=numberOfSteps;
                 else if(scope.currentStep<1) scope.currentStep=1;
                 createIndicators();
                 createBar();
-                if(scope.mobileStack) createMobileStack();
-                if(scope.bar) updateBar();
+                if(mobileStack) createMobileStack();
+                if(bar) updateBar();
                 updateIndicators();
                 makeSureTheresRoom();
                 watchForWindowResize();
@@ -1234,13 +1238,13 @@ angular.module('cui-ng')
                     stepIcons=[];
                 scope.defaultString='default';
                 scope.stepStates=[];
-                for(var i=0;i < scope.numberOfSteps;i++){
-                    stepTitles[i]=scope.$steps[i].attributes.title.value;
-                    if(scope.$steps[i].attributes.state){
-                        scope.stepStates[i]='' + scope.$steps[i].attributes.state.value + '';
+                for(var i=0;i < numberOfSteps;i++){
+                    stepTitles[i]=$steps[i].attributes.title.value;
+                    if($steps[i].attributes.state){
+                        scope.stepStates[i]='' + $steps[i].attributes.state.value + '';
                     }
-                    if(scope.$steps[i].attributes.icon){
-                        stepIcons[i]='' + scope.$steps[i].attributes.icon.value + '';
+                    if($steps[i].attributes.icon){
+                        stepIcons[i]='' + $steps[i].attributes.icon.value + '';
                     }
                 }
                 scope.icons=[];
@@ -1254,13 +1258,13 @@ angular.module('cui-ng')
                             scope.icons[i]='<div class="icon-container"><div class="icon"><cui-icon cui-svg-icon="' + stepIcons[i] + '"></cui-icon></div></div>';
                         }
                     }
-                    if(scope.clickableIndicators!==undefined && scope.icons[i]!==undefined){
+                    if(clickableIndicators!==undefined && scope.icons[i]!==undefined){
                         div=angular.element('<span class="step-indicator" id="cui-wizard-ref-pointer-'+ i + '" ng-click="goToStep(' +
                             (i+1) + ');goToState(\'' + (scope.stepStates[i] || scope.defaultString) + '\')">' +
                         stepTitles[i] + scope.icons[i] + '</span>');
                         div[0].style.cursor='pointer';
                     }
-                    else if(scope.clickableIndicators!==undefined && !scope.icons[i]){
+                    else if(clickableIndicators!==undefined && !scope.icons[i]){
                         div=angular.element('<span class="step-indicator" id="cui-wizard-ref-pointer-'+ i + '" ng-click="goToStep(' +
                             (i+1) + ');goToState(\'' + (scope.stepStates[i] || scope.defaultString) + '\')">' +
                         stepTitles[i] + '</span>');
@@ -1272,14 +1276,14 @@ angular.module('cui-ng')
                         '</span>');
                     }
                     var compiled=$compile(div)(scope);
-                    angular.element(scope.$indicatorContainer).append(compiled);
+                    angular.element($indicatorContainer).append(compiled);
                 });
                 scope.$indicators=angular.element(elem[0].querySelectorAll('.step-indicator'));
             },
             createBar = function(){
                 //create a bar
-                if(scope.bar){
-                    angular.element(scope.$indicatorContainer).append('<div class="steps-bar"></div>');
+                if(bar){
+                    angular.element($indicatorContainer).append('<div class="steps-bar"></div>');
                     scope.$bar=$('.steps-bar');
                     scope.$bar[0].innerHTML='<div class="steps-bar-fill"></div>';
                     scope.$barFill=$('.steps-bar-fill');
@@ -1288,42 +1292,40 @@ angular.module('cui-ng')
             // updates the current active indicator. Removes active class from other elements.
             updateIndicators = function(){
                 $timeout(function(){
-                    var currentStep=scope.currentStep;
-                    for(var i=0; i<scope.$steps.length ; i++){
-                        scope.$steps[i].classList.remove('active');
+                    for(var i=0; i<$steps.length ; i++){
+                        $steps[i].classList.remove('active');
                         scope.$indicators[i].classList.remove('active');
-                        if(scope.mobileStack){ scope.$mobileSteps[i].classList.remove('expanded'); }
-                        if(i<(currentStep-1)){
+                        if(mobileStack){ $mobileSteps[i].classList.remove('expanded'); }
+                        if(i<(scope.currentStep-1)){
                             scope.$indicators[i].classList.add('visited');
-                            if(scope.mobileStack){ scope.$mobileSteps[i].classList.add('visited'); }
+                            if(mobileStack){ $mobileSteps[i].classList.add('visited'); }
                         }
                         else{
                             scope.$indicators[i].classList.remove('visited');
-                            if(scope.mobileStack){ scope.$mobileSteps[i].classList.remove('visited'); }
+                            if(mobileStack){ $mobileSteps[i].classList.remove('visited'); }
                         }
                     }
-                    scope.$steps[currentStep-1].classList.add('active');
-                    scope.$indicators[currentStep-1].classList.add('active');
-                    if(scope.mobileStack){ scope.$mobileSteps[currentStep-1].classList.add('expanded'); }
+                    $steps[scope.currentStep-1].classList.add('active');
+                    scope.$indicators[scope.currentStep-1].classList.add('active');
+                    if(mobileStack){ $mobileSteps[scope.currentStep-1].classList.add('expanded'); }
                 });
             },
             updateBar = function(){
-                if(!scope.bar) return;
+                if(!bar) return;
                 $timeout(function(){
-                    var currentStep=scope.currentStep;
                     scope.$bar[0].style.left=scope.$indicators[0].scrollWidth/2+'px';
                     scope.$bar[0].style.right=scope.$indicators[scope.$indicators.length-1].scrollWidth/2+'px';
-                    if(currentStep==1){
+                    if(scope.currentStep==1){
                         scope.$barFill[0].style.width='0px';
                     }
                     else{
-                        scope.$barFill[0].style.width=scope.$indicators[currentStep-1].offsetLeft-(scope.$indicators[0].scrollWidth/2) +
-                        (scope.$indicators[currentStep-1].scrollWidth/2)+'px';
+                        scope.$barFill[0].style.width=scope.$indicators[scope.currentStep-1].offsetLeft-(scope.$indicators[0].scrollWidth/2) +
+                        (scope.$indicators[scope.currentStep-1].scrollWidth/2)+'px';
                     }
                 });
             },
             createMobileStack = function(){
-                angular.forEach(scope.$steps,function(step,i){
+                angular.forEach($steps,function(step,i){
                     var ngIncludeSrc;
                     if(step.innerHTML.indexOf('<!-- ngInclude:')>-1){
                       ngIncludeSrc=step.innerHTML.split('<!-- ngInclude:')[1].split(' -->')[0];
@@ -1332,7 +1334,7 @@ angular.module('cui-ng')
                     var newElement=$compile(
                         '<cui-expandable class="cui-expandable mobile-element">' +
                         '<cui-expandable-title class="cui-expandable__title"' +
-                        (scope.clickableIndicators!==undefined? 'ng-click="goToStep(' +
+                        (clickableIndicators!==undefined? 'ng-click="goToStep(' +
                         (i+1) + ');goToState(\'' + (scope.stepStates[i] || scope.defaultString) + '\')">' : '>') +
                         (scope.icons[i]? scope.icons[i] : '') + '<span>' + step.title + '</span></cui-expandable-title>' +
                         '<cui-expandable-body class="cui-expandable__body">' +
@@ -1340,7 +1342,7 @@ angular.module('cui-ng')
                         '</cui-expandable>')(scope);
                     angular.element(elem[0]).append(newElement);
                 });
-                scope.$mobileSteps=angular.element(elem[0].querySelectorAll('cui-expandable.mobile-element'));
+                $mobileSteps=angular.element(elem[0].querySelectorAll('cui-expandable.mobile-element'));
             },
             debounce = function(func, wait, immediate) {
                 var timeout;
@@ -1358,21 +1360,21 @@ angular.module('cui-ng')
             },
             getIndicatorsWidth = function(){
                 var totalWidth=0;
-                for(var i=0 ; i<scope.numberOfSteps ; i++){
+                for(var i=0 ; i<numberOfSteps ; i++){
                     totalWidth += scope.$indicators[i].scrollWidth;
                 }
                 //adds the minimum padding between the steps.
-                return totalWidth+((Number(scope.minimumPadding) || 0)*(scope.numberOfSteps-1));
+                return totalWidth+((Number(minimumPadding) || 0)*(numberOfSteps-1));
             },
             getIndicatorContainerWidth = function(){
-                return scope.$indicatorContainer[0].clientWidth;
+                return $indicatorContainer[0].clientWidth;
             },
             onlyShowCurrentIndicator = function(){
-                scope.$indicatorContainer[0].classList.add('small');
+                $indicatorContainer[0].classList.add('small');
                 updateBar();
             },
             showAllIndicators = function(){
-                scope.$indicatorContainer[0].classList.remove('small');
+                $indicatorContainer[0].classList.remove('small');
                 updateBar();
             },
             //makes sure there's still room for the step indicators, has a debounce on it so it
@@ -1391,7 +1393,7 @@ angular.module('cui-ng')
                 }
             }, 40),
             watchForWindowResize = function(){
-                scope.$window.bind('resize',function(){
+                $window.bind('resize',function(){
                     makeSureTheresRoom();
                 });
             },
@@ -1403,20 +1405,20 @@ angular.module('cui-ng')
             },
             calculateWhereToScroll = function(){
                 var wizardOffset;
-                if(scope.snap.length!==0){
-                    var snapOffset=scope.snap.scrollTop();
+                if(snap.length!==0){
+                    var snapOffset=snap.scrollTop();
                     wizardOffset=elem[0].getBoundingClientRect().top;
                     scrollTo(snapOffset+wizardOffset);
                 }
                 else{
-                    var bodyOffset=scope.body.scrollTop();
+                    var bodyOffset=$body.scrollTop();
                     wizardOffset=elem[0].getBoundingClientRect().top;
                     scrollTo(bodyOffset+wizardOffset);
                 }
             },
             scrollTo = function(position){
-                if(scope.snap.length!==0) scope.snap.animate({scrollTop:position},300);
-                else scope.body.animate({scrollTop:position},300);
+                if(snap.length!==0) snap.animate({scrollTop:position},300);
+                else $body.animate({scrollTop:position},300);
             },
             updateStep = function(){
                 attrs.$set('step',scope.currentStep);
@@ -1426,8 +1428,8 @@ angular.module('cui-ng')
                     if(isNaN(newStep)){
                         scope.currentStep=1;
                     }
-                    else if(newStep>scope.numberOfSteps){
-                        scope.currentStep=scope.numberOfSteps;
+                    else if(newStep>numberOfSteps){
+                        scope.currentStep=numberOfSteps;
                     }
                     else if(newStep<1){
                         scope.currentStep=1;
