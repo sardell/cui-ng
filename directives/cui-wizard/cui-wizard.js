@@ -8,7 +8,7 @@ angular.module('cui-ng')
             //init
 
             var numberOfSteps,invalidForm,mobileStack,$steps,bar,$indicatorContainer,clickableIndicators,minimumPadding,
-                snap,$body,$mobileSteps;
+                snap,$body,$mobileSteps,$cuiExpandableTitle;
 
             var init = function(){
                 invalidForm=[];
@@ -25,7 +25,6 @@ angular.module('cui-ng')
                 $body=angular.element('body');
                 scope.wizardFinished=false;
                 scope.next=function(state){
-                    calculateWhereToScroll();
                     if(state) scope.goToState(state);
                     else {
                         scope.currentStep++;
@@ -34,9 +33,9 @@ angular.module('cui-ng')
                         updateStep();
                     }
                     if(!scope.wizardFinished && scope.currentStep===numberOfSteps) scope.wizardFinished=true;
+                    calculateWhereToScroll();
                 };
                 scope.previous=function(state){
-                    calculateWhereToScroll();
                     if(state){
                         scope.goToState(state);
                     }
@@ -46,14 +45,15 @@ angular.module('cui-ng')
                         updateBar();
                         updateStep();
                     }
+                    calculateWhereToScroll();
                 };
                 scope.goToStep=function(step){
                     if(step===scope.currentStep) return;
-                    calculateWhereToScroll();
                     scope.currentStep=step;
                     updateIndicators();
                     updateBar();
                     updateStep();
+                    calculateWhereToScroll();
                     if(!scope.wizardFinished && scope.currentStep===numberOfSteps) scope.wizardFinished=true;
                 };
                 scope.goToState=function(state){
@@ -264,20 +264,22 @@ angular.module('cui-ng')
             },
             calculateWhereToScroll = function(){
                 var wizardOffset;
+                $cuiExpandableTitle=angular.element(elem[0].querySelector('cui-expandable.mobile-element>cui-expandable-title'))
+                var titleHeight=$cuiExpandableTitle[0].clientHeight;
                 if(snap.length!==0){
                     var snapOffset=snap.scrollTop();
                     wizardOffset=elem[0].getBoundingClientRect().top;
-                    scrollTo(snapOffset+wizardOffset);
+                    scrollTo(snapOffset+wizardOffset+(titleHeight*(scope.currentStep-1)));
                 }
                 else{
                     var bodyOffset=$body.scrollTop();
                     wizardOffset=elem[0].getBoundingClientRect().top;
-                    scrollTo(bodyOffset+wizardOffset);
+                    scrollTo(bodyOffset+wizardOffset+(titleHeight*(scope.currentStep-1)));
                 }
             },
             scrollTo = function(position){
-                if(snap.length!==0) snap.animate({scrollTop:position},300);
-                else $body.animate({scrollTop:position},300);
+                if(snap.length!==0) snap.animate({scrollTop:position},300,'linear');
+                else $body.animate({scrollTop:position},300,'linear');
             },
             updateStep = function(){
                 attrs.$set('step',scope.currentStep);
