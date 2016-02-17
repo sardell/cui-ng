@@ -3,7 +3,7 @@
 
     angular
     .module('app',['translate','ngMessages','cui.authorization','cui-ng','ui.router','snap','LocalStorageModule', 'cui-ng-datafactory'])
-    .run(['LocaleService','$rootScope', '$state', 'cui.authorization.routing','user','$http','$templateCache', 
+    .run(['LocaleService','$rootScope', '$state', 'cui.authorization.routing','user','$http','$templateCache',
         function(LocaleService,$rootScope,$state,routing,user,$http,$templateCache){
         $rootScope.$on('$stateChangeStart', function(event, toState, toParams, fromState, fromParams){
             event.preventDefault();
@@ -79,6 +79,10 @@
             .state('focus-if',{
                 url: '/focus-if',
                 templateUrl: './assets/angular-templates/focus-if.html'
+            })
+            .state('class-toggle',{
+                url: '/class-toggle',
+                templateUrl: './assets/angular-templates/class-toggle.html'
             });
 
         //fixes infinite digest loop with ui-router
@@ -86,7 +90,7 @@
           var $state = $injector.get("$state");
           $state.go('cui-wizard');
         });
-        
+
         $translateProvider.useLoader('LocaleLoader',{
             url:'bower_components/cui-i18n/dist/cui-i18n/angular-translate/',
             prefix:'locale-',
@@ -115,13 +119,13 @@
         return{
             login: function(){
                 $rootScope.cui.doThreeLeggedOAuth({
-                    clientId: 'WPUodVvicVPIvJdnakomB4nCa3GnyE6r'            
+                    clientId: 'WPUodVvicVPIvJdnakomB4nCa3GnyE6r'
                 })
                 .then(function(token) {
                     console.log('logged')
                 })
                 .fail(function() {
-                     console.log('fail');                
+                     console.log('fail');
                 });
                 $rootScope.cui.handleAuthResponse();
             }
@@ -153,7 +157,7 @@
         app.hits=0;
 
         app.routes=['cui-avatar','cui-wizard','cui-expandable','off-click','password-validation','tags-input','match','custom-error',
-        'cui-icon','auto-complete','inline-edit','focus-if','cui-authorization'];
+        'cui-icon','auto-complete','inline-edit','focus-if','cui-authorization','class-toggle'];
 
         //SERVICES -----------------------
 
@@ -243,7 +247,7 @@
 
         var setCountries=function(language){
             if(language.indexOf('_')>-1){
-                language=language.split('_')[0];   
+                language=language.split('_')[0];
             }
             getCountries(language)
             .then(function(res){
@@ -283,6 +287,6 @@
             }
         }
 
-        
+
     }]);
 })(angular);
