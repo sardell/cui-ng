@@ -28,3 +28,7 @@ You can also use `expand()` or `collapse()` to only open or only collapse the ex
 
 * Now has a scope variable called expanded that will be true when the cui-expandable element has the expanded class. This variable should be read only and altering it will not toggle the expansion - for that use the scope method `toggleExpand()`.
 * Now can be only expanded or only closed using `expand()` or `collapse()`.
+
+## Change Log 2/18/2016
+
+* Now using jquery's `animate({'height':'toggle'})` to toggle the height, rather than having a max-height set on the body. This makes the animations feel much smoother and more responsive.

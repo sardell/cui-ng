@@ -3331,7 +3331,9 @@ Styleguide Blocks.Step-Indicator-With-Icons
   border: none; }
 
 .cui-expandable__body {
-  border: none; }
+  border: none;
+  transition: none;
+  max-height: none; }
 
 .sky-blue {
   color: skyblue;

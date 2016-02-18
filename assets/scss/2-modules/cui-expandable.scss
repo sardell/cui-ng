@@ -6,6 +6,8 @@
 .cui-expandable{
 	&__body{
 		border:none;
+        transition:none;
+        max-height:none;
 	}
 }
 

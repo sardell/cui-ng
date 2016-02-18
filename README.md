@@ -7,18 +7,19 @@ Cui-ng is an angular module with a series of custom directives and utilities for
 
 ## Directives
 
+* [Auto-complete](https://github.com/thirdwavellc/cui-ng/tree/master/directives/auto-complete)
+* [Class-toggle](https://github.com/thirdwavellc/cui-ng/tree/master/directives/class-toggle)
 * [Cui-Avatar](https://github.com/thirdwavellc/cui-ng/tree/master/directives/cui-avatar)
-* [Cui-Wizard](https://github.com/thirdwavellc/cui-ng/tree/master/directives/cui-wizard)
 * [Cui-Expandable](https://github.com/thirdwavellc/cui-ng/tree/master/directives/cui-expandable)
+* [Cui-Icon](https://github.com/thirdwavellc/cui-ng/tree/master/directives/cui-icon)
+* [Cui-Wizard](https://github.com/thirdwavellc/cui-ng/tree/master/directives/cui-wizard)
+* [Custom-error](https://github.com/thirdwavellc/cui-ng/tree/master/directives/custom-error)
+* [Focus-if](https://github.com/thirdwavellc/cui-ng/tree/master/directives/focus-if)
+* [Inline-edit](https://github.com/thirdwavellc/cui-ng/tree/master/directives/inline-edit)
+* [Match](https://github.com/thirdwavellc/cui-ng/tree/master/directives/match)
 * [Off-Click](https://github.com/thirdwavellc/cui-ng/tree/master/directives/off-click)
 * [Password-validation](https://github.com/thirdwavellc/cui-ng/tree/master/directives/password-validation)
 * [Tags-input](https://github.com/thirdwavellc/cui-ng/tree/master/directives/tags-input)
-* [Match](https://github.com/thirdwavellc/cui-ng/tree/master/directives/match)
-* [Custom-error](https://github.com/thirdwavellc/cui-ng/tree/master/directives/custom-error)
-* [Cui-Icon](https://github.com/thirdwavellc/cui-ng/tree/master/directives/cui-icon)
-* [Auto-complete](https://github.com/thirdwavellc/cui-ng/tree/master/directives/auto-complete)
-* [Inline-edit](https://github.com/thirdwavellc/cui-ng/tree/master/directives/inline-edit)
-* [Focus-if](https://github.com/thirdwavellc/cui-ng/tree/master/directives/focus-if)
 
 ## Utilities
 
