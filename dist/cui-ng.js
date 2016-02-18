@@ -851,25 +851,35 @@ angular.module('cui-ng')
         link:function(scope,elem,attrs){
             var expandableBody=angular.element(elem).children('cui-expandable-body');
             expandableBody.hide(); // hide the body by default
-            scope.toggleExpand=function(toggleClass){
-                if(toggleClass==undefined || toggleClass!=false) elem.toggleClass('expanded');
+            var toggleClass=function(){
+                elem.toggleClass('expanded');
+            };
+            var toggleBody=function(){
                 expandableBody.animate({'height':'toggle'},300,'linear');
             };
+
+            scope.toggleExpand=function(){
+                toggleClass();
+            };
             scope.expand=function(){
-                if(!scope.expanded) scope.toggleExpand();
+                if(!scope.expanded) toggleClass();
             };
             scope.collapse=function(){
-            	if(scope.expanded) scope.toggleExpand();
+            	if(scope.expanded) toggleClass();
             };
             scope.$watch(function() {return elem.attr('class'); }, function(newValue,oldValue){
                 if(oldValue===newValue && newValue.indexOf('expanded')>-1 ){ // if the element the expanded class put in by default
                     scope.expanded=true;
-                    scope.toggleExpand(false);
+                    toggleBody();
                 }
-                else if(oldValue && newValue.indexOf('expanded')>-1){ // if the element has the expanded class now but didn't before
+                else if(newValue.indexOf('expanded')===-1){
+                    if(scope.expanded===true) toggleBody();
+                    scope.expanded=false;
+                }
+                else{
+                    if(scope.expanded===false) toggleBody();
                     scope.expanded=true;
                 }
-                else scope.expanded=false;
             });
         }
     };

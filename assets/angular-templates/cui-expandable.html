@@ -9,7 +9,7 @@
         <a href="https://github.com/thirdwavellc/cui-ng/tree/master/directives/cui-expandable" target="blank" class="cui-link">Click here for the full docs.</a><span>
       </cui-expandable-body>
 
-      <br/><br/><input type="checkbox" ng-change="toggleExpand()" ng-model="expanded" id="toggle"><label for="toggle"> I can also be toggled from any other element from inside the cui-expandable. Like this checkbox.</label><br/>
+      <br/><br/><input type="checkbox" ng-change="expanded=!expanded;toggleExpand();" ng-model="expanded" id="toggle"><label for="toggle"> I can also be toggled from any other element from inside the cui-expandable. Like this checkbox.</label><br/>
       <input type="text" class="cui-input" ng-model="app.magicWord" ng-change="app.magicWord==='open' && expand() || app.magicWord==='close' && collapse()" placeholder="Or even from this input, if you say the magic word (hint: it's definitely not 'open' to expand and 'close' to collapse)"/>
       <br/><br/><span ng-class="{'sky-blue' : expanded}">You can even control other elements based on the state of the expandable using the expanded scope variable, like this span's class.</span>
     </cui-expandable>
