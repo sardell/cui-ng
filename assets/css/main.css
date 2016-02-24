@@ -2358,7 +2358,8 @@ Styleguide Blocks.Expandable
     margin-bottom: 20px; }
   .cui-expandable__body {
     display: block;
-    overflow: hidden; }
+    overflow: hidden;
+    width: 100%; }
   .cui-expandable.expanded > .cui-expandable__title > .chevron {
     transform: rotate(90deg); }
 

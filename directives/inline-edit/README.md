@@ -50,3 +50,7 @@ IMPORTANT: in `options-expression` - x as x for x in options - that last bit `op
 ## Change Log 1/28/2016
 
 * Inline-edit fields with type password will now display a hidden password using `'•'`.
+
+## Change Log 2/24/2016
+
+* Inline-edit now takes an option attribute, `save-callback`, to which you can attach a callback function for when the save button gets pressed.

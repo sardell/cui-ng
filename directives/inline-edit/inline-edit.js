@@ -7,7 +7,8 @@ angular.module('cui-ng')
       type: '@',
       options: '=',
       display: '=',
-      localData: '='
+      localData: '=',
+      saveCallback: '='
     },
     link: function(scope,ele,attrs){
       scope.edit=false;
@@ -20,6 +21,7 @@ angular.module('cui-ng')
       };
       scope.saveInput=function(){
         scope.model=scope.editInput;
+        if(scope.saveCallback) scope.saveCallback();
         getDisplayValue();
       };
       scope.parseKeyCode=function(e){

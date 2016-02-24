@@ -271,6 +271,10 @@
             });
         }
 
+        app.testCallback=function(){
+            console.log('hi!');
+        }
+
         app.buildEntitlements=function(){
             if(Object.keys(app.entitlements).length===0){
                 app.userEntitlements=[];
