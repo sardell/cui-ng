@@ -21,6 +21,14 @@ Cui-ng is an angular module with a series of custom directives and utilities for
 * [Password-validation](https://github.com/thirdwavellc/cui-ng/tree/master/directives/password-validation)
 * [Tags-input](https://github.com/thirdwavellc/cui-ng/tree/master/directives/tags-input)
 
+## Providers
+
+* [$cuiI8n](https://github.com/thirdwavellc/cui-ng/tree/master/providers/$cuiI18n)
+
+## Filters
+
+* [cuiI18n](https://github.com/thirdwavellc/cui-ng/tree/master/filters/cuiI18n)
+
 ## Utilities
 
 * [Cui-Authorization](https://github.com/thirdwavellc/cui-ng/tree/master/utilities/cui-authorization)
