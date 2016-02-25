@@ -1,11 +1,11 @@
 angular.module('cui-ng')
-.directive('cuiExpandable',[function(){
+.directive('cuiExpandable',['$parse',function($parse){
     return{
         restrict:'E',
         scope: true,
         link:function(scope,elem,attrs){
             var expandableBody=angular.element(elem).children('cui-expandable-body');
-            var transitionSpeed=attrs.transitionSpeed || 300;
+            var transitionSpeed=parseInt(attrs.transitionSpeed || 300);
             expandableBody.hide(); // hide the body by default
             var toggleClass=function(){
                 elem.toggleClass('expanded');
