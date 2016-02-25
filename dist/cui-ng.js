@@ -1572,7 +1572,7 @@ angular.module('cui-ng')
 }]);
 
 angular.module('cui-ng')
-.directive('inlineEdit', ['$compile', function($compile){
+.directive('inlineEdit', ['$compile', '$timeout', function($compile, $timeout){
   return {
     restrict: 'E',
     scope:{
@@ -1581,7 +1581,7 @@ angular.module('cui-ng')
       options: '=',
       display: '=',
       localData: '=',
-      saveCallback: '='
+      saveCallback: '&onSave'
     },
     link: function(scope,ele,attrs){
       scope.edit=false;
@@ -1594,7 +1594,11 @@ angular.module('cui-ng')
       };
       scope.saveInput=function(){
         scope.model=scope.editInput;
-        if(scope.saveCallback) scope.saveCallback();
+        if(scope.saveCallback) {
+          $timeout(function() {
+            scope.saveCallback();
+          });
+        } 
         getDisplayValue();
       };
       scope.parseKeyCode=function(e){
