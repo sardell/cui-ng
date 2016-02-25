@@ -32,3 +32,7 @@ You can also use `expand()` or `collapse()` to only open or only collapse the ex
 ## Change Log 2/18/2016
 
 * Now using jquery's `animate({'height':'toggle'})` to toggle the height, rather than having a max-height set on the body. This makes the animations feel much smoother and more responsive.
+
+## Change Log 2/25/2016
+
+* Now takes an optional attribute, `transition-speed`, which is the millisecond value of the transition on expand / collapse (default is 300ms, but for smaller expandables a smaller value is recommended).
