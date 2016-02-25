@@ -7,7 +7,7 @@ module.exports = function(grunt) {
         tasks: ['sass']
       },
       scripts:{
-        files: ['directives/**/*.js','utilities/**/*.js'],
+        files: ['providers/**/*.js','filters/**/*.js','directives/**/*.js','utilities/**/*.js'],
         tasks: ['concat'],
         options: {
           spawn: false,
@@ -78,7 +78,7 @@ module.exports = function(grunt) {
            separator: '\n\n',
       },
       dist: {
-        src: ['modules/cui-ng.intro.js','directives/**/*.js','utilities/**/*.js','modules/cui-ng.outro.js'],
+        src: ['modules/cui-ng.intro.js','providers/**/*.js','filters/**/*.js','directives/**/*.js','utilities/**/*.js','modules/cui-ng.outro.js'],
         dest: 'dist/cui-ng.js'
       }
     },
