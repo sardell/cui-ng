@@ -1,9 +1,17 @@
 angular.module('cui-ng')
 .provider('$cuiI18n',[function(){
-    var preferenceArray;
+    var preferenceArray,listOfLocaleCodesAndNames;
 
     this.setLocalePreference=function(newPreferenceArray){
         preferenceArray=newPreferenceArray;
+    };
+
+    this.setLocaleCodesAndNames=function(newPreferenceObject){
+        listOfLocaleCodesAndNames=newPreferenceObject;
+    };
+
+    this.getLocaleCodesAndNames=function(){
+        return listOfLocaleCodesAndNames;
     };
 
     this.getInternationalizedName=function(preferedLanguage,languageObjectArray){

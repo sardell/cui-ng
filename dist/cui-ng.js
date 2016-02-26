@@ -4,10 +4,18 @@
 
 angular.module('cui-ng')
 .provider('$cuiI18n',[function(){
-    var preferenceArray;
+    var preferenceArray,listOfLocaleCodesAndNames;
 
     this.setLocalePreference=function(newPreferenceArray){
         preferenceArray=newPreferenceArray;
+    };
+
+    this.setLocaleCodesAndNames=function(newPreferenceObject){
+        listOfLocaleCodesAndNames=newPreferenceObject;
+    };
+
+    this.getLocaleCodesAndNames=function(){
+        return listOfLocaleCodesAndNames;
     };
 
     this.getInternationalizedName=function(preferedLanguage,languageObjectArray){
@@ -884,18 +892,19 @@ angular.module('cui-ng')
 
 
 angular.module('cui-ng')
-.directive('cuiExpandable',[function(){
+.directive('cuiExpandable',['$parse',function($parse){
     return{
         restrict:'E',
         scope: true,
         link:function(scope,elem,attrs){
             var expandableBody=angular.element(elem).children('cui-expandable-body');
+            var transitionSpeed=parseInt(attrs.transitionSpeed || 300);
             expandableBody.hide(); // hide the body by default
             var toggleClass=function(){
                 elem.toggleClass('expanded');
             };
             var toggleBody=function(){
-                expandableBody.animate({'height':'toggle'},300,'linear');
+                expandableBody.animate({'height':'toggle'},transitionSpeed,'linear');
             };
 
             scope.toggleExpand=function(){
