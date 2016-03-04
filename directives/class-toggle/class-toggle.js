@@ -4,7 +4,15 @@ angular.module('cui-ng')
         restrict:'EC',
         scope: true,
         link:function(scope,elem,attrs){
-            var toggledClass=attrs.toggledClass;
+            var toggledClass=attrs.toggledClass,
+                elementClass=function(){
+                    return elem.attr('class');
+                },
+                checkIfToggled=function(elementClass){
+                    if(elementClass.indexOf(toggledClass)>-1) scope.toggled=true;
+                    else scope.toggled=false;
+                }
+
             scope.toggleClass=function(){
                 elem.toggleClass(toggledClass);
             };
@@ -14,10 +22,10 @@ angular.module('cui-ng')
             scope.toggleOff=function(){
                 if(scope.toggled) scope.toggleClass();
             };
-            scope.$watch(function() {return elem.attr('class'); }, function(newValue){
-                if(newValue.indexOf(toggledClass)>-1) scope.toggled=true;
-                else scope.toggled=false;
-            });
+
+            scope.$watch(elementClass, checkIfToggled);
+
+
         }
     };
 }]);

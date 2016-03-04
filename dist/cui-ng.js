@@ -847,7 +847,15 @@ angular.module('cui-ng')
         restrict:'EC',
         scope: true,
         link:function(scope,elem,attrs){
-            var toggledClass=attrs.toggledClass;
+            var toggledClass=attrs.toggledClass,
+                elementClass=function(){
+                    return elem.attr('class');
+                },
+                checkIfToggled=function(elementClass){
+                    if(elementClass.indexOf(toggledClass)>-1) scope.toggled=true;
+                    else scope.toggled=false;
+                }
+
             scope.toggleClass=function(){
                 elem.toggleClass(toggledClass);
             };
@@ -857,10 +865,10 @@ angular.module('cui-ng')
             scope.toggleOff=function(){
                 if(scope.toggled) scope.toggleClass();
             };
-            scope.$watch(function() {return elem.attr('class'); }, function(newValue){
-                if(newValue.indexOf(toggledClass)>-1) scope.toggled=true;
-                else scope.toggled=false;
-            });
+
+            scope.$watch(elementClass, checkIfToggled);
+
+
         }
     };
 }]);
@@ -1553,8 +1561,8 @@ angular.module('cui-ng')
     },
     link: function(scope,ele,attrs,ctrl){
       angular.forEach(scope.customError,function(error,i){
-        scope.$watch(scope.customError[i].check,function(valid){
-          ctrl.$setValidity(scope.customError[i].name,valid);
+        scope.$watch(scope.customError[i].check,function(isValid){
+          ctrl.$setValidity(scope.customError[i].name,isValid);
         });
       });
     }
@@ -1704,11 +1712,13 @@ function matchDirective($parse) {
     restrict: 'A',
     require: 'ngModel',
     link: function (scope, element, attrs, ctrl) {
+      var checkIfMatch=function(values){
+        ctrl.$setValidity('match', values[0] === (values[1] || ''));
+      };
+
       scope.$watch(function () {
         return [scope.$eval(attrs.match), ctrl.$viewValue];
-      }, function (values) {
-        ctrl.$setValidity('match', values[0] === (values[1] || ''));
-      }, true);
+      }, checkIfMatch,true);
     }
   };
 }
