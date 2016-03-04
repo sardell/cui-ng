@@ -1718,7 +1718,7 @@ function matchDirective($parse) {
 
       scope.$watch(function () {
         return [scope.$eval(attrs.match), ctrl.$viewValue];
-      }, checkIfMatch);
+      }, checkIfMatch,true);
     }
   };
 }
