@@ -8,8 +8,8 @@ angular.module('cui-ng')
     },
     link: function(scope,ele,attrs,ctrl){
       angular.forEach(scope.customError,function(error,i){
-        scope.$watch(scope.customError[i].check,function(valid){
-          ctrl.$setValidity(scope.customError[i].name,valid);
+        scope.$watch(scope.customError[i].check,function(isValid){
+          ctrl.$setValidity(scope.customError[i].name,isValid);
         });
       });
     }
