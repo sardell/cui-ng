@@ -51,14 +51,14 @@ angular.module('cui-ng')
 
       var getInput=function(){
         attrs.type=attrs.type || 'text';
-        var input='';
-        if(attrs.type==='dropdown') return input.concat('<select ng-model="$parent.editInput" class="',inputClass,'"',
+        if(attrs.type==='dropdown') return String.prototype.concat(
+          '<select ng-model="$parent.editInput" class="',inputClass,'"',
           'ng-init="matchModels()" ng-options="',attrs.optionsExpression,'" ng-if="edit"></select>');
-        else if(attrs.type==='auto-complete') return input.concat('<div auto-complete selected-object="$parent.editInput" local-data="localData"',
+        else if(attrs.type==='auto-complete') return String.prototype.concat('<div auto-complete selected-object="$parent.editInput" local-data="localData"',
           ' search-fields="',attrs.searchFields,'" title-field="',attrs.titleField,'" input-class="',inputClass,'" ',
           ' match-class="highlight" ng-init="matchModels()" auto-match="true"',
           ' ng-if="edit" ng-keypress="parseKeyCode($event)" initial-value="$parent.editInput.title"></div>');
-        return input.concat('<input type="',attrs.type,'" ng-model="$parent.editInput" class="',inputClass,'" ',
+        return String.prototype.concat('<input type="',attrs.type,'" ng-model="$parent.editInput" class="',inputClass,'" ',
           'ng-init="matchModels()" ng-if="edit" ng-keyup="parseKeyCode($event)" focus-if="focus"/>');
       };
 
@@ -72,9 +72,8 @@ angular.module('cui-ng')
       scope.$watch('display',getDisplayValue);
       scope.$watch('model',getDisplayValue);
 
-      var elementMarkup='';
       var element= $compile(
-        elementMarkup.concat(
+        String.prototype.concat(
         '<div class="',wrapperClass,'">',
             '<span class="',labelClass,'">',getLabel(),':</span>',
             '<span ng-if="!edit" class="',valueClass,'">','{{displayValue}}','</span>',getInput() ,
