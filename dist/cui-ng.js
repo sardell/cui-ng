@@ -1665,7 +1665,7 @@ angular.module('cui-ng')
         '</div>',
         '<span class="cui-link" ng-click="toggleEdit()" ng-if="!edit">{{ "edit" | translate }}</span>',
         '<span class="cui-button" ng-if="edit" ng-click="saveInput();toggleEdit();">{{ "update" | translate }}</span>',
-        '<span class="cui-link" ng-if="edit" ng-click="toggleEdit()">{{ "cancel" | translate }}</span>')
+        '<span class="cui-link" ng-if="edit" ng-click="toggleEdit()">{{ "cui-cancel" | translate }}</span>')
       )(scope);
       angular.element(ele[0]).html(element);
 
