@@ -1663,8 +1663,8 @@ angular.module('cui-ng')
             '<span class="',labelClass,'">',getLabel(),':</span>',
             '<span ng-if="!edit" class="',valueClass,'">','{{displayValue}}','</span>',getInput() ,
         '</div>',
-        '<span class="cui-link" ng-click="toggleEdit()" ng-if="!edit">{{ "edit" | translate }}</span>',
-        '<span class="cui-button" ng-if="edit" ng-click="saveInput();toggleEdit();">{{ "update" | translate }}</span>',
+        '<span class="cui-link" ng-click="toggleEdit()" ng-if="!edit">{{ "cui-edit" | translate }}</span>',
+        '<span class="cui-button" ng-if="edit" ng-click="saveInput();toggleEdit();">{{ "cui-update" | translate }}</span>',
         '<span class="cui-link" ng-if="edit" ng-click="toggleEdit()">{{ "cui-cancel" | translate }}</span>')
       )(scope);
       angular.element(ele[0]).html(element);
