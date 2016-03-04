@@ -133,7 +133,7 @@ module.exports = function(grunt) {
     },
     jasmine: {
       cuiNg: {
-        src: 'dist/cui-ng.js',
+        src: ['dist/cui-ng.js'],
         options: {
           specs: 'tests/*.js',
           helpers: ['bower_components/jquery/dist/jquery.js','bower_components/angular/angular.js','node_modules/angular-mocks/angular-mocks.js']
