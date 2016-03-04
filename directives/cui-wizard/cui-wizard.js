@@ -265,7 +265,10 @@ angular.module('cui-ng')
             calculateWhereToScroll = function(){
                 var wizardOffset;
                 $cuiExpandableTitle=angular.element(elem[0].querySelector('cui-expandable.mobile-element>cui-expandable-title'))
-                var titleHeight=$cuiExpandableTitle[0].clientHeight;
+                if($cuiExpandableTitle.length!==0) {
+                    var titleHeight=$cuiExpandableTitle[0].clientHeight;
+                }
+                else var titleHeight=0;
                 if(snap.length!==0){
                     var snapOffset=snap.scrollTop();
                     wizardOffset=elem[0].getBoundingClientRect().top;
