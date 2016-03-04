@@ -11,6 +11,10 @@ angular.module('cui-ng')
       saveCallback: '&onSave'
     },
     link: function(scope,ele,attrs){
+      var valueClass=attrs.valueClass || "cui-field-val__val";
+      var inputClass=attrs.inputClass || "cui-field-val__val";
+      var labelClass=attrs.labelClass || "cui-field-val__field";
+      var wrapperClass=attrs.wrapperClass || "cui-field-val";
       scope.edit=false;
       scope.focus=false;
       scope.toggleEdit=function(){
@@ -25,7 +29,7 @@ angular.module('cui-ng')
           $timeout(function() {
             scope.saveCallback();
           });
-        } 
+        }
         getDisplayValue();
       };
       scope.parseKeyCode=function(e){
@@ -46,13 +50,13 @@ angular.module('cui-ng')
 
       var getInput=function(){
         attrs.type=attrs.type || 'text';
-        if(attrs.type==='dropdown') return '<select ng-model="$parent.editInput" class="cui-expandable__review-select" ' +
+        if(attrs.type==='dropdown') return '<select ng-model="$parent.editInput" class="' + inputClass + '"' +
           'ng-init="matchModels()" ng-options="' + attrs.optionsExpression + '" ng-if="edit"></select>';
         else if(attrs.type==='auto-complete') return '<div auto-complete selected-object="$parent.editInput" local-data="localData"' +
-          ' search-fields="' + attrs.searchFields + ' " title-field="' + attrs.titleField + '" input-class="cui-expandable__review-input" '+
+          ' search-fields="' + attrs.searchFields + ' " title-field="' + attrs.titleField + '" input-class="'+ inputClass + '" '+
           ' match-class="highlight" ng-init="matchModels()" auto-match="true"' +
           ' ng-if="edit" ng-keypress="parseKeyCode($event)" initial-value="$parent.editInput.title"></div>';
-        return '<input type="' + attrs.type + '" ng-model="$parent.editInput" class="cui-expandable__review-input" ' +
+        return '<input type="' + attrs.type + '" ng-model="$parent.editInput" class="'+ inputClass +'" ' +
           'ng-init="matchModels()" ng-if="edit" ng-keyup="parseKeyCode($event)" focus-if="focus"/>';
       };
 
@@ -67,11 +71,11 @@ angular.module('cui-ng')
       scope.$watch('model',getDisplayValue);
 
       var element= $compile(
-        '<div class="cui-expandable__review-item">' + getLabel() + ': <span ng-if="!edit">' +
-        '{{displayValue}}' + '</span>' + getInput() +
-        '<span class="cui-expandable__review-button" ng-click="toggleEdit()" ng-if="!edit"> Edit</span>' +
-        '<span class="cui-expandable__review-button" ng-if="edit" ng-click="saveInput();toggleEdit();"> Save</span>'+
-        '<span class="cui-expandable__review-button" ng-if="edit" ng-click="toggleEdit()"> Cancel</span></div>'
+        '<div class="' + wrapperClass + '"><span class="' + labelClass + '">' + getLabel() + ':</span><span ng-if="!edit" class="' + valueClass + '">' +
+        '{{displayValue}}' + '</span>' + getInput() + '</div>' +
+        '<span class="cui-link" ng-click="toggleEdit()" ng-if="!edit">{{ "edit" | translate }}</span>' +
+        '<span class="cui-button" ng-if="edit" ng-click="saveInput();toggleEdit();">{{ "update" | translate }}</span>'+
+        '<span class="cui-link" ng-if="edit" ng-click="toggleEdit()">{{ "cancel" | translate }}</span>'
       )(scope);
       angular.element(ele[0]).html(element);
 

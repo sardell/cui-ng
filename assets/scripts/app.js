@@ -10,10 +10,10 @@
             routing($rootScope, $state, toState, toParams, fromState, fromParams, user.getUser());
         })
 
-        LocaleService.setLocales('en_US','English (United States)');
-        LocaleService.setLocales('pl_PL','Polish (Poland)');
-        LocaleService.setLocales('zh_CN','Chinese (Simplified)');
-        LocaleService.setLocales('pt_PT','Portuguese (Portugal)');
+        LocaleService.setLocales('en','English');
+        LocaleService.setLocales('pl','Polish');
+        LocaleService.setLocales('zh','Chinese');
+        LocaleService.setLocales('pt','Portuguese');
 
         var icons=['bower_components/cui-icons/dist/icons/icons-out.svg'];
 

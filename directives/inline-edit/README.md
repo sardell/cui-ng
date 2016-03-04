@@ -54,3 +54,13 @@ IMPORTANT: in `options-expression` - x as x for x in options - that last bit `op
 ## Change Log 2/24/2016
 
 * Inline-edit now takes an option attribute, `on-save`, to which you can attach a callback function for when the save button gets pressed.
+
+## Change Log 3/4/2016
+
+* Now has 4 extra optional attributes. `value-class` , `input-class`, `label-class` and `wrapper-class`, which all have default values, see below.
+```javascript
+    var valueClass=attrs.valueClass || "cui-field-val__val";
+    var inputClass=attrs.inputClass || "cui-field-val__val";
+    var labelClass=attrs.labelClass || "cui-field-val__field";
+    var wrapperClass=attrs.wrapperClass || "cui-field-val";
+```

@@ -1,5 +1,5 @@
 angular.module('cui-ng')
-.directive('cuiExpandable',['$parse',function($parse){
+.directive('cuiExpandable',[function(){
     return{
         restrict:'E',
         scope: true,
