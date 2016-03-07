@@ -98,7 +98,7 @@ angular.module('cui-ng')
                 '<span ng-if="!edit" class="',this.config.valueClass,'">','{{displayValue}}','</span>',this.helpers.getInput.call(this) ,
             '</div>',
             '<span class="cui-link" ng-click="toggleEdit()" ng-if="!edit">',$filter('translate')('cui-edit'),'</span>',
-            '<span class="cui-button" ng-if="edit" ng-click="saveInput();toggleEdit();">',$filter('translate')('cui-update'),'</span>',
+            '<span class="cui-link" ng-if="edit" ng-click="saveInput();toggleEdit();">',$filter('translate')('cui-update'),'</span>',
             '<span class="cui-link" ng-if="edit" ng-click="toggleEdit()">',$filter('translate')('cui-cancel'),'</span>')
           )(scope);
           angular.element(ele[0]).html(element);
