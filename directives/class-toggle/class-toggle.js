@@ -1,7 +1,7 @@
 angular.module('cui-ng')
 .directive('classToggle',[function(){
     return{
-        restrict:'EC',
+        restrict:'EAC',
         scope: true,
         link:function(scope,elem,attrs){
             var toggledClass=attrs.toggledClass,
@@ -11,7 +11,7 @@ angular.module('cui-ng')
                 checkIfToggled=function(elementClass){
                     if(elementClass.indexOf(toggledClass)>-1) scope.toggled=true;
                     else scope.toggled=false;
-                }
+                };
 
             scope.toggleClass=function(){
                 elem.toggleClass(toggledClass);
@@ -24,8 +24,6 @@ angular.module('cui-ng')
             };
 
             scope.$watch(elementClass, checkIfToggled);
-
-
         }
     };
 }]);
