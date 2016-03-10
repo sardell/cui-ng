@@ -114,11 +114,9 @@ function () {
             scope.$watch('userEntitlements',function(){
                 var authorized=authorize.authorize(scope.loginRequired, scope.requiredEntitlements, scope.entitlementType, scope.userEntitlements);
                 if(authorized!=='authorized'){
-                  console.log('hi');
                   elem.addClass('hide');
                 }
                 else{
-                  console.log(authorized);
                     elem.removeClass('hide');
                 }
             });
