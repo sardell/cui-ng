@@ -8,7 +8,8 @@ angular.module('cui-ng')
       options: '=',
       display: '=',
       localData: '=',
-      saveCallback: '&onSave'
+      saveCallback: '&onSave',
+      tempEditCallback: '=onEdit'
     },
     link: function(scope,ele,attrs){
       var inlineEdit={
@@ -55,6 +56,9 @@ angular.module('cui-ng')
               if(e.keyCode===27) { // if escape is pressed toggle edit and don't save.
                 scope.toggleEdit();
               }
+            }
+            scope.editChangeCallback=function(){
+              if(scope.tempEditCallback) scope.tempEditCallback(scope.editInput);
             };
           },
           watchers:function(){
@@ -74,13 +78,13 @@ angular.module('cui-ng')
             attrs.type=attrs.type || 'text';
             if(attrs.type==='dropdown') return String.prototype.concat(
               '<select ng-model="$parent.editInput" class="',this.config.inputClass,'"',
-              'ng-init="matchModels()" ng-options="',attrs.optionsExpression,'" ng-if="edit"></select>');
+              'ng-init="matchModels()" ng-options="',attrs.optionsExpression,'" ng-if="edit" ng-change="editChangeCallback()"></select>');
             else if(attrs.type==='auto-complete') return String.prototype.concat('<div auto-complete selected-object="$parent.editInput" local-data="localData"',
               ' search-fields="',attrs.searchFields,'" title-field="',attrs.titleField,'" input-class="',this.config.inputClass,'" ',
               ' match-class="highlight" ng-init="matchModels()" auto-match="true"',
-              ' ng-if="edit" ng-keypress="parseKeyCode($event)" initial-value="$parent.editInput.title"></div>');
+              ' ng-if="edit" ng-keypress="parseKeyCode($event)" initial-value="$parent.editInput.title" input-changed="editChangeCallback()"></div>');
             return String.prototype.concat('<input type="',attrs.type,'" ng-model="$parent.editInput" class="',this.config.inputClass,'" ',
-              'ng-init="matchModels()" ng-if="edit" ng-keyup="parseKeyCode($event)" focus-if="focus"/>');
+              'ng-init="matchModels()" ng-if="edit" ng-keyup="parseKeyCode($event)" focus-if="focus" ng-change="editChangeCallback()"/>');
           },
           getDisplayValue:function(){
             if(attrs.type==="password") {

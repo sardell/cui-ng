@@ -64,3 +64,17 @@ IMPORTANT: in `options-expression` - x as x for x in options - that last bit `op
     var labelClass=attrs.labelClass || "cui-field-val__field";
     var wrapperClass=attrs.wrapperClass || "cui-field-val";
 ```
+
+## Change Log 3/10/2016
+
+* Now takes an optional `on-edit` callback function, inline-edit will call that function and passe the current temporary edit value every time it changes.
+Markup:
+```html
+    <inline-edit name="Random word" model="app.random2" on-edit="app.changed"></inline-edit>
+```
+Controller:
+```
+    app.change=function(value){
+        // do stuff with the value, this will probably only be useful for error checking.
+    };
+```

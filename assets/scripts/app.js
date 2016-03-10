@@ -289,7 +289,11 @@
                 });
                 app.userEntitlements=entitlements;
             }
-        }
+        };
+
+        app.onEdit=function(value){
+            console.log(value);
+        };
 
 
     }]);
