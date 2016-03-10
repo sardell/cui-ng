@@ -3117,7 +3117,7 @@ function () {
         permission, i,
         result='not authorized';
     entitlementType = entitlementType || 'atLeastOne';
-    if (loginRequired === true && userEntitlements === undefined) {
+    if (loginRequired === true && userEntitlements.length===0) {
         result = 'login required';
     } else if ((loginRequired === true && userEntitlements !== undefined) &&
         (requiredEntitlements === undefined || requiredEntitlements.length === 0)) {
@@ -3171,9 +3171,11 @@ function () {
             scope.$watch('userEntitlements',function(){
                 var authorized=authorize.authorize(scope.loginRequired, scope.requiredEntitlements, scope.entitlementType, scope.userEntitlements);
                 if(authorized!=='authorized'){
+                  console.log('hi');
                   elem.addClass('hide');
                 }
                 else{
+                  console.log(authorized);
                     elem.removeClass('hide');
                 }
             });
