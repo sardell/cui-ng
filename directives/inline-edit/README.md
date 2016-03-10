@@ -74,7 +74,7 @@ Markup:
 ```
 Controller:
 ```
-    app.change=function(value){
+    app.changed=function(value){
         // do stuff with the value, this will probably only be useful for error checking.
     };
 ```
