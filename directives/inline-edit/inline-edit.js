@@ -9,7 +9,8 @@ angular.module('cui-ng')
       display: '=',
       localData: '=',
       saveCallback: '&onSave',
-      tempEditCallback: '=onEdit'
+      tempEditCallback: '=onEdit',
+      hideSaveButton: '=hideSaveIf'
     },
     link: function(scope,ele,attrs){
       var inlineEdit={
@@ -35,6 +36,7 @@ angular.module('cui-ng')
           functions:function(){
             scope.toggleEdit=function(){
               scope.focus=scope.edit=!scope.edit;
+              if(scope.tempEditCallback) scope.editChangeCallback(scope.edit);
             };
             scope.matchModels=function(){
               scope.editInput=scope.model;
@@ -56,8 +58,12 @@ angular.module('cui-ng')
               if(e.keyCode===27) { // if escape is pressed toggle edit and don't save.
                 scope.toggleEdit();
               }
-            }
-            scope.editChangeCallback=function(){
+            };
+            scope.editChangeCallback=function(editMode){
+              if(editMode===false) {
+                scope.tempEditCallback(undefined);
+                return;
+              }
               if(scope.tempEditCallback) scope.tempEditCallback(scope.editInput);
             };
           },
@@ -102,7 +108,7 @@ angular.module('cui-ng')
                 '<span ng-if="!edit" class="',this.config.valueClass,'">','{{displayValue}}','</span>',this.helpers.getInput.call(this) ,
             '</div>',
             '<span class="cui-link" ng-click="toggleEdit()" ng-if="!edit">',$filter('translate')('cui-edit'),'</span>',
-            '<span class="cui-link" ng-if="edit" ng-click="saveInput();toggleEdit();">',$filter('translate')('cui-update'),'</span>',
+            '<span class="cui-link" ng-if="edit && !hideSaveButton" ng-click="saveInput();toggleEdit();">',$filter('translate')('cui-update'),'</span>',
             '<span class="cui-link" ng-if="edit" ng-click="toggleEdit()">',$filter('translate')('cui-cancel'),'</span>')
           )(scope);
           angular.element(ele[0]).html(element);

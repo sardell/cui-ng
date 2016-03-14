@@ -78,3 +78,7 @@ Controller:
         // do stuff with the value, this will probably only be useful for error checking.
     };
 ```
+
+## Change Log 3/14/2016
+
+* Now takes an optional `hide-save-if` attribute, which will hide the save button if evaluated to true.

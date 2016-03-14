@@ -116,7 +116,7 @@
         };
     }])
     .factory('auth',['$http', '$rootScope',function($http, $rootScope){
-        return{
+        return {
             login: function(){
                 $rootScope.cui.doThreeLeggedOAuth({
                     clientId: 'WPUodVvicVPIvJdnakomB4nCa3GnyE6r'
@@ -292,7 +292,14 @@
         };
 
         app.onEdit=function(value){
-            console.log(value);
+            if(!angular.isDefined(value)){
+                app.inlineError={};
+                console.log('test');
+            }
+            else app.inlineError={
+                test:value
+            };
+            app.noSave=(value!=='admin');
         };
 
 
