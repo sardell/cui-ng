@@ -1599,7 +1599,7 @@ angular.module('cui-ng')
       options: '=',
       display: '=',
       localData: '=',
-      saveCallback: '&onSave',
+      saveCallback: '=onSave',
       tempEditCallback: '=onEdit',
       hideSaveButton: '=hideSaveIf'
     },
