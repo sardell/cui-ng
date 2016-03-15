@@ -14,7 +14,7 @@ This directive wraps the Tether API into a simple to use markup tool to "tether"
 
 ```html
   <span id="element-to-attach-to">The other element is going to attach to me</span>
-  <span tether target="#element-top-attach-to" attachment="top right" target-attachment="bottom left"></span>
+  <span tether target="#element-to-attach-to" attachment="top right" target-attachment="bottom left"></span>
 ```
 
 This will attach the second element to the first one, the top right of the 2nd element will be touching the bottom left of the first element at all times.
