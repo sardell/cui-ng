@@ -45,6 +45,7 @@
     "cui-icons": "#master"
   },
   "dependencies": {
-    "angular-scroll": "~1.0.0"
+    "angular-scroll": "~1.0.0",
+    "tether": "^1.2.0"
   }
 }
