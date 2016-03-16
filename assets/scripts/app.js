@@ -264,6 +264,11 @@
 
         setCountries('en');
 
+        app.defaultCountry={
+            name:'United States',
+            code:'US'
+        };
+
         app.getRandomWord=function(){
             words.get()
             .then(function(res){
