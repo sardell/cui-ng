@@ -1123,7 +1123,7 @@ angular.module('cui-ng')
                             scope.icons[i]='<div class="icon-container"><div class="icon"><img src="' +  stepIcons[i] + '" class="cui-icon-rotate"/></div></div>';
                         }
                         else{
-                            scope.icons[i]='<div class="icon-container"><div class="icon"><cui-icon cui-svg-icon="' + stepIcons[i] + '"></cui-icon></div></div>';
+                            scope.icons[i]='<div class="icon-container"><div class="icon"><cui-icon cui-svg-icon="' + stepIcons[i] + '" svg-class="cui-icon-rotate"></cui-icon></div></div>'; // adding svg-class for now until new wizard is out.
                         }
                     }
                     if(clickableIndicators!==undefined && scope.icons[i]!==undefined){
