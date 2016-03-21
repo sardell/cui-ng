@@ -1,5 +1,5 @@
 angular.module('cui-ng')
-.directive('cuiWizard',['$timeout','$compile','$window','$rootScope','$document',function($timeout,$compile,$window,$rootScope,$document){
+.directive('cuiWizardProto',['$timeout','$compile','$window','$rootScope',function($timeout,$compile,$window,$rootScope){
     return{
         restrict: 'E',
         scope: true,
@@ -10,10 +10,11 @@ angular.module('cui-ng')
                     self=this;
                     Object.keys(self.scope).forEach(function(property){
                         scope[property]=self.scope[property];
-                    }.bind(self));
+                    });
                 },
                 config:{
                     mobileStack:attrs.mobileStack!==undefined,
+                    mobileStackBreakingPoint:parseInt(attrs.mobileStack),
                     clickableIndicators:attrs.clickableIndicators!==undefined,
                     minimumPadding:attrs.minimumPadding || 0,
                     bar:attrs.bar!==undefined
@@ -24,7 +25,6 @@ angular.module('cui-ng')
                     $bar:function(){ return (attrs.bar!==undefined && self.selectors.$steps.length > 0) },
                     $indicatorContainer:angular.element(elem[0].querySelectorAll('indicator-container')),
                     $window:angular.element($window),
-                    $snap:angular.element(document.querySelectorAll('snap-content')),
                     $body:angular.element('body')
                 },
                 helpers:{
@@ -36,8 +36,8 @@ angular.module('cui-ng')
                         return true;
                     },
                     setErrorFieldsToTouched:function(form){
-                        form.$error.forEach(function(fields){
-                            fields.forEach(function(errorField){
+                        angular.forEach(form.$error, function (field) {
+                            angular.forEach(field, function(errorField){
                                 errorField.$setTouched();
                             });
                         });
@@ -52,7 +52,7 @@ angular.module('cui-ng')
                     },
                     getIconMarkup:function(icon){
                         if(!icon) return '';
-                        if(icon.indexOf('.')){ // if it's not an svg
+                        if(icon.indexOf('.')>-1){ // if it's not an svg
                             return String.prototype.concat(
                                 '<div class="icon-container">',
                                     '<div class="icon">',
@@ -72,36 +72,81 @@ angular.module('cui-ng')
                         else return String.prototype.concat('ng-click="goToStep(', stepNumber+1 , (stepState? ','+ stepState : '') , ')" ');
                     },
                     getIndicatorMarkup:function(stepNumber){ // stepNUmber from 0 to numberOfSteps
-                        var step = self.helpers.getStepInfo(stepNumber);
-                        return String.prototype.concat('<span class="step-indicator" ',self.helpers.getNgClickForIndicator(stepNumber,step.state),
-                            '>',step.title,self.helpers.getIconMarkup(step.icon),'</span>')
-                    },
-                    getNgClickForExpandable:function(stepNumber,stepState){
-                        if(!self.config.clickableIndicators) return '';
-                        else return String.prototype.concat('ng-click="goToStep(', stepNumber+1, (stepState? ','+ stepState : '') , ')" ');
+                        var step = self.helpers.getStepInfo(stepNumber),
+                            indicatorClass;
+                        stepNumber+1===self.scope.currentStep ? indicatorClass='active' : stepNumber+1 < self.scope.currentStep ? indicatorClass='visited' : indicatorClass='';
+                        return String.prototype.concat(
+                            '<span class="step-indicator ', indicatorClass,'"',self.helpers.getNgClickForIndicator(stepNumber,step.state),'>',
+                                step.title,self.helpers.getIconMarkup(step.icon),
+                            '</span>');
                     },
                     getIndicatorsWidth:function(){
                         var totalWidth=0;
-                        self.selectors.$indicators.forEach(function(indicator){
-                            totalWidth += indicator.scrollWidth;
+                        self.selectors.$indicators.each(function(i,indicator){
+                            totalWidth += $(this).width();
                         });
                         return totalWidth;
                     },
                     thereIsRoomForIndicators:function(){
                         if((self.helpers.getIndicatorsWidth() + (self.config.minimumPadding * ( self.config.numberOfSteps-1 ))) <
-                            self.selectors.$indicatorContainer.scrollWidth) return true;
+                            self.selectors.$indicatorContainer.width()) return true;
                         return false;
+                    },
+                    debounce:function(func, wait, immediate){
+                        var timeout;
+                        return function() {
+                            var context = this, args = arguments;
+                            var later = function() {
+                                timeout = null;
+                                if (!immediate) {func.apply(context, args);}
+                            };
+                            var callNow = immediate && !timeout;
+                            clearTimeout(timeout);
+                            timeout = setTimeout(later, wait);
+                            if (callNow) func.apply(context, args);
+                        };
+                    },
+                    resizeHandler:function(){
+                        self.helpers.debounce(function(){
+                            self.reRender.bar(self.scope.currentStep);
+                            if(self.helpers.thereIsRoomForIndicators() && self.config.stepsCollapsed) {
+                                self.config.stepsCollapsed=false;
+                                self.selectors.$indicatorContainer.removeClass('small');
+                            }
+                            else if(!self.helpers.thereIsRoomForIndicators() && !self.config.stepsCollapsed) {
+                                self.config.stepsCollapsed=true;
+                                self.selectors.$indicatorContainer.addClass('small');
+                            }
+                            if(self.config.mobileStack && (self.selectors.$window.width()<=self.config.mobileStackBreakingPoint) && !self.config.mobileMode){
+                                self.selectors.$expandables.forEach(function(expandable,e){
+                                    expandable.attr('transition-speed',300);
+                                });
+                                self.config.mobileMode=true;
+                            }
+                            else if(self.config.mobileStack && (self.selectors.$window.width()>self.config.mobileStackBreakingPoint) && self.config.mobileMode){
+                                self.selectors.$expandables.forEach(function(expandable,e){
+                                    expandable.attr('transition-speed',0);
+                                });
+                                self.config.mobileMode=false;
+                            }
+                        },200)();
+                    },
+                    scrollToStep:function(newStep){
+                        var firstExpandableTitle=angular.element(self.selectors.$expandables[0].children()[0]);
+                        var firstExpandableOffset=firstExpandableTitle.offset();
+                        var titleHeight=firstExpandableTitle[0].scrollHeight;
+                        self.selectors.$body.animate({ scrollTop: firstExpandableOffset.top + (titleHeight*(newStep-1)) } ,300,'linear');
                     }
                 },
                 scope:{
                     currentStep:Number(elem[0].attributes.step.value),
                     wizardFinished:false,
-                    next:function(state){ // state is optional.
+                    next:function(state){ // state is optional
                         if(state) self.scope.goToState(state);
-                        else self.update(self.scope.currentStep+1); // TODO Change self to 'update'
+                        else self.update(self.scope.currentStep+1);
                     },
                     nextWithErrorChecking:function(form,state){
-                        if(self.helpers.isFormValid(form)) self.scope.next();
+                        if(self.helpers.isFormValid(form)) self.scope.next(state);
                     },
                     previous:function(state){
                         if(state) self.scope.goToSate(state);
@@ -116,17 +161,41 @@ angular.module('cui-ng')
                         $rootScope.$broadcast('stepChange',{ state:state,element:elem });
                     }
                 },
+                watchers:{
+                    init:function(){
+                        this.windowResize();
+                        this.languageChange();
+                    },
+                    windowResize:function(){
+                        self.selectors.$window.bind('resize',self.helpers.resizeHandler);
+                    },
+                    languageChange:function(){
+                        scope.$on('languageChange',function(){
+                            if(self.helpers.thereIsRoomForIndicators() && self.config.stepsCollapsed) {
+                                self.config.stepsCollapsed=false;
+                                self.selectors.$indicatorContainer.removeClass('small');
+                            }
+                            else if(!self.helpers.thereIsRoomForIndicators() && !self.config.stepsCollapsed) {
+                                self.config.stepsCollapsed=true;
+                                self.selectors.$indicatorContainer.addClass('small');
+                            }
+                            self.reRender.bar(self.scope.currentStep);
+                        })
+                    }
+                },
                 render:{
                     indicators:function(){
                         self.selectors.$steps.each(function(i,step){
                             var indicator = angular.element(self.helpers.getIndicatorMarkup(i)),
                                 compiledIndicator = $compile(indicator)(scope);
                             self.selectors.$indicatorContainer.append(compiledIndicator);
-                        }.bind(self));
+                        });
                         self.selectors.$indicators=angular.element(self.selectors.$indicatorContainer[0].querySelectorAll('.step-indicator'));
                         self.config.numberOfSteps=self.selectors.$indicators.length;
                     },
                     bar:function(){
+                      console.log(self.selectors.$indicators);
+                      $timeout(function(){
                         self.selectors.$indicatorContainer.append('<div class="steps-bar"><div class="steps-bar-fill"></div></div>');
                         self.selectors.$bar=angular.element(self.selectors.$indicatorContainer[0].querySelector('.steps-bar'));
                         self.selectors.$barFill=angular.element(self.selectors.$indicatorContainer[0].querySelector('.steps-bar-fill'));
@@ -136,21 +205,30 @@ angular.module('cui-ng')
                         else {
                             self.selectors.$barFill[0].style.width=self.selectors.$indicators[self.scope.currentStep-1].offsetLeft - (self.selectors.$indicators[0]. scrollWidth/2) + (self.selectors.$indicators[self.scope.currentStep-1].scrollWidth/2) + 'px';
                         }
+                      })
                     },
                     steps:function(){
                         if(!self.config.mobileStack) return;
-                        self.selectors.$mobileExpandables=[];
+                        self.selectors.$expandables=[];
                         self.selectors.$steps.each(function(i,step){
                             var stepInfo=self.helpers.getStepInfo(i);
-                            $(String.prototype.concat(
-                                '<cui-expandable-title class="cui-expandable__title cui-expandable__title--wizard"',
-                                    self.helpers.getNgClickForExpandable(i,stepInfo.state),
-                                '>',stepInfo.title,'</cui-expandable-title>'
-                            )).insertBefore($(this).wrapInner('<cui-expandable-body class="cui-expandable__body cui-expandable__body--wizard"></cui-expandable-body>'));
-
-                            $(this).add($(this)[0].previousSibling).wrapAll('<cui-expandable class="cui-expandable cui-expandable--wizard"></cui-expandable>');
-                            // $compile($(this))(scope); // TODO : is self really needed?
-                            self.selectors.$mobileExpandables.push($(this).parent());
+                            var expandableClass='';
+                            if(self.scope.currentStep===i+1) {
+                                $(this).addClass('active');
+                                expandableClass=' expanded';
+                            }
+                            var expandable=$($compile( // compile a new expandable
+                                String.prototype.concat(
+                                    '<cui-expandable class="cui-expandable cui-expandable--wizard',expandableClass,'" transition-speed="0">',
+                                        '<cui-expandable-title class="cui-expandable__title cui-expandable__title--wizard">',
+                                        self.helpers.getIndicatorMarkup(i),'</cui-expandable-title>',
+                                        '<cui-expandable-body class="cui-expandable__body cui-expandable__body--wizard"></cui-expandable-body>',
+                                    '</cui-expandable>'
+                                )
+                            )(scope));
+                            expandable.insertBefore($(this));
+                            $(this).detach().appendTo(expandable.children()[1]);
+                            self.selectors.$expandables.push($(this).parent().parent());
                         });
                     }
                 },
@@ -164,16 +242,24 @@ angular.module('cui-ng')
                         self.selectors.$indicators[newStep-1].classList.add('active');
                     },
                     steps:function(newStep,oldStep){
-                        self.selectors.$mobileExpandables.forEach(function(expandable,i){
-                            if((i+1) < newStep) expandable.classList.add('visited');
-                            else expandable.classList.remove('visited');
+                        self.selectors.$expandables.forEach(function(expandable,i){
+                            if((i+1) < newStep) $(this).addClass('visited');
+                            else $(this).removeClass('visited');
                         });
-                        self.selectors.$mobileExpandables[oldStep-1].classList.remove('expanded');
-                        self.selectors.$mobileExpandables[newStep-1].classList.add('expanded');
+                        self.selectors.$steps[oldStep-1].classList.remove('active');
+                        self.selectors.$steps[newStep-1].classList.add('active');
+                        self.selectors.$expandables[oldStep-1].removeClass('expanded');
+                        self.selectors.$expandables[newStep-1].addClass('expanded');
                     },
                     indicatorContainer:function(){
-                        if(self.helpers.thereIsRoomForIndicators()) self.selectors.$indicatorContainer.classList.remove('small');
-                        else self.selectors.$indicatorContainer.classList.add('small');
+                        if(self.helpers.thereIsRoomForIndicators() && self.config.stepsCollapsed) {
+                            self.config.stepsCollapsed=false;
+                            self.selectors.$indicatorContainer.addClass('small');
+                        }
+                        else if(!self.helpers.thereIsRoomForIndicators() && !self.config.stepsCollapsed) {
+                            self.config.stepsCollapsed=true;
+                            self.selectors.$indicatorContainer.addClass('small');
+                        }
                     },
                     bar:function(newStep){
                         if(newStep===1) self.selectors.$barFill[0].style.width='0px';
@@ -182,7 +268,8 @@ angular.module('cui-ng')
                         }
                     }
                 },
-                update:function(newStep){
+                update:function(newStep,oldStep){
+                    if(self.config.mobileMode) self.helpers.scrollToStep(newStep);
                     self.reRender.indicators(newStep,self.scope.currentStep);
                     if(self.config.mobileStack) self.reRender.steps(newStep,self.scope.currentStep);
                     if(self.config.bar) self.reRender.bar(newStep);
@@ -191,13 +278,12 @@ angular.module('cui-ng')
                     attrs.$set('step',newStep);
                 }
             };
-
-
             cuiWizard.initScope();
             cuiWizard.render.indicators();
             cuiWizard.render.bar();
-            if( cuiWizard.config.mobileStack ) cuiWizard.render.steps(); // if mobileStack make these expandables
-
+            cuiWizard.render.steps();
+            cuiWizard.watchers.init();
+            cuiWizard.selectors.$window.resize();
         }
     };
 }]);
