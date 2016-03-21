@@ -3,8 +3,8 @@
 
     angular
     .module('app',['translate','ngMessages','cui.authorization','cui-ng','ui.router','snap','LocalStorageModule', 'cui-ng-datafactory'])
-    .run(['LocaleService','$rootScope', '$state', 'cui.authorization.routing','user','$http','$templateCache',
-        function(LocaleService,$rootScope,$state,routing,user,$http,$templateCache){
+    .run(['LocaleService','$rootScope', '$state', 'cui.authorization.routing','user','$http','$templateCache','$cuiIcon',
+        function(LocaleService,$rootScope,$state,routing,user,$http,$templateCache,$cuiIcon){
         $rootScope.$on('$stateChangeStart', function(event, toState, toParams, fromState, fromParams){
             event.preventDefault();
             routing($rootScope, $state, toState, toParams, fromState, fromParams, user.getUser());
@@ -15,10 +15,9 @@
         LocaleService.setLocales('zh','Chinese');
         LocaleService.setLocales('pt','Portuguese');
 
-        var icons=['bower_components/cui-icons/dist/icons/icons-out.svg'];
 
-        angular.forEach(icons,function(icon){
-            $http.get(icon,{
+        angular.forEach($cuiIcon.getIconSets(),function(iconSettings,namespace){
+            $http.get(iconSettings.path,{
                 cache: $templateCache
             });
         });
@@ -97,7 +96,7 @@
             suffix:'.json'
         });
 
-        $cuiIconProvider.iconSet('cui','bower_components/cui-icons/dist/icons/icons-out.svg',48,true);
+        $cuiIconProvider.iconSet('cui','bower_components/cui-icons/dist/icons/icons-out.svg','0 0 48 48');
 
     }])
     .factory('user',['$rootScope',function($rootScope){
