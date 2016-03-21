@@ -5,8 +5,6 @@ angular.module('cui-ng')
         restrict: 'E',
         scope: true,
         link:function(scope,elem,attrs){
-            //init
-
             var numberOfSteps,invalidForm,mobileStack,$steps,bar,$indicatorContainer,clickableIndicators,minimumPadding,
                 snap,$body,$mobileSteps,$cuiExpandableTitle;
 

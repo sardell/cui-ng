@@ -2,16 +2,15 @@ angular.module('cui-ng')
 .directive('cuiExpandable',[function(){
     return{
         restrict:'E',
-        scope: true,
+        scope:true,
         link:function(scope,elem,attrs){
-            var expandableBody=angular.element(elem).children('cui-expandable-body');
-            var transitionSpeed=parseInt(attrs.transitionSpeed || 300);
+            var expandableBody=angular.element(elem[0].querySelector('cui-expandable-body'));
             expandableBody.hide(); // hide the body by default
             var toggleClass=function(){
                 elem.toggleClass('expanded');
             };
             var toggleBody=function(){
-                expandableBody.animate({'height':'toggle'},transitionSpeed,'linear');
+                expandableBody.animate({'height':'toggle'}, parseInt(elem.attr('transition-speed')||300) ,'linear');
             };
 
             scope.toggleExpand=function(){
