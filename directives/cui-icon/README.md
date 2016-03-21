@@ -53,6 +53,6 @@ You can also just set your path directly in cui-icon, if you're not using sprite
 
 ### Optional attributes
 
-`svg-class` whatever you set on this attribute will apply as a `class` attribute on the `svg` element.
-`viewBox` this will override the viewBox property set in your config.
-`preserveAspectRatio` will apply as `preserveAspectRatio` on the `svg` element.
+* `svg-class` whatever you set on this attribute will apply as a `class` attribute on the `svg` element.
+* `viewBox` this will override the viewBox property set in your config.
+* `preserveAspectRatio` will apply as `preserveAspectRatio` on the `svg` element.
