@@ -6,6 +6,7 @@ angular.module('cui-ng')
       constrains: '='
     },
     link : function(scope,elem,attrs){
+      elem[0].classList.add('hide--opacity'); // this fixes the incorrect positioning when it first renders
       $timeout(function(){
         new Tether({
           element: elem,
@@ -17,6 +18,9 @@ angular.module('cui-ng')
           targetModifier: attrs.targetModifier || undefined,
           constrains: scope.constrains || undefined
         });
+      }).
+      then(function(){
+        elem[0].classList.remove('hide--opacity');
       });
     }
   };
