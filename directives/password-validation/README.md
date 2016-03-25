@@ -16,10 +16,12 @@ NOTE: If you need more customized password validation rules use [`custom-error`]
 ng-class="{'error-class': signOn.password.$touched && signOn.password.$invalid}"
 password-validation></input>
 
-<div ng-messages="signOn.password.$error" ng-messages-multiple ng-if="signOn.password.$invalid">
+<div password-popover ng-messages="signOn.password.$error" ng-messages-multiple ng-if="signOn.password.$invalid">
    <div ng-messages-include="assets/angular-templates/password-messages.html"></div>
 </div>
 ```
+Notice how we are passing an attribute of `password-popover` to the ng-messages element. This makes a few helpful scope variables available in that element (more on that below).
+
 (Note: this assumes that you have your input wrapped in a form with `name="signOn"`, however you can name it differentely, just replace every occurence of `signOn` with your new name.)
 
 The div appended with the ng-messages attribute uses the ng-messages directive to display the errors, ng-if ensures that they are only shown when the field is invalid.
@@ -65,6 +67,12 @@ This file will contain the markup shown for each error message. Use this to buil
 <br/> Use this with `complex` (checks if the required number of char classes is met) for more customizable messages.
 (note: `lowercase`,`uppercase`,`special` and `number` will not passed as errors if they are not allowed in the policies. Code your ng-messages markup accordingly.)
 
+### The scope variables available in the password-popover directive are
+
+* `policies` - an object that contains a flattened object with all the password policies provided (ex: policies.min, policies.requiredNumberOfCharClasses)
+* `errors` - an object of errors that mimics the `$error` object on the input that currently has the password-validation
+* `disallowedWords` - a string with the disallowed words the user has put into the input that currently has the password-validation
+* `disallowedChars` - a string with disallowed chars the user has put into the input that currently has the password-validation
 
 ```html
 <div password-popover ng-messages="formName.passwordFieldName.$error" class="cui-error__password" ng-messages-multiple ng-if="formName.passwordFieldName.$invalid">
