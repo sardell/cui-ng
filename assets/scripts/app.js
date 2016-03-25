@@ -149,8 +149,8 @@
             }
         };
     }])
-    .controller('appCtrl',['$rootScope','$state','$stateParams','user','$timeout','localStorageService','$scope','$translate','getCountries','fakeApi','$interval','words',
-    function($rootScope,$state,$stateParams,user,$timeout,localStorageService,$scope,$translate,getCountries,fakeApi,$interval,words){
+    .controller('appCtrl',['$rootScope','$state','$stateParams','user','$timeout','localStorageService','$scope','$translate','getCountries','fakeApi','$interval','words','CuiPasswordPolicies',
+    function($rootScope,$state,$stateParams,user,$timeout,localStorageService,$scope,$translate,getCountries,fakeApi,$interval,words,CuiPasswordPolicies){
         var app=this;
         app.appUser={};
         app.hits=0;
@@ -173,25 +173,27 @@
             app.desktopMenu=!app.desktopMenu;
         }
 
-        app.passwordPolicies=[
-            {
-                'allowUpperChars':true,
-                'allowLowerChars':true,
-                'allowNumChars':true,
-                'allowSpecialChars':true,
-                'requiredNumberOfCharClasses':3
-            },
-            {
-                'disallowedChars':'^&*)(#$'
-            },
-            {
-                'min':8,
-                'max':18
-            },
-            {
-                'disallowedWords':['password','admin']
-            }
-        ];
+        CuiPasswordPolicies.set(
+            [
+                {
+                    'allowUpperChars':true,
+                    'allowLowerChars':true,
+                    'allowNumChars':true,
+                    'allowSpecialChars':true,
+                    'requiredNumberOfCharClasses':3
+                },
+                {
+                    'disallowedChars':'^&*)(#$'
+                },
+                {
+                    'min':8,
+                    'max':18
+                },
+                {
+                    'disallowedWords':['password','admin']
+                }
+            ]
+        );
 
 
         app.checkUsername=function(){
