@@ -185,9 +185,12 @@ angular.module('cui-ng')
                 return CuiPasswordPolicies.get();
             };
             scope.$watch(currentPolicies,function(newPasswordValidationRules){
+              console.log('newrules',newPasswordValidationRules)
                 if(newPasswordValidationRules) {
                     CuiPasswordValidators.setPolicies(newPasswordValidationRules);
-                    ctrl.$validators=CuiPasswordPolicies.getValidators();
+                    angular.forEach(CuiPasswordPolicies.getValidators(),function(checkFunction,validationName){
+                      ctrl.$validators[validationName]=checkFunction;
+                    });
                     ctrl.$validate();
                     CuiPasswordInfo.errors=ctrl.$error;
                 }
