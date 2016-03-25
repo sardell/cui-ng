@@ -11,37 +11,42 @@ NOTE: If you need more customized password validation rules use [`custom-error`]
 
 * You must have the `cui-ng` module injected as a dependency into your angular app
 * Use it in a password input field
-```html  
-<input type="password" name="password" ng-model="app.password" ng-required="true" 
-ng-class="{'error-class': signOn.password.$touched && signOn.password.$invalid}" 
-password-validation="app.passwordPolicies"></input>
+```html
+<input type="password" name="password" ng-model="app.password" ng-required="true"
+ng-class="{'error-class': signOn.password.$touched && signOn.password.$invalid}"
+password-validation></input>
 
-<div ng-messages="signOn.password.$error" ng-messages-multiple ng-if="signOn.password.$invalid">
+<div password-popover ng-messages="signOn.password.$error" ng-messages-multiple ng-if="signOn.password.$invalid">
    <div ng-messages-include="assets/angular-templates/password-messages.html"></div>
 </div>
 ```
+Notice how we are passing an attribute of `password-popover` to the ng-messages element. This makes a few helpful scope variables available in that element (more on that below).
+
 (Note: this assumes that you have your input wrapped in a form with `name="signOn"`, however you can name it differentely, just replace every occurence of `signOn` with your new name.)
 
 The div appended with the ng-messages attribute uses the ng-messages directive to display the errors, ng-if ensures that they are only shown when the field is invalid.
 
-`app.passwordPolicies` is an array that looks like this
+The way you set new password policies is by calling `CuiPasswordPolicies.set` and pass it an array that looks like this (the position of each object in the array does not matter, as long as the keys match)
 ```js
-  app.passwordPolicies=[
-      {
-          'allowUpperChars':true,
-          'allowLowerChars':true,
-          'allowNumChars':true,
-          'allowSpecialChars':true,
-          'requiredNumberOfCharClasses':3
-      },
-      {
-          'disallowedChars':'^&*)(#$'
-      },
-      {
-          'min':8,
-          'max':18
-      }
-  ];
+    CuiPasswordPolicies.set(
+      [
+        {
+            'allowUpperChars':true,
+            'allowLowerChars':true,
+            'allowNumChars':true,
+            'allowSpecialChars':true,
+            'requiredNumberOfCharClasses':3
+        },
+        {
+            'disallowedChars':'^&*)(#$',
+            'disallowedWord':'test'
+        },
+        {
+            'min':8,
+            'max':18
+        }
+    ]
+  };
 ```
 
 
@@ -62,54 +67,67 @@ This file will contain the markup shown for each error message. Use this to buil
 <br/> Use this with `complex` (checks if the required number of char classes is met) for more customizable messages.
 (note: `lowercase`,`uppercase`,`special` and `number` will not passed as errors if they are not allowed in the policies. Code your ng-messages markup accordingly.)
 
+### The scope variables available in the password-popover directive are
+
+* `policies` - an object that contains a flattened object with all the password policies provided (ex: policies.min, policies.requiredNumberOfCharClasses)
+* `errors` - an object of errors that mimics the `$error` object on the input that currently has the password-validation
+* `disallowedWords` - a string with the disallowed words the user has put into the input that currently has the password-validation
+* `disallowedChars` - a string with disallowed chars the user has put into the input that currently has the password-validation
 
 ```html
-<p>Passwords must:</p>
-
-<div ng-message="lowercaseNotAllowed">
-    <div class="circle" ng-class="signOn.password.$error.lowercaseNotAllowed ? '': 'green'"></div>
-    not have any lowercase letters
+<div password-popover ng-messages="formName.passwordFieldName.$error" class="cui-error__password" ng-messages-multiple ng-if="formName.passwordFieldName.$invalid">
+  <!--
+    * I HIGHLY RECOMMEND USING AN NG-INCLUDE FOR THIS
+    * DONE INLINE FOR DEMO PURPOSES ONLY
+  -->
+  <p>Passwords must:</p>
+  <div class="cui-error__message" ng-message="lowercaseNotAllowed">
+      <div class="circle"></div>
+      not have any lowercase letters
+  </div>
+  <div class="cui-error__message" ng-message="uppercaseNotAllowed">
+      <div class="circle"></div>
+      not have any upper case letters
+  </div>
+  <div class="cui-error__message" ng-message="numberNotAllowed">
+      <div class="circle"></div>
+      not have any numbers
+  </div>
+  <div class="cui-error__message" ng-message="specialNotAllowed">
+      <div class="circle"></div>
+      not have any special symbols (ex: ! * + )
+  </div>
+  <div class="cui-error__message" ng-message="disallowedChars">
+      <div class="circle"></div>
+      not contain any of the following chars: {{disallowedChars}}
+  </div>
+  <div class="cui-error__message" ng-message="disallowedWords">
+      <div class="circle"></div>
+      not contain the word(s) {{disallowedWords}}
+  </div>
+  <div class="cui-error__message">
+      <div class="circle" ng-class="{'green': !errors.length}"></div>
+          have between {{policies.min}}-{{policies.max}} characters<br/><br/>
+  </div>
+  <div class="cui-error__message">have {{policies.requiredNumberOfCharClasses}} of the following:<br/>
+      <div class="cui-error__message">
+          <div class="circle" ng-class="{'green': !errors.lowercase}"></div>
+          at least one lower case letter
+      </div>
+      <div class="cui-error__message">
+          <div class="circle" ng-class="{'green': !errors.uppercase}"></div>
+          at least one upper case letter
+      </div>
+      <div class="cui-error__message">
+          <div class="circle" ng-class="{'green': !errors.number}"></div>
+          at least one number
+      </div>
+      <div class="cui-error__message">
+          <div class="circle" ng-class="{'green': !errors.special}"></div>
+          at least 1 special symbol<br/> (ex: ! % ')
+      </div>
+  </div>
 </div>
-<div ng-message="uppercaseNotAllowed">
-    <div class="circle" ng-class="signOn.password.$error.uppercaseNotAllowed ? '': 'green'"></div>
-    not have any upper case letters
-</div>
-<div class="cui-error__message" ng-message="numberNotAllowed">
-    <div class="circle" ng-class="signOn.password.$error.uppercaseNotAllowed ? '': 'green'"></div>
-    not have any numbers
-</div>
-<div class="cui-error__message" ng-message="specialNotAllowed">
-    <div class="circle" ng-class="signOn.password.$error.specialNotAllowed ? '': 'green'"></div>
-    not have any special symbols (ex: ! * + )
-</div>
-<div class="cui-error__message" ng-message="disallowedChars">
-    <div class="circle" ng-class="signOn.password.$error.disallowedChars ? '': 'green'"></div>
-    not contain any of the following chars: ^&*)(#$
-</div>
-
-<div class="cui-error__message">
-    <div class="circle" ng-class="signOn.password.$error.length ? '': 'green'"></div>
-        have between 8-18 characters<br/><br/>
-</div>
-<div class="cui-error__message">have 3 of the following:<br/>
-    <div class="cui-error__message">
-        <div class="circle" ng-class="signOn.password.$error.lowercase ? '': 'green'"></div>
-        at least one lower case letter
-    </div>
-    <div class="cui-error__message">
-        <div class="circle" ng-class="signOn.password.$error.uppercase ? '': 'green'"></div>
-        at least one upper case letter
-    </div>
-    <div class="cui-error__message">
-        <div class="circle" ng-class="signOn.password.$error.number ? '': 'green'"></div>
-        at least one number
-    </div>
-    <div class="cui-error__message">
-        <div class="circle" ng-class="signOn.password.$error.special ? '': 'green'"></div>
-        at least 1 special symbol<br/> (ex: ! * + )
-    </div>
-</div>
-
 
 ```
 
@@ -117,3 +135,7 @@ This file will contain the markup shown for each error message. Use this to buil
 
 * Now accepts the value of `password-validation` passed as a variable directly (`password-validation="app.policies"`) vs. as a pointer to the variable that needs to be compiled and then parsed as a string (`password-validation="{{app.policies}}"`).
 * Fixed attributes passing validation rules when the input was empty and not touched (no more need to set the ng-model to an empty string).
+
+## Change Log 3/25/2015
+
+* You no longer need to pass a password policy array into the directive. Simply call the `CuiPasswordPolicies` factory's method `.set` and pass it the array of password policies. The directive will handle the rest.
