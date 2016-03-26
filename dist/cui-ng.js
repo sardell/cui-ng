@@ -1976,27 +1976,28 @@ angular.module('cui-ng')
         disallowedChars: function(modelValue,viewValue){
             if(!viewValue) return true;
             var valid=true;
-            CuiPasswordInfo.disallowedChars=[];
+            var disallowedChars=[];
             policies.disallowedChars.split('').forEach(function(disallowedChar){
                 if(viewValue.indexOf(disallowedChar)>-1){
-                    valid=false;
-                    CuiPasswordInfo.disallowedChars.push(disallowedChar);
+                    if(valid) valid=false;
+                    disallowedChars.push(disallowedChar);
                 }
             });
-            var regExp=new RegExp('['+RegExp.escape(policies.disallowedChars)+']','g');
-            return !regExp.test(viewValue);
+            CuiPasswordInfo.disallowedChars=disallowedChars.join(', ');
+            return valid;
         },
         disallowedWords: function(modelValue,viewValue){
             // var regExpString='';
             if(!viewValue) return true;
             var valid=true;
-            CuiPasswordInfo.disallowedWords=[];
+            var disallowedWords=[];
             policies.disallowedWords.forEach(function(word){
                 if(viewValue.toUpperCase().indexOf(word.toUpperCase())>-1){
-                    valid=false;
-                    CuiPasswordInfo.disallowedWords.push(word);
+                    if(valid) valid=false;
+                    disallowedWords.push(word);
                 }
             });
+            CuiPasswordInfo.disallowedWords=disallowedWords.join(', ');
             return valid;
         },
         length: function(modelValue,viewValue){
@@ -2006,7 +2007,7 @@ angular.module('cui-ng')
     };
     return validators;
 }])
-.factory('CuiPasswordPolicies',['CuiPasswordValidators',function(CuiPasswordValidators){
+.factory('CuiPasswordPolicies',['CuiPasswordValidators','CuiPasswordInfo',function(CuiPasswordValidators,CuiPasswordInfo){
     var policies;
     var parsedPolicies={};
     var policy={
@@ -2026,7 +2027,7 @@ angular.module('cui-ng')
                 });
             }
             else angular.copy(policies,parsedPolicies);
-            return parsedPolicies;
+            CuiPasswordInfo.policies=parsedPolicies;
         },
         getValidators: function(){
             var validators={};
@@ -2086,17 +2087,15 @@ angular.module('cui-ng')
     };
     return policy;
 }])
-.directive('passwordValidation', ['CuiPasswordPolicies','CuiPasswordValidators','CuiPasswordInfo',function(CuiPasswordPolicies,CuiPasswordValidators,CuiPasswordInfo){
+.directive('passwordValidation', ['CuiPasswordPolicies','CuiPasswordValidators','CuiPasswordInfo','$rootScope',function(CuiPasswordPolicies,CuiPasswordValidators,CuiPasswordInfo,$rootScope){
     return {
         require: 'ngModel',
         scope: {},
         restrict: 'A',
         link: function(scope, elem, attrs, ctrl){
-            function currentPolicies() {
-                return CuiPasswordPolicies.get();
-            };
-            scope.$watch(currentPolicies,function(newPasswordValidationRules){
-              console.log('newrules',newPasswordValidationRules)
+            function getCurrentPasswordPolicies(){ return CuiPasswordInfo.policies };
+
+            scope.$watch(getCurrentPasswordPolicies,function(newPasswordValidationRules){
                 if(newPasswordValidationRules) {
                     CuiPasswordValidators.setPolicies(newPasswordValidationRules);
                     angular.forEach(CuiPasswordPolicies.getValidators(),function(checkFunction,validationName){
@@ -2105,39 +2104,28 @@ angular.module('cui-ng')
                     ctrl.$validate();
                     CuiPasswordInfo.errors=ctrl.$error;
                 }
+            },function(newObj,oldObj){
+                return Object.keys(newObj).length!==Object.keys(oldObj).length;
             });
         }
     };
 }])
-.directive('passwordPopover',['CuiPasswordPolicies','CuiPasswordInfo',function(CuiPasswordPolicies,CuiPasswordInfo){
+.directive('passwordPopover',['CuiPasswordInfo',function(CuiPasswordInfo){
     return {
         scope:true,
         restrict: 'A',
         link:function(scope,elem,attrs){
-            function currentPolicies() {
-                return CuiPasswordPolicies.get();
-            };
+            function getCurrentPasswordInfo(){ return CuiPasswordInfo };
 
-            function currentErrors(){
-                return CuiPasswordInfo;
-            };
-
-            scope.$watch(currentPolicies,function(newPasswordValidationRules){
-                if(newPasswordValidationRules) {
-                    scope.policies=newPasswordValidationRules;
-                }
-            });
-
-            scope.$watch(currentErrors,function(newErrorObject){
-                if(newErrorObject){
-                    Object.keys(newErrorObject).forEach(function(errorKey){
-                        if(newErrorObject[errorKey].length===1 || newErrorObject[errorKey].length>1){ // if it's an array it's either an array of words or chars
-                            scope[errorKey]=newErrorObject[errorKey].join(', ');
-                        }
-                        else scope[errorKey]=newErrorObject[errorKey]; // else it's an object.
+            scope.$watch(getCurrentPasswordInfo,function(newPasswordInfo){
+                if(newPasswordInfo){
+                    Object.keys(newPasswordInfo).forEach(function(key){
+                        scope[key]=newPasswordInfo[key];
                     });
                 }
-            },true);
+            },function(newObj,oldObj){
+                return !angular.equals(newObj,oldObj);
+            });
         }
     };
 }]);

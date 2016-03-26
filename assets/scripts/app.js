@@ -173,27 +173,30 @@
             app.desktopMenu=!app.desktopMenu;
         }
 
-        CuiPasswordPolicies.set(
-            [
-                {
-                    'allowUpperChars':true,
-                    'allowLowerChars':true,
-                    'allowNumChars':true,
-                    'allowSpecialChars':true,
-                    'requiredNumberOfCharClasses':3
-                },
-                {
-                    'disallowedChars':'^&*)(#$'
-                },
-                {
-                    'min':8,
-                    'max':18
-                },
-                {
-                    'disallowedWords':['password','admin']
-                }
-            ]
-        );
+        app.passwordPolicies={};
+        app.passwordPolicies.disallowedWords='admin,password';
+        app.passwordPolicies.disallowedChars='^%';
+        app.passwordPolicies.allowUpperChars=true;
+        app.passwordPolicies.allowLowerChars=true;
+        app.passwordPolicies.allowNumChars=true;
+        app.passwordPolicies.allowSpecialChars=true;
+        app.passwordPolicies.requiredNumberOfCharClasses=2;
+        app.passwordPolicies.min=6,
+        app.passwordPolicies.max=8,
+
+        $scope.$watch('app.passwordPolicies',function(newPolicies,oldPolicies){
+            if(newPolicies) CuiPasswordPolicies.set([{
+            allowUpperChars:app.passwordPolicies.allowUpperChars,
+            allowLowerChars:app.passwordPolicies.allowLowerChars,
+            allowNumChars:app.passwordPolicies.allowNumChars,
+            allowSpecialChars:app.passwordPolicies.allowSpecialChars,
+            requiredNumberOfCharClasses:app.passwordPolicies.requiredNumberOfCharClasses,
+            disallowedChars:app.passwordPolicies.disallowedChars,
+            min:app.passwordPolicies.min,
+            max:app.passwordPolicies.max,
+            disallowedWords:app.passwordPolicies.disallowedWords.split(',')
+        }]);
+        },true);
 
 
         app.checkUsername=function(){
