@@ -1,8 +1,7 @@
 #!/bin/bash
-nvm install
 nvm use
 npm install
-npm rebuild
+npm update
 bower install
 bower update
 grunt build
