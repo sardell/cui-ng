@@ -6,7 +6,7 @@ angular.module('cui-ng')
         scope: true,
         link:function(scope,elem,attrs){
             var numberOfSteps,invalidForm,mobileStack,$steps,bar,$indicatorContainer,clickableIndicators,minimumPadding,
-                snap,$body,$mobileSteps,$cuiExpandableTitle;
+                snap,$body,$mobileSteps,$cuiExpandableTitle,$stepIndicatorContainer;
 
             var init = function(){
                 invalidForm=[];
@@ -15,6 +15,8 @@ angular.module('cui-ng')
                 numberOfSteps=$steps.length;
                 bar=(attrs.bar!==undefined && numberOfSteps!==1);
                 $indicatorContainer=angular.element(elem[0].querySelector('indicator-container'));
+                $indicatorContainer.append('<div class="cui-steps"></div>');
+                $stepIndicatorContainer=angular.element($indicatorContainer[0].querySelector('.cui-steps'));
                 $window=angular.element($window);
                 scope.currentStep=Number(elem[0].attributes.step.value);
                 clickableIndicators=attrs.clickableIndicators;
@@ -133,7 +135,7 @@ angular.module('cui-ng')
                         '</span>');
                     }
                     var compiled=$compile(div)(scope);
-                    angular.element($indicatorContainer).append(compiled);
+                    $stepIndicatorContainer.append(compiled);
                 });
                 scope.$indicators=angular.element(elem[0].querySelectorAll('.step-indicator'));
             },

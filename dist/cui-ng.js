@@ -1017,7 +1017,7 @@ angular.module('cui-ng')
         scope: true,
         link:function(scope,elem,attrs){
             var numberOfSteps,invalidForm,mobileStack,$steps,bar,$indicatorContainer,clickableIndicators,minimumPadding,
-                snap,$body,$mobileSteps,$cuiExpandableTitle;
+                snap,$body,$mobileSteps,$cuiExpandableTitle,$stepIndicatorContainer;
 
             var init = function(){
                 invalidForm=[];
@@ -1026,6 +1026,8 @@ angular.module('cui-ng')
                 numberOfSteps=$steps.length;
                 bar=(attrs.bar!==undefined && numberOfSteps!==1);
                 $indicatorContainer=angular.element(elem[0].querySelector('indicator-container'));
+                $indicatorContainer.append('<div class="cui-steps"></div>');
+                $stepIndicatorContainer=angular.element($indicatorContainer[0].querySelector('.cui-steps'));
                 $window=angular.element($window);
                 scope.currentStep=Number(elem[0].attributes.step.value);
                 clickableIndicators=attrs.clickableIndicators;
@@ -1144,7 +1146,7 @@ angular.module('cui-ng')
                         '</span>');
                     }
                     var compiled=$compile(div)(scope);
-                    angular.element($indicatorContainer).append(compiled);
+                    $stepIndicatorContainer.append(compiled);
                 });
                 scope.$indicators=angular.element(elem[0].querySelectorAll('.step-indicator'));
             },
@@ -1505,12 +1507,14 @@ angular.module('cui-ng')
                 },
                 render:{
                     indicators:function(){
+                        self.selectors.$indicatorContainer.append('<div class="cui-steps"></div>');
+                        self.selectors.$stepIndicatorContainer=angular.element(self.selectors.$indicatorContainer[0].querySelector('.cui-steps'));
                         self.selectors.$steps.each(function(i,step){
                             var indicator = angular.element(self.helpers.getIndicatorMarkup(i)),
                                 compiledIndicator = $compile(indicator)(scope);
-                            self.selectors.$indicatorContainer.append(compiledIndicator);
+                            self.selectors.$stepIndicatorContainer.append(compiledIndicator);
                         });
-                        self.selectors.$indicators=angular.element(self.selectors.$indicatorContainer[0].querySelectorAll('.step-indicator'));
+                        self.selectors.$indicators=angular.element(self.selectors.$stepIndicatorContainer[0].querySelectorAll('.step-indicator'));
                         self.config.numberOfSteps=self.selectors.$indicators.length;
                     },
                     bar:function(){

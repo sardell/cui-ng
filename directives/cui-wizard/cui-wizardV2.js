@@ -185,12 +185,14 @@ angular.module('cui-ng')
                 },
                 render:{
                     indicators:function(){
+                        self.selectors.$indicatorContainer.append('<div class="cui-steps"></div>');
+                        self.selectors.$stepIndicatorContainer=angular.element(self.selectors.$indicatorContainer[0].querySelector('.cui-steps'));
                         self.selectors.$steps.each(function(i,step){
                             var indicator = angular.element(self.helpers.getIndicatorMarkup(i)),
                                 compiledIndicator = $compile(indicator)(scope);
-                            self.selectors.$indicatorContainer.append(compiledIndicator);
+                            self.selectors.$stepIndicatorContainer.append(compiledIndicator);
                         });
-                        self.selectors.$indicators=angular.element(self.selectors.$indicatorContainer[0].querySelectorAll('.step-indicator'));
+                        self.selectors.$indicators=angular.element(self.selectors.$stepIndicatorContainer[0].querySelectorAll('.step-indicator'));
                         self.config.numberOfSteps=self.selectors.$indicators.length;
                     },
                     bar:function(){
