@@ -107,7 +107,7 @@
             setUser:function(user){
                 $rootScope.appUser=user;
             }
-       }
+       };
     }])
     .factory('getCountries',['$http',function($http){
         return function(locale){
@@ -129,7 +129,7 @@
                 $rootScope.cui.handleAuthResponse();
             }
 
-        }
+        };
     }])
     .factory('fakeApi',['$q','$timeout',function($q,$timeout){
         return {
@@ -140,7 +140,7 @@
                 },600);
                 return deferred.promise;
             }
-        }
+        };
     }])
     .factory('words',['$http',function($http){
         return {
@@ -173,13 +173,13 @@
                 app.missed=false;
                 app.hits=((app.hits || 0)+1);
             }
-        }
+        };
 
         app.desktopMenu=true;
 
         app.toggleDestkopMenu= function(){
             app.desktopMenu=!app.desktopMenu;
-        }
+        };
 
         app.passwordPolicies={};
         app.passwordPolicies.disallowedWords='admin,password';
@@ -214,7 +214,7 @@
                 app.usernameAvailable=res;
                 app.checkingUsername=false;
             })
-        }
+        };
 
         app.customErrors=[
             {
@@ -250,12 +250,12 @@
         app.stopGame=function(){
             $interval.cancel(timer);
             timer=undefined;
-        }
+        };
 
         app.restartGame=function(){
             app.gameStarted=false;
             app.startGame();
-        }
+        };
 
         var setCountries=function(language){
             if(language.indexOf('_')>-1){
@@ -268,7 +268,7 @@
             .catch(function(err){
                 console.log(err);
             });
-        }
+        };
 
         $scope.$on('languageChange',function(e,args){
             setCountries(args);
@@ -286,14 +286,14 @@
             .then(function(res){
                 app.random2=res.data;
             });
-        }
+        };
 
         app.testCallback=function(){
             console.log('hi!');
-        }
+        };
 
         app.buildEntitlements=function(){
-            if(Object.keys(app.entitlements).length===0){
+            if(Object.keys(app.entitlements || {}).length===0){
                 app.userEntitlements=[];
             }
             else{
@@ -307,6 +307,7 @@
                 app.userEntitlements=entitlements;
             }
         };
+        app.buildEntitlements();
 
         app.onEdit=function(value){
             if(!angular.isDefined(value)){
