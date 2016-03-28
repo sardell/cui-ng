@@ -1,0 +1,39 @@
+.avatar{
+    width:50px;
+    height:50px;
+    border-radius:50%;
+    overflow:hidden;
+    position:relative;
+    margin:20px;
+}
+
+.avatar-color1{
+    background:skyblue;
+}
+
+.avatar-color2{
+    background:#81F7BE;
+}
+
+.avatar-color3{
+    background:#81F7BE;
+}
+
+.cui-avatar__image-container{
+    width:100%;
+    height:100%;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size:cover;
+}
+
+.cui-avatar__initials{
+    position:absolute;
+    top:50%;
+    left:50%;
+    transform:translate(-50%,-50%);
+    font-size:20px;
+    font-weight: bold;
+    color:white;
+}
+

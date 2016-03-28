@@ -152,7 +152,14 @@
     .controller('appCtrl',['$rootScope','$state','$stateParams','user','$timeout','localStorageService','$scope','$translate','getCountries','fakeApi','$interval','words','CuiPasswordPolicies',
     function($rootScope,$state,$stateParams,user,$timeout,localStorageService,$scope,$translate,getCountries,fakeApi,$interval,words,CuiPasswordPolicies){
         var app=this;
-        app.appUser={};
+        app.appUser={
+            names:['Bill','Murray']
+        };
+
+        $timeout(function(){
+            app.appUser.avatar='https://www.fillmurray.com/140/100'
+        },1500);
+
         app.hits=0;
 
         app.routes=['cui-avatar','cui-wizard','cui-expandable','off-click','password-validation','tags-input','match','custom-error',

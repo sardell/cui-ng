@@ -146,3 +146,7 @@ Cui-wizard will also listen for `'languageChange'` broadcasts on scope, and will
 ## Change Log 2/2/2016
 
 * Now only renders progress bar between steps if there's more than 1 step (you shouldn't be using this directive if you only have 1 step, but in the case that maybe you're dinamically assigning steps this might be useful)
+
+## Change Log 3/28/2016
+
+* Adds `.cui-steps` wrapper to the step-indicators to fix an issue where in IE and firefox the absolutely positioned bar would be taken into account for space-between.
