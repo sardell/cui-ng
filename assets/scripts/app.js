@@ -153,7 +153,8 @@
     function($rootScope,$state,$stateParams,user,$timeout,localStorageService,$scope,$translate,getCountries,fakeApi,$interval,words,CuiPasswordPolicies){
         var app=this;
         app.appUser={
-            names:['Bill','Murray']
+            names:['Bill','Murray'],
+            email:'orin.fink@thirdwavellc.com'
         };
 
         $timeout(function(){

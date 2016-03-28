@@ -873,12 +873,13 @@ angular.module('cui-ng')
 
 
 angular.module('cui-ng')
-.directive('cuiAvatar',['$timeout',function($timeout){
+.directive('cuiAvatar',['$timeout','$http',function($timeout,$http){
     return{
         restrict: 'A',
         scope:{
             cuiAvatar:'=',
-            cuiAvatarNames:'='
+            cuiAvatarNames:'=',
+            cuiAvatarEmail:'='
         },
         link:function(scope,elem,attrs){
             var self;
@@ -890,7 +891,6 @@ angular.module('cui-ng')
                     $elem:angular.element(elem[0])
                 },
                 config:{
-                    cuiAvatarNames:attrs.cuiAvatarNames || false,
                     colorClassPrefix:attrs.cuiAvatarColorClassPrefix || false,
                     colorCount:attrs.cuiAvatarColorCount || 0
                 },
@@ -918,7 +918,7 @@ angular.module('cui-ng')
                         }
                     },
                     initials:function(){
-                        if (!self.config.cuiAvatarNames) return;
+                        if (!scope.cuiAvatarNames) return;
                         var name=function(){
                             var nameToDisplay='';
                             scope.cuiAvatarNames.forEach(function(name){
@@ -931,14 +931,29 @@ angular.module('cui-ng')
                         self.selectors.$initials[0].innerHTML=name();
                     },
                     image:function(){
-                        if(!scope.cuiAvatar) return;
-                        var image=new Image();
-                        image.src=scope.cuiAvatar;
-                        image.onload=$timeout(function(){
+                        function applyImage(imgSrc){
+                            $timeout(function(){
                                 self.selectors.$elem[0].innerHTML='<div class="cui-avatar__image-container"></div>';
                                 self.selectors.$image=angular.element(elem[0].querySelector('.cui-avatar__image-container'));
-                                self.selectors.$image[0].style.backgroundImage=String.prototype.concat('url("',scope.cuiAvatar,'")');
-                        });
+                                self.selectors.$image[0].style.backgroundImage=String.prototype.concat('url("',imgSrc,'")');
+                            });
+                        };
+                        var img=new Image();
+                        if(scope.cuiAvatar){
+                            img.src=scope.cuiAvatar;
+                            img.onload=applyImage(img.src);
+                        }
+                        else if (scope.cuiAvatarEmail){
+                            // This is giving back "No access control allow origin"
+                            // var hashedEmail=md5(scope.cuiAvatarEmail);
+                            // $http.get('https://www.gravatar.com/'+hashedEmail+'.json')
+                            // .then(function(res){
+                            //     console.log(res);
+                            // })
+                            // img.src='https://www.gravatar.com/avatar/'+hashedEmail;
+                            // img.onload=applyImage(img.src);
+                        }
+                        else return;
                     }
                 },
                 update:function(){
