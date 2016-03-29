@@ -2051,7 +2051,7 @@ angular.module('cui-ng')
             return !(/.*[0-9].*/.test(viewValue));
         },
         specialNotAllowed: function(modelValue,viewValue){
-            return !(/^[a-z0-9]+$/i.test(viewValue));
+            return /^[a-z0-9]+$/i.test(viewValue);
         },
         disallowedChars: function(modelValue,viewValue){
             if(!viewValue) return true;
