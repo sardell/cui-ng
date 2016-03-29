@@ -3274,7 +3274,7 @@ angular.module('cui-ng')
   };
 }]);
 
-angular.module('app')
+angular.module('cui-ng')
 .directive('uiSrefActiveNested',['$state',function($state){
     return{
         restrict:'A',
