@@ -18,7 +18,7 @@ angular.module('cui-ng')
             if (/.*[A-Z].*/.test(viewValue)) numberOfUsedClasses++;
         }
         if(policies.allowSpecialChars){
-            if (/[-!$%^&*()_+|~=`{}\[\]:";'<>?,.\/]/.test(viewValue)) numberOfUsedClasses++;
+            if (!(/^[a-z0-9]+$/i.test(viewValue))) numberOfUsedClasses++;
         }
         if(policies.allowNumChars){
             if (/.*[0-9].*/.test(viewValue)) numberOfUsedClasses++;
@@ -47,7 +47,7 @@ angular.module('cui-ng')
         special: function(modelValue,viewValue){
             if(!modelValue) return false;
             if(complex(modelValue,viewValue)) return true;
-            return /[-!$%^&*()_+|~=`{}\[\]:";'<>?,.\/]/.test(viewValue);
+            return !(/^[a-z0-9]+$/i.test(viewValue));
         },
         complex: complex,
         lowercaseNotAllowed: function(modelValue,viewValue){
@@ -60,7 +60,7 @@ angular.module('cui-ng')
             return !(/.*[0-9].*/.test(viewValue));
         },
         specialNotAllowed: function(modelValue,viewValue){
-            return !(/[-!$%^&*()_+|~=`{}\[\]:";'<>?,.\/]/.test(viewValue));
+            return !(/^[a-z0-9]+$/i.test(viewValue));
         },
         disallowedChars: function(modelValue,viewValue){
             if(!viewValue) return true;
