@@ -1055,7 +1055,6 @@ angular.module('cui-ng')
                 preserveaspectratio,
                 svgClass,
                 path;
-                console.log(attrs);
 
             attrs.preserveaspectratio ? preserveaspectratio=' preserveAspectRatio="' + attrs.preserveaspectratio + '" ' : preserveaspectratio='';
             attrs.svgClass? svgClass=' class="' + attrs.svgClass + '" ' : svgClass='';
