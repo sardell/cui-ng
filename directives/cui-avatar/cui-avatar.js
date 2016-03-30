@@ -1,5 +1,5 @@
 angular.module('cui-ng')
-.directive('cuiAvatar',['$timeout','$http',function($timeout,$http){
+.directive('cuiAvatar',['$timeout','$http','$filter',function($timeout,$http,$filter){
     return{
         restrict: 'A',
         scope:{
@@ -18,7 +18,9 @@ angular.module('cui-ng')
                 },
                 config:{
                     colorClassPrefix:attrs.cuiAvatarColorClassPrefix || false,
-                    colorCount:attrs.cuiAvatarColorCount || 0
+                    colorCount:attrs.cuiAvatarColorCount || 0,
+                    cuiI18nFilter:angular.isDefined(attrs.cuiAvatarCuii18nFilter) || false,
+                    maxNumberOfInitials: attrs.cuiAvatarMaxNumInitials || 2
                 },
                 watchers:function(){
                     scope.$watch('cuiAvatar',function(newAvatar){
@@ -44,11 +46,15 @@ angular.module('cui-ng')
                         }
                     },
                     initials:function(){
+
                         if (!scope.cuiAvatarNames) return;
                         var name=function(){
-                            var nameToDisplay='';
-                            scope.cuiAvatarNames.forEach(function(name){
-                                nameToDisplay+=name[0];
+                            var name,nameToDisplay='';
+                            if(self.config.cuiI18nFilter){
+                                name=$filter('cuiI18n')(scope.cuiAvatarNames).split(' ')
+                            }
+                            (name || scope.cuiAvatarNames).forEach(function(name,i){
+                                if(i<self.config.maxNumberOfInitials)nameToDisplay+=name[0].toUpperCase();
                             });
                             return nameToDisplay;
                         };

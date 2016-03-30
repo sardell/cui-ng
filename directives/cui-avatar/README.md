@@ -21,3 +21,9 @@ Cui-avatar is a directive that inserts the user's avatar into the background of 
 ## Change Log 3/28/2016
 
 * Major re-work; Now accepts the user's names and displays his initials until his avatar is loaded.
+
+## Change Log 3/30/2016
+
+* New optional attributes:
+   * `cui-avatar-cuiI18n-filter` - if cui-avatar-names is an array of internationalized languages pass this attribute.
+   * `cui-avatar-max-num-initials` - the max number of initials to display (by default is 2).
