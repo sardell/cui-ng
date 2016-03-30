@@ -8,6 +8,7 @@ angular.module('cui-ng')
             cuiAvatarEmail:'='
         },
         link:function(scope,elem,attrs){
+          console.log(scope.cuiAvatarEmail);
             var self;
             var cuiAvatar={
                 initScope:function(){
@@ -23,16 +24,21 @@ angular.module('cui-ng')
                     maxNumberOfInitials: attrs.cuiAvatarMaxNumInitials || 2
                 },
                 watchers:function(){
-                    scope.$watch('cuiAvatar',function(newAvatar){
-                        if(newAvatar){
+                   scope.$watch('cuiAvatar',function(newAvatar){
+                       if(newAvatar){
+                           self.update();
+                       }
+                   });
+                    scope.$watch('cuiAvatarNames',function(newNameArray){
+                       if(newNameArray){
+                           self.update();
+                       }
+                   });
+                   scope.$watch('cuiAvatarEmail',function(newEmail){
+                        if(newEmail){
                             self.update();
                         }
-                    });
-                     scope.$watch('cuiAvatarNames',function(newNameArray){
-                        if(newNameArray){
-                            self.update();
-                        }
-                    });
+                   });
                 },
                 render:{
                     nameBackground:function(){
@@ -46,7 +52,6 @@ angular.module('cui-ng')
                         }
                     },
                     initials:function(){
-
                         if (!scope.cuiAvatarNames) return;
                         var name=function(){
                             var name,nameToDisplay='';
@@ -54,7 +59,7 @@ angular.module('cui-ng')
                                 name=$filter('cuiI18n')(scope.cuiAvatarNames).split(' ')
                             }
                             (name || scope.cuiAvatarNames).forEach(function(name,i){
-                                if(i<self.config.maxNumberOfInitials)nameToDisplay+=name[0].toUpperCase();
+                                if(i<self.config.maxNumberOfInitials) nameToDisplay+=name[0].toUpperCase();
                             });
                             return nameToDisplay;
                         };
@@ -64,26 +69,22 @@ angular.module('cui-ng')
                     },
                     image:function(){
                         function applyImage(imgSrc){
-                            $timeout(function(){
-                                self.selectors.$elem[0].innerHTML='<div class="cui-avatar__image-container"></div>';
-                                self.selectors.$image=angular.element(elem[0].querySelector('.cui-avatar__image-container'));
-                                self.selectors.$image[0].style.backgroundImage=String.prototype.concat('url("',imgSrc,'")');
-                            });
+                            self.selectors.$elem[0].innerHTML='<div class="cui-avatar__image-container"></div>';
+                            self.selectors.$image=angular.element(elem[0].querySelector('.cui-avatar__image-container'));
+                            self.selectors.$image[0].style.backgroundImage=String.prototype.concat('url("',imgSrc,'")');
                         };
                         var img=new Image();
-                        if(scope.cuiAvatar){
+                        if(scope.cuiAvatar && scope.cuiAvatar!==''){
                             img.src=scope.cuiAvatar;
                             img.onload=applyImage(img.src);
                         }
                         else if (scope.cuiAvatarEmail){
-                            // This is giving back "No access control allow origin"
-                            // var hashedEmail=md5(scope.cuiAvatarEmail);
-                            // $http.get('https://www.gravatar.com/'+hashedEmail+'.json')
-                            // .then(function(res){
-                            //     console.log(res);
-                            // })
-                            // img.src='https://www.gravatar.com/avatar/'+hashedEmail;
-                            // img.onload=applyImage(img.src);
+                            var hashedEmail=md5(scope.cuiAvatarEmail);
+                            $http.get('https://www.gravatar.com/avatar/'+hashedEmail+'?d=404') // ?d=404 tells gravatar not to give me a default gravatar
+                            .then(function(res){ // If the user has a gravatar account and has set a picture
+                                img.src='https://www.gravatar.com/avatar/'+hashedEmail;
+                                img.onload=applyImage(img.src);
+                            });
                         }
                         else return;
                     }

@@ -27,3 +27,4 @@ Cui-avatar is a directive that inserts the user's avatar into the background of 
 * New optional attributes:
    * `cui-avatar-cuiI18n-filter` - if cui-avatar-names is an array of internationalized languages pass this attribute.
    * `cui-avatar-max-num-initials` - the max number of initials to display (by default is 2).
+* Now takes a user's email ( with the cui-avatar-email attribute ), if that user has a gravatar account and a custom avatar set, it will use that avatar as the image to display.
