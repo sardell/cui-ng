@@ -54,12 +54,12 @@ angular.module('cui-ng')
                     initials:function(){
                         if (!scope.cuiAvatarNames) return;
                         var name=function(){
-                            var name,nameToDisplay='';
+                            var internationalizedName,nameToDisplay='';
                             if(self.config.cuiI18nFilter){
-                                name=$filter('cuiI18n')(scope.cuiAvatarNames).split(' ')
+                                internationalizedName=$filter('cuiI18n')(scope.cuiAvatarNames).split(' ')
                             }
-                            (name || scope.cuiAvatarNames).forEach(function(name,i){
-                                if(i<self.config.maxNumberOfInitials) nameToDisplay+=name[0].toUpperCase();
+                            (internationalizedName || scope.cuiAvatarNames).forEach(function(nameSection,i){
+                                if(i<self.config.maxNumberOfInitials) nameToDisplay+=nameSection[0].toUpperCase();
                             });
                             return nameToDisplay;
                         };
