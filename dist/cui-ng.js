@@ -882,7 +882,6 @@ angular.module('cui-ng')
             cuiAvatarEmail:'='
         },
         link:function(scope,elem,attrs){
-          console.log(scope.cuiAvatarEmail);
             var self;
             var cuiAvatar={
                 initScope:function(){
