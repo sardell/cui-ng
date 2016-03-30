@@ -1052,11 +1052,12 @@ angular.module('cui-ng')
         link:function(scope,elem,attrs){
             var icon=attrs.cuiSvgIcon,
                 viewBox,
-                preserveAspectRatio,
+                preserveaspectratio,
                 svgClass,
                 path;
+                console.log(attrs);
 
-            attrs.preserveAspectRatio ? preserveAspectRatio=' preserveAspectRatio="' + attrs.preserveAspectRatio + '" ' : preserveAspectRatio='';
+            attrs.preserveaspectratio ? preserveaspectratio=' preserveAspectRatio="' + attrs.preserveaspectratio + '" ' : preserveaspectratio='';
             attrs.svgClass? svgClass=' class="' + attrs.svgClass + '" ' : svgClass='';
             attrs.viewBox? viewBox=' viewBox="' + attrs.viewBox + '" ' : viewBox='';
 
@@ -1074,7 +1075,7 @@ angular.module('cui-ng')
             else console.log('You need to define a cui-svg-icon attribute for cui-icon');
             var newSvg=$(
                 String.prototype.concat(
-                    '<svg xmlns="http://www.w3.org/2000/svg" ', preserveAspectRatio , svgClass, viewBox,'>',
+                    '<svg xmlns="http://www.w3.org/2000/svg" ', preserveaspectratio , svgClass, viewBox,'>',
                         '<use xlink:href="', path ,'"></use>',
                     '</svg>'
                 )
