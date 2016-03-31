@@ -924,28 +924,40 @@ angular.module('cui-ng')
                             self.selectors.$elem[0].classList.add(self.config.colorClassPrefix+classNumberToApply);
                         }
                     },
-                    initials:function(){
-                        if (!scope.cuiAvatarNames) return;
-                        var name=function(){
-                            var internationalizedName,nameToDisplay='';
-                            if(self.config.cuiI18nFilter){
-                                internationalizedName=$filter('cuiI18n')(scope.cuiAvatarNames).split(' ')
+
+                    initials:function() {
+                        if (!scope.cuiAvatarNames) {
+                            return;
+                        }
+                        var name = function() {
+                            var internationalizedName, nameToDisplay = '';
+
+                            if (self.config.cuiI18nFilter) {
+                                internationalizedName = $filter('cuiI18n')(scope.cuiAvatarNames).split(' ');
                             }
-                            (internationalizedName || scope.cuiAvatarNames).forEach(function(nameSection,i){
-                                if(i<self.config.maxNumberOfInitials) nameToDisplay+=nameSection[0].toUpperCase();
+
+                            (internationalizedName || scope.cuiAvatarNames).forEach(function(nameSection, i) {
+                                if (i < self.config.maxNumberOfInitials) {
+                                    if (!nameSection) {
+                                        return;
+                                    }
+                                    nameToDisplay += nameSection[0].toUpperCase();
+                                }
                             });
                             return nameToDisplay;
                         };
-                        self.selectors.$elem[0].innerHTML='<div class="cui-avatar__initials"></div>';
-                        self.selectors.$initials=angular.element(elem[0].querySelector('.cui-avatar__initials'));
-                        self.selectors.$initials[0].innerHTML=name();
+
+                        self.selectors.$elem[0].innerHTML = '<div class="cui-avatar__initials"></div>';
+                        self.selectors.$initials = angular.element(elem[0].querySelector('.cui-avatar__initials'));
+                        self.selectors.$initials[0].innerHTML = name();
                     },
+
                     image:function(){
                         function applyImage(imgSrc){
                             self.selectors.$elem[0].innerHTML='<div class="cui-avatar__image-container"></div>';
                             self.selectors.$image=angular.element(elem[0].querySelector('.cui-avatar__image-container'));
                             self.selectors.$image[0].style.backgroundImage=String.prototype.concat('url("',imgSrc,'")');
-                        };
+                        }
                         var img=new Image();
                         if(scope.cuiAvatar && scope.cuiAvatar!==''){
                             img.src=scope.cuiAvatar;
