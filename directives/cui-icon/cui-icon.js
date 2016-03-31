@@ -12,7 +12,7 @@ angular.module('cui-ng')
 
             attrs.preserveaspectratio ? preserveaspectratio=' preserveAspectRatio="' + attrs.preserveaspectratio + '" ' : preserveaspectratio='';
             attrs.svgClass? svgClass=' class="' + attrs.svgClass + '" ' : svgClass='';
-            attrs.viewBox? viewBox=' viewBox="' + attrs.viewBox + '" ' : viewBox='';
+            attrs.viewbox? viewBox=' viewBox="' + attrs.viewbox + '" ' : viewBox='';
 
             if(icon && icon.indexOf('.svg')>-1){ // if the path is directly specified
                 path=icon;
@@ -34,7 +34,7 @@ angular.module('cui-ng')
                 )
             );
 
-            angular.element(elem).append(newSvg);
+            angular.element(elem).replaceWith(newSvg);
         }
     };
 }]);
