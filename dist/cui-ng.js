@@ -921,7 +921,8 @@ angular.module('cui-ng')
                                 return className.indexOf(self.config.colorClassPrefix)>-1;
                             }) !==undefined ) return; // if there's already a class that looks like the one specified in cuiAvatarColorClassPrefix
                             var classNumberToApply=Math.floor(Math.random()*self.config.colorCount + 1);
-                            self.selectors.$elem[0].classList.add(self.config.colorClassPrefix+classNumberToApply);
+                            self.selectors.$elem[0].classList.add(self.config.colorClassPrefix + classNumberToApply);
+                            self.config.colorClassAdded=self.config.colorClassPrefix + classNumberToApply;
                         }
                     },
 
@@ -931,11 +932,9 @@ angular.module('cui-ng')
                         }
                         var name = function() {
                             var internationalizedName, nameToDisplay = '';
-
                             if (self.config.cuiI18nFilter) {
                                 internationalizedName = $filter('cuiI18n')(scope.cuiAvatarNames).split(' ');
                             }
-
                             (internationalizedName || scope.cuiAvatarNames).forEach(function(nameSection, i) {
                                 if (i < self.config.maxNumberOfInitials) {
                                     if (!nameSection) {
@@ -954,6 +953,7 @@ angular.module('cui-ng')
 
                     image:function(){
                         function applyImage(imgSrc){
+                            if(self.config.colorClassAdded) self.selectors.$elem[0].classList.remove(self.config.colorClassAdded); // remove the random color class added before applying an image
                             self.selectors.$elem[0].innerHTML='<div class="cui-avatar__image-container"></div>';
                             self.selectors.$image=angular.element(elem[0].querySelector('.cui-avatar__image-container'));
                             self.selectors.$image[0].style.backgroundImage=String.prototype.concat('url("',imgSrc,'")');
