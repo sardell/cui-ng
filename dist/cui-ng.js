@@ -2015,7 +2015,7 @@ angular.module('cui-ng')
             ngModel: '='
         },
         link:function(scope,elem){
-            element.bind("keydown keypress", function (event) {
+            elem.bind("keydown keypress", function (event) {
                 if(event.which === 13) {
                     event.preventDefault();
                     if(scope.ngModel) scope.onEnter(scope.ngModel);
@@ -2024,7 +2024,7 @@ angular.module('cui-ng')
             });
 
             scope.$on('destroy',function(){
-                element.unbind();
+                elem.unbind();
             });
         }
     };
