@@ -2007,28 +2007,30 @@ angular.module('cui-ng')
 
 
 angular.module('cui-ng')
-.directive('onEnter',function(){
+.directive('onEnter',['$timeout',function($timeout){
     return {
         restrict:'A',
-        scope:{
-            onEnter: '=',
-            ngModel: '='
-        },
-        link:function(scope,elem){
-            elem.bind("keydown keypress", function (event) {
+        scope:true,
+        link:function(scope,element,attrs){
+            element.bind("keydown keypress", function (event) {
                 if(event.which === 13) {
                     event.preventDefault();
-                    if(scope.ngModel) scope.onEnter(scope.ngModel);
-                    else scope.onEnter();
+                    var callback=scope.$eval(attrs.onEnter);
+                    if(scope.$eval(attrs.ngModel)){
+                      $timeout(function(){
+                        callback(scope.$eval(attrs.ngModel));
+                      });
+                    }
+                    else $timeout(function(){ callback(); });
                 }
             });
 
             scope.$on('destroy',function(){
-                elem.unbind();
+                element.unbind();
             });
         }
     };
-})
+}]);
 
 angular.module('cui-ng')
 .factory('CuiPasswordInfo',[function(){
