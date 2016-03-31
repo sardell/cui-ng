@@ -28,4 +28,4 @@ Cui-avatar is a directive that inserts the user's avatar into the background of 
    * `cui-avatar-cuiI18n-filter` - if cui-avatar-names is an array of internationalized languages pass this attribute.
    * `cui-avatar-max-num-initials` - the max number of initials to display (by default is 2).
 * Now takes a user's email ( with the cui-avatar-email attribute ), if that user has a gravatar account and a custom avatar set, it will use that avatar as the image to display.
-   * You will need to add blueimp's MD5 hashing module (https://github.com/blueimp/JavaScript-MD5) as a depdency for this to work. Simply run `npm install blueimp-md5` and then add `<script src="node_modules/blueimp-md5/js/md5.js"></script>` at the bottom of your index file, before cui-ng.
+   * You will need to add blueimp's MD5 hashing module (https://github.com/blueimp/JavaScript-MD5) as a depdency for this to work. Simply run `npm install --save blueimp-md5` and then add `<script src="node_modules/blueimp-md5/js/md5.js"></script>` at the bottom of your index file, before cui-ng.
