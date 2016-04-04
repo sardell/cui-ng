@@ -19,6 +19,7 @@ Cui-ng is an angular module with a series of custom directives and utilities for
 * [Match](https://github.com/thirdwavellc/cui-ng/tree/master/directives/match)
 * [Off-Click](https://github.com/thirdwavellc/cui-ng/tree/master/directives/off-click)
 * [Password-validation](https://github.com/thirdwavellc/cui-ng/tree/master/directives/password-validation)
+* [Results-Per-Page](https://github.com/thirdwavellc/cui-ng/tree/master/directives/results-per-page)
 * [Tags-input](https://github.com/thirdwavellc/cui-ng/tree/master/directives/tags-input)
 * [Tether](https://github.com/thirdwavellc/cui-ng/tree/master/directives/tether)
 
