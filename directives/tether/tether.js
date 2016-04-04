@@ -2,7 +2,7 @@ angular.module('cui-ng')
 .directive('tether',['$timeout','$parse',function($timeout,$parse){
   return {
     restrict:'A',
-    scope:false,
+    scope:true,
     link : function(scope,elem,attrs){
       elem[0].classList.add('hide--opacity'); // this fixes the incorrect positioning when it first renders
       $timeout(function(){
@@ -14,7 +14,7 @@ angular.module('cui-ng')
           offset: attrs.offset || '0 0',
           targetOffset: attrs.targetOffset || '0 0',
           targetModifier: attrs.targetModifier || undefined,
-          constrains: $parse(attrs.constrains) || undefined
+          constraints: scope.$eval(attrs.constraints) || undefined
         });
       }).
       then(function(){

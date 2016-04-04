@@ -36,4 +36,4 @@ Optional attributes:
 * offset: ex: `offset="10px 10px"`,
 * target-offset: ex: `target-offset="10px 10px"`,
 * targetModifier: ex: `target-modifier="visible"`,
-* constrains: ex: `contrains="[{ to: 'scrollParent', pin: true }]"`
+* constraints: ex: `contraints="[{ to: 'scrollParent', pin: true }]"`
