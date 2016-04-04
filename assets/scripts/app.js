@@ -8,7 +8,7 @@
         $rootScope.$on('$stateChangeStart', function(event, toState, toParams, fromState, fromParams){
             event.preventDefault();
             routing($rootScope, $state, toState, toParams, fromState, fromParams, user.getUser());
-        })
+        });
 
         LocaleService.setLocales('en','English');
         LocaleService.setLocales('pl','Polish');
@@ -82,6 +82,10 @@
             .state('class-toggle',{
                 url: '/class-toggle',
                 templateUrl: './assets/angular-templates/class-toggle.html'
+            })
+            .state('results-per-page', {
+                url: '/results-per-page',
+                templateUrl: './assets/angular-templates/results-per-page.html'
             });
 
         //fixes infinite digest loop with ui-router
@@ -164,7 +168,7 @@
         app.hits=0;
 
         app.routes=['cui-avatar','cui-wizard','cui-expandable','off-click','password-validation','tags-input','match','custom-error',
-        'cui-icon','auto-complete','inline-edit','focus-if','cui-authorization','class-toggle'];
+        'cui-icon','auto-complete','inline-edit','focus-if','cui-authorization','class-toggle','results-per-page'];
 
         //SERVICES -----------------------
 
