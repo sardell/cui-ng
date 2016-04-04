@@ -2085,15 +2085,19 @@ angular.module('cui-ng')
         },
         complex: complex,
         lowercaseNotAllowed: function(modelValue,viewValue){
+            if(!viewValue) return true;
             return !(/.*[a-z].*/.test(viewValue));
         },
         uppercaseNotAllowed: function(modelValue,viewValue){
+            if(!viewValue) return true;
             return !(/.*[A-Z].*/.test(viewValue));
         },
         numberNotAllowed: function(modelValue,viewValue){
+            if(!viewValue) return true;
             return !(/.*[0-9].*/.test(viewValue));
         },
         specialNotAllowed: function(modelValue,viewValue){
+            if(!viewValue) return true;
             return /^[a-z0-9]+$/i.test(viewValue);
         },
         disallowedChars: function(modelValue,viewValue){
