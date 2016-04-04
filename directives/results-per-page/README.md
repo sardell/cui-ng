@@ -5,15 +5,15 @@ Version 1.0
 Results Per Page is an angular directive made to be used with ngPagination.
 
 ## How to use
-* You must have the `cui-ng` module injected as a dependency into your angular app
+* You must have the `cui-ng` module injected as a dependency into your angular app.
 
-* **Basic HTML Use**
+**Basic HTML Use**
 ```
 <results-per-page selected="app.currentSelectedValue"></results-per-page>
 ```
   * Pass in a scope variable to selected that will hold the current selected value.
 
-* **Custom Classes**
+**Custom Classes**
 ```
 <results-per-page wrapper-class="wrapperDivClass" select-class="selectElementClass" selected="app.currentSelectedValue"></results-per-page>
 ```
