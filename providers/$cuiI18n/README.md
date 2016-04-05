@@ -18,3 +18,7 @@ It also provides a quick way of setting up your app's languages with $cuiI18nPro
 ## Change Log 2/26/2016
 
 * We now have a new method called `.setLocaleCodesAndNames()` that takes an object of organized language codes and language names to help setup your language preferences. Use `$cuiI18nProvider.setLocaleCodesAndNames()` to get the object back.
+
+## Change Log 4/5/2016
+
+* Changes `.getInternationalizedName()` method to use `value` if `text` is not available (for package claims).

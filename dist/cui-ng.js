@@ -23,7 +23,7 @@ angular.module('cui-ng')
         languageObjectToUse = _.find(languageObjectArray,function(languageObject){
             return languageObject.lang===preferedLanguage;
         })
-        if (languageObjectToUse!=undefined) return languageObjectToUse.text; // if the language being used by the user has a translation
+        if (languageObjectToUse!=undefined) return languageObjectToUse.text || languageObjectToUse.value; // if the language being used by the user has a translation
         else {
             if(!preferenceArray) { // if a preference array hasn't been set
                 console.log('You need to configure you prefered language array with cuiI18n.setLocalePreference');
@@ -33,7 +33,7 @@ angular.module('cui-ng')
                 languageObjectToUse = _.find(languageObjectArray,function(languageObject){
                     return languageObject.lang===preferenceArray[i];
                 });
-                if(languageObjectToUse!=undefined) return languageObjectToUse.text;
+                if(languageObjectToUse!=undefined) return languageObjectToUse.text || languageObjectToUse.value;
             }
         }
     };
