@@ -22,8 +22,8 @@
             });
         });
     }])
-    .config(['$translateProvider','$stateProvider','$urlRouterProvider','$locationProvider','$injector','localStorageServiceProvider','$cuiIconProvider',
-    function($translateProvider,$stateProvider,$urlRouterProvider,$locationProvider,$injector,localStorageServiceProvider,$cuiIconProvider){
+    .config(['$translateProvider','$stateProvider','$urlRouterProvider','$locationProvider','$injector','localStorageServiceProvider','$cuiIconProvider','$paginationProvider',
+    function($translateProvider,$stateProvider,$urlRouterProvider,$locationProvider,$injector,localStorageServiceProvider,$cuiIconProvider,$paginationProvider){
         localStorageServiceProvider.setPrefix('cui');
 
         $stateProvider
@@ -86,6 +86,10 @@
             .state('results-per-page', {
                 url: '/results-per-page',
                 templateUrl: './assets/angular-templates/results-per-page.html'
+            })
+            .state('paginate',{
+                url: '/paginate',
+                templateUrl: './assets/angular-templates/paginate.html'
             });
 
         //fixes infinite digest loop with ui-router
@@ -101,6 +105,8 @@
         });
 
         $cuiIconProvider.iconSet('cui','bower_components/cui-icons/dist/icons/icons-out.svg','0 0 48 48');
+
+        $paginationProvider.setPaginationOptions([10,25,50,100]);
 
     }])
     .factory('user',['$rootScope',function($rootScope){
@@ -168,7 +174,7 @@
         app.hits=0;
 
         app.routes=['cui-avatar','cui-wizard','cui-expandable','off-click','password-validation','tags-input','match','custom-error',
-        'cui-icon','auto-complete','inline-edit','focus-if','cui-authorization','class-toggle','results-per-page'];
+        'cui-icon','auto-complete','inline-edit','focus-if','cui-authorization','class-toggle','results-per-page','paginate'];
 
         //SERVICES -----------------------
 

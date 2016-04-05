@@ -1,17 +1,17 @@
 angular.module('cui-ng')
 .provider('$pagination', [function() {
-	var paginationOptions = [50, 75, 100, 150, 200];
+	var paginationOptions;
 	var userValue;
 
 	this.setPaginationOptions = function(valueArray) {
-		paginationOptions = !!valueArray;
+		paginationOptions = valueArray;
 	};
 
 	this.getPaginationOptions = function() {
 		return paginationOptions;
 	};
 
-	this.setUserValue = function(value) {
+	this.setUserValue = function(value) { // sets the user value so that other pages that use that directive will have that value saved
 		userValue = value;
 	};
 
@@ -39,7 +39,7 @@ angular.module('cui-ng')
 					self = this;
 					scope.options = $pagination.getPaginationOptions();
 					scope.selected = $pagination.getUserValue() || scope.options[0];
-					
+
 					scope.$watch('selected', function(selected) {
 						$pagination.setUserValue(selected);
 						scope.selected = selected;
