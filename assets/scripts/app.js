@@ -88,7 +88,7 @@
                 templateUrl: './assets/angular-templates/results-per-page.html'
             })
             .state('paginate',{
-                url: '/paginate',
+                url: '/paginate/:page',
                 templateUrl: './assets/angular-templates/paginate.html'
             });
 
@@ -320,9 +320,9 @@
         app.buildEntitlements();
 
         app.onEdit=function(value){
+            console.log('test');
             if(!angular.isDefined(value)){
                 app.inlineError={};
-                console.log('test');
             }
             else app.inlineError={
                 test:value
@@ -330,6 +330,17 @@
             app.noSave=(value!=='admin');
         };
 
+
+        // paginate
+        $scope.$on('$stateChangeSuccess', function(event, toState, toParams, fromState, fromParams){
+            if(toParams.page) {
+                app.page=parseInt($stateParams.page);
+            }
+        });
+
+        app.handlePageChange=function(page){
+            app.currentPage=page;
+        };
 
     }]);
 })(angular);

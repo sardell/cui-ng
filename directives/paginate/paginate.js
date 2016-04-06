@@ -1,121 +1,149 @@
 angular.module('cui-ng')
-.directive('paginate',['$window','$compile','$timeout',function($window,$compile,$timeout){
+.directive('paginate',['$compile','$timeout','$interval',function($compile,$timeout,$interval){
     return {
         restrict: 'AE',
         scope: {
             resultsPerPage: '&',
             count: '&',
-            page: '=',
-            onPageChange: '&'
+            onPageChange: '&',
+            page: '=ngModel'
         },
         link: function(scope, elem, attrs){
-            var self;
+            var self,resizeInterval;
             var paginate={
                 initScope:function(){
                     self=this;
+                    self.config.numberOfPages=self.helpers.getNumberOfPages();
+                    self.config.howManyPagesWeCanShow=self.helpers.howManyPagesWeCanShow();
                     scope.paginate={
-                        currentPage:scope.page || 1
+                        currentPage:scope.page? self.helpers.normalizePage(scope.page) : 1
                     };
+                    if(scope.onPageChange()) {
+                        scope.onPageChange()(scope.paginate.currentPage);
+                    }
                     angular.forEach(self.scope,function(func,key){
                         scope.paginate[key]=func;
                     });
                 },
                 selectors:{
-                    $paginate:angular.element(elem[0]),
-                    $window:angular.element($window)
+                    $paginate:angular.element(elem[0])
                 },
                 config:{
                     pageClass:attrs.pageClass || 'paginate__page',
                     activePageClass:attrs.activePageClass || 'paginate__page--active',
                     ellipsesClass: attrs.ellipsesClass || 'paginate__ellipses',
-                    previousAndNextClass: attrs.previousNextClass || 'paginate__previous-and-next',
+                    previousClass: attrs.previousNextClass || 'paginate__previous',
+                    nextClass: attrs.previousNextClass || 'paginate__next',
                     pageContainerClass: attrs.pageContainerClass || 'paginate__page-container',
-                    ellipses: angular.isDefined(attrs.ellipses) ? true : false,
                     ellipsesButton: attrs.ellipses || '...',
                     previousButton: attrs.previousButton || '<',
-                    nextButton: attrs.nextButton || '>',
+                    nextButton: attrs.nextButton || '>'
                 },
                 watchers:{
                     resultsPerPage:function(){
-                        scope.$watch('resultsPerPage',function(newResultsPerPage){
-
+                        scope.$watch(scope.resultsPerPage,function(newResultsPerPage,oldResultsPerPage){
+                            if(newResultsPerPage && newResultsPerPage!==oldResultsPerPage) self.helpers.updateConfigAndRerender();
                         });
                     },
                     count:function(){
-                        scope.$watch('count',function(newCount){
-
+                        scope.$watch(scope.count,function(newCount,oldCount){
+                            if(newCount && newCount!==oldCount) self.helpers.updateConfigAndRerender();
                         });
                     },
                     page:function(){
                         scope.$watch('page',function(newPage){
-
+                            if(newPage && newPage!==scope.paginate.currentPage) {
+                                if(newPage > self.config.numberOfPages) scope.paginate.currentPage=self.config.numberOfPages;
+                                else if(newPage < 1) scope.paginate.currentPage=1;
+                                else scope.paginate.currentPage=newPage;
+                                self.helpers.handleStepChange();
+                            }
                         });
                     },
-                    windowResize:function(){
-                        self.selectors.$window.bind('resize',self.helpers.resizeHandler);
+                    paginateResize:function(){
+                        resizeInterval=$interval(self.helpers.resizeHandler,20);
+                    },
+                    scopeDestroy:function(){
+                        scope.$on('$destroy',function(){
+                            $interval.cancel(resizeInterval); // unbinds the resize interval
+                        });
                     }
                 },
                 helpers:{
+                    updateConfigAndRerender:function(){
+                        self.config.numberOfPages=self.helpers.getNumberOfPages();
+                        self.config.howManyPagesWeCanShow=self.helpers.howManyPagesWeCanShow();
+                        self.selectors.$pageContainer.replaceWith(self.render.pageContainer());
+                    },
                     getNumberOfPages:function(){
-                        console.log('number of pages ',Math.ceil(scope.count()/scope.resultsPerPage()));
                         return Math.ceil(scope.count()/scope.resultsPerPage());
                     },
+                    getWidthOfAPage:function(){
+                        return self.helpers.getWidthOfElement($(self.render.pageNumber(1)));
+                    },
                     getAvailableSpaceForPages:function(){
-                        var paginateWidth=self.helpers.getWidthOfElement(self.selectors.$paginate);
-                        console.log('paginate width ',paginateWidth);
+                        var paginateWidth=self.config.width || self.selectors.$paginate.width();
                         var previousWidth=self.helpers.getWidthOfElement(self.render.previousButton());
                         var nextWidth=self.helpers.getWidthOfElement(self.render.nextButton());
-                        console.log('next width ',nextWidth);
-                        return paginateWidth - ( previousWidth + nextWidth );
+                        return paginateWidth - ( previousWidth + nextWidth )-1; // - 1 because at certain widths the width() method was off by a pixel
                     },
                     getWidthOfElement:function(element){ // this appends the element to the body, get its width, and removes it. Used for measuring.
                         element.appendTo(document.body);
-                        var width=element.width();
+                        var width=element.outerWidth(true);
                         element.remove();
                         return width;
                     },
-                    thereIsRoomToShowAllPages:function(){
-                        var widthOfPage=self.helpers.getWidthOfElement(self.render.pageNumber(1));
-                        if(widthOfPage*self.helpers.getNumberOfPages() <= self.helpers.getAvailableSpaceForPages()){
-                            return true;
-                        }
-                        else {
-                            return false;
-                        }
+                    howManyPagesWeCanShow:function(){
+                        return Math.floor(self.helpers.getAvailableSpaceForPages()/self.helpers.getWidthOfAPage());
                     },
                     handleStepChange:function(){
-                        console.log('changed Step');
+                        scope.page=scope.paginate.currentPage;
+                        if(scope.onPageChange()) scope.onPageChange()(scope.paginate.currentPage);
+                        self.selectors.$pageContainer.replaceWith(self.render.pageContainer());
+                    },
+                    resizeHandler:function(){
+                        if(!self.config.width) self.config.width=self.selectors.$paginate.width();
+                        else if(self.selectors.$paginate.width()!==self.config.width) {
+                            self.config.width=self.selectors.$paginate.width();
+                            self.config.widthOfAPage=self.helpers.getWidthOfAPage();
+                            self.config.availableSpaceForPages=self.helpers.getAvailableSpaceForPages();
+                            self.helpers.updateConfigAndRerender();
+                        }
+                    },
+                    whatEllipsesToShow:function(){
+                        if(self.config.numberOfPages <= self.config.howManyPagesWeCanShow) return 'none';
+                        else if(scope.paginate.currentPage < ((self.config.howManyPagesWeCanShow/2)+1)) return 'right';
+                        else if(scope.paginate.currentPage < (self.config.numberOfPages -  ((self.config.howManyPagesWeCanShow/2)))) return 'both';
+                        else return 'left';
+                    },
+                    normalizePage:function(page){
+                        var page=parseInt(page);
+                        if(page <= self.config.numberOfPages && page >= 1){
+                            return page;
+                        }
+                        else if(page < 1){
+                            return 1;
+                        }
+                        else return self.config.numberOfPages;
                     }
                 },
                 scope:{
                     previous:function(){
-                        if(scope.paginate.currentPage > 1) {
+                        if(scope.paginate.currentPage > 1){
                             scope.paginate.currentPage--;
                             self.helpers.handleStepChange();
                         }
                     },
                     next:function(){
-                        if(scope.paginate.currentPage+1 <= self.helpers.getNumberOfPages()){
+                        if(scope.paginate.currentPage+1 <= self.config.numberOfPages){
                             scope.paginate.currentPage++;
                             self.helpers.handleStepChange();
                         }
                     },
                     goToPage:function(page){
                         if(page===scope.paginate.currentPage) return;
-                        if(page <= self.helpers.getNumberOfPages()){
-                            scope.paginate.currentPage=page;
-                            self.helpers.handleStepChange();
-                        }
-                        else if(!scope.paginate.currentPage){
-                            scope.paginate.currentPage=1; // if the user tries to go to a page that does not exist
-                            self.helpers.handleStepChange();
-                        }
-                    },
-                    navigateXSteps:function(stepsToNavigate){
-                        if(scope.paginate.currentPage + stepsToNavigate < 1 || scope.paginate.currentPage + stepsToNavigate > self.helpers.getNumberOfPages()){
-                            return;
-                        }
-                        scope.paginate.currentPage += stepsToNavigate;
+                        scope.paginate.currentPage=self.helpers.normalizePage(page);
+                        self.helpers.handleStepChange();
                     }
                 },
                 render:{
@@ -127,7 +155,7 @@ angular.module('cui-ng')
                     previousButton:function(){
                         var previousButton=$compile(
                             String.prototype.concat(
-                                '<span ng-click="paginate.previous()" class="', self.config.previousAndNextClass , '">',
+                                '<span ng-click="paginate.previous()" class="', self.config.previousClass , '">',
                                     self.config.previousButton,
                                 '</span>'
                             )
@@ -137,57 +165,79 @@ angular.module('cui-ng')
                     nextButton:function(){
                         var nextButton=$compile(
                             String.prototype.concat(
-                                '<span ng-click="paginate.next()" class="', self.config.previousAndNextClass , '">',
+                                '<span ng-click="paginate.next()" class="', self.config.nextClass , '">',
                                     self.config.nextButton,
                                 '</span>'
                             )
                         )(scope);
-                        console.log('nextButton ',nextButton);
                         return nextButton;
                     },
-                    pageContainer:function(){
-                        var pageContainer=$(String.prototype.concat('<span class="',self.config.pageContainerClass,'"></span>'));
-                        self.render.pageNumbers().forEach(function(page){
-                            pageContainer.append(page);
-                        });
-                        console.log('pageContainer ',pageContainer);
-                        return pageContainer;
-                    },
-                    pageNumber:function(page,active){
-                        var activeClass,ngClick;
-                        if(active){
-                            activeClass=' ' + self.config.activePageClass;
-                            ngClick=' ';
-                        }
-                        else{
-                            activeClass='';
-                            ngClick=' ng-click="paginate.goToPage(' + page + ')" ';
-                        }
-                        var button=$compile(
-                                String.prototype.concat(
-                                    '<span', ngClick, 'class="', self.config.pageClass , activeClass , '">', page , '</span>'
-                                )
-                        )(scope);
-                        return button;
-                    },
-                    pageNumbers:function(){
-                        var pages=[];
-                        if(self.helpers.thereIsRoomToShowAllPages()){
-                            for(var i=0;i<self.helpers.getNumberOfPages();i++){
-                                var page=self.render.pageNumber(i+1,i+1===scope.paginate.currentPage);
-                                pages.push(page);
-                            }
-                        }
-                        return pages;
-                    },
-                    ellipses:function(ammountOfStepsToNavigate){
-                        var ngClick=' ng-click="paginate.navigateXSteps(' + ammountOfStepsToNavigate + ')" ';
+                    ellipses:function(page){
+                        var ngClick=' ng-click="paginate.goToPage(' + page + ')" ';
                         var ellipses=$compile(
                             String.prototype.concat(
                                 '<span', ngClick, 'class="', self.config.ellipsesClass, '">', self.config.ellipsesButton, '</span>'
                             )
                         )(scope);
                         return ellipses;
+                    },
+                    pageNumber:function(page,active){
+                        var activeClass,ngClick;
+                        ngClick=' ng-click="paginate.goToPage(' + page + ')" ';
+                        if(active) activeClass=' ' + self.config.activePageClass;
+                        else activeClass='';
+                        var button=String.prototype.concat(
+                            '<span', ngClick, 'class="', self.config.pageClass , activeClass , '">', page , '</span>'
+                        );
+                        return $compile(button)(scope);
+                    },
+                    pagesXToY:function(x,y){
+                        var pages=[];
+                        do {
+                            var page=self.render.pageNumber(x,x===scope.paginate.currentPage);
+                            pages.push(page);
+                            x++
+                        }
+                        while(x <= y);
+                        return pages;
+                    },
+                    pageNumbers:function(){
+                        var pages=[],
+                            whatEllipsesToShow=self.helpers.whatEllipsesToShow();
+
+                        if(whatEllipsesToShow==='none'){
+                            pages.push(self.render.pagesXToY(1,self.config.numberOfPages));
+                        }
+                        else if(whatEllipsesToShow==='right') {
+                            var ellipsesPoint=self.config.howManyPagesWeCanShow-1;
+                            pages.push(self.render.pagesXToY(1,ellipsesPoint-1));
+                            pages.push(self.render.ellipses(ellipsesPoint));
+                            pages.push(self.render.pageNumber(self.config.numberOfPages));
+                        }
+                        else if(whatEllipsesToShow==='both') {
+                            var firstEllipsesPoint=scope.paginate.currentPage-(Math.ceil(self.config.howManyPagesWeCanShow/2)-2);
+                            var secondEllipsesPoint=scope.paginate.currentPage + (Math.floor(self.config.howManyPagesWeCanShow/2)-1);
+                            pages.push(self.render.pageNumber(1));
+                            pages.push(self.render.ellipses(firstEllipsesPoint));
+                            pages.push(self.render.pagesXToY(firstEllipsesPoint+1,secondEllipsesPoint-1));
+                            pages.push(self.render.ellipses(secondEllipsesPoint));
+                            pages.push(self.render.pageNumber(self.config.numberOfPages));
+                        }
+                        else  {
+                            var ellipsesPoint=self.config.numberOfPages-(self.config.howManyPagesWeCanShow-2);
+                            pages.push(self.render.pageNumber(1));
+                            pages.push(self.render.ellipses(ellipsesPoint));
+                            pages.push(self.render.pagesXToY(ellipsesPoint+1,self.config.numberOfPages));
+                        }
+                        return pages;
+                    },
+                    pageContainer:function(){
+                        var pageContainer=$('<span class="' + self.config.pageContainerClass + '"></span>');
+                        self.selectors.$pageContainer=pageContainer;
+                        self.render.pageNumbers().forEach(function(page){
+                            pageContainer.append(page);
+                        });
+                        return pageContainer;
                     }
                 }
             };
@@ -195,6 +245,9 @@ angular.module('cui-ng')
             $timeout(function(){
                 paginate.initScope();
                 paginate.render.init();
+                angular.forEach(paginate.watchers,function(initWatcher){
+                    initWatcher();
+                });
             })
         }
     };

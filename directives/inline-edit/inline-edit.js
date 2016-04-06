@@ -8,8 +8,8 @@ angular.module('cui-ng')
       options: '=',
       display: '=',
       localData: '=',
-      saveCallback: '=onSave',
-      tempEditCallback: '=onEdit',
+      saveCallback: '&onSave',
+      tempEditCallback: '&onEdit',
       hideSaveButton: '=hideSaveIf'
     },
     link: function(scope,ele,attrs){
@@ -43,9 +43,9 @@ angular.module('cui-ng')
             };
             scope.saveInput=function(){
               scope.model=scope.editInput;
-              if(scope.saveCallback) {
+              if(scope.saveCallback()) {
                 $timeout(function() {
-                  scope.saveCallback();
+                  scope.saveCallback()();
                 });
               }
               this.helpers.getDisplayValue();
@@ -61,10 +61,10 @@ angular.module('cui-ng')
             };
             scope.editChangeCallback=function(editMode){
               if(editMode===false) {
-                scope.tempEditCallback(undefined);
+                scope.tempEditCallback()(undefined);
                 return;
               }
-              if(scope.tempEditCallback) scope.tempEditCallback(scope.editInput);
+              if(scope.tempEditCallback()) scope.tempEditCallback()(scope.editInput);
             };
           },
           watchers:function(){

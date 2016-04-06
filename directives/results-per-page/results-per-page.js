@@ -28,7 +28,7 @@ angular.module('cui-ng')
 	return {
 		restrict: 'E',
 		scope: {
-			selected: '=',
+			selected: '=ngModel',
 		},
 
 		link: function(scope, elem, attrs) {
@@ -47,18 +47,16 @@ angular.module('cui-ng')
 				},
 
 				config: {
-					wrapperClass: attrs.wrapperClass || 'cui-select-wrapper',
-					selectClass: attrs.selectClass || 'cui-select',
+					selectClass: attrs.class || 'cui-select'
 				},
 
 				render: function() {
 					var element = $compile(
 						String.prototype.concat(
-							'<div class="', this.config.wrapperClass, '">',
-								'<select class="', this.config.selectClass, '" ng-model="selected"',
-									'ng-options="option as option for option in options">',
-								'</select>',
-							'</div>')
+							'<select class="', this.config.selectClass, '" ng-model="selected"',
+								'ng-options="option as option for option in options">',
+							'</select>'
+						)
 					)(scope);
 					angular.element(elem).replaceWith(element);
 				}
