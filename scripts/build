@@ -4,6 +4,6 @@ npm install
 npm update
 bower install
 bower update
-bower update cui-styleguide —force
+bower update cui-styleguide --force
 grunt build
 mvn clean package deploy -U
