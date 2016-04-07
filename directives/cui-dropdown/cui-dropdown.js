@@ -1,7 +1,5 @@
 angular.module('cui-ng')
 .directive('cuiDropdown', ['$compile','$timeout','$filter',function($compile,$timeout,$filter) {
-	'use strict';
-
 	return {
 		restrict: 'E',
 		scope: {
@@ -9,7 +7,6 @@ angular.module('cui-ng')
 			options:'&',
 			constraints: '&'
 		},
-
 		link: function(scope, elem, attrs) {
 			var id=scope.$id;
 			var self;
@@ -22,7 +19,6 @@ angular.module('cui-ng')
 					angular.forEach(self.scope,function(value,key){
 						scope[key]=value;
 					});
-					self.helpers.setInitialInputValue();
 				},
 				config: {
 					inputClass: attrs.class || 'cui-input',
@@ -43,15 +39,26 @@ angular.module('cui-ng')
 						scope.$on(id.toString(),self.helpers.reassignModel);
 					},
 					languageChange:function(){
-						scope.$on('$translateChangeSuccess',self.helpers.handleLanguageChange)
+						scope.$on('languageChange',self.helpers.handleLanguageChange)
+					},
+					options:function(){
+						scope.$watch(scope.options,function(newOptions,oldOptions){
+							if(newOptions && !angular.equals(newOptions,oldOptions)) {
+								self.helpers.setInitialInputValue();
+								self.render.input();
+							}
+						},true);
 					}
 				},
 				scope:{
 					renderDropdown:function(){
-						self.render.dropdown();
+						if(!self.selectors.$dropdown) self.render.dropdown();
 					},
 					destroyDropdown:function(){
-						self.selectors.$dropdown.detach();
+						if(self.selectors.$dropdown) {
+			              self.selectors.$dropdown.detach();
+			              self.selectors.$dropdown=null;
+			            }
 					}
 				},
 				helpers: {
@@ -74,14 +81,14 @@ angular.module('cui-ng')
 					},
 					getOptionDisplayValues:function(){
 						var displayValues=[];
-						if(self.config.displayValue.indexOf('{{')>-1){
-							var string=self.config.displayValue.replace(/( |}|{)/g,'').split('|');
-							var filter=string[1];
-							self.config.displayValue=string[0];
+						if(self.config.displayValue.indexOf('(')>-1){
+							var arrayWithKeyAndFilter=self.config.displayValue.replace(/( |\)|\))/g,'').split('|');
+							var filter=arrayWithKeyAndFilter[1];
+							var keyString=arrayWithKeyAndFilter[0];
 						}
 						scope.options().forEach(function(option){
-							if(filter) displayValues.push($filter(filter)(self.helpers.getKeyValue(self.config.displayValue,option)));
-							else displayValues.push(self.helpers.getKeyValue(self.config.displayValue,option));
+							if(filter) displayValues.push($filter(filter)(self.helpers.getKeyValue(keyString,option)));
+							else displayValues.push(self.helpers.getKeyValue(keyString,option));
 						});
 						return displayValues;
 					},
@@ -125,7 +132,7 @@ angular.module('cui-ng')
 						var returnValues=self.helpers.getOptionReturnValues();
 						scope.displayValue=displayValues[index];
 						scope.ngModel=returnValues[index];
-						self.selectors.$dropdown.detach();
+						self.scope.destroyDropdown();
 					},
 					handleLanguageChange:function(){
 						self.helpers.reassignModel();
@@ -141,7 +148,7 @@ angular.module('cui-ng')
 							)
 						)(scope);
 						self.selectors.$cuiDropdown.replaceWith(element);
-						self.selectors.$cuiInput = element; // Caches selector
+            			self.selectors.$cuiDropdown=element;
 					},
 
 					dropdown: function() {
@@ -159,19 +166,17 @@ angular.module('cui-ng')
 
 						self.selectors.$body.append(dropdown);
 						self.selectors.$dropdown=dropdown;
-
 						new Tether({
 							element:self.selectors.$dropdown[0],
-							target:self.selectors.$cuiInput[0],
+							target:self.selectors.$cuiDropdown[0],
 							attachment:self.config.attachment,
 							targetAttachment:self.config.targetAttachment,
-							constraints:scope.constraints() || []
+							constraints:scope.constraints() || [{ to: 'window', attachment: 'together'}]
 						});
 					}
 				}
 			};
 			cuiDropdown.initScope();
-			cuiDropdown.render.input();
 		}
 	};
 
