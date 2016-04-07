@@ -10,6 +10,7 @@ Cui-ng is an angular module with a series of custom directives and utilities for
 * [Auto-complete](https://github.com/thirdwavellc/cui-ng/tree/master/directives/auto-complete)
 * [Class-toggle](https://github.com/thirdwavellc/cui-ng/tree/master/directives/class-toggle)
 * [Cui-Avatar](https://github.com/thirdwavellc/cui-ng/tree/master/directives/cui-avatar)
+* [Cui-Dropdown](https://github.com/thirdwavellc/cui-ng/tree/master/directives/cui-dropdown)
 * [Cui-Expandable](https://github.com/thirdwavellc/cui-ng/tree/master/directives/cui-expandable)
 * [Cui-Icon](https://github.com/thirdwavellc/cui-ng/tree/master/directives/cui-icon)
 * [Cui-Wizard](https://github.com/thirdwavellc/cui-ng/tree/master/directives/cui-wizard)
