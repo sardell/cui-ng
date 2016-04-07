@@ -7,9 +7,10 @@
 <div class="cui-tile">
   <div class="cui-tile__title">CUI-Dropdown</div>
   <div class="cui-tile__body">
-    
+
     <!-- CUI-Dropdown -->
-    <cui-dropdown id="test" target="#test"></cui-dropdown>
+    <cui-dropdown ng-model="app.test" display-value="option.name" return-value="option" options="[{name:'coldplay'},{name:'sucks'}]" ng-init="app.test={name:'coldplay'}"></cui-dropdown>
+
 
   </div>
 </div>

@@ -223,7 +223,7 @@ angular.module('cui-ng')
                             pages.push(self.render.ellipses(secondEllipsesPoint));
                             pages.push(self.render.pageNumber(self.config.numberOfPages));
                         }
-                        else  {
+                        else  { // if the ellipses is on the left
                             var ellipsesPoint=self.config.numberOfPages-(self.config.howManyPagesWeCanShow-2);
                             pages.push(self.render.pageNumber(1));
                             pages.push(self.render.ellipses(ellipsesPoint));
@@ -248,7 +248,7 @@ angular.module('cui-ng')
                 angular.forEach(paginate.watchers,function(initWatcher){
                     initWatcher();
                 });
-            })
+            });
         }
     };
 }]);
