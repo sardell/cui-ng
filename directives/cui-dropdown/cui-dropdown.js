@@ -26,7 +26,7 @@ angular.module('cui-ng')
 					dropdownItemClass: attrs.dropdownItemClass || 'cui-dropdown__item', // TODO: CHANGE TO DROPDOWN
 					attachment: attrs.attachment || 'top middle',
 					targetAttachment: attrs.targetAttachment || 'bottom middle',
-					offset: attrs.offset || '-10px 0',
+					offset: attrs.offset || '0 0',
 					returnValue: attrs.returnValue || 'option',
 					displayValue: attrs.displayValue || 'option'
 				},
