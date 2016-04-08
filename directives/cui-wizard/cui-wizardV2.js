@@ -63,7 +63,7 @@ angular.module('cui-ng')
                         else return String.prototype.concat(
                             '<div class="icon-container">',
                                 '<div class="icon">',
-                                    '<cui-icon cui-svg-icon="',icon,'"></cui-icon>',
+                                    '<cui-icon cui-svg-icon="',icon,'" svg-class="icon-svg"></cui-icon>',
                                 '</div>',
                             '</div>');
                     },
@@ -77,7 +77,7 @@ angular.module('cui-ng')
                         stepNumber+1===self.scope.currentStep ? indicatorClass='active' : stepNumber+1 < self.scope.currentStep ? indicatorClass='visited' : indicatorClass='';
                         return String.prototype.concat(
                             '<span class="step-indicator ', indicatorClass,'"',self.helpers.getNgClickForIndicator(stepNumber,step.state),'>',
-                                step.title,self.helpers.getIconMarkup(step.icon),
+                                '<span class="step-indicator__title">',step.title,'</span>',self.helpers.getIconMarkup(step.icon),
                             '</span>');
                     },
                     getIndicatorsWidth:function(){
@@ -120,12 +120,14 @@ angular.module('cui-ng')
                             if(self.config.mobileStack && (self.selectors.$window.width()<=self.config.mobileStackBreakingPoint) && !self.config.mobileMode){
                                 self.selectors.$expandables.forEach(function(expandable,e){
                                     expandable.attr('transition-speed',300);
+                                    expandable.addClass('mobile-element');
                                 });
                                 self.config.mobileMode=true;
                             }
                             else if(self.config.mobileStack && (self.selectors.$window.width()>self.config.mobileStackBreakingPoint) && self.config.mobileMode){
                                 self.selectors.$expandables.forEach(function(expandable,e){
                                     expandable.attr('transition-speed',0);
+                                    expandable.removeClass('mobile-element');
                                 });
                                 self.config.mobileMode=false;
                             }
