@@ -1875,8 +1875,9 @@ angular.module('cui-ng')
                     },
                     steps:function(newStep,oldStep){
                         self.selectors.$expandables.forEach(function(expandable,i){
-                            if((i+1) < newStep) $(this).addClass('visited');
-                            else $(this).removeClass('visited');
+                            console.log(expandable);
+                            if((i+1) < newStep) expandable.addClass('visited');
+                            else expandable.removeClass('visited');
                         });
                         self.selectors.$steps[oldStep-1].classList.remove('active');
                         self.selectors.$steps[newStep-1].classList.add('active');
