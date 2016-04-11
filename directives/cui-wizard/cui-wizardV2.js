@@ -198,7 +198,6 @@ angular.module('cui-ng')
                         self.config.numberOfSteps=self.selectors.$indicators.length;
                     },
                     bar:function(){
-                      console.log(self.selectors.$indicators);
                       $timeout(function(){
                         self.selectors.$indicatorContainer.append('<div class="steps-bar"><div class="steps-bar-fill"></div></div>');
                         self.selectors.$bar=angular.element(self.selectors.$indicatorContainer[0].querySelector('.steps-bar'));
@@ -247,7 +246,6 @@ angular.module('cui-ng')
                     },
                     steps:function(newStep,oldStep){
                         self.selectors.$expandables.forEach(function(expandable,i){
-                            console.log(expandable);
                             if((i+1) < newStep) expandable.addClass('visited');
                             else expandable.removeClass('visited');
                         });
