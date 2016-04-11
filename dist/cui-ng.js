@@ -3840,9 +3840,10 @@ angular.module('cui-ng')
     restrict:'A',
     scope:true,
     link : function(scope,elem,attrs){
+      var tether;
       elem[0].classList.add('hide--opacity'); // this fixes the incorrect positioning when it first renders
       $timeout(function(){
-        new Tether({
+        tether=new Tether({
           element: elem,
           target: attrs.target,
           attachment: attrs.attachment || 'top center',
@@ -3854,6 +3855,7 @@ angular.module('cui-ng')
         });
       }).
       then(function(){
+        tether.position();
         elem[0].classList.remove('hide--opacity');
       });
     }
