@@ -1,6 +1,6 @@
 <style>
 .cui-input {
-  width: 100px;
+  width: 500px;
 }
 </style>
 
@@ -8,9 +8,11 @@
   <div class="cui-tile__title">CUI-Dropdown</div>
   <div class="cui-tile__body">
 
-    <br/><br/><br/><br/><br/><br/><br/><br/><br/><br/>
+    <input class="cui-input" ng-model="app.options" ng-init="app.options='option1,option2,option3'"/>
+
+
     <!-- CUI-Dropdown -->
-    <cui-dropdown class="cui-input" ng-model="app.test" options="['Option 1','Option 2','Option 3','Option 4','Option 4','Option 5']"></cui-dropdown>
+    <cui-dropdown class="cui-input" name="test" ng-model="app.dropdownTest" options="app.options.split(',')" default-option="Select one" ng-required="true"></cui-dropdown>
 
 
   </div>

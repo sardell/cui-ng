@@ -345,8 +345,6 @@
         app.handlePageChange=function(page){
             app.currentPage=page;
         };
-        app.doStuff=function(){
-            console.log('tes');
-        };
+
     }]);
 })(angular);
