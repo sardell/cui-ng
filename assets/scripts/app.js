@@ -94,6 +94,10 @@
             .state('cui-dropdown',{
                 url: '/cui-dropdown',
                 templateUrl: './assets/angular-templates/cui-dropdown.html'
+            })
+            .state('cui-popover',{
+                url: '/cui-popover',
+                templateUrl: './assets/angular-templates/cui-popover.html'
             });
 
         //fixes infinite digest loop with ui-router
@@ -178,7 +182,7 @@
         app.hits=0;
 
         app.routes=['cui-avatar','cui-wizard','cui-expandable','off-click','password-validation','tags-input','match','custom-error',
-        'cui-icon','auto-complete','inline-edit','focus-if','cui-authorization','class-toggle','results-per-page','paginate','cui-dropdown'];
+        'cui-icon','auto-complete','inline-edit','focus-if','cui-authorization','class-toggle','results-per-page','paginate','cui-dropdown','cui-popover'];
 
         //SERVICES -----------------------
 
