@@ -4,8 +4,8 @@
     <span>Tags-input creates a tag style input field.</span><br/>
     <span>Start typing in the field bellow. Hit comma or enter to start entering a new value.</span>
     <br/><br/>
-    <span id="test">This is the target attachment!</span>
-    <div cui-popover target="#test" style="background:blue">This is the element that's attached</div>
+    <span id="test" ng-click="app.popoverOpen=!app.popoverOpen">This is the target attachment!</span>
+    <div cui-popover ng-if="app.popoverOpen" target="#test" attachment="top center" target-attachment="bottom center" popover-offset="0 0" pointer-offset="0 0" style="background:#222;padding:10px;color:#EEE;border-radius:3px">This is the element that's attached</div>
     <br/><br/>
     <a class="cui-link" href="https://github.com/thirdwavellc/cui-ng/tree/master/assets/angular-templates/tags-input.html" target="blank">Click here to see the code used on this page</a>, <a class="cui-link" href="https://github.com/thirdwavellc/cui-ng/tree/master/directives/tags-input" target="blank">here to see the extended documentation</a> or <a class="cui-link" href="http://mbenford.github.io/ngTagsInput/documentation/api" target="blank">here for a complete API.</a>
   </div>
