@@ -1017,7 +1017,6 @@ angular.module('cui-ng')
                     angular.forEach(self.scope,function(value,key){
                         scope[key]=value;
                     });
-                    self.helpers.setInitialInputValue();
                 },
                 config: {
                     inputClass: attrs.class || 'cui-dropdown',
