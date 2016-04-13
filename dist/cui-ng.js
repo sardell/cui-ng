@@ -1346,17 +1346,27 @@ angular.module('cui-ng')
                 watchers:{
                     tetherAttachment:function cuiPopoverWatchTetherAttachment(){
                         tetherAttachmentInterval=$interval(function(){
-                            scope.tetherAttachment=popoverTether.attachment;
-                        },1000);
+                            if(!popoverTether || !popoverTether.element) return;
+                            if(popoverTether.element.classList.contains('tether-element-attached-' + self.config.attachment.split(' ')[0])) { // if the element is in the position it should be
+                                scope.tetherAttachment='normal';
+                            }
+                            else scope.tetherAttachment='inverted'; // if it doesn't have space to show and has been inverted by tether
+                        },20);
 
                         scope.$watch('tetherAttachment',function(newAttachment){
                             if(newAttachment) {
-                                self.render.pointer();
+                                console.log('new attachment mode '+newAttachment);
+                                self.config.attachment=self.helpers.invertAttachment(); // this doesn't actually change the attachment on the tethered elements, it simply aids in re-calculating the offsets
+                                popoverTether.setOptions({ // reset the offset on the popover to the be negative version of that it was before.
+                                    offset:self.helpers.tetherOffset(newAttachment).popover
+                                });
+                                self.render.pointer(newAttachment);
                             }
                         },function(newAttachment,oldAttachment){
-                            return (newAttachment.top!==oldAttachment.top || newAttachment.left!==oldAttachment.left);
-                        })
+                            return newAttachment!==oldAttachment;
+                        });
                     },
+
                     targetElementPosition:function cuiPopoverWatchElementPosition(){
                         targetElementPositionInterval=$interval(function(){
                             scope.targetPosition=self.selectors.$target.offset();
@@ -1371,6 +1381,7 @@ angular.module('cui-ng')
                             return (newPosition.top!==oldPosition.top || newPosition.left!==oldPosition.left);
                         });
                     },
+
                     scopeDestroy:function cuiPopoverWatchScopeDestroy(){
                         scope.$on('$destroy',function(){
                             $interval.cancel(tetherAttachmentInterval);
@@ -1378,10 +1389,41 @@ angular.module('cui-ng')
                         })
                     }
                 },
+
+
+
+
+
+                    // YEOMAN GENNN!!!!!!!!!!!
+                // TODO : MAKE INVERSION WORK
+
+
+
+
+
+
+
+
+
                 selectors:{
                     $target:angular.element(document.querySelector(attrs.target))
                 },
                 helpers:{
+                    invertAttachment:function cuiPopoverInvertAttachment(){
+                        var attachment=self.config.attachment.split(' ');
+                        var verticalAttachment=attachment[0];
+                        var horizontalAttachment=attachment[0];
+                        if(verticalAttachment==='top'){
+                            return 'bottom ' + horizontalAttachment;
+                        }
+                        else if(verticalAttachment==='bottom'){
+                            return 'top ' + horizontalAttachment;
+                        }
+                        else if(horizontalAttachment==='left'){ // if we reach this point we can assume the vertical attachment is 'middle'
+                            return verticalAttachment + ' right';
+                        }
+                        else return verticalAttachment + ' left';
+                    },
                     mathWithStrings:function cuiPopoverMathWithStrings(string1,operation,string2){
                         if(!string1) { throw 'String 1 is undefined' };
                         if(!string2) { throw 'String 2 is undefined' };
@@ -1432,7 +1474,18 @@ angular.module('cui-ng')
                         }
                         return classAttr;
                     },
-                    tetherOffset:function cuiPopoverTetherOffset(){
+                    tetherOffset:function cuiPopoverTetherOffset(mode){
+                        if(!mode || mode==='normal') {
+                            var prefix='';
+                            var addOperation='+';
+                            var subtractOperation='-';
+                        }
+                        else {
+                            var prefix='-';
+                            var addOperation='-';
+                            var subtractOperation='+';
+                        }
+
                         var popoverOffset=self.config.popoverOffset.split(' ');
                         var popoverYOffsetAndUnits=self.helpers.getOffsetAndUnitsOfOffset(popoverOffset[0]);
                         var popoverXOffsetAndUnits=self.helpers.getOffsetAndUnitsOfOffset(popoverOffset[1]);
@@ -1445,26 +1498,26 @@ angular.module('cui-ng')
 
                         if(attachment[0]==='top'){
                             return {
-                                popover:String.prototype.concat(self.helpers.mathWithStrings(popoverYOffsetAndUnits[0],'-',self.config.pointerHeight),popoverYOffsetAndUnits[1],' ',popoverOffset[1]),
-                                pointer:String.prototype.concat(self.helpers.mathWithStrings(pointerYOffsetAndUnits[0],'+',self.config.pointerHeight),pointerYOffsetAndUnits[1],' ',pointerOffset[1])
+                                popover:String.prototype.concat(prefix,self.helpers.mathWithStrings(popoverYOffsetAndUnits[0],subtractOperation,self.config.pointerHeight),popoverYOffsetAndUnits[1],' ',prefix,popoverOffset[1]),
+                                pointer:String.prototype.concat(prefix,self.helpers.mathWithStrings(pointerYOffsetAndUnits[0],addOperation,self.config.pointerHeight),pointerYOffsetAndUnits[1],' ',prefix,pointerOffset[1])
                             }
                         }
                         else if(attachment[0]==='middle' && attachment[1]==='left'){
                             return {
-                                popover:String.prototype.concat(popoverOffset[0],' ',self.helpers.mathWithStrings(popoverYOffsetAndUnits[0],'-',self.config.pointerHeight),popoverYOffsetAndUnits[1]),
-                                pointer:String.prototype.concat(pointerOffset[0],' ',self.helpers.mathWithStrings(pointerYOffsetAndUnits[0],'+',self.config.pointerHeight),pointerYOffsetAndUnits[1]),
+                                popover:String.prototype.concat(prefix,popoverOffset[0],' ',prefix,self.helpers.mathWithStrings(popoverYOffsetAndUnits[0],subtractOperation,self.config.pointerHeight),popoverYOffsetAndUnits[1]),
+                                pointer:String.prototype.concat(prefix,pointerOffset[0],' ',prefix,self.helpers.mathWithStrings(pointerYOffsetAndUnits[0],addOperation,self.config.pointerHeight),pointerYOffsetAndUnits[1]),
                             }
                         }
                         else if(attachment[0]==='middle' && attachment[1]==='right'){
                             return {
-                                popover:String.prototype.concat(popoverOffset[0],' ',self.helpers.mathWithStrings(popoverXOffsetAndUnits[0],'+',self.config.pointerHeight),popoverXOffsetAndUnits[1]),
-                                pointer:String.prototype.concat(pointerOffset[0],' ',self.helpers.mathWithStrings(pointerXOffsetAndUnits[0],'-',self.config.pointerHeight),pointerXOffsetAndUnits[1]),
+                                popover:String.prototype.concat(prefix,popoverOffset[0],' ',prefix,self.helpers.mathWithStrings(popoverXOffsetAndUnits[0],addOperation,self.config.pointerHeight),popoverXOffsetAndUnits[1]),
+                                pointer:String.prototype.concat(prefix,pointerOffset[0],' ',prefix,self.helpers.mathWithStrings(pointerXOffsetAndUnits[0],subtractOperation,self.config.pointerHeight),pointerXOffsetAndUnits[1]),
                             }
                         }
                         else {
                             return {
-                                popover:String.prototype.concat(self.helpers.mathWithStrings(popoverYOffsetAndUnits[0],'+',self.config.pointerHeight),popoverYOffsetAndUnits[1],' ',popoverOffset[1]),
-                                pointer:String.prototype.concat(self.helpers.mathWithStrings(pointerYOffsetAndUnits[0],'-',self.config.pointerHeight),pointerYOffsetAndUnits[1],' ',pointerOffset[1])
+                                popover:String.prototype.concat(prefix,self.helpers.mathWithStrings(popoverYOffsetAndUnits[0],addOperation,self.config.pointerHeight),popoverYOffsetAndUnits[1],' ',prefix,popoverOffset[1]),
+                                pointer:String.prototype.concat(prefix,self.helpers.mathWithStrings(pointerYOffsetAndUnits[0],subtractOperation,self.config.pointerHeight),pointerYOffsetAndUnits[1],' ',prefix,pointerOffset[1])
                             }
                         }
 
@@ -1512,7 +1565,7 @@ angular.module('cui-ng')
                     }
                 },
                 render:{
-                    pointer:function cuiPopoverRenderPointer(){
+                    pointer:function cuiPopoverRenderPointer(mode){
                         if(self.selectors.$pointer) self.selectors.$pointer.detach();
                         var $pointer=$('<span class="' + self.helpers.getPointerClass() + '"></span>');
                         $pointer[0].classList.add('hide--opacity');
