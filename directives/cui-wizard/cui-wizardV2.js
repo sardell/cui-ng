@@ -283,7 +283,7 @@ angular.module('cui-ng')
             };
             cuiWizard.initScope();
             cuiWizard.render.indicators();
-            cuiWizard.render.bar();
+            if (self.config.bar) { cuiWizard.render.bar(); }
             cuiWizard.render.steps();
             cuiWizard.watchers.init();
             cuiWizard.selectors.$window.resize();
