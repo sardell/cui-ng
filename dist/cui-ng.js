@@ -1970,12 +1970,12 @@ angular.module('cui-ng')
                         });
                     },
                     getStepInfo:function(step){ // step goes from 0 to numberOfSteps
-                        var $step=self.selectors.$steps[step];
+                        var $step = self.selectors.$steps[step];
                         return {
-                            title: $step.attributes.title.value,
+                            stepTitle: $step.attributes['step-title'].value,
                             icon: $step.attributes.icon ? $step.attributes.icon.value : false,
                             state: $step.attributes.state ? $step.attributes.state.value: false
-                        }
+                        };
                     },
                     getIconMarkup:function(icon){
                         if(!icon) return '';
@@ -2004,7 +2004,7 @@ angular.module('cui-ng')
                         stepNumber+1===self.scope.currentStep ? indicatorClass='active' : stepNumber+1 < self.scope.currentStep ? indicatorClass='visited' : indicatorClass='';
                         return String.prototype.concat(
                             '<span class="step-indicator ', indicatorClass,'"',self.helpers.getNgClickForIndicator(stepNumber,step.state),'>',
-                                '<span class="step-indicator__title">',step.title,'</span>',self.helpers.getIconMarkup(step.icon),
+                                '<span class="step-indicator__title">',step.stepTitle,'</span>',self.helpers.getIconMarkup(step.icon),
                             '</span>');
                     },
                     getIndicatorsWidth:function(){
@@ -2210,7 +2210,7 @@ angular.module('cui-ng')
             };
             cuiWizard.initScope();
             cuiWizard.render.indicators();
-            cuiWizard.render.bar();
+            if (self.config.bar) { cuiWizard.render.bar(); }
             cuiWizard.render.steps();
             cuiWizard.watchers.init();
             cuiWizard.selectors.$window.resize();
