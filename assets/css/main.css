@@ -1471,6 +1471,46 @@ Weight: 200
 Styleguide Blocks
 */
 /*
+Breadcrumb Navigation
+
+Markup:
+<nav class="cui-breadcrumb">
+  <ul class="cui-breadcrumb__links">
+    <li class="cui-breadcrumb__link cui-breadcrumb__link--current">
+      <a href="#">Organization Profile</a>
+    </li>
+    <li class="cui-breadcrumb__link">
+      <a href="#">Hierarchy</a>
+    </li>
+    <li class="cui-breadcrumb__link">
+      <a href="#">Directory</a>
+    </li>
+    <li class="cui-breadcrumb__link">
+      <a href="#">Roles</a>
+    </li>
+  </ul>
+</nav>
+
+Styleguide Blocks.Breadcrumb
+*/
+.cui-breadcrumb__links {
+  display: flex;
+  width: 100%; }
+  .cui-breadcrumb__links .cui-breadcrumb__link {
+    border-right: 1px solid #6a98a0;
+    padding: 0 8px; }
+    .cui-breadcrumb__links .cui-breadcrumb__link:first-child {
+      padding-left: 0; }
+    .cui-breadcrumb__links .cui-breadcrumb__link:last-child {
+      padding-right: 0;
+      border-right: none; }
+    .cui-breadcrumb__links .cui-breadcrumb__link a {
+      color: #6a98a0;
+      text-decoration: none; }
+  .cui-breadcrumb__links .cui-breadcrumb__link--current a {
+    color: #1d6572; }
+
+/*
 Form
 
 Markup: 
@@ -3075,17 +3115,17 @@ Styleguide Blocks.Expandable
     fill: #85a6ad; }
 
 .steps-bar {
-  background-color: #ccc;
-  height: 0.125em;
+  background-color: #D0D0D0;
+  height: 1px;
   position: absolute;
-  top: 62%;
+  top: 68%;
   z-index: 0; }
   .steps-bar--no-js {
     width: 100%; }
   .steps-bar .steps-bar-fill {
-    background-color: #D0D0D0;
+    background-color: #545454;
     display: inline-block;
-    height: 0.125em;
+    height: 1px;
     position: absolute; }
 
 .indicator-container {
@@ -4425,7 +4465,9 @@ Modal example to be added via iframe
   display: flex;
   height: 100%;
   justify-content: center;
-  position: absolute;
+  left: 0;
+  position: fixed;
+  top: 0;
   width: 100%;
   z-index: 100; }
   .cui-modal--hide {
