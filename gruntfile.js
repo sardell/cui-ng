@@ -27,7 +27,7 @@ module.exports = function(grunt) {
             src : [
                 '**/*.html',
                 'dist/*.js',
-                'assets/scripts/*.js',
+                'assets/app/**/*.js',
                 '**/*.css'
             ]
         },
@@ -78,7 +78,11 @@ module.exports = function(grunt) {
       options: {
            separator: '\n\n',
       },
-      dist: {
+      dev:{
+        src: ['modules/app.intro.js','assets/app/**/*.js','modules/app.outro.js'],
+        dest: 'assets/concatJs/app.js'
+      },
+      build: {
         src: ['modules/cui-ng.intro.js','providers/**/*.js','filters/**/*.js','directives/**/*.js','utilities/**/*.js','modules/cui-ng.outro.js'],
         dest: 'dist/cui-ng.js'
       }
@@ -147,7 +151,7 @@ module.exports = function(grunt) {
   });
 
   grunt.registerTask('default', ['sass','concat','browserSync:dev','watch']);
-  grunt.registerTask('build', ['sass','clean','copy','concat','useminPrepare','concat:generated','cssmin:generated','uglify:generated','filerev','usemin']);
+  grunt.registerTask('build', ['sass','clean','copy','concat:build','useminPrepare','concat:generated','cssmin:generated','uglify:generated','filerev','usemin']);
   grunt.registerTask('demo', ['browserSync:demo']);
   grunt.registerTask('test', ['concat','jasmine']);
   grunt.registerTask('lint', ['jshint']);

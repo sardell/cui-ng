@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" ng-app="app">
+<html lang="en">
 <head>
   <meta charset="UTF-8">
   <title>CUI-NG directives/utilities</title>
@@ -9,42 +9,45 @@
   <meta name="viewport" content="width=device-width, user-scalable=yes, initial-scale=1.0, maximum-scale=2.0, minimum-scale=1.0">
   <!-- <base href="/" /> -->
 </head>
-<body ng-controller="appCtrl as app" ng-cloak>
-  <div class="cui-wrapper">
+<body ng-controller="baseCtrl as base" ng-cloak>
+
+  <div class="cui-wrapper v2">
+
     <snap-drawer>
-      <span ng-repeat="route in app.routes" class="snap-menu--option" ui-sref="{{route}}" snap-close>{{route}}</span>
+      <span class="snap-menu--option" snap-close ui-sref="index">
+        <span class="snap-menu__option-name">Directive showcase</span>
+      </span>
     </snap-drawer>
+
     <snap-content snap-opt-disable="'right'">
-
-      <header class="cui-header">
-        <div class="cui-header__top">
-          <div class="menu-toggle" snap-toggle="left" ng-init="app.menuOpen=true" ng-click="app.menuOpen=!app.menuOpen" ng-class="{'active': app.menuOpen}">
-            <div class="menu-toggle--button"></div>
-          </div>
-          <svg class="cui-header__svg-logo" viewBox="0 0 640 124"><use xlink:href="bower_components/cui-icons/dist/logos/logos-out.svg#covisint-logo"></use></svg>
-        </div>
-      </header>
-
-      <div class="desktop-menu" ng-class="{'desktop-menu--collapse': !app.menuOpen}">
-          <input ng-model="app.routeSearch" class="cui-input" style="margin:10px auto;display:block;width:90%;height:30px;padding:10px;" placeholder="Search for components"/>
-          <span class="desktop-menu--option" ng-repeat="route in app.routes | filter:app.routeSearch" ui-sref="{{route}}" ng-click="app.routeSearch=''">{{route}}</span>
+       <div class="cui-desktop-menu" ng-class="{'cui-desktop-menu--collapse' : base.menu.desktop.state==='closed'}" ng-if="base.menu.desktop.enabled">
+        <span class="cui-desktop-menu__option" ui-sref="index" ui-sref-active="active">
+          <span class="cui-desktop-menu__option-name">Directive showcase</span>
+          <svg xmlns="http://www.w3.org/2000/svg" class="snap-menu__icon" preserveAspectRatio="xMidYMid meet" viewBox="0 0 49 49">
+            <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="bower_components/cui-icons/dist/icons/icons-out.svg#applications_v2"></use>
+          </svg>
+        </span>
       </div>
-
-        <div class="cui-nav__content-wrapper" ng-class="{'desktop-menu--collapse': !app.menuOpen}">
-
-          <div ui-view></div>
-
+      <div class="cui-nav__content-wrapper" ng-class="{'cui-desktop-menu--collapse' : base.menu.desktop.state==='closed' || !base.menu.desktop.enabled}">
+        <div class="cui-menu__toggle-button--desktop cui-menu__toggle-button-container active" ng-click="base.menu.desktop.toggle()" ng-class="{'active' : base.menu.desktop.state==='open'}" ng-if="base.menu.desktop.enabled" style="margin-right:20px">
+          <div class="cui-menu__toggle-button"></div>
         </div>
-
-        </div>
+        <header class="cui-header">
+          <div class="cui-header__top">
+            <div class="menu-toggle menu-toggle--mobile" snap-toggle="left" ng-click="base.menu.mobile.toggle()"  ng-if="base.menu.mobile.enabled" style="margin-right:20px">
+              <div class="menu-toggle--button"></div>
+            </div>
+          </div>
+        </header>
+        <div ui-view ng-cloak></div>
       </div>
     </snap-content>
   </div>
 
-
   <!-- build:js assets/js/vendor.js -->
   <script src="bower_components/lodash/lodash.js"></script>
   <script src="bower_components/jquery/dist/jquery.js"></script>
+  <script src="bower_components/cui.js/dist/cui.js"></script>
   <script src="bower_components/angular/angular.js"></script>
   <script src="bower_components/snapjs/snap.js"></script>
   <script src="bower_components/thirdwave-tether/dist/js/tether.js"></script>
@@ -71,7 +74,7 @@
 
   <!-- build:js assets/js/app.js -->
   <script src="dist/cui-ng.js"></script>
-  <script src="assets/scripts/app.js"></script>
+  <script src="assets/concatJs/app.js"></script>
   <!-- endbuild -->
 
 

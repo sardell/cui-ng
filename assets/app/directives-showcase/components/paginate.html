@@ -1,0 +1,22 @@
+<style>
+.paginate {
+  width:400px;
+}
+</style>
+
+<span>Responsive paginiation directive (best when used with results-per-page)<span><br/><br/>
+
+<!-- Results Per Page -->
+Count: <input ng-model="directives.count" type="number" ng-init="directives.count=200"/><br/><br/>
+
+Results Per Page: <results-per-page ng-model="directives.perPage" class="throwaway"></results-per-page><br/><br/>
+
+Page: <input ng-model="directives.page" placeholder="page" type="number"/><br/><br/>
+
+Current page, updated by on-page-change callback: {{directives.currentPage}}<br/><br/>
+
+<paginate class="paginate" results-per-page="directives.perPage" count="directives.count" on-page-change="directives.handlePageChange" ng-model="directives.page"></paginate>
+
+<br/>
+
+<a class="cui-link" href="https://github.com/thirdwavellc/cui-ng/tree/master/directives/paginate" target="blank">Click here for the extended documentation.</a>

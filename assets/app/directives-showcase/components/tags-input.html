@@ -1,0 +1,14 @@
+<span>Tags-input creates a tag style input field.</span><br/>
+<span>Start typing in the field bellow. Hit comma or enter to start entering a new value.</span><br/><br/>
+
+<tags-input class="cui-tags-input" ng-model="directives.tags" type="email"></tags-input>
+<span ng-if="directives.tags && directives.tags.length>0">
+  Tags:
+  <span ng-repeat="tag in directives.tags">
+    <span ng-if="$index>0">,</span> {{tag.text}}
+  </span>
+</span>
+
+<br/><br/>
+
+<a class="cui-link" href="https://github.com/thirdwavellc/cui-ng/tree/master/directives/tags-input" target="blank">Click here for the extended documentation.</a>
