@@ -13,8 +13,8 @@ Cui-dropdown generates a dropdown with the help of tether.
 
 ### Optional attributes
 
- * `class`: (default 'cui-input') Class or classes to be applied to the div that holds the selected value
- * `dropdown-class`: (default 'cui-dropdown') Class to be applied to the dropdown
+ * `class`: (default 'cui-dropdown') Class or classes to be applied to the div that holds the selected value
+ * `dropdown-class`: (default 'cui-dropdown__wrapper') Class to be applied to the dropdown
  * `dropdown-item-class`: (default 'cui-dropdown__item') Class to be applied to each item in the dropdown
  * `attachment`: (default 'top middle') Tether attachment
  * `target-attachment`: (default 'bottom middle') Tether target attachment

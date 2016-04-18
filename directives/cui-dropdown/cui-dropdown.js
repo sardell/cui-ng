@@ -28,7 +28,7 @@ angular.module('cui-ng')
                 },
                 config: {
                     inputClass: attrs.class || 'cui-dropdown',
-                    dropdownWrapperClass: attrs.dropdownClass || 'cui-dropdown__current-value',
+                    dropdownWrapperClass: attrs.dropdownClass || 'cui-dropdown__wrapper',
                     dropdownItemClass: attrs.dropdownItemClass || 'cui-dropdown__item',
                     attachment: attrs.attachment || 'top left',
                     targetAttachment: attrs.targetAttachment || 'top left',
