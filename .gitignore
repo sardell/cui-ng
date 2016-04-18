@@ -9,7 +9,7 @@ results/
 **/.DS_store
 .tmp/
 build/
-assets/css/*.css
+assets/css/
 
 *sublime*
 
