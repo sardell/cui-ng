@@ -2583,12 +2583,12 @@ angular.module('cui-ng')
                     $paginate:angular.element(elem[0])
                 },
                 config:{
-                    pageClass:attrs.pageClass || 'paginate__page',
-                    activePageClass:attrs.activePageClass || 'paginate__page--active',
-                    ellipsesClass: attrs.ellipsesClass || 'paginate__ellipses',
-                    previousClass: attrs.previousNextClass || 'paginate__previous',
-                    nextClass: attrs.previousNextClass || 'paginate__next',
-                    pageContainerClass: attrs.pageContainerClass || 'paginate__page-container',
+                    pageClass:attrs.pageClass || 'cui-paginate__page',
+                    activePageClass:attrs.activePageClass || 'cui-paginate__page--active',
+                    ellipsesClass: attrs.ellipsesClass || 'cui-paginate__ellipses',
+                    previousClass: attrs.previousNextClass || 'cui-paginate__previous',
+                    nextClass: attrs.previousNextClass || 'cui-paginate__next',
+                    pageContainerClass: attrs.pageContainerClass || 'cui-paginate__page-container',
                     ellipsesButton: attrs.ellipses || '...',
                     previousButton: attrs.previousButton || '<',
                     nextButton: attrs.nextButton || '>'
