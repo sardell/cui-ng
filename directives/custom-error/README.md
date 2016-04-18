@@ -8,48 +8,29 @@ The validation function can compare scope variables or even server side checking
 In your controller add an array of "error" objects, like this
 
 ```javascript
-app.customErrors=[
-    {
-        name:'devil',
-        check:function(){
-            return app.test!=='666'; // careful for data types
-        }
-    },
-    {
-        name:'idTaken',
-        check:function(){
-            var idTaken=API.checkIfIDIsAvailable(app.test); // If the check function returns true then
-            return idTaken;                                 // the error will not be passed.
-        }
-    }
-];
-```
-
-Note: When doing server side checking _do not_ put promises in the check function. This will create an infinit dygest cycle error, due to $watch trying to re-evaluate an $http request ($watch will fire infinitely). Instead do this:
-
-```javascript
-     app.checkUsername=function(){
-            fakeApi.checkIfUsernameAvailable(app.username)
-            .then(function(res){
-                app.usernameAvailable=res;
-            })
-        };
-
-        app.customErrors=[
-            {
-                name:'usernameTaken',
-                check:function(){
-                    return app.usernameAvailable;
+app.customErrors ={
+        'notAdmin':function(value) { // Client side checking
+            return value !== 'admin' && value !== 'Admin';
+        },
+        'usernameTaken':function(value) { // Server side checking. The valid method will be passed the response from the promise once it's resolved, there you need to do custom parsing
+            // to make sure you return a boolean (true if valid or false if not valid)
+            return {
+                'promise':fakeApi.checkIfUsernameAvailable(value),
+                'valid':function(res){
+                    return res;
                 }
             }
-        ];
+        },
+};
 ```
+
 
 Then link the errors in your template.
 ```html
 <form name="myForm">
-    <input type="text" custom-error="app.customErrors" ng-model="app.test" name="myField" />
-    <div ng-show="myForm.myField.$error.devil">Away devil!</div>
-    <div ng-show="myForm.myField.$error.idTaken">That ID is taken!</div>
+    <input type="text" custom-error="app.customErrors" custom-error-loading="app.loading" ng-model="app.test" name="myField"/>
+    <span ng-if="myForm.myField.$error.notAdmin" class="error-message">Can't be admin</span>
+    <span ng-if="myForm.myField.$error.usernameTaken" class="error-message">Username is taken</span>
+    <span ng-if="app.loading">You'll see this if I'm waiting for a response to any of the promices passed (put a loading spinner based on this condition)</span>
 </form>
 ```
