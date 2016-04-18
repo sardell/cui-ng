@@ -1149,8 +1149,8 @@ angular.module('cui-ng')
                         }
                     },
                     reassignModel:function(e,index){
-                        if(index){
-                          currentIndex=index=parseInt(index);
+                        if(typeof index==='number'){
+                          currentIndex=index;
                         }
                         else {
                           index=currentIndex;
@@ -1207,6 +1207,7 @@ angular.module('cui-ng')
             cuiDropdown.initScope();
         }
     };
+
 }]);
 
 angular.module('cui-ng')
