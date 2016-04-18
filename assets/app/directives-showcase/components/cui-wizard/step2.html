@@ -1,0 +1,30 @@
+<span>Anything can be put inside of these steps - from static html content to rich dynamic forms. If you are using this for forms you can use the nextWithErrorChecking() function to help you out!</span><br/><br/>
+
+<form name="formName">
+  <div class="cui-wizard__field-row">
+    <!-- Input1 -->
+    <div class="cui-wizard__field-container cui-wizard__field-container--half">
+      <label for="input1">Input 1</label>
+      <div class="cui-error" ng-messages="formName.input1Name.$error" ng-if="formName.input1Name.$touched">
+        <div class="cui-error__message" ng-message="required">This field is required.</div>
+      </div>
+      <input type="text" name="input1Name" id="input1" class="cui-input" ng-required="true" ng-model="directives.field1"/>
+    </div>
+
+    <!-- Input2 -->
+    <div class="cui-wizard__field-container cui-wizard__field-container--half">
+      <label for="input2">Input 2</label>
+        <div class="cui-error" ng-messages="formName.input2Name.$error" ng-if="formName.input2Name.$touched">
+          <div class="cui-error__message" ng-message="required">This field is required.</div>
+        </div>
+        <input type="text" name="input2Name" id="input2" class="cui-input" ng-required="true" ng-model="directives.field2"/>
+      </div>
+    </div>
+  </form>
+
+  <!-- Step 2 Controls -->
+  <div class="cui-wizard__controls" style="margin-top:50px;">
+    <button class="cui-wizard__next" ng-click="previous()">Go to the previous step with the previous() function</button>
+    <button class="cui-wizard__next" ng-class="{'cui-wizard__next--error' : formName.$invalid}" ng-click="nextWithErrorChecking(formName)">Try to go to the next step without filling both fields</button>
+  </div>
+  

@@ -1,0 +1,9 @@
+<span>Inline-edit is a directive created to help develop inline edit components for any variable.</span><br/><br/>
+
+<input class="cui-input" ng-model="directives.random2" ng-init="directives.getRandomWord()" disabled>
+
+<inline-edit name="Random word" on-edit="directives.onEdit" model="directives.random2"></inline-edit>
+
+<br/><span>Clicking edit will auto-focus the editable field (with <a ui-sref="focus-if" class="cui-link">focus-if</a>) and pressing enter when in edit mode will save the changes.</span><br/><br/>
+
+<a class="cui-link" href="https://github.com/thirdwavellc/cui-ng/tree/master/directives/inline-edit" target="blank">Click here for the extended documentation.</a>
