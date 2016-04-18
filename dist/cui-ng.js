@@ -1002,7 +1002,7 @@ angular.module('cui-ng')
         },
         link: function(scope, elem, attrs, ctrl) {
             var id=scope.$id;
-            var self,newScope,formName,inputName=('cuiDropdown'+id);
+            var self,newScope,formName,inputName=('cuiDropdown'+id),currentIndex;
             var cuiDropdown = {
                 initScope: function() {
                     self = this;
@@ -1132,6 +1132,7 @@ angular.module('cui-ng')
                         if(!scope.ngModel) {
                             scope.displayValue=displayValues[0];
                             scope.ngModel=returnValues[0];
+                            currentIndex=0;
                             return;
                         }
                         var index=_.findIndex(returnValues, function(value) {
@@ -1139,14 +1140,21 @@ angular.module('cui-ng')
                         });
                         if(index>-1){
                             scope.displayValue=displayValues[index];
+                            currentIndex=index;
                         }
                         else {
                             scope.displayValue=displayValues[0];
                             scope.ngModel=returnValues[0];
+                            currentIndex=0;
                         }
                     },
                     reassignModel:function(e,index){
-                        var index=parseInt(index);
+                        if(index){
+                          currentIndex=index=parseInt(index);
+                        }
+                        else {
+                          index=currentIndex;
+                        }
                         var displayValues=self.helpers.getOptionDisplayValues();
                         var returnValues=self.helpers.getOptionReturnValues();
                         scope.displayValue=displayValues[index];
@@ -1199,7 +1207,6 @@ angular.module('cui-ng')
             cuiDropdown.initScope();
         }
     };
-
 }]);
 
 angular.module('cui-ng')
@@ -2035,7 +2042,7 @@ angular.module('cui-ng')
                     },
                     resizeHandler:function(){
                         self.helpers.debounce(function(){
-                            self.reRender.bar(self.scope.currentStep);
+                            if(self.config.bar) self.reRender.bar(self.scope.currentStep);
                             if(self.helpers.thereIsRoomForIndicators() && self.config.stepsCollapsed) {
                                 self.config.stepsCollapsed=false;
                                 self.selectors.$indicatorContainer.removeClass('small');
@@ -2108,7 +2115,7 @@ angular.module('cui-ng')
                                 self.config.stepsCollapsed=true;
                                 self.selectors.$indicatorContainer.addClass('small');
                             }
-                            self.reRender.bar(self.scope.currentStep);
+                            if(self.config.bar) self.reRender.bar(self.scope.currentStep);
                         })
                     }
                 },

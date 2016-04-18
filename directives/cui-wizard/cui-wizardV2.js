@@ -108,7 +108,7 @@ angular.module('cui-ng')
                     },
                     resizeHandler:function(){
                         self.helpers.debounce(function(){
-                            self.reRender.bar(self.scope.currentStep);
+                            if(self.config.bar) self.reRender.bar(self.scope.currentStep);
                             if(self.helpers.thereIsRoomForIndicators() && self.config.stepsCollapsed) {
                                 self.config.stepsCollapsed=false;
                                 self.selectors.$indicatorContainer.removeClass('small');
@@ -181,7 +181,7 @@ angular.module('cui-ng')
                                 self.config.stepsCollapsed=true;
                                 self.selectors.$indicatorContainer.addClass('small');
                             }
-                            self.reRender.bar(self.scope.currentStep);
+                            if(self.config.bar) self.reRender.bar(self.scope.currentStep);
                         })
                     }
                 },
