@@ -82,29 +82,26 @@ function($rootScope,$state,$stateParams,user,$timeout,localStorageService,$scope
         }]);
     }, true);
 
-    directives.checkUsername = function() {
-        directives.checkingUsername = true;
-        fakeApi.checkIfUsernameAvailable(directives.username)
-        .then(function(res) {
-            directives.usernameAvailable = res;
-            directives.checkingUsername = false;
-        });
+    directives.customErrors ={
+            'usernameTaken':function(value) {
+                return {
+                    'promise':fakeApi.checkIfUsernameAvailable(value),
+                    'valid':function(res){
+                        return res;
+                    }
+                }
+            },
+            'notAdmin':function(value) {
+                return value !== 'admin' && value !== 'Admin';
+            }
     };
 
-    directives.customErrors = [
-        {
-            name: 'usernameTaken',
-            check: function() {
-                return directives.usernameAvailable;
-            }
-        },
-        {
-            name: 'notAdmin',
-            check: function(){
-                return directives.username !== 'admin' && directives.username !== 'Admin';
-            }
+
+    directives.passwordCustomErrors = {
+        'history':function(){
+            return false;
         }
-    ];
+    };
 
     directives.startGame = function() {
         if (angular.isDefined(timer)) $interval.cancel(timer);
