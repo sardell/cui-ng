@@ -10,6 +10,7 @@ results/
 .tmp/
 build/
 assets/css/
+assets/concatJs/
 
 *sublime*
 

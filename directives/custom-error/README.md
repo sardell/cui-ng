@@ -9,15 +9,18 @@ In your controller add an array of "error" objects, like this
 
 ```javascript
 app.customErrors ={
-        'notAdmin':function(value) { // Client side checking
+        notAdmin:function(value) { // Client side checking
             return value !== 'admin' && value !== 'Admin';
         },
-        'usernameTaken':function(value) { // Server side checking. The valid method will be passed the response from the promise once it's resolved, there you need to do custom parsing
+        usernameTaken:function(value) { // Server side checking. The valid method will be passed the response from the promise once it's resolved, there you need to do custom parsing
             // to make sure you return a boolean (true if valid or false if not valid)
             return {
-                'promise':fakeApi.checkIfUsernameAvailable(value),
-                'valid':function(res){
+                promise:fakeApi.checkIfUsernameAvailable(value),
+                valid:function(res){
                     return res;
+                },
+                catch:function(err){
+                    // do something with the error here
                 }
             }
         },

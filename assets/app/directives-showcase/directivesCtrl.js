@@ -96,13 +96,6 @@ function($rootScope,$state,$stateParams,user,$timeout,localStorageService,$scope
             }
     };
 
-
-    directives.passwordCustomErrors = {
-        'history':function(){
-            return false;
-        }
-    };
-
     directives.startGame = function() {
         if (angular.isDefined(timer)) $interval.cancel(timer);
         directives.userInput = '';
