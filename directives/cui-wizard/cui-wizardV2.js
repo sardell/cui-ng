@@ -1,5 +1,5 @@
 angular.module('cui-ng')
-.directive('cuiWizardProto',['$timeout','$compile','$window','$rootScope',function($timeout,$compile,$window,$rootScope){
+.directive('cuiWizard',['$timeout','$compile','$window','$rootScope',function($timeout,$compile,$window,$rootScope){
     return{
         restrict: 'E',
         scope: true,
