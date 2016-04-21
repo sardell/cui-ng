@@ -1,4 +1,28 @@
 {
+  "name": "cui-ng",
+  "description": "CUI Angular Components",
+  "version": "1.8.0",
+  "author": "Thirdwave LLC <sales@thirdwavellc.com> (http://www.thirdwavellc.com/)",
+  "homepage": "https://github.com/thirdwavellc/cui-ng",
+  "licence": "ISC",
+  "main": "dist/",
+  "scripts": {
+    "postversion": "scripts/npm-postverion"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/thirdwavellc/cui-ng"
+  },
+  "publishConfig": {
+    "registry": "http://nexus.thirdwavellc.com/content/repositories/cui-npm/"
+  },
+  "bugs": {
+    "url": "https://github.com/thirdwavellc/cui-ng/issues"
+  },
+  "files": [
+    "dist/",
+    "bower.json"
+  ],
   "devDependencies": {
     "angular-mocks": "^1.4.8",
     "browser-sync": "^2.9.3",
