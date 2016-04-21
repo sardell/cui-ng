@@ -7,7 +7,7 @@
   "licence": "ISC",
   "main": "dist/",
   "scripts": {
-    "postversion": "scripts/npm-postverion"
+    "postversion": "scripts/npm-postversion"
   },
   "repository": {
     "type": "git",
@@ -20,7 +20,7 @@
     "url": "https://github.com/thirdwavellc/cui-ng/issues"
   },
   "files": [
-    "dist/",
+    "dist/"
   ],
   "devDependencies": {
     "angular-mocks": "^1.4.8",

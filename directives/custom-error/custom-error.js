@@ -45,8 +45,9 @@ angular.module('cui-ng')
             Promise.resolve(checkFunctionReturn.promise).then(function(res){
               ctrl.$setValidity(errorName, checkFunctionReturn.valid(res));
               checkIfDoneResolvingPromises();
+              scope.$digest();
             },function(err){
-              checkFunction.catch && checkFunction.catch(err);
+              checkFunctionReturn.catch && checkFunctionReturn.catch(err);
               checkIfDoneResolvingPromises();
             });
           }
