@@ -1,5 +1,8 @@
 <span id="test" ng-click="directives.popoverOpen=!directives.popoverOpen">This is the target attachment!</span>
 
-<div cui-popover ng-if="directives.popoverOpen" target="#test" attachment="middle left" target-attachment="middle right" offset="20% 20%" pointer-offset="0" style="background:#222;padding:10px;color:#EEE;border-radius:3px">This is the element that's attached</div><br/><br/>
+<div cui-popover target="#test" popover-position="right" popover-offset="0 10px" content-offset="0" pointer-height="17" pointer-width="10"
+  ng-if="directives.popoverOpen" style="display:inline-block;background:#222;padding:10px;color:#EEE;border-radius:3px">
+    This is the element that's attached
+  </div><br/><br/>
 
 <a class="cui-link" href="https://github.com/thirdwavellc/cui-ng/tree/master/directives/cui-popover" target="blank">Click here for the extended documentation.</a>
