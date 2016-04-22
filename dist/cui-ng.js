@@ -1330,6 +1330,33 @@ angular.module('cui-ng')
         link: function cuiPopoverLink(scope, elem, attrs) {
             var self;
             var popoverTether,tetherAttachmentInterval,targetElementPositionInterval;
+
+            var getAttachmentFromPosition = function(position) {
+                switch(position) {
+                    case 'top':
+                        return 'bottom center';
+                    case 'bottom':
+                        return 'top center';
+                    case 'right':
+                        return 'middle left';
+                    case 'left':
+                        return 'middle right';
+                };
+            };
+
+            var invertPosition = function cuiPopoverInvertPosition(position) {
+                switch (position) {
+                    case 'top':
+                        return 'bottom';
+                    case 'bottom':
+                        return 'top';
+                    case 'left':
+                        return 'right';
+                    case 'right':
+                        return 'left';
+                };
+            };
+
             var cuiPopover={
                 init:function cuiPopoverInit(){
                     self=this;
@@ -1340,7 +1367,7 @@ angular.module('cui-ng')
                 },
                 config:(function cuiPopoverInitConfig(){
                     var position = attrs.popoverPosition || 'bottom',
-                        attachment, targetAttachment, offset, targetOffset, pointerOffset, distanceBetweenTargetAndPopover;
+                        offset, targetOffset, pointerOffset, distanceBetweenTargetAndPopover;
 
                     var popoverOffsetAttribute = (attrs.popoverOffset || '0 0').split(' ');
                     var contentOffsetAttribute = (attrs.contentOffset || '0 0').split(' ');
@@ -1351,33 +1378,17 @@ angular.module('cui-ng')
                         distanceBetweenTargetAndPopover = popoverOffsetAttribute[0];
                         offset = ['0', offsetBetweenPointerAndContent].join(' ');
                         targetOffset = '0 ' + pointerOffset;
-                        if(position==='top') {
-                            attachment = 'bottom center';
-                            targetAttachment = 'top center';
-                        }
-                        else {
-                            targetAttachment = 'bottom center';
-                            attachment = 'top center';
-                        }
                     }
                     else {
                         pointerOffset = popoverOffsetAttribute[0];
                         distanceBetweenTargetAndPopover = popoverOffsetAttribute[1];
                         offset = [offsetBetweenPointerAndContent, '0'].join(' ');
                         targetOffset = pointerOffset + ' 0';
-                        if(position === 'right') {
-                            targetAttachment = 'middle right';
-                            attachment = 'middle left';
-                        }
-                        else {
-                            attachment = 'middle right';
-                            targetAttachment = 'middle left';
-                        }
                     }
 
                     return {
-                        attachment: attachment,
-                        targetAttachment: targetAttachment,
+                        attachment: getAttachmentFromPosition(position),
+                        targetAttachment: getAttachmentFromPosition(invertPosition(position)),
                         offset: offset,
                         targetOffset: targetOffset,
                         pointerHeight: attrs.pointerHeight && parseInt(attrs.pointerHeight) || 14,
@@ -1386,7 +1397,8 @@ angular.module('cui-ng')
                         target: attrs.target,
                         targetModifier: attrs.targetModifier || undefined,
 
-                        hidePopoverIfOob: attrs.hidePopoverIfOob && scope.$eval(attrs.hidePopoverIfOob) || false,
+                        allowedReposition: attrs.allowedReposition || 'any',
+                        hidePopoverIfOob: scope.$eval(attrs.hidePopoverIfOob) || false,
                         position: attrs.popoverPosition || 'bottom',
                         distanceBetweenTargetAndPopover: distanceBetweenTargetAndPopover,
                         offsetBetweenPointerAndContent: offsetBetweenPointerAndContent,
@@ -1406,22 +1418,40 @@ angular.module('cui-ng')
                             var position = self.config.position;
                             switch(self.config.hidePopoverIfOob){
                                 case true:
-                                    scope.position = popoverTether.element.classList.contains('tether-out-of-bounds')? 'hidden' : 'normal';
+                                    scope.position = popoverTether.element.classList.contains('tether-out-of-bounds') ? 'hidden' : 'normal';
                                     break;
                                 default:
-                                   scope.position = popoverTether.element.classList.contains('tether-element-attached-' + self.helpers.invertPosition(position))? 'normal' : 'inverted';
+                                    switch(self.config.allowedReposition) {
+                                        case 'none':
+                                            scope.position = 'normal';
+                                            break;
+                                        case 'opposite':
+                                            scope.position = popoverTether.element.classList.contains('tether-element-attached-' + invertPosition(position)) ? 'normal' : 'inverted';
+                                            break;
+                                        case 'any':
+                                            if(popoverTether.element.classList.contains('tether-out-of-bounds' + invertPosition(position))
+                                                || popoverTether.element.classList.contains('tether-out-of-bounds-' + position)) {
+                                                scope.position = 'fallback';
+                                                $interval.cancel(tetherAttachmentInterval); // cancel the interval temporarily
+                                            }
+                                            else if (!popoverTether.element.classList.contains('tether-element-attached-' + invertPosition(position))) scope.position = 'inverted';
+                                            else scope.position = 'normal';
+                                            break;
+                                    };
                             };
-                        },20);
+                        },10);
 
                         scope.$watch('position',function(newPosition,oldPosition) {
-                            if(newPosition && newPosition !== oldPosition) self.rePosition(newPosition);
+                            if(newPosition && newPosition !== oldPosition) {
+                                self.rePosition(newPosition);
+                            }
                         });
                     },
 
                     targetElementPosition:function cuiPopoverWatchElementPosition() {
                         targetElementPositionInterval=$interval(function(){
                             scope.targetPosition = self.selectors.$target.offset();
-                        },20)
+                        },10)
 
                         scope.$watch('targetPosition',function(newPosition){
                             newPosition && popoverTether.position();
@@ -1466,25 +1496,22 @@ angular.module('cui-ng')
                             offset: offset,
                             targetOffset: self.config.targetOffset,
                             targetModifier: self.config.targetModifier,
-                            constraints: self.config.hidePopoverIfOob ? [{ to: 'window', attachment: 'none none' }] : [{ to: 'window', attachment: 'together together' }]
+                            constraints: self.config.hidePopoverIfOob || self.config.allowedReposition==='none' ? [{ to: 'window', attachment: 'none none' }] : [{ to: 'window', attachment: 'together together' }]
                         }
                     },
                     invertAttachment:function cuiPopoverInvertAttachment(attachment){
                         var positions=attachment.split(' ');
                         var verticalPosition=positions[0];
                         var horizontalPosition=positions[1];
-                        return self.helpers.invertPosition(verticalPosition) + ' ' + self.helpers.invertPosition(horizontalPosition);
+                        return invertPosition(verticalPosition) + ' ' + invertPosition(horizontalPosition);
                     },
-                    invertPosition: function cuiPopoverInvertPosition(position) {
+                    getRotatedPosition: function cuiPopoverGetRotatedPosition(position) {
                         switch (position) {
                             case 'top':
-                                return 'bottom';
                             case 'bottom':
-                                return 'top';
-                            case 'left':
                                 return 'right';
-                            case 'right':
-                                return 'left';
+                            default:
+                                return 'bottom';
                         };
                     },
                     getOffsetAndUnitsOfOffset:function cuiPopovergetOffsetAndUnitsOfOffset(offsetPartial){
@@ -1505,7 +1532,7 @@ angular.module('cui-ng')
                     },
                     getPointerClass:function cuiPopoverGetPointerClass(position){
                         var position = position || self.config.position;
-                        return 'cui-popover__pointer ' + 'cui-popover__pointer--' + self.helpers.invertPosition(position);
+                        return 'cui-popover__pointer ' + 'cui-popover__pointer--' + invertPosition(position);
                     },
                     getPointerOffset:function cuiPopoverGetPointerOffset(position) {
                         var position = position || self.config.position;
@@ -1513,16 +1540,27 @@ angular.module('cui-ng')
                         var offsetBetweenPointerAndContent = self.config.offsetBetweenPointerAndContent;
                         var offset = self.helpers.getOffsetAndUnitsOfOffset(offsetBetweenPointerAndContent);
 
-                        var styles = (function(position){
+                        var styles={
+                            'margin-right':'',
+                            'margin-left':'',
+                            'margin-bottom':'',
+                            'margin-top':'',
+                            'left':'',
+                            'top':'',
+                            'bottom':'',
+                            'right':''
+                        };
+
+                        angular.extend(styles,(function(position){
                             switch (position) {
                                 case 'top':
                                 case 'bottom':
-                                    return { 'margin-left':'50%', 'left': (offset.amount * -1) + offset.units };
+                                    return { 'margin-left':'50%', 'left': (offset.amount * -1) + offset.units, 'margin-right':'','margin-top':'', 'margin-bottom':'' };
                                 case 'left':
                                 case 'right':
                                     switch(offset.amount){
                                         case 0:
-                                            return { 'top':'50%' };
+                                            return { 'top':'50%' , 'margin-right': '','margin-left':'','margin-bottom':'','margin-top':'', 'bottom': ''};
                                         default:
                                             var containerHeight = self.config.popover.height,
                                                 topMargin;
@@ -1530,7 +1568,7 @@ angular.module('cui-ng')
                                             return { 'top':'50%', 'margin-top': topMargin };
                                     };
                             };
-                        })(position);
+                        })(position));
 
                         var containerPadding = self.helpers.getContainerPaddings(position);
                         var styleExtension = (function(position){
@@ -1588,6 +1626,7 @@ angular.module('cui-ng')
                         };
 
                         var position = (position || self.config.position);
+
                         angular.extend(styles,self.helpers.getPointerOffset(position));
                         angular.extend(styles,self.helpers.getBaseBorderStyles(position));
 
@@ -1696,12 +1735,22 @@ angular.module('cui-ng')
                             self.selectors.$container[0].classList.remove('hide--opacity');
                             break;
                         case 'inverted':
-                            var newPosition=self.helpers.invertPosition(self.config.position);
+                            var newPosition=invertPosition(self.config.position);
                             elem.css(self.helpers.getPopoverMargins(newPosition));
                             self.selectors.$pointer.css(self.helpers.getPointerStyles(newPosition));
                             self.selectors.$container.css(self.helpers.getContainerPaddings(newPosition));
                             self.selectors.$container[0].classList.remove('hide--opacity');
                             break;
+                        case 'fallback': // if we need to rotate the tether 90deg
+                            self.config.position = self.helpers.getRotatedPosition(self.config.position);
+                            self.config.attachment = getAttachmentFromPosition(self.config.position);
+                            self.config.targetAttachment = getAttachmentFromPosition(invertPosition(self.config.position));
+                            elem.css(self.helpers.getPopoverMargins());
+                            self.selectors.$container.css(self.helpers.getContainerPaddings());
+                            self.selectors.$pointer.css(self.helpers.getPointerStyles(self.config.position));
+                            popoverTether.setOptions(self.helpers.getTetherOptions());
+                            self.watchers.position();
+
                     }
                 }
             };
