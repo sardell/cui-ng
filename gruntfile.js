@@ -97,9 +97,9 @@ module.exports = function(grunt) {
         src: 'index.html',
         dest: 'build/index.html'
       },
-      angularTemplates: {
-        src: 'assets/angular-templates/**/*.html',
-        dest: 'build/'
+      appConfig: {
+        src: 'appConfig.json',
+        dest: 'build/appConfig.json'
       },
       languageFiles: {
         src: 'bower_components/cui-i18n/dist/cui-i18n/angular-translate/*.json',
@@ -107,14 +107,6 @@ module.exports = function(grunt) {
       },
       localeFiles: {
         src: 'bower_components/angular-i18n/*.js',
-        dest: 'build/'
-      },
-      svgList: {
-        src: 'bower_components/cui-icons/iconList',
-        dest: 'build/'
-      },
-      svgs: {
-        src: ['bower_components/cui-icons/dist/**/*.svg'],
         dest: 'build/'
       },
       countries: {
