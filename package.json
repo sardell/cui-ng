@@ -1,14 +1,11 @@
 {
   "name": "cui-ng",
   "description": "CUI Angular Components",
-  "version": "1.8.3",
+  "version": "1.8.9",
   "author": "Thirdwave LLC <sales@thirdwavellc.com> (http://www.thirdwavellc.com/)",
   "homepage": "https://github.com/thirdwavellc/cui-ng",
   "licence": "ISC",
   "main": "dist/",
-  "scripts": {
-    "postversion": "scripts/npm-postversion"
-  },
   "repository": {
     "type": "git",
     "url": "https://github.com/thirdwavellc/cui-ng"
