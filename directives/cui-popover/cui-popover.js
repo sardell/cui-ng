@@ -80,37 +80,29 @@ angular.module('cui-ng')
                         tetherAttachmentInterval = $interval(function() {
                             if(!popoverTether || !popoverTether.element) return;
                             var position = self.config.position;
-                            if(self.config.hidePopoverIfOob){
-                                if(popoverTether.element.classList.contains('tether-out-of-bounds-' + position)) { // if the element is in the position we want
-                                    scope.position = 'hidden';
-                                }
-                                else scope.position = 'normal'; // if it doesn't have space to show and has been inverted by tether
-                            }
-                            else{
-                                if(popoverTether.element.classList.contains('tether-element-attached-' + self.helpers.invertPosition(position))) { // if the element is in the position we want
-                                    scope.position = 'normal';
-                                }
-                                else scope.position = 'inverted'; // if it doesn't have space to show and has been inverted by tether
-                            }
-
+                            switch(self.config.hidePopoverIfOob){
+                                case true:
+                                    scope.position = popoverTether.element.classList.contains('tether-out-of-bounds')? 'hidden' : 'normal';
+                                    break;
+                                default:
+                                   scope.position = popoverTether.element.classList.contains('tether-element-attached-' + self.helpers.invertPosition(position))? 'normal' : 'inverted';
+                            };
                         },20);
 
                         scope.$watch('position',function(newPosition,oldPosition) {
-                            if(newPosition && newPosition != oldPosition) self.rePosition(newPosition);
+                            if(newPosition && newPosition !== oldPosition) self.rePosition(newPosition);
                         });
                     },
 
                     targetElementPosition:function cuiPopoverWatchElementPosition() {
                         targetElementPositionInterval=$interval(function(){
-                            scope.targetPosition=self.selectors.$target.offset();
+                            scope.targetPosition = self.selectors.$target.offset();
                         },20)
 
                         scope.$watch('targetPosition',function(newPosition){
-                            if(newPosition) {
-                                popoverTether.position();
-                            }
+                            newPosition && popoverTether.position();
                         },function(newPosition,oldPosition){
-                            return (newPosition.top!==oldPosition.top || newPosition.left!==oldPosition.left);
+                            return (newPosition.top !== oldPosition.top || newPosition.left !== oldPosition.left);
                         });
                     },
 
@@ -119,8 +111,8 @@ angular.module('cui-ng')
                             $interval.cancel(tetherAttachmentInterval);
                             $interval.cancel(targetElementPositionInterval);
                             popoverTether.destroy();
-                            if(self.selectors.$container) self.selectors.$container.detach();
-                            if(self.selectors.$pointer) self.selectors.$pointer.detach();
+                            self.selectors.$container && self.selectors.$container.detach();
+                            self.selectors.$pointer && self.selectors.$pointer.detach();
                         })
                     }
                 },
@@ -132,12 +124,16 @@ angular.module('cui-ng')
                         var offset=self.config.offset.split(' ');
                         var verticalOffset=self.helpers.getOffsetAndUnitsOfOffset(offset[0]);
                         var horizontalOffset=self.helpers.getOffsetAndUnitsOfOffset(offset[1])
-                        if( self.config.position === 'top' || self.config.position === 'bottom' ) {
-                            offset='0 ' + (horizontalOffset.amount * -1) + horizontalOffset.units;
-                        }
-                        else {
-                            offset=(verticalOffset.amount * -1) + verticalOffset.units + ' 0';
-                        }
+
+                        switch (self.config.position){
+                            case 'top':
+                            case 'bottom':
+                                offset='0 ' + (horizontalOffset.amount * -1) + horizontalOffset.units;
+                                break;
+                            default:
+                                offset=(verticalOffset.amount * -1) + verticalOffset.units + ' 0';
+                        };
+
                         return {
                             element: self.selectors.$container[0],
                             target: self.config.target,
@@ -156,10 +152,16 @@ angular.module('cui-ng')
                         return self.helpers.invertPosition(verticalPosition) + ' ' + self.helpers.invertPosition(horizontalPosition);
                     },
                     invertPosition: function cuiPopoverInvertPosition(position) {
-                        if(position === 'top') return 'bottom';
-                        if(position === 'bottom') return 'top';
-                        if(position === 'left') return 'right';
-                        if(position === 'right') return 'left';
+                        switch (position) {
+                            case 'top':
+                                return 'bottom';
+                            case 'bottom':
+                                return 'top';
+                            case 'left':
+                                return 'right';
+                            case 'right':
+                                return 'left';
+                        };
                     },
                     getOffsetAndUnitsOfOffset:function cuiPopovergetOffsetAndUnitsOfOffset(offsetPartial){
                         var offsetAndUnit={};
@@ -183,55 +185,58 @@ angular.module('cui-ng')
                     },
                     getPointerOffset:function cuiPopoverGetPointerOffset(position) {
                         var position = position || self.config.position;
-                        var containerPadding = self.helpers.getContainerPaddings(position);
-
-                        var styles = {},
-                            styleExtension;
 
                         var offsetBetweenPointerAndContent = self.config.offsetBetweenPointerAndContent;
                         var offset = self.helpers.getOffsetAndUnitsOfOffset(offsetBetweenPointerAndContent);
 
-                        if(position === 'top' || position === 'bottom') {
-                            styles= { 'margin-left':'50%', 'left': (offset.amount * -1) + offset.units };
-                        }
-                        else {
-                            if(offset.amount === 0) styles = { 'top':'50%' };
-                            else {
-                                var containerHeight = self.config.popover.height,
-                                    topMargin;
-                                if(offset.units === '%') topMargin = containerHeight * ((offset.amount * -1) /100);
-                                styles = { 'top':'50%', 'margin-top': topMargin };
-                            }
-                        }
+                        var styles = (function(position){
+                            switch (position) {
+                                case 'top':
+                                case 'bottom':
+                                    return { 'margin-left':'50%', 'left': (offset.amount * -1) + offset.units };
+                                case 'left':
+                                case 'right':
+                                    switch(offset.amount){
+                                        case 0:
+                                            return { 'top':'50%' };
+                                        default:
+                                            var containerHeight = self.config.popover.height,
+                                                topMargin;
+                                            offset.units === '%'? topMargin = containerHeight * ((offset.amount * -1) /100) : topMargin = offset.amount + offset.units;
+                                            return { 'top':'50%', 'margin-top': topMargin };
+                                    };
+                            };
+                        })(position);
 
-                        if(position==='top') {
-                            styleExtension = {
-                                bottom:'0',
-                                transform:'translate(-50%,' + (-Math.ceil(parseFloat(containerPadding['padding-bottom'])) + self.config.pointerHeight) + 'px)'
-                            }
-                        }
-                        else if(position==='bottom') {
-                            styleExtension={
-                                top:'0',
-                                transform: 'translate(-50%,' + (Math.ceil(parseFloat(containerPadding['padding-top'])) - self.config.pointerHeight) + 'px)'
-                            }
-                        }
-                        else {
-                            if(position==='left') {
-                                styleExtension={
-                                    right: (parseFloat(containerPadding['padding-right']) - self.config.pointerHeight) + 'px',
-                                    transform: 'translate(0,-50%)'
-                                }
-                            }
-                            else {
-                                styleExtension={
-                                    left: (parseFloat(containerPadding['padding-left']) - self.config.pointerHeight) + 'px',
-                                    transform: 'translate(0,-50%)'
-                                }
-                            }
-                        }
+                        var containerPadding = self.helpers.getContainerPaddings(position);
+                        var styleExtension = (function(position){
+                            switch (position) {
+                                default:
+                                    return {};
+                                case 'top':
+                                    return {
+                                        bottom:'0',
+                                        transform:'translate(-50%,' + (-Math.ceil(parseFloat(containerPadding['padding-bottom'])) + self.config.pointerHeight) + 'px)'
+                                    };
+                                case 'bottom':
+                                    return {
+                                        top:'0',
+                                        transform: 'translate(-50%,' + (Math.ceil(parseFloat(containerPadding['padding-top'])) - self.config.pointerHeight) + 'px)'
+                                    };
+                                case 'left':
+                                    return {
+                                        right: (parseFloat(containerPadding['padding-right']) - self.config.pointerHeight) + 'px',
+                                        transform: 'translate(0,-50%)'
+                                    };
+                                case 'right':
+                                    return {
+                                        left: (parseFloat(containerPadding['padding-left']) - self.config.pointerHeight) + 'px',
+                                        transform: 'translate(0,-50%)'
+                                    };
+                            };
+                        })(position);
 
-                        styleExtension[position]=''; // reset whatever the position property , ie top,bottom,left or right
+                        styleExtension[position]=''; // reset whatever the position property , ie top, bottom, left or right
                         angular.extend(styles,styleExtension);
                         return styles;
                     },
@@ -301,34 +306,29 @@ angular.module('cui-ng')
 
                         if( position === 'top' || position === 'bottom') {
                            var verticalPadding;
-                            if(padding.units === '%') {
-                                var heightOfPopover = self.config.popover.height + self.config.pointerHeight;
-                                verticalPadding = heightOfPopover * (padding.amount / 100) + 'px';
-                            }
-                            else verticalPadding = padding.amount + padding.units;
-
-                            if( position === 'top' ) paddingBottom = verticalPadding;
-                            else paddingTop = verticalPadding;
+                           switch(padding.units) {
+                               default: // 'px' or ''
+                                   verticalPadding = padding.amount + padding.units;
+                                   break;
+                               case '%':
+                                   var heightOfPopover = self.config.popover.height + self.config.pointerHeight;
+                                   verticalPadding = heightOfPopover * (padding.amount / 100) + 'px';
+                            };
+                            position === 'top' ? paddingBottom = verticalPadding : paddingTop = verticalPadding;
                         }
                         else {
                             var horizontalPadding;
-                            if(padding.units === '%'){
-                                var widthOfPopover = self.config.popover.width + self.config.pointerHeight,
-                                horizontalPadding=widthOfPopover * (padding.amount / 100) + 'px';
-                            }
-                            else horizontalPadding= padding.amount + padding.units;
 
-                            if ( position === 'left' ) paddingRight = horizontalPadding;
-                            else paddingLeft = horizontalPadding;
+                            switch(padding.units) {
+                                default: // 'px' or ''
+                                    horizontalPadding= padding.amount + padding.units;
+                                    break;
+                                case '%':
+                                    var widthOfPopover = self.config.popover.width + self.config.pointerHeight,
+                                    horizontalPadding=widthOfPopover * (padding.amount / 100) + 'px';
+                            };
+                            position === 'left' ? paddingRight = horizontalPadding : paddingLeft = horizontalPadding;
                         }
-
-
-                        console.log({
-                            'padding-top': paddingTop || '',
-                            'padding-right': paddingRight || '',
-                            'padding-bottom': paddingBottom || '',
-                            'padding-left': paddingLeft || '',
-                        });
 
                         return {
                             'padding-top': paddingTop || '',
@@ -360,21 +360,24 @@ angular.module('cui-ng')
                 },
                 rePosition:function cuiPopoverReposition(newAttachment){
                     self.selectors.$container[0].classList.add('hide--opacity');
-                    if(!newAttachment || newAttachment==='normal') {
-                        elem.css(self.helpers.getPopoverMargins());
-                        self.selectors.$pointer.css(self.helpers.getPointerStyles());
-                        self.selectors.$container.css(self.helpers.getContainerPaddings());
-                        self.selectors.$container[0].classList.remove('hide--opacity');
-                    }
-                    else if(newAttachment==='inverted'){
-                        var newPosition=self.helpers.invertPosition(self.config.position);
-                        elem.css(self.helpers.getPopoverMargins(newPosition));
-                        self.selectors.$pointer.css(self.helpers.getPointerStyles(newPosition));
-                        self.selectors.$container.css(self.helpers.getContainerPaddings(newPosition));
-                        self.selectors.$container[0].classList.remove('hide--opacity');
-                    }
-                    else if(newAttachment==='hidden'){
-                        return;
+
+                    switch(newAttachment){
+                        case 'hidden':
+                            break;
+                        case undefined:
+                        case 'normal':
+                            elem.css(self.helpers.getPopoverMargins());
+                            self.selectors.$pointer.css(self.helpers.getPointerStyles());
+                            self.selectors.$container.css(self.helpers.getContainerPaddings());
+                            self.selectors.$container[0].classList.remove('hide--opacity');
+                            break;
+                        case 'inverted':
+                            var newPosition=self.helpers.invertPosition(self.config.position);
+                            elem.css(self.helpers.getPopoverMargins(newPosition));
+                            self.selectors.$pointer.css(self.helpers.getPointerStyles(newPosition));
+                            self.selectors.$container.css(self.helpers.getContainerPaddings(newPosition));
+                            self.selectors.$container[0].classList.remove('hide--opacity');
+                            break;
                     }
                 }
             };

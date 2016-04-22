@@ -8,18 +8,16 @@ Cui-wizard is an angular directive that, following a few syntax rules, allows th
 ### Usage Example
 
 ```html
-  <cui-wizard step="{{begginingStep}}" clickable-indicators minimum-padding="30" bar mobile-stack>
+  <cui-wizard step="{{begginingStep}}" clickable-indicators minimum-padding="30" bar mobile-stack="700">
     <indicator-container></indicator-container>
-    <step title="{{step1Title}}" state="{{stateName}}" icon="{{iconRef/Link}}">
+    <step step-title="{{step1Title}}" state="{{stateName}}" icon="{{iconRef/Link}}">
       *step1 contents go here*
     </step>
-    <step title="{{step2Title}}">
+    <step step-title="{{step2Title}}">
       *step2 contents go here*
     </step>
   </cui-wizard>
 ```
-
-WARNING: If you're using ng-include to populate each step and you're using the `mobile-stack` feature, make sure to use only 1 ng-include with all of the content and use this syntax : `<div ng-include="'<path>.html'"></div>`
 
 #### Variables
 1. `{{beggining Step}}` -> the step the wizard will start on.
@@ -28,7 +26,7 @@ WARNING: If you're using ng-include to populate each step and you're using the `
 4. `{{iconRef/Link}}` -> reference to the icon that will appear under the for the step. (look below for more info on how this works)
 
 ### How it works / features
-The directive will start by reading the `title` atributes on each `step` element within the `cui-wizard`.
+The directive will start by reading the `step-title` atributes on each `step` element within the `cui-wizard`.
 Then it creates step indicators (these are given `.step-indicator` class) which will be clickable depending on the presence of the `clickable-indicators` atribute.
 The step that is currently active will give it's corresponding indicator an `.active` class.
 
@@ -43,7 +41,7 @@ Anywhere inside of this directive you can position an element with an `ng-click`
 2. `nextWithErrorChecking(formName, << nextStateName >>*)` -> checks if every form field in that step is valid and will set a scope variable called `invalidForm[i]` (where i is the current step) to true if there are any errors. If there aren't errors, it simply calls `next()`. (you have to give your form and your inputs `name` attributes for this to work)
 3. `goToStep(i)` -> navigates to a step with index i (note, steps start counting from 1)
 4. `previous(<< previousStateName >>*)` -> navigates to the previous step
-5. `goToState(state)` ->This is called automatically by `next`,`nextWithErrorChecking` and previous, if states are passed. What it does is use `$rootScope.$broadcast` to broadcast `'stepChange'` with {state:statePassed} as the data. This means you can use `$scope.$on` in your controller and listen for `'stepChange'`,like this:
+5. `goToState(state)` -> This is called automatically by `next`,`nextWithErrorChecking` and previous, if states are passed. What it does is use `$rootScope.$broadcast` to broadcast `'stepChange'` with {state:statePassed} as the data. This means you can use `$scope.$on` in your controller and listen for `'stepChange'`,like this:
 ```javascript
 angular.module('app',['cui-ng','ui.router'])
 .run(['$rootScope','wizardStep',function($rootScope,wizardStep){
@@ -127,7 +125,7 @@ If there isn't enough space then `indicator-container` gets applied a class of `
 
 The `bar` attribute activates a bar with `.steps-bar` class within the `indicator-container`. Inside of this bar there will be another bar with a class of `.steps-bar-fill` that will increase in width based on the current step. (Note: Currently the bar grows from the middle of the 1st step indicator up to the middle of the last one)
 
-The `mobile-stack` attribute will create dupes of your wizard's steps, using the `cui-expandable` directive. These dupes will have a `mobile-element` class and the original steps will be given a `desktop-element` class. We can then style these classes to give a different look and feel on mobile (the styling will be included in cui-styleguide).
+Setting the `mobile-stack` attribute will use the `cui-expandable` directive to show the steps in an expandandable/collapsable manner. When in this mode, the expandables will have a class of `mobile-element`.
 
 Cui-wizard will also listen for `'languageChange'` broadcasts on scope, and will fire the function that ensures there's enough room to show all of the indicators (and apply the class of `.small` to the `indicator-container` if there isn't). This is specifically built in for use with the [cui-i18n](https://github.com/thirdwavellc/cui-i18n) module.
 
@@ -150,3 +148,7 @@ Cui-wizard will also listen for `'languageChange'` broadcasts on scope, and will
 ## Change Log 3/28/2016
 
 * Adds `.cui-steps` wrapper to the step-indicators to fix an issue where in IE and firefox the absolutely positioned bar would be taken into account for space-between.
+
+## Change Log 4/20/2016
+
+* Major rework that enables us to not need to replicate the markup to display the mobile stack. Instead, we just use expandables with `transition-speed="0"` when in desktop mode and those same expandables with `transition-speed="300"` in mobile-stack mode. This will allow us to use `tether`, `cui-popover` and other tether based directives much more reliably, since these usually depened on an element id to use as the target.

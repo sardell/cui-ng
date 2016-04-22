@@ -253,11 +253,13 @@ angular.module('cui-ng')
                         self.selectors.$steps[newStep-1].classList.add('active');
                         self.selectors.$expandables[oldStep-1].removeClass('expanded');
                         self.selectors.$expandables[newStep-1].addClass('expanded');
+                        self.selectors.$expandables[oldStep-1][0].querySelector('.step-indicator').classList.remove('active');
+                        self.selectors.$expandables[newStep-1][0].querySelector('.step-indicator').classList.add('active');
                     },
                     indicatorContainer:function(){
                         if(self.helpers.thereIsRoomForIndicators() && self.config.stepsCollapsed) {
                             self.config.stepsCollapsed=false;
-                            self.selectors.$indicatorContainer.addClass('small');
+                            self.selectors.$indicatorContainer.removeClass('small');
                         }
                         else if(!self.helpers.thereIsRoomForIndicators() && !self.config.stepsCollapsed) {
                             self.config.stepsCollapsed=true;
