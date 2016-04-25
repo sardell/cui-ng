@@ -15,9 +15,10 @@ angular.module('app')
     return {
         checkIfUsernameAvailable: function(username) {
             var deferred = $q.defer();
-            $timeout(function() {
+            var delay = (Math.random() * 1000); // Simulate API random delay
+            $timeout(function(){
                 deferred.resolve(username !== 'Steven.Seagal');
-            }, 600);
+            }, delay);
             return deferred.promise;
         }
     };
@@ -32,9 +33,9 @@ angular.module('app')
 }])
 
 .controller('directivesCtrl',['$rootScope','$state','$stateParams','user','$timeout','localStorageService','$scope','$translate','fakeApi','$interval','words',
-        'CuiPasswordPolicies',
+        'CuiPasswordPolicies','$q',
 function($rootScope,$state,$stateParams,user,$timeout,localStorageService,$scope,$translate,fakeApi,$interval,words,
-        CuiPasswordPolicies) {
+        CuiPasswordPolicies,$q) {
 
     var directives = this;
     var timer;

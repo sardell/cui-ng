@@ -166,11 +166,28 @@ module.exports = function(grunt) {
           module: 'app'
         }
       }
+    },
+    babel: {
+      options: {
+        sourceMap: true,
+        presets: ['es2015'],
+        comments:false
+      },
+      dev: {
+        files: {
+          'assets/concatJs/app.js': 'assets/concatJs/app.js'
+        }
+      },
+      build: {
+        files: {
+          'dist/cui-ng.js': 'dist/cui-ng.js'
+        }
+      }
     }
   });
 
-  grunt.registerTask('default', ['sass','concat:dev','concat:build','browserSync:dev','watch']);
-  grunt.registerTask('build', ['ngtemplates','sass','clean','copy','concat:build','concat:buildDemo','useminPrepare','concat:generated','cssmin:generated','uglify:generated','filerev','usemin']);
+  grunt.registerTask('default', ['sass','concat:dev','concat:build','babel','browserSync:dev','watch']);
+  grunt.registerTask('build', ['ngtemplates','sass','clean','copy','concat:build','concat:buildDemo','babel:build','useminPrepare','concat:generated','cssmin:generated','uglify:generated','filerev','usemin']);
   grunt.registerTask('demo', ['browserSync:demo']);
   grunt.registerTask('test', ['concat','jasmine']);
   grunt.registerTask('lint', ['jshint']);
