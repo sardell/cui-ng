@@ -1,5 +1,8 @@
 module.exports = function(grunt) {
   require('load-grunt-tasks')(grunt);
+  var vars = {
+    dateTime:grunt.template.today('default')
+  };
   grunt.initConfig ({
     watch:{
       css:{
@@ -77,6 +80,7 @@ module.exports = function(grunt) {
     concat: {
       options: {
            separator: '\n\n',
+           banner: grunt.template.process('\n\n// cui-ng build <%= dateTime %>\n\n', {data: vars})
       },
       dev:{
         src: ['modules/app.intro.js','assets/app/**/*.js','modules/app.outro.js'],
@@ -133,7 +137,15 @@ module.exports = function(grunt) {
     },
     uglify: {
       options: {
+        sourceMap: true,
         mangle: false
+      },
+      dist: {
+        src:'dist/cui-ng.js',
+        dest:'dist/cui-ng.min.js',
+        options:{
+          mangle:true
+        }
       }
     },
     jasmine: {
@@ -171,7 +183,7 @@ module.exports = function(grunt) {
       options: {
         sourceMap: true,
         presets: ['es2015'],
-        comments:false
+        retainLines:true
       },
       dev: {
         files: {
@@ -187,7 +199,7 @@ module.exports = function(grunt) {
   });
 
   grunt.registerTask('default', ['sass','concat:dev','concat:build','babel','browserSync:dev','watch']);
-  grunt.registerTask('build', ['ngtemplates','sass','clean','copy','concat:build','concat:buildDemo','babel:build','useminPrepare','concat:generated','cssmin:generated','uglify:generated','filerev','usemin']);
+  grunt.registerTask('build', ['ngtemplates','sass','clean','copy','concat:build','concat:buildDemo','babel:build','uglify:dist','useminPrepare','concat:generated','cssmin:generated','uglify:generated','filerev','usemin']);
   grunt.registerTask('demo', ['browserSync:demo']);
   grunt.registerTask('test', ['concat','jasmine']);
   grunt.registerTask('lint', ['jshint']);

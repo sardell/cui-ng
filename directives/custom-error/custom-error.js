@@ -27,7 +27,6 @@ angular.module('cui-ng')
 
 
       scope.$watch(() => ctrl.$modelValue , (newValue,oldValue) => {
-        console.log(newValue);
         angular.forEach(scope.$eval(attrs.customError),(checkFunction,errorName) => {
           const checkFunctionReturn = checkFunction(newValue);
 
