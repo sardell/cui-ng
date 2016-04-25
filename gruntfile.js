@@ -101,6 +101,10 @@ module.exports = function(grunt) {
         src: 'appConfig.json',
         dest: 'build/appConfig.json'
       },
+      svgs : {
+        src: 'bower_components/cui-icons/dist/**/*.svg',
+        dest: 'build/'
+      },
       languageFiles: {
         src: 'bower_components/cui-i18n/dist/cui-i18n/angular-translate/*.json',
         dest: 'build/'
