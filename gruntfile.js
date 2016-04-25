@@ -85,6 +85,10 @@ module.exports = function(grunt) {
       build: {
         src: ['modules/cui-ng.intro.js','providers/**/*.js','filters/**/*.js','directives/**/*.js','utilities/**/*.js','modules/cui-ng.outro.js'],
         dest: 'dist/cui-ng.js'
+      },
+      buildDemo: {
+        src: ['modules/app.intro.js','assets/templateCache.js','assets/app/**/*.js','modules/app.outro.js'],
+        dest: 'assets/concatJs/app.js'
       }
     },
     filerev:{
@@ -113,8 +117,8 @@ module.exports = function(grunt) {
         src: 'bower_components/angular-i18n/*.js',
         dest: 'build/'
       },
-      countries: {
-        src: ['bower_components/cui-i18n/dist/cui-i18n/angular-translate/countries/*.json'],
+      cuiI18n: {
+        src: ['bower_components/cui-i18n/dist/cui-i18n/angular-translate/**/*.json'],
         dest: 'build/'
       },
       lato:{
@@ -143,11 +147,30 @@ module.exports = function(grunt) {
     },
     jshint: {
       all: ['directives/**/*.js','utilities/**/*.js']
+    },
+    ngtemplates: {
+      app: {
+        src: 'assets/app/**/*.html',
+        dest: 'assets/templateCache.js',
+        options: {
+          htmlmin: {
+            collapseBooleanAttributes: true,
+            collapseWhiteSpace: true,
+            removeAttributeQuotes: true,
+            removeComments: true,
+            removeEmptyAttributes: true,
+            removeReduntantAttributes: true,
+            removeScriptTypeAttributes: true,
+            removeStyleLinkAttributes: true
+          },
+          module: 'app'
+        }
+      }
     }
   });
 
-  grunt.registerTask('default', ['sass','concat','browserSync:dev','watch']);
-  grunt.registerTask('build', ['sass','clean','copy','concat:build','useminPrepare','concat:generated','cssmin:generated','uglify:generated','filerev','usemin']);
+  grunt.registerTask('default', ['sass','concat:dev','concat:build','browserSync:dev','watch']);
+  grunt.registerTask('build', ['ngtemplates','sass','clean','copy','concat:build','concat:buildDemo','useminPrepare','concat:generated','cssmin:generated','uglify:generated','filerev','usemin']);
   grunt.registerTask('demo', ['browserSync:demo']);
   grunt.registerTask('test', ['concat','jasmine']);
   grunt.registerTask('lint', ['jshint']);

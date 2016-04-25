@@ -84,7 +84,7 @@ function($translateProvider,$locationProvider,$cuiIconProvider,$cuiI18nProvider,
             return;
         }
         appConfig.iconSets.forEach(function(iconSet){
-            $cuiIconProvider.iconSet(iconSet.name, iconSet.path, '0 0 160 60');
+            $cuiIconProvider.iconSet(iconSet.name, iconSet.path, iconSet.defaultViewBox || null);
         })
     }
 

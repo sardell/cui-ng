@@ -32,13 +32,9 @@
     "utilities/"
   ],
   "devDependencies": {
-    "lodash": "~4",
     "angular-messages": "~1.4.7",
-    "angular-ui-router": "~0.2.15",
     "angular-local-storage": "~0.2.3",
     "angular-snap": "~1.8.4",
-    "angular": "~1.4.7",
-    "jquery": "~2.1.4",
     "cui-ng-datafactory": "#master",
     "cui-styleguide": "#master",
     "cui-i18n": "#master",
@@ -46,10 +42,10 @@
     "cui.js": "#master"
   },
   "dependencies": {
-    "angular-scroll": "~1.0.0",
-    "thirdwave-tether": "#master"
-  },
-  "resolutions": {
-    "lodash": "~4"
+    "thirdwave-tether": "#master",
+    "lodash": "~4",
+    "jquery": "~2.1.4",
+    "angular-ui-router": "~0.2.15",
+    "angular": "~1.4.7"
   }
 }
