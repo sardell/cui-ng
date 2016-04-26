@@ -1,6 +1,6 @@
-'use strict';var _typeof=typeof Symbol==="function"&&typeof Symbol.iterator==="symbol"?function(obj){return typeof obj;}:function(obj){return obj&&typeof Symbol==="function"&&obj.constructor===Symbol?"symbol":typeof obj;};
+'use strict';var _slicedToArray=function(){function sliceIterator(arr,i){var _arr=[];var _n=true;var _d=false;var _e=undefined;try{for(var _i=arr[Symbol.iterator](),_s;!(_n=(_s=_i.next()).done);_n=true){_arr.push(_s.value);if(i&&_arr.length===i)break;}}catch(err){_d=true;_e=err;}finally {try{if(!_n&&_i["return"])_i["return"]();}finally {if(_d)throw _e;}}return _arr;}return function(arr,i){if(Array.isArray(arr)){return arr;}else if(Symbol.iterator in Object(arr)){return sliceIterator(arr,i);}else {throw new TypeError("Invalid attempt to destructure non-iterable instance");}};}();var _typeof=typeof Symbol==="function"&&typeof Symbol.iterator==="symbol"?function(obj){return typeof obj;}:function(obj){return obj&&typeof Symbol==="function"&&obj.constructor===Symbol?"symbol":typeof obj;};function _defineProperty(obj,key,value){if(key in obj){Object.defineProperty(obj,key,{value:value,enumerable:true,configurable:true,writable:true});}else {obj[key]=value;}return obj;}
 
-// cui-ng build Mon Apr 25 2016 13:03:30
+// cui-ng build Tue Apr 26 2016 09:15:25
 
 (function(angular){'use strict';
 
@@ -1327,15 +1327,32 @@ angular.element(elem).replaceWith(newSvg);}};}]);
 
 
 angular.module('cui-ng').
-directive('cuiPopover',['$compile','$timeout','$interval',function cuiPopoverDirective($compile,$timeout,$interval){
+directive('cuiPopover',['$compile','$timeout','$interval',function($compile,$timeout,$interval){
 return {
 restrict:'EA',
 scope:{},
-link:function cuiPopoverLink(scope,elem,attrs){
-var self;
-var popoverTether,tetherAttachmentInterval,targetElementPositionInterval;
+link:function link(scope,elem,attrs){
+var self=void 0;
+var popoverTether=void 0,tetherAttachmentInterval=void 0,targetElementPositionInterval=void 0;
 
-var getAttachmentFromPosition=function getAttachmentFromPosition(position){
+var cuiPopoverConfig={};
+
+
+
+var cuiPopoverHelpers={
+getResetStyles:function getResetStyles(){
+return {
+'margin-right':'',
+'margin-left':'',
+'margin-bottom':'',
+'margin-top':'',
+'left':'',
+'top':'',
+'bottom':'',
+'right':''};},
+
+
+getAttachmentFromPosition:function getAttachmentFromPosition(position){
 switch(position){
 case 'top':
 return 'bottom center';
@@ -1345,11 +1362,10 @@ case 'right':
 return 'middle left';
 case 'left':
 return 'middle right';}
-;};
+;},
 
-
-var invertPosition=function cuiPopoverInvertPosition(position){
-switch(position){
+invertAttachmentPartial:function invertAttachmentPartial(partial){
+switch(partial){
 case 'top':
 return 'bottom';
 case 'bottom':
@@ -1358,257 +1374,98 @@ case 'left':
 return 'right';
 case 'right':
 return 'left';}
+;},
+
+parseOffset:function parseOffset(offset){
+var splitOffset=offset.split(' ');
+var verticalOffset=cuiPopoverHelpers.getOffsetAndUnitsOfOffset(splitOffset[0]);
+var horizontalOffset=cuiPopoverHelpers.getOffsetAndUnitsOfOffset(splitOffset[1]);
+
+return {verticalOffset:verticalOffset,horizontalOffset:horizontalOffset};},
+
+parseAttachment:function parseAttachment(attachment){var _attachment$split=
+attachment.split(' ');var _attachment$split2=_slicedToArray(_attachment$split,2);var verticalAttachment=_attachment$split2[0];var horizontalAttachment=_attachment$split2[1];
+return {verticalAttachment:verticalAttachment,horizontalAttachment:horizontalAttachment};},
+
+getTetherOffset:function getTetherOffset(position,offset){var _cuiPopoverHelpers$pa=
+cuiPopoverHelpers.parseOffset(offset);var verticalOffset=_cuiPopoverHelpers$pa.verticalOffset;var horizontalOffset=_cuiPopoverHelpers$pa.horizontalOffset;
+
+switch(position){
+case 'top':
+case 'bottom':
+return '0 '+horizontalOffset.amount*-1+horizontalOffset.units;
+default:
+return verticalOffset.amount*-1+verticalOffset.units+' 0';}
+;},
+
+invertAttachment:function invertAttachment(attachment){var _cuiPopoverHelpers$pa2=
+cuiPopoverHelpers.parseAttachment(attachment);var verticalAttachment=_cuiPopoverHelpers$pa2.verticalAttachment;var horizontalAttachment=_cuiPopoverHelpers$pa2.horizontalAttachment;
+return invertAttachmentPartial(verticalAttachment)+' '+invertAttachmentPartial(horizontalAttachment);},
+
+getOffsetAndUnitsOfOffset:function getOffsetAndUnitsOfOffset(offsetPartial){
+var amount=void 0,units=void 0;
+switch(offsetPartial.indexOf('%')){
+case -1:
+amount=window.parseInt(offsetPartial.split('px')[0]);
+units='px';
+break;
+default:
+amount=window.parseInt(offsetPartial.split('%')[0]);
+units='%';}
+;
+return {amount:amount,units:units};},
+
+getPointerOffset:function getPointerOffset(_ref){var position=_ref.position;var offsetBetweenPointerAndContent=_ref.offsetBetweenPointerAndContent;var popoverHeight=_ref.popoverHeight;var popoverWidth=_ref.popoverWidth;var pointerHeight=_ref.pointerHeight;var pointerWidth=_ref.pointerWidth;var containerHeight=_ref.containerHeight;var containerWidth=_ref.containerWidth;var distanceBetweenTargetAndPopover=_ref.distanceBetweenTargetAndPopover;
+var contentOffset=cuiPopoverHelpers.getOffsetAndUnitsOfOffset(offsetBetweenPointerAndContent);
+var contentOffsetCompensation=function contentOffsetCompensation(){
+switch(position){
+case 'top':
+case 'bottom':
+return {'margin-left':'50%','left':contentOffset.amount*-1+contentOffset.units};
+case 'left':
+case 'right':
+switch(contentOffset.amount){
+case 0:
+return {'top':'50%'};
+default:
+var topMargin=void 0;
+contentOffset.units==='%'?topMargin=containerHeight*(contentOffset.amount*-1/100):topMargin=contentOffset.amount+contentOffset.units;
+return {'top':'50%','margin-top':topMargin};}
+;}
 ;};
 
 
-var cuiPopover={
-init:function cuiPopoverInit(){
-self=this;
-self.render.popoverContainer();
-angular.forEach(self.watchers,function cuiPopoverInitWatcher(initWatcher){
-initWatcher();});},
-
-
-config:function cuiPopoverInitConfig(){
-var position=attrs.popoverPosition||'bottom',
-offset,targetOffset,pointerOffset,distanceBetweenTargetAndPopover;
-
-var popoverOffsetAttribute=(attrs.popoverOffset||'0 0').split(' ');
-var contentOffsetAttribute=(attrs.contentOffset||'0 0').split(' ');
-var offsetBetweenPointerAndContent=attrs.contentOffset||'0';
-
-if(position==='top'||position==='bottom'){
-pointerOffset=popoverOffsetAttribute[1];
-distanceBetweenTargetAndPopover=popoverOffsetAttribute[0];
-offset=['0',offsetBetweenPointerAndContent].join(' ');
-targetOffset='0 '+pointerOffset;}else 
-
-{
-pointerOffset=popoverOffsetAttribute[0];
-distanceBetweenTargetAndPopover=popoverOffsetAttribute[1];
-offset=[offsetBetweenPointerAndContent,'0'].join(' ');
-targetOffset=pointerOffset+' 0';}
-
-
-return {
-attachment:getAttachmentFromPosition(position),
-targetAttachment:getAttachmentFromPosition(invertPosition(position)),
-offset:offset,
-targetOffset:targetOffset,
-pointerHeight:attrs.pointerHeight&&parseInt(attrs.pointerHeight)||14,
-pointerWidth:attrs.pointerWidth&&parseInt(attrs.pointerWidth)||9,
-
-target:attrs.target,
-targetModifier:attrs.targetModifier||undefined,
-
-allowedReposition:attrs.allowedReposition||'any',
-hidePopoverIfOob:scope.$eval(attrs.hidePopoverIfOob)||false,
-position:attrs.popoverPosition||'bottom',
-distanceBetweenTargetAndPopover:distanceBetweenTargetAndPopover,
-offsetBetweenPointerAndContent:offsetBetweenPointerAndContent,
-pointerOffset:pointerOffset,
-popover:function getInnerWidth(){
-return {
-width:elem.outerWidth(),
-height:elem.outerHeight()};}()};}(),
-
-
-
-
-watchers:{
-position:function cuiPopoverWatchTetherAttachment(){
-tetherAttachmentInterval=$interval(function(){
-if(!popoverTether||!popoverTether.element)return;
-var position=self.config.position;
-switch(self.config.hidePopoverIfOob){
-case true:
-scope.position=popoverTether.element.classList.contains('tether-out-of-bounds')?'hidden':'normal';
-break;
-default:
-switch(self.config.allowedReposition){
-case 'none':
-scope.position='normal';
-break;
-case 'opposite':
-scope.position=popoverTether.element.classList.contains('tether-element-attached-'+invertPosition(position))?'normal':'inverted';
-break;
-case 'any':
-if(popoverTether.element.classList.contains('tether-out-of-bounds'+invertPosition(position))||
-popoverTether.element.classList.contains('tether-out-of-bounds-'+position)){
-scope.position='fallback';
-$interval.cancel(tetherAttachmentInterval); // cancel the interval temporarily
-}else 
-if(!popoverTether.element.classList.contains('tether-element-attached-'+invertPosition(position)))scope.position='inverted';else 
-scope.position='normal';
-break;}
-;}
-;},
-10);
-
-scope.$watch('position',function(newPosition,oldPosition){
-if(newPosition&&newPosition!==oldPosition){
-self.rePosition(newPosition);}});},
-
-
-
-
-targetElementPosition:function cuiPopoverWatchElementPosition(){
-targetElementPositionInterval=$interval(function(){
-scope.targetPosition=self.selectors.$target.offset();},
-10);
-
-scope.$watch('targetPosition',function(newPosition){
-newPosition&&popoverTether.position();},
-function(newPosition,oldPosition){
-return newPosition.top!==oldPosition.top||newPosition.left!==oldPosition.left;});},
-
-
-
-scopeDestroy:function cuiPopoverWatchScopeDestroy(){
-scope.$on('$destroy',function(){
-$interval.cancel(tetherAttachmentInterval);
-$interval.cancel(targetElementPositionInterval);
-popoverTether.destroy();
-self.selectors.$container&&self.selectors.$container.detach();
-self.selectors.$pointer&&self.selectors.$pointer.detach();});}},
-
-
-
-selectors:{
-$target:angular.element(document.querySelector(attrs.target))},
-
-helpers:{
-getTetherOptions:function cuiPopoverGetTetherOptions(){
-var offset=self.config.offset.split(' ');
-var verticalOffset=self.helpers.getOffsetAndUnitsOfOffset(offset[0]);
-var horizontalOffset=self.helpers.getOffsetAndUnitsOfOffset(offset[1]);
-
-switch(self.config.position){
-case 'top':
-case 'bottom':
-offset='0 '+horizontalOffset.amount*-1+horizontalOffset.units;
-break;
-default:
-offset=verticalOffset.amount*-1+verticalOffset.units+' 0';}
-;
-
-return {
-element:self.selectors.$container[0],
-target:self.config.target,
-attachment:self.config.attachment,
-targetAttachment:self.config.targetAttachment,
-offset:offset,
-targetOffset:self.config.targetOffset,
-targetModifier:self.config.targetModifier,
-constraints:self.config.hidePopoverIfOob||self.config.allowedReposition==='none'?[{to:'window',attachment:'none none'}]:[{to:'window',attachment:'together together'}]};},
-
-
-invertAttachment:function cuiPopoverInvertAttachment(attachment){
-var positions=attachment.split(' ');
-var verticalPosition=positions[0];
-var horizontalPosition=positions[1];
-return invertPosition(verticalPosition)+' '+invertPosition(horizontalPosition);},
-
-getRotatedPosition:function cuiPopoverGetRotatedPosition(position){
+var containerPadding=cuiPopoverHelpers.getContainerPaddings({position:position,offsetBetweenPointerAndContent:offsetBetweenPointerAndContent,popoverHeight:popoverHeight,popoverWidth:popoverWidth,pointerHeight:pointerHeight,pointerWidth:pointerWidth,containerHeight:containerHeight,containerWidth:containerWidth,distanceBetweenTargetAndPopover:distanceBetweenTargetAndPopover});
+var pointerOffset=function pointerOffset(){
 switch(position){
-case 'top':
-case 'bottom':
-return 'right';
-default:
-return 'bottom';}
-;},
-
-getOffsetAndUnitsOfOffset:function cuiPopovergetOffsetAndUnitsOfOffset(offsetPartial){
-var offsetAndUnit={};
-if(offsetPartial.indexOf('%')>-1){
-offsetAndUnit.amount=parseInt(offsetPartial.split('%')[0]);
-offsetAndUnit.units='%';}else 
-
-if(offsetPartial.indexOf('px')>-1){
-offsetAndUnit.amount=parseInt(offsetPartial.split('px')[0]);
-offsetAndUnit.units='px';}else 
-
-{
-offsetAndUnit.amount=parseInt(offsetPartial); // the amount of offset
-offsetAndUnit.units='px'; // the units
-}
-return offsetAndUnit;},
-
-getPointerClass:function cuiPopoverGetPointerClass(position){
-var position=position||self.config.position;
-return 'cui-popover__pointer '+'cui-popover__pointer--'+invertPosition(position);},
-
-getPointerOffset:function cuiPopoverGetPointerOffset(position){
-var position=position||self.config.position;
-
-var offsetBetweenPointerAndContent=self.config.offsetBetweenPointerAndContent;
-var offset=self.helpers.getOffsetAndUnitsOfOffset(offsetBetweenPointerAndContent);
-
-var styles={
-'margin-right':'',
-'margin-left':'',
-'margin-bottom':'',
-'margin-top':'',
-'left':'',
-'top':'',
-'bottom':'',
-'right':''};
-
-
-angular.extend(styles,function(position){
-switch(position){
-case 'top':
-case 'bottom':
-return {'margin-left':'50%','left':offset.amount*-1+offset.units,'margin-right':'','margin-top':'','margin-bottom':''};
-case 'left':
-case 'right':
-switch(offset.amount){
-case 0:
-return {'top':'50%','margin-right':'','margin-left':'','margin-bottom':'','margin-top':'','bottom':''};
-default:
-var containerHeight=self.config.popover.height,
-topMargin;
-offset.units==='%'?topMargin=containerHeight*(offset.amount*-1/100):topMargin=offset.amount+offset.units;
-return {'top':'50%','margin-top':topMargin};}
-;}
-;}(
-position));
-
-var containerPadding=self.helpers.getContainerPaddings(position);
-var styleExtension=function(position){
-switch(position){
-default:
-return {};
 case 'top':
 return {
 bottom:'0',
-transform:'translate(-50%,'+(-Math.ceil(parseFloat(containerPadding['padding-bottom']))+self.config.pointerHeight)+'px)'};
+transform:'translate(-50%,'+(-Math.ceil(parseFloat(containerPadding['padding-bottom']))+pointerHeight)+'px)'};
 
 case 'bottom':
 return {
 top:'0',
-transform:'translate(-50%,'+(Math.ceil(parseFloat(containerPadding['padding-top']))-self.config.pointerHeight)+'px)'};
+transform:'translate(-50%,'+(Math.ceil(parseFloat(containerPadding['padding-top']))-pointerHeight)+'px)'};
 
 case 'left':
 return {
-right:parseFloat(containerPadding['padding-right'])-self.config.pointerHeight+'px',
+right:parseFloat(containerPadding['padding-right'])-pointerHeight+'px',
 transform:'translate(0,-50%)'};
 
 case 'right':
 return {
-left:parseFloat(containerPadding['padding-left'])-self.config.pointerHeight+'px',
+left:parseFloat(containerPadding['padding-left'])-pointerHeight+'px',
 transform:'translate(0,-50%)'};}
 
-;}(
-position);
+;};
 
-styleExtension[position]=''; // reset whatever the position property , ie top, bottom, left or right
-angular.extend(styles,styleExtension);
-return styles;},
 
-getBaseBorderStyles:function cuiPopoverGetBaseBorderStyle(position){
-var transparentHorizontalBorder=self.config.pointerWidth+'px solid transparent';
-var transparentVerticalBorder=self.config.pointerHeight+'px solid transparent';
+return Object.assign({},cuiPopoverHelpers.getResetStyles(),pointerOffset(),contentOffsetCompensation());},
+
+getPointerBorderStyles:function getPointerBorderStyles(_ref2){var position=_ref2.position;var pointerHeight=_ref2.pointerHeight;var pointerWidth=_ref2.pointerWidth;
+var transparentHorizontalBorder=pointerWidth+'px solid transparent';
+var transparentVerticalBorder=pointerHeight+'px solid transparent';
 if(position==='top'||position==='bottom'){
 return {
 'border-right':transparentHorizontalBorder,
@@ -1624,35 +1481,23 @@ return {
 'border-top':transparentHorizontalBorder};},
 
 
-getPointerStyles:function cuiPopoverGetPointerStyles(position){
-var styles={
-position:'absolute'};
-
-
-var position=position||self.config.position;
-
-angular.extend(styles,self.helpers.getPointerOffset(position));
-angular.extend(styles,self.helpers.getBaseBorderStyles(position));
-
+getPointerStyles:function getPointerStyles(_ref3){var position=_ref3.position;var offsetBetweenPointerAndContent=_ref3.offsetBetweenPointerAndContent;var popoverHeight=_ref3.popoverHeight;var popoverWidth=_ref3.popoverWidth;var pointerHeight=_ref3.pointerHeight;var pointerWidth=_ref3.pointerWidth;var containerHeight=_ref3.containerHeight;var containerWidth=_ref3.containerWidth;var distanceBetweenTargetAndPopover=_ref3.distanceBetweenTargetAndPopover;
 var colorOfPopoverBackground=elem.css('backgroundColor'),
-stylesOfVisibleBorder=self.config.pointerHeight+'px solid '+colorOfPopoverBackground;
+stylesOfVisibleBorder=pointerHeight+'px solid '+colorOfPopoverBackground;
 
-styles['border-'+position]=stylesOfVisibleBorder;
+return Object.assign({position:'absolute'},
+cuiPopoverHelpers.getPointerOffset({position:position,offsetBetweenPointerAndContent:offsetBetweenPointerAndContent,popoverHeight:popoverHeight,popoverWidth:popoverWidth,pointerHeight:pointerHeight,pointerWidth:pointerWidth,containerHeight:containerHeight,containerWidth:containerWidth,distanceBetweenTargetAndPopover:distanceBetweenTargetAndPopover}),
+cuiPopoverHelpers.getPointerBorderStyles({position:position,offsetBetweenPointerAndContent:offsetBetweenPointerAndContent,popoverHeight:popoverHeight,popoverWidth:popoverWidth,pointerHeight:pointerHeight,pointerWidth:pointerWidth,containerHeight:containerHeight,containerWidth:containerWidth,distanceBetweenTargetAndPopover:distanceBetweenTargetAndPopover}),_defineProperty({},
+'border'+position,stylesOfVisibleBorder));},
 
-return styles;},
 
-getPointer:function cuiPopoverGetPointer(){
-if(self.selectors.$pointer)self.selectors.$pointer.detach();
+getPointer:function getPointer(opts){
 var $pointer=$('<span class="cui-popover__pointer"></span>');
-$pointer.css(self.helpers.getPointerStyles());
-self.selectors.$pointer=$pointer;
+$pointer.css(cuiPopoverHelpers.getPointerStyles(opts));
 return $pointer;},
 
-getPopoverMargins:function cuiPopoverGetMargins(position){
-var position=position||self.config.position;
-
-var margin=self.config.pointerHeight+'px';
-
+getPopoverMargins:function getPopoverMargins(position,pointerHeight){
+var margin=pointerHeight+'px';
 return {
 'margin-top':position==='bottom'?margin:'',
 'margin-right':position==='left'?margin:'',
@@ -1660,38 +1505,31 @@ return {
 'margin-left':position==='right'?margin:''};},
 
 
-getContainerPaddings:function cuiPopoverGetContainerPaddings(position){
-var distanceBetweenTargetAndPopover=self.config.distanceBetweenTargetAndPopover;
-var padding=self.helpers.getOffsetAndUnitsOfOffset(distanceBetweenTargetAndPopover);
+getContainerPaddings:function getContainerPaddings(_ref4){var position=_ref4.position;var offsetBetweenPointerAndContent=_ref4.offsetBetweenPointerAndContent;var popoverHeight=_ref4.popoverHeight;var popoverWidth=_ref4.popoverWidth;var pointerHeight=_ref4.pointerHeight;var distanceBetweenTargetAndPopover=_ref4.distanceBetweenTargetAndPopover;
+var padding=cuiPopoverHelpers.getOffsetAndUnitsOfOffset(distanceBetweenTargetAndPopover);var 
 
-var paddingTop,paddingBottom,paddingRight,paddingLeft;
-
-var position=function(){
-if(position&&position!==self.config.position)return position;else 
-return self.config.position;}();
-
+paddingTop='';var paddingBottom='';var paddingRight='';var paddingLeft='';
 
 if(position==='top'||position==='bottom'){
-var verticalPadding;
+var verticalPadding=void 0;
 switch(padding.units){
 default: // 'px' or ''
 verticalPadding=padding.amount+padding.units;
 break;
 case '%':
-var heightOfPopover=self.config.popover.height+self.config.pointerHeight;
-verticalPadding=heightOfPopover*(padding.amount/100)+'px';}
+var heightOfContainer=popoverHeight+pointerHeight;
+verticalPadding=heightOfContainer*(padding.amount/100)+'px';}
 ;
 position==='top'?paddingBottom=verticalPadding:paddingTop=verticalPadding;}else 
 
 {
-var horizontalPadding;
-
+var horizontalPadding=void 0;
 switch(padding.units){
 default: // 'px' or ''
 horizontalPadding=padding.amount+padding.units;
 break;
 case '%':
-var widthOfPopover=self.config.popover.width+self.config.pointerHeight,
+var widthOfContainer=popoverWidth+pointerHeight;
 horizontalPadding=widthOfPopover*(padding.amount/100)+'px';}
 ;
 position==='left'?paddingRight=horizontalPadding:paddingLeft=horizontalPadding;}
@@ -1701,60 +1539,198 @@ return {
 'padding-top':paddingTop||'',
 'padding-right':paddingRight||'',
 'padding-bottom':paddingBottom||'',
-'padding-left':paddingLeft||''};}},
+'padding-left':paddingLeft||''};}};
 
 
+
+
+
+
+
+
+var cuiPopover={
+init:function init(){
+self=this;
+self.render.popoverContainer();
+angular.forEach(self.watchers,function cuiPopoverInitWatcher(initWatcher){
+initWatcher();});},
+
+
+config:function(){
+var _this=cuiPopoverConfig;
+_this.target=attrs.target;
+_this.position=attrs.popoverPosition||'bottom';
+_this.targetModifier=attrs.targetModifier||undefined;
+_this.allowedReposition=attrs.allowedReposition||'any';
+_this.pointerHeight=attrs.pointerHeight&&window.parseInt(attrs.pointerHeight)||14;
+_this.pointerWidth=attrs.pointerWidth&&window.parseInt(attrs.pointerWidth)||9;
+_this.hidePopoverIfOob=scope.$eval(attrs.hidePopoverIfOob)||false;
+
+_this.popoverWidth=elem.outerWidth();
+_this.popoverHeight=elem.outerHeight();
+
+var calcs=function(){
+var popoverOffsetAttribute=(attrs.popoverOffset||'0 0').split(' ');
+var offset=void 0,targetOffset=void 0,targetAndPopoverOffset=void 0,pointerOffset=void 0,containerWidth=void 0,containerHeight=void 0;
+
+if(_this.position==='top'||_this.position==='bottom'){var _popoverOffsetAttribu=_slicedToArray(
+popoverOffsetAttribute,2);targetAndPopoverOffset=_popoverOffsetAttribu[0];pointerOffset=_popoverOffsetAttribu[1];
+offset=['0',targetAndPopoverOffset].join(' ');
+targetOffset=['0',pointerOffset].join(' ');
+containerWidth=_this.popoverWidth;
+containerHeight=_this.popoverHeight+_this.pointerHeight;}else 
+
+{var _popoverOffsetAttribu2=_slicedToArray(
+popoverOffsetAttribute,2);pointerOffset=_popoverOffsetAttribu2[0];targetAndPopoverOffset=_popoverOffsetAttribu2[1];
+offset=[targetAndPopoverOffset,'0'].join(' ');
+targetOffset=[pointerOffset,'0'].join(' ');
+containerWidth=_this.popoverWidth+_this.pointerHeight;
+containerHeight=_this.popoverHeight;}
+
+
+_this.distanceBetweenTargetAndPopover=targetAndPopoverOffset;
+_this.offsetBetweenPointerAndContent=targetAndPopoverOffset;
+_this.offset=offset;
+_this.targetOffset=targetOffset;
+_this.containerHeight=containerHeight;
+_this.containerWidth=containerWidth;
+
+_this.attachment=cuiPopoverHelpers.getAttachmentFromPosition(_this.position);
+_this.targetAttachment=cuiPopoverHelpers.getAttachmentFromPosition(cuiPopoverHelpers.invertAttachmentPartial(_this.position));}();}(),
+
+
+helpers:{
+getTetherOptions:function getTetherOptions(){var element=arguments.length<=0||arguments[0]===undefined?self.selectors.$container[0]:arguments[0];var 
+target=cuiPopoverConfig.target;var offset=cuiPopoverConfig.offset;var targetOffset=cuiPopoverConfig.targetOffset;var targetModifier=cuiPopoverConfig.targetModifier;var attachment=cuiPopoverConfig.attachment;var targetAttachment=cuiPopoverConfig.targetAttachment;var hidePopoverIfOob=cuiPopoverConfig.hidePopoverIfOob;var allowedReposition=cuiPopoverConfig.allowedReposition;
+return {
+target:target,
+targetModifier:targetModifier,
+attachment:attachment,
+targetAttachment:targetAttachment,
+targetOffset:targetOffset,
+offset:cuiPopoverHelpers.getTetherOffset(position,offset),
+element:element,
+constraints:hidePopoverIfOob||allowedReposition==='none'?[{to:'window',attachment:'none none'}]:[{to:'window',attachment:'together together'}]};}},
+
+
+
+watchers:{
+position:function position(){
+tetherAttachmentInterval=$interval(function(){
+if(!popoverTether||!popoverTether.element)return;var 
+position=cuiPopoverConfig.position;var allowedReposition=cuiPopoverConfig.allowedReposition;var hidePopoverIfOob=cuiPopoverConfig.hidePopoverIfOob;var 
+invertAttachmentPartial=cuiPopoverHelpers.invertAttachmentPartial;
+switch(hidePopoverIfOob){
+case true:
+scope.position=popoverTether.element.classList.contains('tether-out-of-bounds')?'hidden':'normal';
+break;
+default:
+switch(allowedReposition){
+case 'none':
+scope.position='normal';
+break;
+case 'opposite':
+scope.position=popoverTether.element.classList.contains('tether-element-attached-'+invertAttachmentPartial(position))?'normal':'inverted';
+break;
+case 'any':
+if(popoverTether.element.classList.contains('tether-out-of-bounds'+invertAttachmentPartial(position))||
+popoverTether.element.classList.contains('tether-out-of-bounds-'+position)){
+scope.position='fallback';
+$interval.cancel(tetherAttachmentInterval); // cancel the interval temporarily
+}else 
+if(!popoverTether.element.classList.contains('tether-element-attached-'+invertAttachmentPartial(position)))scope.position='inverted';else 
+scope.position='normal';
+break;}
+;}
+;},
+10);
+
+scope.$watch('position',function(newPosition,oldPosition){
+if(newPosition&&newPosition!==oldPosition){
+self.rePosition(newPosition);}});},
+
+
+
+
+targetElementPosition:function targetElementPosition(){
+targetElementPositionInterval=$interval(function(){
+scope.targetPosition=self.selectors.$target.offset();},
+10);
+
+scope.$watch('targetPosition',function(newPosition){
+newPosition&&popoverTether.position();},
+function(newPosition,oldPosition){return newPosition.top!==oldPosition.top||newPosition.left!==oldPosition.left;});},
+
+
+scopeDestroy:function scopeDestroy(){
+scope.$on('$destroy',function(){
+$interval.cancel(tetherAttachmentInterval);
+$interval.cancel(targetElementPositionInterval);
+popoverTether.destroy();
+self.selectors.$container&&self.selectors.$container.detach();
+self.selectors.$pointer&&self.selectors.$pointer.detach();});}},
+
+
+
+selectors:{
+$target:angular.element(document.querySelector(attrs.target))},
 
 render:{
-popoverContainer:function cuiPopoverPopoverContainer(){
+popoverContainer:function popoverContainer(){var 
+getPointer=cuiPopoverHelpers.getPointer;var getPopoverMargins=cuiPopoverHelpers.getPopoverMargins;var getContainerPaddings=cuiPopoverHelpers.getContainerPaddings;
+var opts=cuiPopoverConfig;
+
 var $container=$('<div class="cui-popover__container"></div>');
-$container.css(self.helpers.getContainerPaddings());
+$container.css(getContainerPaddings(opts));
 $container[0].classList.add('hide--opacity');
 self.selectors.$container=$container;
 
 // append the pointer to the container
-$container.append(self.helpers.getPointer());
+if(self.selectors.$pointer)self.selectors.$pointer.detach();
+var $pointer=getPointer(opts);
+$container.append($pointer);
+self.selectors.$pointer=$pointer;
 
 // append the cui-popover to the container and apply the margins to make room for the pointer
-elem.css(self.helpers.getPopoverMargins());
+elem.css(getPopoverMargins(opts.position,opts.pointerHeight));
 $container.append(elem);
 
 angular.element(document.body).append($container);
-popoverTether=new Tether(self.helpers.getTetherOptions());
+popoverTether=new Tether(self.helpers.getTetherOptions($container));
 
 popoverTether.position();}},
 
 
 rePosition:function cuiPopoverReposition(newAttachment){
-self.selectors.$container[0].classList.add('hide--opacity');
+// self.selectors.$container[0].classList.add('hide--opacity');
 
-switch(newAttachment){
-case 'hidden':
-break;
-case undefined:
-case 'normal':
-elem.css(self.helpers.getPopoverMargins());
-self.selectors.$pointer.css(self.helpers.getPointerStyles());
-self.selectors.$container.css(self.helpers.getContainerPaddings());
-self.selectors.$container[0].classList.remove('hide--opacity');
-break;
-case 'inverted':
-var newPosition=invertPosition(self.config.position);
-elem.css(self.helpers.getPopoverMargins(newPosition));
-self.selectors.$pointer.css(self.helpers.getPointerStyles(newPosition));
-self.selectors.$container.css(self.helpers.getContainerPaddings(newPosition));
-self.selectors.$container[0].classList.remove('hide--opacity');
-break;
-case 'fallback': // if we need to rotate the tether 90deg
-self.config.position=self.helpers.getRotatedPosition(self.config.position);
-self.config.attachment=getAttachmentFromPosition(self.config.position);
-self.config.targetAttachment=getAttachmentFromPosition(invertPosition(self.config.position));
-elem.css(self.helpers.getPopoverMargins());
-self.selectors.$container.css(self.helpers.getContainerPaddings());
-self.selectors.$pointer.css(self.helpers.getPointerStyles(self.config.position));
-popoverTether.setOptions(self.helpers.getTetherOptions());
-self.watchers.position();}}};
-
+// switch(newAttachment){
+//     case 'hidden':
+//         break;
+//     case undefined:
+//     case 'normal':
+//         elem.css(self.helpers.getPopoverMargins());
+//         self.selectors.$pointer.css(self.helpers.getPointerStyles());
+//         self.selectors.$container.css(self.helpers.getContainerPaddings());
+//         self.selectors.$container[0].classList.remove('hide--opacity');
+//         break;
+//     case 'inverted':
+//         var newPosition=invertAttachmentPartial(self.config.position);
+//         elem.css(self.helpers.getPopoverMargins(newPosition));
+//         self.selectors.$pointer.css(self.helpers.getPointerStyles(newPosition));
+//         self.selectors.$container.css(self.helpers.getContainerPaddings(newPosition));
+//         self.selectors.$container[0].classList.remove('hide--opacity');
+//         break;
+//     case 'fallback': // if we need to rotate the tether 90deg
+//         self.config.position = self.helpers.getRotatedPosition(self.config.position);
+//         self.config.attachment = getAttachmentFromPosition(self.config.position);
+//         self.config.targetAttachment = getAttachmentFromPosition(invertAttachmentPartial(self.config.position));
+//         elem.css(self.helpers.getPopoverMargins());
+//         self.selectors.$container.css(self.helpers.getContainerPaddings());
+//         self.selectors.$pointer.css(self.helpers.getPointerStyles(self.config.position));
+//         popoverTether.setOptions(self.helpers.getTetherOptions());
+//         self.watchers.position();
+}};
 
 
 
@@ -2375,7 +2351,7 @@ return {
 restrict:'A',
 require:'ngModel',
 link:function link(scope,ele,attrs,ctrl){
-var promises=[],isLoading=false,amountOfRequestSent=0;
+var promises={},isLoading=false,amountOfRequestSent=0;
 
 var assignValueFromString=function assignValueFromString(startingObject,string,value){ // gets nested scope variable from parent , used because we can't have isolate scope on this directive
 var arrayOfProperties=string.split('.');
@@ -2406,9 +2382,10 @@ ctrl.$setValidity(errorName,checkFunctionReturn);}else
 
 {
 startLoading();
-promises.push(checkFunctionReturn.promise);
-$q.all(promises).then(function(res){
-ctrl.$setValidity(errorName,checkFunctionReturn.valid(res[promises.length-1]));
+if(!promises[errorName])promises[errorName]=[checkFunctionReturn.promise];else 
+promises[errorName].push(checkFunctionReturn.promise);
+$q.all(promises[errorName]).then(function(res){
+ctrl.$setValidity(errorName,checkFunctionReturn.valid(res[promises[errorName].length-1]));
 finishLoading();},
 function(err){
 checkFunctionReturn.catch&&checkFunctionReturn.catch(err);

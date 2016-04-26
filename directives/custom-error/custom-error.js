@@ -4,7 +4,7 @@ angular.module('cui-ng')
     restrict: 'A',
     require:'ngModel',
     link: (scope,ele,attrs,ctrl) => {
-      let promises=[],isLoading=false,amountOfRequestSent=0;
+      let promises={},isLoading=false,amountOfRequestSent=0;
 
       const assignValueFromString = (startingObject,string,value) => { // gets nested scope variable from parent , used because we can't have isolate scope on this directive
         const arrayOfProperties = string.split('.');
@@ -35,9 +35,10 @@ angular.module('cui-ng')
           }
           else {
             startLoading();
-            promises.push(checkFunctionReturn.promise);
-            $q.all(promises).then( res => {
-              ctrl.$setValidity(errorName, checkFunctionReturn.valid(res[promises.length-1]));
+            if(!promises[errorName]) promises[errorName]=[checkFunctionReturn.promise];
+            else promises[errorName].push(checkFunctionReturn.promise);
+            $q.all(promises[errorName]).then( res => {
+              ctrl.$setValidity(errorName, checkFunctionReturn.valid(res[promises[errorName].length-1]));
               finishLoading();
             }, err => {
               checkFunctionReturn.catch && checkFunctionReturn.catch(err);
