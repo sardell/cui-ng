@@ -1,6 +1,6 @@
 'use strict';var _slicedToArray=function(){function sliceIterator(arr,i){var _arr=[];var _n=true;var _d=false;var _e=undefined;try{for(var _i=arr[Symbol.iterator](),_s;!(_n=(_s=_i.next()).done);_n=true){_arr.push(_s.value);if(i&&_arr.length===i)break;}}catch(err){_d=true;_e=err;}finally {try{if(!_n&&_i["return"])_i["return"]();}finally {if(_d)throw _e;}}return _arr;}return function(arr,i){if(Array.isArray(arr)){return arr;}else if(Symbol.iterator in Object(arr)){return sliceIterator(arr,i);}else {throw new TypeError("Invalid attempt to destructure non-iterable instance");}};}();var _typeof=typeof Symbol==="function"&&typeof Symbol.iterator==="symbol"?function(obj){return typeof obj;}:function(obj){return obj&&typeof Symbol==="function"&&obj.constructor===Symbol?"symbol":typeof obj;};function _defineProperty(obj,key,value){if(key in obj){Object.defineProperty(obj,key,{value:value,enumerable:true,configurable:true,writable:true});}else {obj[key]=value;}return obj;}
 
-// cui-ng build Tue Apr 26 2016 09:15:25
+// cui-ng build Tue Apr 26 2016 13:17:57
 
 (function(angular){'use strict';
 
@@ -2964,15 +2964,37 @@ initWatcher();});});}};}]);
 
 angular.module('cui-ng').
 factory('CuiPasswordInfo',[function(){
+var policies={};
 var info={};
-return info;}]).
+return {info:info,policies:policies};}]).
 
 factory('CuiPasswordValidators',['CuiPasswordInfo',function(CuiPasswordInfo){
-RegExp.escape=function(text){
-return text.replace(/[-[\]{}()*+?.,\\^$|#\s]/g,"\\$&");};
+RegExp.escape=function(text){return text.replace(/[-[\]{}()*+?.,\\^$|#\s]/g,"\\$&");};
 
-var policies={};
-var complex=function complex(modelValue,viewValue){
+var validators=function validators(policies,id){
+CuiPasswordInfo.info[id]={}; // Initialize the object that holds the info for this password validation (disallowedWords, disallowedChars)
+return {
+lowercase:function lowercase(modelValue,viewValue){
+if(!modelValue)return false;
+if(getValidators(policies,id).complex(modelValue,viewValue))return true;
+return (/.*[a-z].*/.test(viewValue));},
+
+uppercase:function uppercase(modelValue,viewValue){
+if(!modelValue)return false;
+if(getValidators(policies,id).complex(modelValue,viewValue))return true;
+return (/.*[A-Z].*/.test(viewValue));},
+
+number:function number(modelValue,viewValue){
+if(!modelValue)return false;
+if(getValidators(policies,id).complex(modelValue,viewValue))return true;
+return (/.*[0-9].*/.test(viewValue));},
+
+special:function special(modelValue,viewValue){
+if(!modelValue)return false;
+if(getValidators(policies,id).complex(modelValue,viewValue))return true;
+return !/^[a-z0-9]+$/i.test(viewValue);},
+
+complex:function complex(modelValue,viewValue){
 if(!modelValue)return false;
 var numberOfUsedClasses=0;
 if(policies.allowLowerChars){
@@ -2987,33 +3009,8 @@ if(!/^[a-z0-9]+$/i.test(viewValue))numberOfUsedClasses++;}
 if(policies.allowNumChars){
 if(/.*[0-9].*/.test(viewValue))numberOfUsedClasses++;}
 
-return numberOfUsedClasses>=policies.requiredNumberOfCharClasses;};
+return numberOfUsedClasses>=policies.requiredNumberOfCharClasses;},
 
-var validators={
-setPolicies:function setPolicies(newPolicies){
-policies=newPolicies;},
-
-lowercase:function lowercase(modelValue,viewValue){
-if(!modelValue)return false;
-if(complex(modelValue,viewValue))return true;
-return (/.*[a-z].*/.test(viewValue));},
-
-uppercase:function uppercase(modelValue,viewValue){
-if(!modelValue)return false;
-if(complex(modelValue,viewValue))return true;
-return (/.*[A-Z].*/.test(viewValue));},
-
-number:function number(modelValue,viewValue){
-if(!modelValue)return false;
-if(complex(modelValue,viewValue))return true;
-return (/.*[0-9].*/.test(viewValue));},
-
-special:function special(modelValue,viewValue){
-if(!modelValue)return false;
-if(complex(modelValue,viewValue))return true;
-return !/^[a-z0-9]+$/i.test(viewValue);},
-
-complex:complex,
 lowercaseNotAllowed:function lowercaseNotAllowed(modelValue,viewValue){
 if(!viewValue)return true;
 return !/.*[a-z].*/.test(viewValue);},
@@ -3036,152 +3033,157 @@ var valid=true;
 var disallowedChars=[];
 policies.disallowedChars.split('').forEach(function(disallowedChar){
 if(viewValue.indexOf(disallowedChar)>-1){
-if(valid)valid=false;
+valid=false;
 disallowedChars.push(disallowedChar);}});
 
 
-CuiPasswordInfo.disallowedChars=disallowedChars.join(', ');
+CuiPasswordInfo.info[id].disallowedChars=disallowedChars.join(', ');
 return valid;},
 
 disallowedWords:function disallowedWords(modelValue,viewValue){
-// var regExpString='';
 if(!viewValue)return true;
 var valid=true;
 var disallowedWords=[];
 policies.disallowedWords.forEach(function(word){
 if(viewValue.toUpperCase().indexOf(word.toUpperCase())>-1){
-if(valid)valid=false;
+valid=false;
 disallowedWords.push(word);}});
 
 
-CuiPasswordInfo.disallowedWords=disallowedWords.join(', ');
+CuiPasswordInfo.info[id].disallowedWords=disallowedWords.join(', ');
 return valid;},
 
 length:function length(modelValue,viewValue){
 if(!modelValue)return false;
-return viewValue.length<=policies.max&&viewValue.length>=policies.min;}};
-
-
-return validators;}]).
-
-factory('CuiPasswordPolicies',['CuiPasswordValidators','CuiPasswordInfo',function(CuiPasswordValidators,CuiPasswordInfo){
-var policies;
-var parsedPolicies={};
-var policy={
-set:function set(policies){
-policies=policies;
-this.parse(policies);},
-
-get:function get(){
-return parsedPolicies;},
-
-parse:function parse(policies){
-if(policies.length){ // if we received an array
-policies.forEach(function(policyRulesObject){
-Object.keys(policyRulesObject).forEach(function(policyKey){
-parsedPolicies[policyKey]=policyRulesObject[policyKey];});});}else 
+return viewValue.length<=policies.max&&viewValue.length>=policies.min;}};};
 
 
 
-angular.copy(policies,parsedPolicies);
-CuiPasswordInfo.policies=parsedPolicies;},
 
-getValidators:function getValidators(){
-var validators={};
-validators.complex=CuiPasswordValidators.complex;
+var getValidators=function getValidators(parsedPolicies,id){
+var validator={};
+var passwordValidators=Object.assign({},validators(parsedPolicies,id));
+var trueFunction=function trueFunction(){return true;};
+
+CuiPasswordInfo.policies[id]=parsedPolicies;
+
+validator.complex=passwordValidators.complex;
 
 // if lower chars are not allowed add a check to see if there's a lowercase in the input
 if(parsedPolicies.allowLowerChars){
-validators.lowercase=CuiPasswordValidators.lowercase;
-validators.lowercaseNotAllowed=function(){return true;};}else 
+validator.lowercase=passwordValidators.lowercase;
+validator.lowercaseNotAllowed=trueFunction;}else 
 
 {
-validators.lowercase=function(){return true;};
-validators.lowercaseNotAllowed=CuiPasswordValidators.lowercaseNotAllowed;}
+validator.lowercase=trueFunction;
+validator.lowercaseNotAllowed=passwordValidators.lowercaseNotAllowed;}
 
 
 if(parsedPolicies.allowUpperChars){
-validators.uppercase=CuiPasswordValidators.uppercase;
-validators.uppercaseNotAllowed=function(){return true;};}else 
+validator.uppercase=passwordValidators.uppercase;
+validator.uppercaseNotAllowed=trueFunction;}else 
 
 {
-validators.uppercase=function(){return true;};
-validators.uppercaseNotAllowed=CuiPasswordValidators.uppercaseNotAllowed;}
+validator.uppercase=trueFunction;
+validator.uppercaseNotAllowed=passwordValidators.uppercaseNotAllowed;}
 
 
 if(parsedPolicies.allowNumChars){
-validators.number=CuiPasswordValidators.number;
-validators.numberNotAllowed=function(){return true;};}else 
+validator.number=passwordValidators.number;
+validator.numberNotAllowed=trueFunction;}else 
 
 {
-validators.number=function(){return true;};
-validators.numberNotAllowed=CuiPasswordValidators.numberNotAllowed;}
+validator.number=trueFunction;
+validator.numberNotAllowed=passwordValidators.numberNotAllowed;}
 
 
 if(parsedPolicies.allowSpecialChars){
-validators.special=CuiPasswordValidators.special;
-validators.specialNotAllowed=function(){return true;};}else 
+validator.special=passwordValidators.special;
+validator.specialNotAllowed=trueFunction;}else 
 
 {
-validators.special=function(){return true;};
-validators.specialNotAllowed=CuiPasswordValidators.specialNotAllowed;}
+validator.special=trueFunction;
+validator.specialNotAllowed=passwordValidators.specialNotAllowed;}
 
 
 if(parsedPolicies.disallowedChars){
-validators.disallowedChars=CuiPasswordValidators.disallowedChars;}
+validator.disallowedChars=passwordValidators.disallowedChars;}
 
 
 if(parsedPolicies.disallowedWords){
-validators.disallowedWords=CuiPasswordValidators.disallowedWords;}
+validator.disallowedWords=passwordValidators.disallowedWords;}
 
 
 if(parsedPolicies.min||parsedPolicies.max){
-validators.length=CuiPasswordValidators.length;}
+validator.length=passwordValidators.length;}
 
 
-return validators;}};
+return validator;};
+
+
+return {getValidators:getValidators};}]).
+
+factory('CuiPasswordPolicies',['CuiPasswordValidators','CuiPasswordInfo',function(CuiPasswordValidators,CuiPasswordInfo){
+var policy={
+parse:function parse(policies){
+var newParsedPolicies={};
+if(policies.length){ // if we received an array
+policies.forEach(function(policyRulesObject){
+Object.keys(policyRulesObject).forEach(function(policyKey){
+newParsedPolicies[policyKey]=policyRulesObject[policyKey];});});}else 
+
+
+
+newParsedPolicies=Object.assign({},policies);
+return newParsedPolicies;}};
 
 
 return policy;}]).
 
-directive('passwordValidation',['CuiPasswordPolicies','CuiPasswordValidators','CuiPasswordInfo','$rootScope',function(CuiPasswordPolicies,CuiPasswordValidators,CuiPasswordInfo,$rootScope){
+directive('passwordValidation',['CuiPasswordPolicies','CuiPasswordValidators',function(CuiPasswordPolicies,CuiPasswordValidators){
 return {
 require:'ngModel',
-scope:{},
+scope:{
+passwordValidation:'='},
+
 restrict:'A',
 link:function link(scope,elem,attrs,ctrl){
-function getCurrentPasswordPolicies(){return CuiPasswordInfo.policies;};
+var passwordValidationKey=scope.$id;
+ctrl.passwordValidationKey=passwordValidationKey;
 
-scope.$watch(getCurrentPasswordPolicies,function(newPasswordValidationRules){
+scope.$watch('passwordValidation',function(newPasswordValidationRules){
 if(newPasswordValidationRules){
-CuiPasswordValidators.setPolicies(newPasswordValidationRules);
-angular.forEach(CuiPasswordPolicies.getValidators(),function(checkFunction,validationName){
+var parsedPolicies=CuiPasswordPolicies.parse(newPasswordValidationRules);
+var validators=CuiPasswordValidators.getValidators(parsedPolicies,passwordValidationKey);
+angular.forEach(validators,function(checkFunction,validationName){
 ctrl.$validators[validationName]=checkFunction;});
 
-ctrl.$validate();
-CuiPasswordInfo.errors=ctrl.$error;}},
+ctrl.$validate();}});}};}]).
 
-function(newObj,oldObj){
-return Object.keys(newObj).length!==Object.keys(oldObj).length;});}};}]).
 
 
 
 
 directive('passwordPopover',['CuiPasswordInfo',function(CuiPasswordInfo){
 return {
-scope:true,
 restrict:'A',
 link:function link(scope,elem,attrs){
-function getCurrentPasswordInfo(){return CuiPasswordInfo;};
+var passwordValidationKey=scope.$eval(attrs.ngMessages.replace('.$error','.passwordValidationKey')); // get the passwordValidationKey from the input it's applied to
 
-scope.$watch(getCurrentPasswordInfo,function(newPasswordInfo){
+scope.$watchCollection(function(){return CuiPasswordInfo.info[passwordValidationKey];},function(newPasswordInfo){
 if(newPasswordInfo){
 Object.keys(newPasswordInfo).forEach(function(key){
-scope[key]=newPasswordInfo[key];});}},
+scope[key]=newPasswordInfo[key];});}});
 
 
-function(newObj,oldObj){
-return !angular.equals(newObj,oldObj);});}};}]);
+
+
+scope.$watchCollection(function(){return CuiPasswordInfo.policies[passwordValidationKey];},function(newPasswordPolicies){
+if(newPasswordPolicies)scope.policies=Object.assign({},newPasswordPolicies);});
+
+
+scope.$watchCollection(function(){return scope.$eval(attrs.ngMessages);},function(newErrorObject){
+if(newErrorObject)scope.errors=Object.assign({},newErrorObject);});}};}]);
 
 
 

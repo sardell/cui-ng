@@ -11,7 +11,7 @@ module.exports = function(grunt) {
       },
       scripts:{
         files: ['providers/**/*.js','filters/**/*.js','directives/**/*.js','utilities/**/*.js','assets/app/**/*.js'],
-        tasks: ['concat'],
+        tasks: ['concat:dev','concat:build'],
         options: {
           spawn: false,
         },

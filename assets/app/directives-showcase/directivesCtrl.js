@@ -32,10 +32,8 @@ angular.module('app')
     };
 }])
 
-.controller('directivesCtrl',['$rootScope','$state','$stateParams','user','$timeout','localStorageService','$scope','$translate','fakeApi','$interval','words',
-        'CuiPasswordPolicies','$q',
-function($rootScope,$state,$stateParams,user,$timeout,localStorageService,$scope,$translate,fakeApi,$interval,words,
-        CuiPasswordPolicies,$q) {
+.controller('directivesCtrl',['$rootScope','$state','$stateParams','user','$timeout','localStorageService','$scope','$translate','fakeApi','$interval','words','$q',
+function($rootScope,$state,$stateParams,user,$timeout,localStorageService,$scope,$translate,fakeApi,$interval,words,$q) {
 
     var directives = this;
     var timer;
@@ -70,17 +68,17 @@ function($rootScope,$state,$stateParams,user,$timeout,localStorageService,$scope
     directives.passwordPolicies.max = 8,
 
     $scope.$watch('directives.passwordPolicies', function(newPolicies, oldPolicies) {
-        if(newPolicies) CuiPasswordPolicies.set([{
-            allowUpperChars:directives.passwordPolicies.allowUpperChars,
-            allowLowerChars:directives.passwordPolicies.allowLowerChars,
-            allowNumChars:directives.passwordPolicies.allowNumChars,
-            allowSpecialChars:directives.passwordPolicies.allowSpecialChars,
-            requiredNumberOfCharClasses:directives.passwordPolicies.requiredNumberOfCharClasses,
-            disallowedChars:directives.passwordPolicies.disallowedChars,
-            min:directives.passwordPolicies.min,
-            max:directives.passwordPolicies.max,
-            disallowedWords:directives.passwordPolicies.disallowedWords.split(',')
-        }]);
+        if(newPolicies) directives.passwordPolicyObject = {
+            allowUpperChars:newPolicies.allowUpperChars,
+            allowLowerChars:newPolicies.allowLowerChars,
+            allowNumChars:newPolicies.allowNumChars,
+            allowSpecialChars:newPolicies.allowSpecialChars,
+            requiredNumberOfCharClasses:newPolicies.requiredNumberOfCharClasses,
+            disallowedChars:newPolicies.disallowedChars,
+            min:newPolicies.min,
+            max:newPolicies.max,
+            disallowedWords:newPolicies.disallowedWords.split(',')
+        };
     }, true);
 
     directives.customErrors ={
