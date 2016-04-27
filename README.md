@@ -13,17 +13,20 @@ Cui-ng is an angular module with a series of custom directives and utilities for
 * [Cui-Dropdown](https://github.com/thirdwavellc/cui-ng/tree/master/directives/cui-dropdown)
 * [Cui-Expandable](https://github.com/thirdwavellc/cui-ng/tree/master/directives/cui-expandable)
 * [Cui-Icon](https://github.com/thirdwavellc/cui-ng/tree/master/directives/cui-icon)
+* [Cui-Popover](https://github.com/thirdwavellc/cui-ng/tree/master/directives/cui-popover)
 * [Cui-Wizard](https://github.com/thirdwavellc/cui-ng/tree/master/directives/cui-wizard)
 * [Custom-error](https://github.com/thirdwavellc/cui-ng/tree/master/directives/custom-error)
 * [Focus-if](https://github.com/thirdwavellc/cui-ng/tree/master/directives/focus-if)
 * [Inline-edit](https://github.com/thirdwavellc/cui-ng/tree/master/directives/inline-edit)
 * [Match](https://github.com/thirdwavellc/cui-ng/tree/master/directives/match)
 * [Off-Click](https://github.com/thirdwavellc/cui-ng/tree/master/directives/off-click)
+* [On-Enter](https://github.com/thirdwavellc/cui-ng/tree/master/directives/on-enter)
 * [Paginate](https://github.com/thirdwavellc/cui-ng/tree/master/directives/paginate)
 * [Password-validation](https://github.com/thirdwavellc/cui-ng/tree/master/directives/password-validation)
 * [Results-Per-Page](https://github.com/thirdwavellc/cui-ng/tree/master/directives/results-per-page)
 * [Tags-input](https://github.com/thirdwavellc/cui-ng/tree/master/directives/tags-input)
 * [Tether](https://github.com/thirdwavellc/cui-ng/tree/master/directives/tether)
+* [Ui-Sref-Active-Nested](https://github.com/thirdwavellc/cui-ng/tree/master/directives/ui-sref-active-nested)
 
 ## Providers
 

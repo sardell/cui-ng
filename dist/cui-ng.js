@@ -1,6 +1,6 @@
 'use strict';var _slicedToArray=function(){function sliceIterator(arr,i){var _arr=[];var _n=true;var _d=false;var _e=undefined;try{for(var _i=arr[Symbol.iterator](),_s;!(_n=(_s=_i.next()).done);_n=true){_arr.push(_s.value);if(i&&_arr.length===i)break;}}catch(err){_d=true;_e=err;}finally {try{if(!_n&&_i["return"])_i["return"]();}finally {if(_d)throw _e;}}return _arr;}return function(arr,i){if(Array.isArray(arr)){return arr;}else if(Symbol.iterator in Object(arr)){return sliceIterator(arr,i);}else {throw new TypeError("Invalid attempt to destructure non-iterable instance");}};}();var _typeof=typeof Symbol==="function"&&typeof Symbol.iterator==="symbol"?function(obj){return typeof obj;}:function(obj){return obj&&typeof Symbol==="function"&&obj.constructor===Symbol?"symbol":typeof obj;};function _defineProperty(obj,key,value){if(key in obj){Object.defineProperty(obj,key,{value:value,enumerable:true,configurable:true,writable:true});}else {obj[key]=value;}return obj;}
 
-// cui-ng build Wed Apr 27 2016 13:11:41
+// cui-ng build Wed Apr 27 2016 13:26:43
 
 (function(angular){'use strict';
 
@@ -2713,10 +2713,9 @@ angular.module('cui-ng').
 directive('onEnter',['$timeout',function($timeout){
 return {
 restrict:'A',
-scope:true,
 link:function link(scope,element,attrs){
 element.bind("keydown keypress",function(event){
-if(event.which===13){
+if(event.which===13){(function(){
 event.preventDefault();
 var callback=scope.$eval(attrs.onEnter);
 if(scope.$eval(attrs.ngModel)){
@@ -2724,7 +2723,7 @@ $timeout(function(){
 callback(scope.$eval(attrs.ngModel));});}else 
 
 
-$timeout(function(){callback();});}});
+$timeout(function(){callback();});})();}});
 
 
 
@@ -4357,30 +4356,29 @@ angular.module('cui-ng').
 directive('uiSrefActiveNested',['$state',function($state){
 return {
 restrict:'A',
-scope:{},
 link:function link(scope,elem,attrs){
+var parentState=void 0;
 if(!attrs.uiSref){
 throw 'ui-sref-active-nested can only be used on elements with a ui-sref attribute';
 return;}
 
-
 // if this element is a link to a state that is nested
 if(attrs.uiSref.indexOf('.')>-1){
-var parentState=attrs.uiSref.split('.')[0];}
+parentState=attrs.uiSref.split('.')[0];}
 
 // else if it's a parent state
-else var parentState=attrs.uiSref;
+else parentState=attrs.uiSref;
 scope.$on('$stateChangeStart',applyActiveClassIfNestedState);
 
-function applyActiveClassIfNestedState(e,toState){
+var applyActiveClassIfNestedState=function applyActiveClassIfNestedState(e,toState){
 if(toState.name.indexOf('.')>-1&&toState.name.split('.')[0]===parentState){
 elem[0].classList.add(attrs.uiSrefActiveNested);}else 
 
 if(toState.name.indexOf('.')===-1&&toState.name===parentState){
 elem[0].classList.add(attrs.uiSrefActiveNested);}else 
 
-elem[0].classList.remove(attrs.uiSrefActiveNested);}
-;}};}]);
+elem[0].classList.remove(attrs.uiSrefActiveNested);};}};}]);
+
 
 
 
