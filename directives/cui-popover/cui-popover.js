@@ -1,327 +1,95 @@
 angular.module('cui-ng')
-.directive('cuiPopover', ['$compile','$timeout','$interval', ($compile,$timeout,$interval) => {
+.directive('cuiPopover', ['CuiPopoverHelpers','$compile','$timeout','$interval', (CuiPopoverHelpers,$compile,$timeout,$interval) => {
     return {
         restrict: 'EA',
         scope: {},
         link: (scope, elem, attrs) => {
-            let self;
-            let popoverTether,tetherAttachmentInterval,targetElementPositionInterval;
-
-            let cuiPopoverConfig = {
-
-            };
-
-            const cuiPopoverHelpers = {
-                getResetStyles : () => {
-                    return {
-                        'margin-right':'',
-                        'margin-left':'',
-                        'margin-bottom':'',
-                        'margin-top':'',
-                        'left':'',
-                        'top':'',
-                        'bottom':'',
-                        'right':''
-                    };
-                },
-                getAttachmentFromPosition : (position) => {
-                    switch(position) {
-                        case 'top':
-                            return 'bottom center';
-                        case 'bottom':
-                            return 'top center';
-                        case 'right':
-                            return 'middle left';
-                        case 'left':
-                            return 'middle right';
-                    };
-                },
-                invertAttachmentPartial : (partial) => {
-                    switch (partial) {
-                        case 'top':
-                            return 'bottom';
-                        case 'bottom':
-                            return 'top';
-                        case 'left':
-                            return 'right';
-                        case 'right':
-                            return 'left';
-                    };
-                },
-                parseOffset : (offset) => {
-                    let splitOffset = offset.split(' ');
-                    const verticalOffset = cuiPopoverHelpers.getOffsetAndUnitsOfOffset(splitOffset[0]);
-                    const horizontalOffset = cuiPopoverHelpers.getOffsetAndUnitsOfOffset(splitOffset[1]);
-
-                    return { verticalOffset, horizontalOffset };
-                },
-                parseAttachment : (attachment) => {
-                    const [ verticalAttachment , horizontalAttachment ] = attachment.split(' ');
-                    return { verticalAttachment, horizontalAttachment };
-                },
-                getTetherOffset: (position, offset) => {
-                    const { verticalOffset , horizontalOffset } = cuiPopoverHelpers.parseOffset(offset);
-
-                    switch (position){
-                        case 'top':
-                        case 'bottom':
-                            return '0 ' + (horizontalOffset.amount * -1) + horizontalOffset.units;
-                        default:
-                            return (verticalOffset.amount * -1) + verticalOffset.units + ' 0';
-                    };
-                },
-                invertAttachment: (attachment) => {
-                    const { verticalAttachment, horizontalAttachment } = cuiPopoverHelpers.parseAttachment(attachment);
-                    return invertAttachmentPartial(verticalAttachment) + ' ' + invertAttachmentPartial(horizontalAttachment);
-                },
-                getOffsetAndUnitsOfOffset: (offsetPartial) => {
-                    let amount,units;
-                    switch (offsetPartial.indexOf('%')){
-                        case -1 :
-                            amount  = window.parseInt(offsetPartial.split('px')[0]);
-                            units = 'px';
-                            break;
-                        default :
-                            amount = window.parseInt(offsetPartial.split('%')[0]);
-                            units = '%';
-                    };
-                    return { amount, units };
-                },
-                getPointerOffset:({ position, offsetBetweenPointerAndContent, popoverHeight, popoverWidth, pointerHeight, pointerWidth, containerHeight, containerWidth, distanceBetweenTargetAndPopover }) => {
-                    const contentOffset = cuiPopoverHelpers.getOffsetAndUnitsOfOffset(offsetBetweenPointerAndContent);
-                    const contentOffsetCompensation = () => {
-                        switch (position) {
-                            case 'top':
-                            case 'bottom':
-                                return {'margin-left':'50%', 'left': (contentOffset.amount * -1) + contentOffset.units};
-                            case 'left':
-                            case 'right':
-                                switch (contentOffset.amount){
-                                    case 0:
-                                        return {'top':'50%'};
-                                    default:
-                                        let topMargin;
-                                        contentOffset.units === '%'? topMargin = containerHeight * ((contentOffset.amount * -1) /100) : topMargin = contentOffset.amount + contentOffset.units;
-                                        return { 'top':'50%', 'margin-top': topMargin };
-                                };
-                        };
-                    }
-
-                    const containerPadding = cuiPopoverHelpers.getContainerPaddings({position, offsetBetweenPointerAndContent, popoverHeight, popoverWidth, pointerHeight, pointerWidth, containerHeight, containerWidth, distanceBetweenTargetAndPopover});
-                    const pointerOffset = () => {
-                        switch (position) {
-                            case 'top':
-                                return {
-                                    bottom:'0',
-                                    transform:'translate(-50%,' + (-Math.ceil(parseFloat(containerPadding['padding-bottom'])) + pointerHeight) + 'px)'
-                                };
-                            case 'bottom':
-                                return {
-                                    top:'0',
-                                    transform: 'translate(-50%,' + (Math.ceil(parseFloat(containerPadding['padding-top'])) - pointerHeight) + 'px)'
-                                };
-                            case 'left':
-                                return {
-                                    right: (parseFloat(containerPadding['padding-right']) - pointerHeight) + 'px',
-                                    transform: 'translate(0,-50%)'
-                                };
-                            case 'right':
-                                return {
-                                    left: (parseFloat(containerPadding['padding-left']) - pointerHeight) + 'px',
-                                    transform: 'translate(0,-50%)'
-                                };
-                        };
-                    };
-
-                    return Object.assign({}, cuiPopoverHelpers.getResetStyles(), pointerOffset(), contentOffsetCompensation());
-                },
-                getPointerBorderStyles: ({ position,pointerHeight,pointerWidth}) => {
-                    const transparentHorizontalBorder = pointerWidth + 'px solid transparent';
-                    const transparentVerticalBorder = pointerHeight + 'px solid transparent';
-                    if(position === 'top' || position === 'bottom'){
-                        return {
-                            'border-right':transparentHorizontalBorder,
-                            'border-left':transparentHorizontalBorder,
-                            'border-bottom':transparentVerticalBorder,
-                            'border-top':transparentVerticalBorder
-                        }
-                    }
-                    else return {
-                        'border-right':transparentVerticalBorder,
-                        'border-left':transparentVerticalBorder,
-                        'border-bottom':transparentHorizontalBorder,
-                        'border-top':transparentHorizontalBorder
-                    }
-                },
-                getPointerStyles: ({ position, offsetBetweenPointerAndContent, popoverHeight, popoverWidth, pointerHeight, pointerWidth, containerHeight, containerWidth, distanceBetweenTargetAndPopover }) => {
-                    const colorOfPopoverBackground = elem.css('backgroundColor'),
-                        stylesOfVisibleBorder = pointerHeight + 'px solid ' + colorOfPopoverBackground;
-
-                    return Object.assign({position:'absolute'},
-                            cuiPopoverHelpers.getPointerOffset({position, offsetBetweenPointerAndContent, popoverHeight, popoverWidth, pointerHeight, pointerWidth, containerHeight, containerWidth, distanceBetweenTargetAndPopover}),
-                            cuiPopoverHelpers.getPointerBorderStyles({position, offsetBetweenPointerAndContent, popoverHeight, popoverWidth, pointerHeight, pointerWidth, containerHeight, containerWidth, distanceBetweenTargetAndPopover}),
-                            {['border' + position] : stylesOfVisibleBorder}
-                        );
-                },
-                getPointer:(opts) => {
-                    const $pointer = $('<span class="cui-popover__pointer"></span>');
-                    $pointer.css(cuiPopoverHelpers.getPointerStyles(opts));
-                    return $pointer;
-                },
-                getPopoverMargins: (position, pointerHeight) => {
-                    let margin = pointerHeight + 'px';
-                    return {
-                        'margin-top': position === 'bottom' ? margin : '',
-                        'margin-right': position === 'left' ? margin : '',
-                        'margin-bottom': position === 'top' ? margin : '',
-                        'margin-left': position === 'right' ? margin : ''
-                    };
-                },
-                getContainerPaddings: ({ position, offsetBetweenPointerAndContent, popoverHeight, popoverWidth, pointerHeight, distanceBetweenTargetAndPopover }) => {
-                    const padding = cuiPopoverHelpers.getOffsetAndUnitsOfOffset(distanceBetweenTargetAndPopover);
-
-                    let [ paddingTop, paddingBottom, paddingRight, paddingLeft ] = ['','','',''];
-
-                    if( position === 'top' || position === 'bottom') {
-                       let verticalPadding;
-                       switch(padding.units) {
-                           default: // 'px' or ''
-                               verticalPadding = padding.amount + padding.units;
-                               break;
-                           case '%':
-                               const heightOfContainer = popoverHeight + pointerHeight;
-                               verticalPadding = heightOfContainer * (padding.amount / 100) + 'px';
-                        };
-                        position === 'top' ? paddingBottom = verticalPadding : paddingTop = verticalPadding;
-                    }
-                    else {
-                        let horizontalPadding;
-                        switch(padding.units) {
-                            default: // 'px' or ''
-                                horizontalPadding = padding.amount + padding.units;
-                                break;
-                            case '%':
-                                const widthOfContainer = popoverWidth + pointerHeight;
-                                horizontalPadding = widthOfPopover * (padding.amount / 100) + 'px';
-                        };
-                        position === 'left' ? paddingRight = horizontalPadding : paddingLeft = horizontalPadding;
-                    }
-
-                    return {
-                        'padding-top': paddingTop || '',
-                        'padding-right': paddingRight || '',
-                        'padding-bottom': paddingBottom || '',
-                        'padding-left': paddingLeft || '',
-                    };
-                }
-            };
-
-
-
-
+            let self, popoverTether=[], repositionedTether, tetherAttachmentInterval, targetElementPositionInterval, cuiPopoverConfig = {}, positions, positionInUse, trialPosition;
 
             const cuiPopover = {
                 init:function(){
+                    elem.css({opacity:'0','pointer-events':'none',position:'absolute'});
+
                     self=this;
-                    self.render.popoverContainer();
-                    angular.forEach(self.watchers, function cuiPopoverInitWatcher(initWatcher){
+                    positionInUse = 0; // using the default position when we init
+                    positions = scope.$eval(attrs.popoverPositions);
+                    positions = CuiPopoverHelpers.parsePositionArray(positions);
+                    self.config(positions[positionInUse]);
+                    self.selectors[positionInUse]={};
+                    self.render.popoverContainer(positionInUse);
+
+                    angular.forEach(self.watchers, (initWatcher) => {
                         initWatcher();
                     });
                 },
-                config:(() => {
-                        const _this=cuiPopoverConfig;
+                config:(opts) => {
+                        const _this = cuiPopoverConfig;
+                        _this.element = elem;
                         _this.target = attrs.target;
-                        _this.position = attrs.popoverPosition || 'bottom';
                         _this.targetModifier = attrs.targetModifier || undefined;
-                        _this.allowedReposition = attrs.allowedReposition || 'any';
+
                         _this.pointerHeight = attrs.pointerHeight && window.parseInt(attrs.pointerHeight) || 14;
                         _this.pointerWidth = attrs.pointerWidth && window.parseInt(attrs.pointerWidth) || 9;
-                        _this.hidePopoverIfOob = scope.$eval(attrs.hidePopoverIfOob) || false;
 
                         _this.popoverWidth = elem.outerWidth();
                         _this.popoverHeight = elem.outerHeight();
 
-                        let calcs = (() => {
-                            const popoverOffsetAttribute = (attrs.popoverOffset || '0 0').split(' ');
-                            let offset, targetOffset, targetAndPopoverOffset, pointerOffset, containerWidth, containerHeight;
+                        _this.position = opts.position;
+                        const popoverOffsetAttribute = (opts && opts.popoverOffset || attrs.popoverOffset || '0 0').split(' ');
+                        const offsetBetweenPointerAndContent = (opts && opts.contentOffset || attrs.contentOffset || '0');
 
-                            if(_this.position === 'top' || _this.position==='bottom'){
-                                [ targetAndPopoverOffset, pointerOffset ] = popoverOffsetAttribute;
-                                offset = ['0', targetAndPopoverOffset].join(' ');
-                                targetOffset = ['0', pointerOffset].join(' ');
-                                containerWidth = _this.popoverWidth;
-                                containerHeight = _this.popoverHeight + _this.pointerHeight;
-                            }
-                            else {
-                                [ pointerOffset, targetAndPopoverOffset ] = popoverOffsetAttribute;
-                                offset = [targetAndPopoverOffset, '0'].join(' ');
-                                targetOffset = [pointerOffset,'0'].join(' ');
-                                containerWidth = _this.popoverWidth + _this.pointerHeight;
-                                containerHeight = _this.popoverHeight;
-                            }
+                        let offset, targetOffset, targetAndPopoverOffset, pointerOffset, containerWidth, containerHeight;
 
-                            _this.distanceBetweenTargetAndPopover = targetAndPopoverOffset;
-                            _this.offsetBetweenPointerAndContent = targetAndPopoverOffset;
-                            _this.offset = offset;
-                            _this.targetOffset = targetOffset;
-                            _this.containerHeight = containerHeight;
-                            _this.containerWidth = containerWidth;
+                        if(_this.position === 'top' || _this.position === 'bottom'){
+                            [ targetAndPopoverOffset, pointerOffset ] = popoverOffsetAttribute;
+                            offset = ['0', offsetBetweenPointerAndContent].join(' ');
+                            targetOffset = ['0', pointerOffset].join(' ');
+                            containerWidth = _this.popoverWidth;
+                            containerHeight = _this.popoverHeight + _this.pointerHeight;
+                        }
+                        else {
+                            [ pointerOffset, targetAndPopoverOffset ] = popoverOffsetAttribute;
+                            offset = [offsetBetweenPointerAndContent, '0'].join(' ');
+                            targetOffset = [pointerOffset,'0'].join(' ');
+                            containerWidth = _this.popoverWidth + _this.pointerHeight;
+                            containerHeight = _this.popoverHeight;
+                        }
 
-                            _this.attachment = cuiPopoverHelpers.getAttachmentFromPosition(_this.position);
-                            _this.targetAttachment = cuiPopoverHelpers.getAttachmentFromPosition(cuiPopoverHelpers.invertAttachmentPartial(_this.position));
-                        })();
-                    })(),
+                        _this.distanceBetweenTargetAndPopover = targetAndPopoverOffset;
+                        _this.offsetBetweenPointerAndContent = offsetBetweenPointerAndContent;
+                        _this.offset = offset;
+                        _this.targetOffset = targetOffset;
+                        _this.containerHeight = containerHeight;
+                        _this.containerWidth = containerWidth;
+
+                        _this.attachment = CuiPopoverHelpers.getAttachmentFromPosition(_this.position);
+                        _this.targetAttachment = CuiPopoverHelpers.getAttachmentFromPosition(CuiPopoverHelpers.invertAttachmentPartial(_this.position));
+                },
                 helpers: {
-                    getTetherOptions:( element = self.selectors.$container[0] ) => {
-                        const { target, offset, targetOffset, targetModifier, attachment, targetAttachment, hidePopoverIfOob, allowedReposition } = cuiPopoverConfig;
+                    getTetherOptions:( element = self.selectors.$container[0], opts ) => {
+                        const { target, position, offset, targetOffset, targetModifier, attachment, targetAttachment } = opts;
                         return {
                             target,
                             targetModifier,
                             attachment,
                             targetAttachment,
                             targetOffset,
-                            offset : cuiPopoverHelpers.getTetherOffset(position,offset),
+                            offset : CuiPopoverHelpers.getTetherOffset(position,offset),
                             element : element,
-                            constraints: hidePopoverIfOob || allowedReposition==='none' ? [{ to: 'window', attachment: 'none none' }] : [{ to: 'window', attachment: 'together together' }]
+                            constraints:  [{ to: 'window', attachment: 'none none' }]
                         };
                     }
                 },
                 watchers:{
                     position:() => {
                         tetherAttachmentInterval = $interval(() => {
-                            if(!popoverTether || !popoverTether.element) return;
-                            const { position, allowedReposition, hidePopoverIfOob } = cuiPopoverConfig;
-                            const { invertAttachmentPartial } = cuiPopoverHelpers;
-                            switch(hidePopoverIfOob) {
-                                case true:
-                                    scope.position = popoverTether.element.classList.contains('tether-out-of-bounds') ? 'hidden' : 'normal';
-                                    break;
-                                default:
-                                    switch(allowedReposition) {
-                                        case 'none':
-                                            scope.position = 'normal';
-                                            break;
-                                        case 'opposite':
-                                            scope.position = popoverTether.element.classList.contains('tether-element-attached-' + invertAttachmentPartial(position)) ? 'normal' : 'inverted';
-                                            break;
-                                        case 'any':
-                                            if(popoverTether.element.classList.contains('tether-out-of-bounds' + invertAttachmentPartial(position))
-                                                || popoverTether.element.classList.contains('tether-out-of-bounds-' + position)) {
-                                                scope.position = 'fallback';
-                                                $interval.cancel(tetherAttachmentInterval); // cancel the interval temporarily
-                                            }
-                                            else if (!popoverTether.element.classList.contains('tether-element-attached-' + invertAttachmentPartial(position))) scope.position = 'inverted';
-                                            else scope.position = 'normal';
-                                            break;
-                                    };
-                            };
-                        },10);
-
-                        scope.$watch('position',function(newPosition,oldPosition) {
-                            if(newPosition && newPosition !== oldPosition) {
-                                self.rePosition(newPosition);
+                            if(!popoverTether[positionInUse] || !popoverTether[positionInUse].element) return;
+                            if(positions.length === 1) self.newMode('normal');
+                            else {
+                                if(popoverTether[positionInUse].element.classList.contains('tether-out-of-bounds')) self.newMode('try-another');
+                                else self.newMode('normal');
                             }
-                        });
+                        },100);
                     },
 
                     targetElementPosition:() => {
@@ -330,7 +98,7 @@ angular.module('cui-ng')
                         },10)
 
                         scope.$watch('targetPosition',(newPosition) => {
-                            newPosition && popoverTether.position();
+                            newPosition && popoverTether[positionInUse].position();
                         },(newPosition,oldPosition) => newPosition.top !== oldPosition.top || newPosition.left !== oldPosition.left );
                     },
 
@@ -338,9 +106,9 @@ angular.module('cui-ng')
                         scope.$on('$destroy',() => {
                             $interval.cancel(tetherAttachmentInterval);
                             $interval.cancel(targetElementPositionInterval);
-                            popoverTether.destroy();
-                            self.selectors.$container && self.selectors.$container.detach();
-                            self.selectors.$pointer && self.selectors.$pointer.detach();
+                            popoverTether[positionInUse].destroy();
+                            self.selectors[positionInUse].$container && self.selectors[positionInUse].$container.detach();
+                            self.selectors[positionInUse].$pointer && self.selectors[positionInUse].$pointer.detach();
                         })
                     }
                 },
@@ -348,61 +116,80 @@ angular.module('cui-ng')
                     $target:angular.element(document.querySelector(attrs.target))
                 },
                 render:{
-                    popoverContainer:() => {
-                        const { getPointer, getPopoverMargins, getContainerPaddings } = cuiPopoverHelpers;
+                    popoverContainer:(positionIndex) => {
+                        const { getPointer, getPopoverMargins, getContainerPaddings } = CuiPopoverHelpers;
                         const opts = cuiPopoverConfig;
-
                         const $container = $('<div class="cui-popover__container"></div>');
+                        const $pointer = getPointer(opts);
+
+                        // apply stylings to the container
                         $container.css(getContainerPaddings(opts));
-                        $container[0].classList.add('hide--opacity');
-                        self.selectors.$container = $container;
+                        self.selectors[positionIndex].$container = $container;
+                        self.selectors[positionIndex].$container[0].classList.add('hide--opacity');
 
                         // append the pointer to the container
-                        if(self.selectors.$pointer) self.selectors.$pointer.detach();
-                        const $pointer=getPointer(opts);
                         $container.append($pointer);
-                        self.selectors.$pointer=$pointer;
+                        self.selectors[positionIndex].$pointer = $pointer;
 
                         // append the cui-popover to the container and apply the margins to make room for the pointer
-                        elem.css(getPopoverMargins(opts.position, opts.pointerHeight));
-                        $container.append(elem);
+
+                        const cloneElem= elem.clone();
+                        cloneElem.css({opacity:'','pointer-events':'',position:''});
+                        cloneElem.css(getPopoverMargins(opts.position, opts.pointerHeight));
+                        self.selectors[positionIndex].$container.append(cloneElem);
 
                         angular.element(document.body).append($container);
-                        popoverTether = new Tether(self.helpers.getTetherOptions($container));
+                        popoverTether[positionIndex] = new Tether(self.helpers.getTetherOptions($container,opts));
 
-                        popoverTether.position();
+                        popoverTether[positionIndex].position();
                     }
                 },
-                rePosition:function cuiPopoverReposition(newAttachment){
-                    // self.selectors.$container[0].classList.add('hide--opacity');
+                newMode:(newMode) => {
+                    const { getPointer, getPopoverMargins, getContainerPaddings } = CuiPopoverHelpers;
+                    const opts = cuiPopoverConfig;
+                    switch(newMode){
+                        case 'normal': // if we can show the popover in the current position
+                            self.selectors[positionInUse].$container[0].classList.contains('hide--opacity') && self.selectors[positionInUse].$container[0].classList.remove('hide--opacity');
+                            break;
+                        case 'try-another':
+                            self.tryAnotherPosition();
+                            break;
+                    }
+                },
+                tryAnotherPosition:() => {
+                    if(typeof trialPosition === 'undefined' && positionInUse===0) trialPosition = 1;
+                    else if(typeof trialPosition === 'undefined') trialPosition = 0;
+                    else trialPosition ++;
 
-                    // switch(newAttachment){
-                    //     case 'hidden':
-                    //         break;
-                    //     case undefined:
-                    //     case 'normal':
-                    //         elem.css(self.helpers.getPopoverMargins());
-                    //         self.selectors.$pointer.css(self.helpers.getPointerStyles());
-                    //         self.selectors.$container.css(self.helpers.getContainerPaddings());
-                    //         self.selectors.$container[0].classList.remove('hide--opacity');
-                    //         break;
-                    //     case 'inverted':
-                    //         var newPosition=invertAttachmentPartial(self.config.position);
-                    //         elem.css(self.helpers.getPopoverMargins(newPosition));
-                    //         self.selectors.$pointer.css(self.helpers.getPointerStyles(newPosition));
-                    //         self.selectors.$container.css(self.helpers.getContainerPaddings(newPosition));
-                    //         self.selectors.$container[0].classList.remove('hide--opacity');
-                    //         break;
-                    //     case 'fallback': // if we need to rotate the tether 90deg
-                    //         self.config.position = self.helpers.getRotatedPosition(self.config.position);
-                    //         self.config.attachment = getAttachmentFromPosition(self.config.position);
-                    //         self.config.targetAttachment = getAttachmentFromPosition(invertAttachmentPartial(self.config.position));
-                    //         elem.css(self.helpers.getPopoverMargins());
-                    //         self.selectors.$container.css(self.helpers.getContainerPaddings());
-                    //         self.selectors.$pointer.css(self.helpers.getPointerStyles(self.config.position));
-                    //         popoverTether.setOptions(self.helpers.getTetherOptions());
-                    //         self.watchers.position();
+                    if(trialPosition === positionInUse) return;
 
+                    if(trialPosition === positions.length-1){ // if we reached the last position
+                        if(positions[trialPosition] === 'hide') { // and none of them were able to show and 'hide' was passed as last fallback, hide element.
+                            if(!self.selectors[positionInUse].$container[0].classList.contains('hide--opacity')) self.selectors[positionInUse].$container[0].classList.add('hide--opacity');
+                        }
+                        trialPosition = undefined; // start over
+                        return;
+                    }
+
+                    if(typeof self.selectors[trialPosition]!=='undefined') delete self.selectors[trialPosition];
+                    self.selectors[trialPosition]={};
+                    const opts = positions[trialPosition];
+                    self.config(opts);
+                    self.render.popoverContainer(trialPosition);
+
+                    if(!popoverTether[trialPosition].element.classList.contains('tether-out-of-bounds')){
+                        self.selectors[positionInUse].$container.detach()
+                        popoverTether[positionInUse].destroy();
+                        delete self.selectors[positionInUse];
+                        positionInUse = trialPosition;
+                        trialPosition = undefined;
+                        if(self.selectors[positionInUse].$container[0].classList.contains('hide--opacity')) self.selectors[positionInUse].$container[0].classList.remove('hide--opacity');
+                    }
+                    else {
+                        self.selectors[trialPosition].$container.detach()
+                        popoverTether[trialPosition].destroy();
+                        delete self.selectors[trialPosition];
+                    }
 
                 }
             };
