@@ -126,20 +126,6 @@ function($rootScope,$state,$stateParams,user,$timeout,localStorageService,$scope
         });
     };
 
-    directives.testCallback = function() {
-        console.log('hi!');
-    };
-
-    directives.onEdit = function(value) {
-        console.log('test');
-        if (!angular.isDefined(value)) {
-            directives.inlineError = {};
-        }
-        else directives.inlineError = {
-            test:value
-        };
-        directives.noSave = (value !== 'admin');
-    };
 
     // Paginate Start -----------------------------------------------------------
     $scope.$on('$stateChangeSuccess', function(event, toState, toParams, fromState, fromParams) {
@@ -181,5 +167,16 @@ function($rootScope,$state,$stateParams,user,$timeout,localStorageService,$scope
 
     directives.buildEntitlements();
     // CUI-Authorization End ----------------------------------------------------
+
+
+    // On-enter start -----------------------------------------------------------
+
+    directives.onEnterResults=[]
+    directives.onEnter = function(text) {
+        if(test && text!=='') directives.onEnterResults.push({id:directives.onEnterResults.length+1,text:text});
+        directives.onEnterInput = '';
+    };
+
+    // On-enter end -------------------------------------------------------------
 
 }]);

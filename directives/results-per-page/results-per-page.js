@@ -22,7 +22,6 @@ angular.module('cui-ng')
 	this.$get = function() {
 		return this;
 	};
-
 }])
 .directive('resultsPerPage', ['$compile','$pagination', function($compile,$pagination) {
 	return {
@@ -30,7 +29,6 @@ angular.module('cui-ng')
 		scope: {
 			selected: '=ngModel',
 		},
-
 		link: function(scope, elem, attrs) {
 			var self;
 
@@ -47,15 +45,15 @@ angular.module('cui-ng')
 				},
 
 				config: {
-					selectClass: attrs.class || 'cui-select'
+					selectClass: attrs.class || 'cui-dropdown'
 				},
 
 				render: function() {
 					var element = $compile(
 						String.prototype.concat(
-							'<select class="', this.config.selectClass, '" ng-model="selected"',
-								'ng-options="option as option for option in options">',
-							'</select>'
+							'<cui-dropdown class="', this.config.selectClass, '" ng-model="selected"',
+								'options="options">',
+							'</cui-dropdown>'
 						)
 					)(scope);
 					angular.element(elem).replaceWith(element);

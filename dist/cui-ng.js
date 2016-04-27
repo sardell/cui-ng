@@ -1,6 +1,6 @@
 'use strict';var _slicedToArray=function(){function sliceIterator(arr,i){var _arr=[];var _n=true;var _d=false;var _e=undefined;try{for(var _i=arr[Symbol.iterator](),_s;!(_n=(_s=_i.next()).done);_n=true){_arr.push(_s.value);if(i&&_arr.length===i)break;}}catch(err){_d=true;_e=err;}finally {try{if(!_n&&_i["return"])_i["return"]();}finally {if(_d)throw _e;}}return _arr;}return function(arr,i){if(Array.isArray(arr)){return arr;}else if(Symbol.iterator in Object(arr)){return sliceIterator(arr,i);}else {throw new TypeError("Invalid attempt to destructure non-iterable instance");}};}();var _typeof=typeof Symbol==="function"&&typeof Symbol.iterator==="symbol"?function(obj){return typeof obj;}:function(obj){return obj&&typeof Symbol==="function"&&obj.constructor===Symbol?"symbol":typeof obj;};function _defineProperty(obj,key,value){if(key in obj){Object.defineProperty(obj,key,{value:value,enumerable:true,configurable:true,writable:true});}else {obj[key]=value;}return obj;}
 
-// cui-ng build Wed Apr 27 2016 13:26:43
+// cui-ng build Wed Apr 27 2016 16:41:23
 
 (function(angular){'use strict';
 
@@ -2573,8 +2573,7 @@ inlineEdit.init();}};}]);
 
 
 angular.module('cui-ng').
-directive('match',['$parse',matchDirective]);
-function matchDirective($parse){
+directive('match',['$parse',function($parse){
 return {
 restrict:'A',
 require:'ngModel',
@@ -2583,9 +2582,7 @@ var checkIfMatch=function checkIfMatch(values){
 ctrl.$setValidity('match',values[0]===(values[1]||''));};
 
 
-scope.$watch(function(){
-return [scope.$eval(attrs.match),ctrl.$viewValue];},
-checkIfMatch,true);}};}
+scope.$watch(function(){return [scope.$eval(attrs.match),ctrl.$viewValue];},checkIfMatch,function(newValues,oldValues){return !angular.equals(newValues,oldValues);});}};}]);
 
 
 
@@ -2713,17 +2710,15 @@ angular.module('cui-ng').
 directive('onEnter',['$timeout',function($timeout){
 return {
 restrict:'A',
-link:function link(scope,element,attrs){
+require:'ngModel',
+link:function link(scope,element,attrs,ctrl){
 element.bind("keydown keypress",function(event){
 if(event.which===13){(function(){
 event.preventDefault();
 var callback=scope.$eval(attrs.onEnter);
-if(scope.$eval(attrs.ngModel)){
 $timeout(function(){
-callback(scope.$eval(attrs.ngModel));});}else 
+callback(ctrl.$viewValue);});})();}});
 
-
-$timeout(function(){callback();});})();}});
 
 
 
@@ -3241,13 +3236,11 @@ this.$get=function(){
 return this;};}]).
 
 
-
 directive('resultsPerPage',['$compile','$pagination',function($compile,$pagination){
 return {
 restrict:'E',
 scope:{
 selected:'=ngModel'},
-
 
 link:function link(scope,elem,attrs){
 var self;
@@ -3265,15 +3258,15 @@ scope.selected=selected;});},
 
 
 config:{
-selectClass:attrs.class||'cui-select'},
+selectClass:attrs.class||'cui-dropdown'},
 
 
 render:function render(){
 var element=$compile(
 String.prototype.concat(
-'<select class="',this.config.selectClass,'" ng-model="selected"',
-'ng-options="option as option for option in options">',
-'</select>'))(
+'<cui-dropdown class="',this.config.selectClass,'" ng-model="selected"',
+'options="options">',
+'</cui-dropdown>'))(
 
 scope);
 angular.element(elem).replaceWith(element);}};
