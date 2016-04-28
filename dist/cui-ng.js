@@ -1,6 +1,6 @@
 'use strict';var _slicedToArray=function(){function sliceIterator(arr,i){var _arr=[];var _n=true;var _d=false;var _e=undefined;try{for(var _i=arr[Symbol.iterator](),_s;!(_n=(_s=_i.next()).done);_n=true){_arr.push(_s.value);if(i&&_arr.length===i)break;}}catch(err){_d=true;_e=err;}finally {try{if(!_n&&_i["return"])_i["return"]();}finally {if(_d)throw _e;}}return _arr;}return function(arr,i){if(Array.isArray(arr)){return arr;}else if(Symbol.iterator in Object(arr)){return sliceIterator(arr,i);}else {throw new TypeError("Invalid attempt to destructure non-iterable instance");}};}();var _typeof=typeof Symbol==="function"&&typeof Symbol.iterator==="symbol"?function(obj){return typeof obj;}:function(obj){return obj&&typeof Symbol==="function"&&obj.constructor===Symbol?"symbol":typeof obj;};function _defineProperty(obj,key,value){if(key in obj){Object.defineProperty(obj,key,{value:value,enumerable:true,configurable:true,writable:true});}else {obj[key]=value;}return obj;}
 
-// cui-ng build Wed Apr 27 2016 16:41:23
+// cui-ng build Thu Apr 28 2016 11:51:00
 
 (function(angular){'use strict';
 
@@ -1583,6 +1583,7 @@ self=this;
 positionInUse=0; // using the default position when we init
 positions=scope.$eval(attrs.popoverPositions);
 positions=CuiPopoverHelpers.parsePositionArray(positions);
+console.log(positions);
 self.config(positions[positionInUse]);
 self.selectors[positionInUse]={};
 self.render.popoverContainer(positionInUse);
@@ -1658,7 +1659,7 @@ if(positions.length===1)self.newMode('normal');else
 if(popoverTether[positionInUse].element.classList.contains('tether-out-of-bounds'))self.newMode('try-another');else 
 self.newMode('normal');}},
 
-100);},
+10);},
 
 
 targetElementPosition:function targetElementPosition(){
@@ -1731,13 +1732,17 @@ if(typeof trialPosition==='undefined')trialPosition=0;else
 trialPosition++;
 
 if(trialPosition===positionInUse)return;
+if(trialPosition===positions.length){
+trialPosition=undefined; // start over
+return;}
+
 
 if(trialPosition===positions.length-1){ // if we reached the last position
 if(positions[trialPosition]==='hide'){ // and none of them were able to show and 'hide' was passed as last fallback, hide element.
-if(!self.selectors[positionInUse].$container[0].classList.contains('hide--opacity'))self.selectors[positionInUse].$container[0].classList.add('hide--opacity');}
-
+if(!self.selectors[positionInUse].$container[0].classList.contains('hide--opacity'))self.selectors[positionInUse].$container[0].classList.add('hide--opacity');
 trialPosition=undefined; // start over
-return;}
+return;}}
+
 
 
 if(typeof self.selectors[trialPosition]!=='undefined')delete self.selectors[trialPosition];

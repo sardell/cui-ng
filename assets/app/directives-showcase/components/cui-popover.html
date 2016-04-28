@@ -2,9 +2,9 @@
 
 <div cui-popover
   target="#test" pointer-height="13" pointer-width="10"
-  popover-positions="[{position:'top', popoverOffset:'10px 0', contentOffset:'0'},'any']"
+  popover-positions="[{position:'top', popoverOffset:'10px 0', contentOffset:'0'},'invert','any','hide']"
   off-click="directives.popoverOpen=false" off-click-filter="'#test'"
-  ng-if="directives.popoverOpen" style="width:200px;display:inline-block;background:#333;padding:10px;color:#EEE;border-radius:3px">
+  ng-if="directives.popoverOpen" style="height:500px;width:200px;display:inline-block;background:#333;padding:10px;color:#EEE;border-radius:3px">
     Hi! I'm a popover and I'm responsive!
 </div>
 <br/><br/>

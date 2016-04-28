@@ -14,6 +14,7 @@ angular.module('cui-ng')
                     positionInUse = 0; // using the default position when we init
                     positions = scope.$eval(attrs.popoverPositions);
                     positions = CuiPopoverHelpers.parsePositionArray(positions);
+                    console.log(positions);
                     self.config(positions[positionInUse]);
                     self.selectors[positionInUse]={};
                     self.render.popoverContainer(positionInUse);
@@ -89,7 +90,7 @@ angular.module('cui-ng')
                                 if(popoverTether[positionInUse].element.classList.contains('tether-out-of-bounds')) self.newMode('try-another');
                                 else self.newMode('normal');
                             }
-                        },100);
+                        }, 10);
                     },
 
                     targetElementPosition:() => {
@@ -162,13 +163,17 @@ angular.module('cui-ng')
                     else trialPosition ++;
 
                     if(trialPosition === positionInUse) return;
+                    if(trialPosition === positions.length) {
+                        trialPosition = undefined; // start over
+                        return;
+                    }
 
                     if(trialPosition === positions.length-1){ // if we reached the last position
                         if(positions[trialPosition] === 'hide') { // and none of them were able to show and 'hide' was passed as last fallback, hide element.
                             if(!self.selectors[positionInUse].$container[0].classList.contains('hide--opacity')) self.selectors[positionInUse].$container[0].classList.add('hide--opacity');
+                            trialPosition = undefined; // start over
+                            return;
                         }
-                        trialPosition = undefined; // start over
-                        return;
                     }
 
                     if(typeof self.selectors[trialPosition]!=='undefined') delete self.selectors[trialPosition];
