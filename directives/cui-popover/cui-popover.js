@@ -12,9 +12,9 @@ angular.module('cui-ng')
 
                     self=this;
                     positionInUse = 0; // using the default position when we init
+                    if(!attrs.popoverPositions) throw new Error('You must define popover-positions for the cui-popover directive.');
                     positions = scope.$eval(attrs.popoverPositions);
                     positions = CuiPopoverHelpers.parsePositionArray(positions);
-                    console.log(positions);
                     self.config(positions[positionInUse]);
                     self.selectors[positionInUse]={};
                     self.render.popoverContainer(positionInUse);
@@ -90,13 +90,13 @@ angular.module('cui-ng')
                                 if(popoverTether[positionInUse].element.classList.contains('tether-out-of-bounds')) self.newMode('try-another');
                                 else self.newMode('normal');
                             }
-                        }, 10);
+                        }, 100);
                     },
 
                     targetElementPosition:() => {
                         targetElementPositionInterval=$interval(() => {
                             scope.targetPosition = self.selectors.$target.offset();
-                        },10)
+                        }, 50)
 
                         scope.$watch('targetPosition',(newPosition) => {
                             newPosition && popoverTether[positionInUse].position();

@@ -9,4 +9,6 @@
 <!-- CUI-Dropdown -->
 <cui-dropdown name="test" ng-model="directives.dropdownTest" options="directives.options.split(',')" default-option="Select one" ng-required="true"></cui-dropdown>
 
+<span ng-if="directives.dropdownTest">Currently selected: {{directives.dropdownTest}}<br/><br/></span>
+
 <a class="cui-link" href="https://github.com/thirdwavellc/cui-ng/tree/master/directives/cui-dropdown" target="blank">Click here for the extended documentation.</a>

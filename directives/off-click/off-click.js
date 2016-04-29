@@ -1,21 +1,16 @@
 angular.module('cui-ng')
-.directive('offClick', ['$rootScope', '$parse', function ($rootScope, $parse) {
-    var id = 0;
-    var listeners = {};
+.directive('offClick', ['$rootScope', '$parse', ($rootScope, $parse) => {
+    let id = 0;
+    let listeners = {};
     // add variable to detect touch users moving..
-    var touchMove = false;
+    let touchMove = false;
 
-    // Add event listeners to handle various events. Destop will ignore touch events
-    document.addEventListener("touchmove", offClickEventHandler, true);
-    document.addEventListener("touchend", offClickEventHandler, true);
-    document.addEventListener('click', offClickEventHandler, true);
-
-    function targetInFilter(target, elms) {
+    const targetInFilter = (target, elms) => {
         if (!target || !elms) return false;
-        var elmsLen = elms.length;
-        for (var i = 0; i < elmsLen; ++i) {
-            var currentElem = elms[i];
-            var containsTarget = false;
+        const elmsLen = elms.length;
+        for (let i = 0; i < elmsLen; ++i) {
+            const currentElem = elms[i];
+            let containsTarget = false;
             try {
                 containsTarget = currentElem.contains(target);
             } catch (e) {
@@ -34,7 +29,7 @@ angular.module('cui-ng')
         return false;
     }
 
-    function offClickEventHandler(event) {
+    const offClickEventHandler = (event) => {
         // If event is a touchmove adjust touchMove state
         if( event.type === 'touchmove' ){
             touchMove = true;
@@ -48,9 +43,10 @@ angular.module('cui-ng')
             // And end function
             return false;
         }
-        var target = event.target || event.srcElement;
-        angular.forEach(listeners, function (listener, i) {
-            if (!(listener.elm.contains(target) || targetInFilter(target, listener.offClickFilter))) {
+        const target = event.target || event.srcElement;
+        angular.forEach(listeners, (listener, i) => {
+            const filter = listener.offClickFilter();
+            if (!(listener.elm.contains(target) || targetInFilter(target, filter))) {
                 $rootScope.$evalAsync(function () {
                     listener.cb(listener.scope, {
                         $event: event
@@ -61,36 +57,42 @@ angular.module('cui-ng')
         });
     }
 
+
+    // Add event listeners to handle various events. Destop will ignore touch events
+    document.addEventListener("touchmove", offClickEventHandler, true);
+    document.addEventListener("touchend", offClickEventHandler, true);
+    document.addEventListener('click', offClickEventHandler, true);
+
+
     return {
         restrict: 'A',
-        compile: function ($element, attr) {
-            var fn = $parse(attr.offClick);
+        compile: ($element, attr) => {
+            const fn = $parse(attr.offClick);
             return function (scope, element) {
-                var elmId = id++;
-                var offClickFilter;
-                var removeWatcher;
+                const elmId = id++;
+                let removeWatcher;
 
-                offClickFilter = document.querySelectorAll(scope.$eval(attr.offClickFilter));
+                const on = () => {
+                    listeners[elmId] = {
+                        elm: element[0],
+                        cb: fn,
+                        scope: scope,
+                        offClickFilter: () => document.querySelectorAll(scope.$eval(attr.offClickFilter))
+                    };
+                };
+
+                const off = () => {
+                    listeners[elmId] = null;
+                    delete listeners[elmId];
+                };
 
                 if (attr.offClickIf) {
-                    removeWatcher = $rootScope.$watch(function () {
-                        return $parse(attr.offClickIf)(scope);
-                    }, function (newVal) {
-                        if (newVal) {
-                            on();
-                        } else if (!newVal) {
-                            off();
-                        }
+                    removeWatcher = $rootScope.$watch(() => $parse(attr.offClickIf)(scope), (newVal) => {
+                        newVal && on() || !newVal && off()
                     });
-                } else {
-                    on();
-                }
+                } else on();
 
-                attr.$observe('offClickFilter', function (value) {
-                    offClickFilter = document.querySelectorAll(scope.$eval(value));
-                });
-
-                scope.$on('$destroy', function () {
+                scope.$on('$destroy', () => {
                     off();
                     if (removeWatcher) {
                         removeWatcher();
@@ -98,19 +100,6 @@ angular.module('cui-ng')
                     element = null;
                 });
 
-                function on() {
-                    listeners[elmId] = {
-                        elm: element[0],
-                        cb: fn,
-                        scope: scope,
-                        offClickFilter: offClickFilter
-                    };
-                }
-
-                function off() {
-                    listeners[elmId] = null;
-                    delete listeners[elmId];
-                }
             };
         }
     };

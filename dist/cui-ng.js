@@ -1,6 +1,6 @@
 'use strict';var _slicedToArray=function(){function sliceIterator(arr,i){var _arr=[];var _n=true;var _d=false;var _e=undefined;try{for(var _i=arr[Symbol.iterator](),_s;!(_n=(_s=_i.next()).done);_n=true){_arr.push(_s.value);if(i&&_arr.length===i)break;}}catch(err){_d=true;_e=err;}finally {try{if(!_n&&_i["return"])_i["return"]();}finally {if(_d)throw _e;}}return _arr;}return function(arr,i){if(Array.isArray(arr)){return arr;}else if(Symbol.iterator in Object(arr)){return sliceIterator(arr,i);}else {throw new TypeError("Invalid attempt to destructure non-iterable instance");}};}();var _typeof=typeof Symbol==="function"&&typeof Symbol.iterator==="symbol"?function(obj){return typeof obj;}:function(obj){return obj&&typeof Symbol==="function"&&obj.constructor===Symbol?"symbol":typeof obj;};function _defineProperty(obj,key,value){if(key in obj){Object.defineProperty(obj,key,{value:value,enumerable:true,configurable:true,writable:true});}else {obj[key]=value;}return obj;}
 
-// cui-ng build Thu Apr 28 2016 11:51:00
+// cui-ng build Fri Apr 29 2016 14:13:56
 
 (function(angular){'use strict';
 
@@ -852,12 +852,9 @@ restrict:'EAC',
 scope:true,
 link:function link(scope,elem,attrs){
 var toggledClass=attrs.toggledClass,
-elementClass=function elementClass(){
-return elem.attr('class');},
-
+elementClass=function elementClass(){return elem.attr('class');},
 checkIfToggled=function checkIfToggled(elementClass){
-if(elementClass.indexOf(toggledClass)>-1)scope.toggled=true;else 
-scope.toggled=false;};
+scope.toggled=elementClass.indexOf(toggledClass)>=0;};
 
 
 scope.toggleClass=function(){
@@ -886,11 +883,7 @@ cuiAvatarNames:'=',
 cuiAvatarEmail:'='},
 
 link:function link(scope,elem,attrs){
-var self;
 var cuiAvatar={
-initScope:function initScope(){
-self=this;},
-
 selectors:{
 $elem:angular.element(elem[0])},
 
@@ -902,90 +895,78 @@ maxNumberOfInitials:attrs.cuiAvatarMaxNumInitials||2},
 
 watchers:function watchers(){
 scope.$watch('cuiAvatar',function(newAvatar){
-if(newAvatar){
-self.update();}});
-
+if(newAvatar)cuiAvatar.update();});
 
 scope.$watch('cuiAvatarNames',function(newNameArray){
-if(newNameArray){
-self.update();}});
-
+if(newNameArray)cuiAvatar.update();});
 
 scope.$watch('cuiAvatarEmail',function(newEmail){
-if(newEmail){
-self.update();}});},
-
+if(newEmail)cuiAvatar.update();});},
 
 
 render:{
 nameBackground:function nameBackground(){
-if(self.config.colorClassPrefix){
-if(self.config.colorCount===0)throw 'For cui-avatar if you specify color class prefix you must specify the attribute cui-avatar-color-count';
-if(_.find(self.selectors.$elem[0].classList,function(className){
-return className.indexOf(self.config.colorClassPrefix)>-1;})!==
-undefined)return; // if there's already a class that looks like the one specified in cuiAvatarColorClassPrefix
-var classNumberToApply=Math.floor(Math.random()*self.config.colorCount+1);
-self.selectors.$elem[0].classList.add(self.config.colorClassPrefix+classNumberToApply);
-self.config.colorClassAdded=self.config.colorClassPrefix+classNumberToApply;}},
+if(cuiAvatar.config.colorClassPrefix){
+if(cuiAvatar.config.colorCount===0)throw 'For cui-avatar if you specify color class prefix you must specify the attribute cui-avatar-color-count';
+
+var colorClassAlreadyApplied=_.find(cuiAvatar.selectors.$elem[0].classList,function(className){return className.indexOf(cuiAvatar.config.colorClassPrefix)>-1;});
+if(colorClassAlreadyApplied)return;
+
+var classNumberToApply=Math.floor(Math.random()*cuiAvatar.config.colorCount+1);
+cuiAvatar.selectors.$elem[0].classList.add(cuiAvatar.config.colorClassPrefix+classNumberToApply);
+cuiAvatar.config.colorClassAdded=cuiAvatar.config.colorClassPrefix+classNumberToApply;}},
 
 
 
 initials:function initials(){
-if(!scope.cuiAvatarNames){
-return;}
-
+if(!scope.cuiAvatarNames)return;
 var name=function name(){
-var internationalizedName,nameToDisplay='';
-if(self.config.cuiI18nFilter){
+var internationalizedName=void 0,nameToDisplay='';
+if(cuiAvatar.config.cuiI18nFilter){
 internationalizedName=$filter('cuiI18n')(scope.cuiAvatarNames).split(' ');}
 
 (internationalizedName||scope.cuiAvatarNames).forEach(function(nameSection,i){
-if(i<self.config.maxNumberOfInitials){
-if(!nameSection){
-return;}
-
+if(i<cuiAvatar.config.maxNumberOfInitials){
+if(!nameSection)return;
 nameToDisplay+=nameSection[0].toUpperCase();}});
 
 
 return nameToDisplay;};
 
-
-self.selectors.$elem[0].innerHTML='<div class="cui-avatar__initials"></div>';
-self.selectors.$initials=angular.element(elem[0].querySelector('.cui-avatar__initials'));
-self.selectors.$initials[0].innerHTML=name();},
+cuiAvatar.selectors.$elem[0].innerHTML='<div class="cui-avatar__initials"></div>';
+cuiAvatar.selectors.$initials=angular.element(elem[0].querySelector('.cui-avatar__initials'));
+cuiAvatar.selectors.$initials[0].innerHTML=name();},
 
 
 image:function image(){
-function applyImage(imgSrc){
-if(self.config.colorClassAdded)self.selectors.$elem[0].classList.remove(self.config.colorClassAdded); // remove the random color class added before applying an image
-self.selectors.$elem[0].innerHTML='<div class="cui-avatar__image-container"></div>';
-self.selectors.$image=angular.element(elem[0].querySelector('.cui-avatar__image-container'));
-self.selectors.$image[0].style.backgroundImage=String.prototype.concat('url("',imgSrc,'")');}
+var applyImage=function applyImage(imgSrc){
+if(cuiAvatar.config.colorClassAdded)cuiAvatar.selectors.$elem[0].classList.remove(cuiAvatar.config.colorClassAdded); // remove the random color class added before applying an image
+cuiAvatar.selectors.$elem[0].innerHTML='<div class="cui-avatar__image-container"></div>';
+cuiAvatar.selectors.$image=angular.element(elem[0].querySelector('.cui-avatar__image-container'));
+cuiAvatar.selectors.$image[0].style.backgroundImage='url("'+imgSrc+'")';};
 
 var img=new Image();
 if(scope.cuiAvatar&&scope.cuiAvatar!==''){
 img.src=scope.cuiAvatar;
 img.onload=applyImage(img.src);}else 
 
-if(scope.cuiAvatarEmail){
+if(scope.cuiAvatarEmail){(function(){
 var hashedEmail=md5(scope.cuiAvatarEmail);
 $http.get('https://www.gravatar.com/avatar/'+hashedEmail+'?d=404') // ?d=404 tells gravatar not to give me a default gravatar
 .then(function(res){ // If the user has a gravatar account and has set a picture
 img.src='https://www.gravatar.com/avatar/'+hashedEmail;
-img.onload=applyImage(img.src);});}else 
+img.onload=applyImage(img.src);});})();}else 
 
 
 return;}},
 
 
 update:function update(){
-self.render.nameBackground();
-self.render.initials();
-self.render.image();}};
+cuiAvatar.render.nameBackground();
+cuiAvatar.render.initials();
+cuiAvatar.render.image();}};
 
 
-
-cuiAvatar.initScope();
 cuiAvatar.render.nameBackground();
 cuiAvatar.render.initials();
 cuiAvatar.render.image();
@@ -1005,20 +986,18 @@ options:'&',
 constraints:'&'},
 
 link:function link(scope,elem,attrs,ctrl){
-var id=scope.$id;
-var self,newScope,formName,inputName='cuiDropdown'+id,currentIndex;
+var id=scope.$id,inputName='cuiDropdown'+id;
+var self=void 0,newScope=void 0,formName=void 0,currentIndex=void 0;
+
 var cuiDropdown={
 initScope:function initScope(){
-self=this;
 if(attrs.ngRequired||attrs.required){
-ctrl.$validators['required']=function(){
-return ctrl.$viewValue!==null;};}
+ctrl.$validators['required']=function(){return ctrl.$viewValue!==null;};}
 
-
-angular.forEach(self.watchers,function(initWatcher){
+angular.forEach(cuiDropdown.watchers,function(initWatcher){
 initWatcher();});
 
-angular.forEach(self.scope,function(value,key){
+angular.forEach(cuiDropdown.scope,function(value,key){
 scope[key]=value;});},
 
 
@@ -1042,47 +1021,44 @@ $body:angular.element(document.body)},
 
 watchers:{
 dropdownClick:function dropdownClick(){
-scope.$on(id.toString(),self.helpers.reassignModel); // each dropdown item broadcasts the cui-dropdown scope id and passes the index of the choice
+scope.$on(id.toString(),cuiDropdown.helpers.reassignModel); // each dropdown item broadcasts the cui-dropdown scope id and passes the index of the choice
 },
 languageChange:function languageChange(){
-scope.$on('languageChange',self.helpers.handleLanguageChange);},
+scope.$on('languageChange',cuiDropdown.helpers.handleLanguageChange);},
 
 options:function options(){
 scope.$watch(scope.options,function(newOptions,oldOptions){
 if(newOptions){
-self.helpers.setInitialInputValue();
-self.render.currentValueBox();}},
+cuiDropdown.helpers.setInitialInputValue();
+cuiDropdown.render.currentValueBox();}},
 
-function(newOptions,oldOptions){
-return !angular.equals(newOptions,oldOptions);});}},
-
+function(newOptions,oldOptions){return !angular.equals(newOptions,oldOptions);});}},
 
 
 scope:{
-renderDropdown:function renderDropdown(){
-if(!self.selectors.$dropdown){
-self.render.dropdown();}},
+toggleDropdown:function toggleDropdown(){
+if(!cuiDropdown.selectors.$dropdown){
+cuiDropdown.render.dropdown();}else 
 
+cuiDropdown.scope.destroyDropdown();},
 
 destroyDropdown:function destroyDropdown(){
-if(self.selectors.$dropdown){
-self.selectors.$dropdown.detach();
-self.selectors.$dropdown=null;}}},
+if(cuiDropdown.selectors.$dropdown){
+cuiDropdown.selectors.$dropdown.detach();
+cuiDropdown.selectors.$dropdown=null;}}},
 
 
 
 helpers:{
-getOptions:function getOptions(){
-return scope.options();},
-
+getOptions:function getOptions(){return scope.options();},
 getKeyValue:function getKeyValue(keyString,object){
 var keys=keyString.split('.').slice(1);
 if(keys.length===0)return object;else 
 {
-var returnValue;
+var _returnValue=void 0;
 var i=0;
 do {
-returnValue?returnValue=returnValue[keys[i]]:returnValue=object[keys[i]];
+_returnValue?_returnValue=_returnValue[keys[i]]:_returnValue=object[keys[i]];
 i++;}while(
 
 i<keys.length);}
@@ -1090,58 +1066,49 @@ i<keys.length);}
 return returnValue;},
 
 getOptionDisplayValues:function getOptionDisplayValues(){
-var displayValues=[];
-if(self.config.defaultOption){
-if(self.config.defaultOptionValue.indexOf('(')>-1){
-var arrayWithKeyAndFilter=self.config.displayValue.replace(/( |\)|\))/g,'').split('|');
-var filter=arrayWithKeyAndFilter[1];
-var keyString=arrayWithKeyAndFilter[0];
+var displayValues=[];var _cuiDropdown$config$d=
+cuiDropdown.config.displayValue.replace(/( |\)|\))/g,'').split('|');var _cuiDropdown$config$d2=_slicedToArray(_cuiDropdown$config$d,2);var filter=_cuiDropdown$config$d2[0];var keyString=_cuiDropdown$config$d2[1];
+if(cuiDropdown.config.defaultOption){
+if(cuiDropdown.config.defaultOptionValue.indexOf('(')>-1){
 displayValues.push($filter(filter)(keyString));}else 
 
-displayValues.push(self.config.defaultOptionValue);}
+displayValues.push(cuiDropdown.config.defaultOptionValue);}
 
-if(self.config.displayValue.indexOf('(')>-1){
-var arrayWithKeyAndFilter=self.config.displayValue.replace(/( |\)|\))/g,'').split('|');
-var filter=arrayWithKeyAndFilter[1];
-var keyString=arrayWithKeyAndFilter[0];}else 
-
-var keyString=self.config.displayValue;
+if(cuiDropdown.config.displayValue.indexOf('(')<0)keyString=cuiDropdown.config.displayValue;
 scope.options().forEach(function(option){
-if(filter)displayValues.push($filter(filter)(self.helpers.getKeyValue(keyString,option)));else 
-displayValues.push(self.helpers.getKeyValue(keyString,option));});
+if(cuiDropdown.config.displayValue.indexOf('|')>=0)displayValues.push($filter(filter)(cuiDropdown.helpers.getKeyValue(keyString,option)));else 
+displayValues.push(cuiDropdown.helpers.getKeyValue(keyString,option));});
 
 return displayValues;},
 
 getOptionReturnValues:function getOptionReturnValues(){
 var returnValues=[];
-if(self.config.defaultOption){
+if(cuiDropdown.config.defaultOption){
 returnValues.push(null);}
 
 scope.options().forEach(function(option){
-returnValues.push(self.helpers.getKeyValue(self.config.returnValue,option));});
+returnValues.push(cuiDropdown.helpers.getKeyValue(cuiDropdown.config.returnValue,option));});
 
 return returnValues;},
 
 getDropdownItem:function getDropdownItem(index,displayValue){
-var ngClick=' ng-click="$root.$broadcast(\''+id+'\','+index+')" ';
-return $compile(
-String.prototype.concat('<div class="',self.config.dropdownItemClass,'"',ngClick,'>',
-displayValue,
-'</div>'))(
+var ngClick='$root.$broadcast(\''+id+'\','+index+')';
+return $compile('<div class="'+
+cuiDropdown.config.dropdownItemClass+'" ng-click="'+ngClick+'">\n                                '+
+displayValue+'\n                            </div>')(
+
 scope);},
 
 setInitialInputValue:function setInitialInputValue(){
-var displayValues=self.helpers.getOptionDisplayValues();
-var returnValues=self.helpers.getOptionReturnValues();
+var displayValues=cuiDropdown.helpers.getOptionDisplayValues();
+var returnValues=cuiDropdown.helpers.getOptionReturnValues();
 if(!scope.ngModel){
 scope.displayValue=displayValues[0];
 scope.ngModel=returnValues[0];
 currentIndex=0;
 return;}
 
-var index=_.findIndex(returnValues,function(value){
-return angular.equals(value,scope.ngModel);});
-
+var index=_.findIndex(returnValues,function(value){return angular.equals(value,scope.ngModel);});
 if(index>-1){
 scope.displayValue=displayValues[index];
 currentIndex=index;}else 
@@ -1159,51 +1126,44 @@ currentIndex=index;}else
 {
 index=currentIndex;}
 
-var displayValues=self.helpers.getOptionDisplayValues();
-var returnValues=self.helpers.getOptionReturnValues();
+var displayValues=cuiDropdown.helpers.getOptionDisplayValues();
+var returnValues=cuiDropdown.helpers.getOptionReturnValues();
 scope.displayValue=displayValues[index];
 scope.ngModel=returnValues[index];
-self.scope.destroyDropdown();},
+cuiDropdown.scope.destroyDropdown();},
 
 handleLanguageChange:function handleLanguageChange(){
-self.helpers.reassignModel();}},
+cuiDropdown.helpers.reassignModel();}},
 
 
 render:{
 currentValueBox:function currentValueBox(){
 if(newScope)newScope.$destroy(); // this makes sure that if the input has been rendered once the off click handler is removed
 newScope=scope.$new();
-var element=$compile(
-String.prototype.concat(
-'<div class="',self.config.inputClass,'" ng-click="renderDropdown()" off-click="destroyDropdown()">',
-'{{displayValue}}',
-'</div>'))(
+var element=$compile('<div class="'+
+cuiDropdown.config.inputClass+'" ng-click="toggleDropdown()" off-click="destroyDropdown()"\n                                off-click-filter="\''+
+cuiDropdown.config.dropdownWrapperClass+','+cuiDropdown.config.dropdownItemClass+'\'">\n                                {{displayValue}}\n                            </div>')(
+
 
 newScope);
-self.selectors.$cuiDropdown.replaceWith(element);
-self.selectors.$cuiDropdown=element;},
-
+cuiDropdown.selectors.$cuiDropdown.replaceWith(element);
+cuiDropdown.selectors.$cuiDropdown=element;},
 
 dropdown:function dropdown(){
-var dropdown=$compile(
-String.prototype.concat(
-'<div class="',self.config.dropdownWrapperClass,'">',
-'</div>'))(
-
-scope);
-var displayValues=self.helpers.getOptionDisplayValues();
+var dropdown=$compile('<div class="'+cuiDropdown.config.dropdownWrapperClass+'"></div>')(scope);
+var displayValues=cuiDropdown.helpers.getOptionDisplayValues();
 displayValues.forEach(function(value,i){
-dropdown.append(self.helpers.getDropdownItem(i,value));});
+dropdown.append(cuiDropdown.helpers.getDropdownItem(i,value));});
 
-dropdown.width(self.selectors.$cuiDropdown.outerWidth()*0.9);
-self.selectors.$dropdown=dropdown;
-self.selectors.$body.append(dropdown);
+dropdown.width(cuiDropdown.selectors.$cuiDropdown.outerWidth()*0.9);
+cuiDropdown.selectors.$dropdown=dropdown;
+cuiDropdown.selectors.$body.append(dropdown);
 new Tether({
-element:self.selectors.$dropdown[0],
-target:self.selectors.$cuiDropdown[0],
-attachment:self.config.attachment,
-targetAttachment:self.config.targetAttachment,
-constraints:scope.constraints()||self.config.defaultConstraints});}}};
+element:cuiDropdown.selectors.$dropdown[0],
+target:cuiDropdown.selectors.$cuiDropdown[0],
+attachment:cuiDropdown.config.attachment,
+targetAttachment:cuiDropdown.config.targetAttachment,
+constraints:scope.constraints()||cuiDropdown.config.defaultConstraints});}}};
 
 
 
@@ -1262,20 +1222,14 @@ provider('$cuiIcon',[function(){
 var iconSets={};
 
 this.iconSet=function(namespace,path,viewBox){
-iconSets[namespace]={
-path:path,
-viewBox:viewBox||undefined};};
+iconSets[namespace]={path:path,viewBox:viewBox};};
 
 
-
-this.getIconSets=function(){
-return iconSets;};
-
+this.getIconSets=function(){return iconSets;};
 
 this.getIconSet=function(namespace){
 if(!iconSets[namespace]){
-console.log('This collection of icons needs to be defined within your app\`s config');
-return;}
+throw new Error('The icon collection with the namespace '+namespace+' is not yet defined in the $cuiIcon provider.');}
 
 return iconSets[namespace];};
 
@@ -1291,33 +1245,28 @@ return {
 restrict:'E',
 scope:{},
 link:function link(scope,elem,attrs){
-var icon=attrs.cuiSvgIcon,
-viewBox,
-preserveaspectratio,
-svgClass,
-path;
+var icon=attrs.cuiSvgIcon;
 
-attrs.preserveaspectratio?preserveaspectratio=' preserveAspectRatio="'+attrs.preserveaspectratio+'" ':preserveaspectratio='';
-attrs.svgClass?svgClass=' class="'+attrs.svgClass+'" ':svgClass='';
-attrs.viewbox?viewBox=' viewBox="'+attrs.viewbox+'" ':viewBox='';
+var viewBox=void 0,preserveaspectratio=void 0,svgClass=void 0,path=void 0;
+
+attrs.preserveaspectratio?preserveaspectratio='preserveAspectRatio="'+attrs.preserveaspectratio+'"':preserveaspectratio='';
+attrs.svgClass?svgClass='class="'+attrs.svgClass+'"':svgClass='';
+attrs.viewbox?viewBox='viewBox="'+attrs.viewbox+'"':viewBox='';
 
 if(icon&&icon.indexOf('.svg')>-1){ // if the path is directly specified
 path=icon;}else 
 
 if(icon){ // if the icon is pointing at a namespace put into the provider
-var iconId=icon.split(':')[1];
-var iconNamespace=icon.split(':')[0];
+var _icon$split=icon.split(':');var _icon$split2=_slicedToArray(_icon$split,2);var iconNamespace=_icon$split2[0];var iconId=_icon$split2[1];
 path=$cuiIcon.getIconSet(iconNamespace).path+'#'+iconId;
 if(viewBox===''&&$cuiIcon.getIconSet(iconNamespace).viewBox){
 viewBox=' viewBox="'+$cuiIcon.getIconSet(iconNamespace).viewBox+'" ';}}else 
 
 
-console.log('You need to define a cui-svg-icon attribute for cui-icon');
-var newSvg=$(
-String.prototype.concat(
-'<svg xmlns="http://www.w3.org/2000/svg" ',preserveaspectratio,svgClass,viewBox,'>',
-'<use xlink:href="',path,'"></use>',
-'</svg>'));
+throw new Error('You need to define a cui-svg-icon attribute for cui-icon');
+var newSvg=$('<svg xmlns="http://www.w3.org/2000/svg" '+
+preserveaspectratio+' '+svgClass+' '+viewBox+'>\n                    <use xlink:href="'+
+path+'"></use>\n                </svg>');
 
 
 
@@ -1581,9 +1530,9 @@ elem.css({opacity:'0','pointer-events':'none',position:'absolute'});
 
 self=this;
 positionInUse=0; // using the default position when we init
+if(!attrs.popoverPositions)throw new Error('You must define popover-positions for the cui-popover directive.');
 positions=scope.$eval(attrs.popoverPositions);
 positions=CuiPopoverHelpers.parsePositionArray(positions);
-console.log(positions);
 self.config(positions[positionInUse]);
 self.selectors[positionInUse]={};
 self.render.popoverContainer(positionInUse);
@@ -1659,13 +1608,13 @@ if(positions.length===1)self.newMode('normal');else
 if(popoverTether[positionInUse].element.classList.contains('tether-out-of-bounds'))self.newMode('try-another');else 
 self.newMode('normal');}},
 
-10);},
+100);},
 
 
 targetElementPosition:function targetElementPosition(){
 targetElementPositionInterval=$interval(function(){
 scope.targetPosition=self.selectors.$target.offset();},
-10);
+50);
 
 scope.$watch('targetPosition',function(newPosition){
 newPosition&&popoverTether[positionInUse].position();},
@@ -2089,12 +2038,10 @@ return {
 restrict:'E',
 scope:true,
 link:function link(scope,elem,attrs){
-var self;
 var cuiWizard={
 initScope:function initScope(){
-self=this;
-Object.keys(self.scope).forEach(function(property){
-scope[property]=self.scope[property];});},
+Object.keys(cuiWizard.scope).forEach(function(property){
+scope[property]=cuiWizard.scope[property];});},
 
 
 config:{
@@ -2107,7 +2054,6 @@ bar:attrs.bar!==undefined},
 selectors:{
 $wizard:angular.element(elem[0]),
 $steps:angular.element(elem[0].querySelectorAll('step')),
-$bar:function $bar(){return attrs.bar!==undefined&&self.selectors.$steps.length>0;},
 $indicatorContainer:angular.element(elem[0].querySelectorAll('indicator-container')),
 $window:angular.element($window),
 $body:angular.element('body')},
@@ -2115,7 +2061,7 @@ $body:angular.element('body')},
 helpers:{
 isFormValid:function isFormValid(form){
 if(!form.$valid){
-self.helpers.setErrorFieldsToTouched(form);
+cuiWizard.helpers.setErrorFieldsToTouched(form);
 return false;}
 
 return true;},
@@ -2128,7 +2074,7 @@ errorField.$setTouched();});});},
 
 
 getStepInfo:function getStepInfo(step){ // step goes from 0 to numberOfSteps
-var $step=self.selectors.$steps[step];
+var $step=cuiWizard.selectors.$steps[step];
 return {
 stepTitle:$step.attributes['step-title'].value,
 icon:$step.attributes.icon?$step.attributes.icon.value:false,
@@ -2137,48 +2083,47 @@ state:$step.attributes.state?$step.attributes.state.value:false};},
 
 getIconMarkup:function getIconMarkup(icon){
 if(!icon)return '';
-if(icon.indexOf('.')>-1){ // if it's not an svg
-return String.prototype.concat(
-'<div class="icon-container">',
-'<div class="icon">',
-'<img src="',icon,'" class="cui-icon-rotate"/>',
-'</div>',
-'</div>');}else 
+var iconMarkup=void 0;
+switch(icon.indexOf('.')){
+case -1:
+iconMarkup='<cui-icon cui-svg-icon="'+icon+'" svg-class="icon-svg"></cui-icon>';
+break;
+default:
+iconMarkup='<img src="'+icon+'" class="cui-icon-rotate"/>';}
+;
 
-return String.prototype.concat(
-'<div class="icon-container">',
-'<div class="icon">',
-'<cui-icon cui-svg-icon="',icon,'" svg-class="icon-svg"></cui-icon>',
-'</div>',
-'</div>');},
+return '<div class="icon-container">\n                                    <div class="icon">\n                                        '+
+
+iconMarkup+'\n                                    </div>\n                                </div>';},
+
+
 
 getNgClickForIndicator:function getNgClickForIndicator(stepNumber,stepState){ // stepNUmber from 0 to numberOfSteps
-if(!self.config.clickableIndicators)return '';else 
-return String.prototype.concat('ng-click="goToStep(',stepNumber+1,stepState?','+stepState:'',')" ');},
+if(!cuiWizard.config.clickableIndicators)return '';else 
+return 'ng-click="goToStep('+(stepNumber+1)+(','+stepState||'')+')"';},
 
 getIndicatorMarkup:function getIndicatorMarkup(stepNumber){ // stepNUmber from 0 to numberOfSteps
-var step=self.helpers.getStepInfo(stepNumber),
-indicatorClass;
-stepNumber+1===self.scope.currentStep?indicatorClass='active':stepNumber+1<self.scope.currentStep?indicatorClass='visited':indicatorClass='';
-return String.prototype.concat(
-'<span class="step-indicator ',indicatorClass,'"',self.helpers.getNgClickForIndicator(stepNumber,step.state),'>',
-'<span class="step-indicator__title">',step.stepTitle,'</span>',self.helpers.getIconMarkup(step.icon),
-'</span>');},
+var step=cuiWizard.helpers.getStepInfo(stepNumber);
+var indicatorClass=void 0;
+stepNumber+1===cuiWizard.scope.currentStep?indicatorClass='active':stepNumber+1<cuiWizard.scope.currentStep?indicatorClass='visited':indicatorClass='';
+return '<span class="step-indicator '+indicatorClass+'" '+cuiWizard.helpers.getNgClickForIndicator(stepNumber,step.state)+'>\n                                    <span class="step-indicator__title">'+
+step.stepTitle+'</span> '+cuiWizard.helpers.getIconMarkup(step.icon)+'\n                                </span>';},
+
 
 getIndicatorsWidth:function getIndicatorsWidth(){
 var totalWidth=0;
-self.selectors.$indicators.each(function(i,indicator){
-totalWidth+=$(this).width();});
+cuiWizard.selectors.$indicators.each(function(i,indicator){
+totalWidth+=$(indicator).width();});
 
 return totalWidth;},
 
 thereIsRoomForIndicators:function thereIsRoomForIndicators(){
-if(self.helpers.getIndicatorsWidth()+self.config.minimumPadding*(self.config.numberOfSteps-1)<
-self.selectors.$indicatorContainer.width())return true;
+if(cuiWizard.helpers.getIndicatorsWidth()+cuiWizard.config.minimumPadding*(cuiWizard.config.numberOfSteps-1)<
+cuiWizard.selectors.$indicatorContainer.width())return true;
 return false;},
 
 debounce:function debounce(func,wait,immediate){
-var timeout;
+var timeout=void 0;
 return function(){
 var context=this,args=arguments;
 var later=function later(){
@@ -2192,57 +2137,57 @@ if(callNow)func.apply(context,args);};},
 
 
 resizeHandler:function resizeHandler(){
-self.helpers.debounce(function(){
-if(self.config.bar)self.reRender.bar(self.scope.currentStep);
-if(self.helpers.thereIsRoomForIndicators()&&self.config.stepsCollapsed){
-self.config.stepsCollapsed=false;
-self.selectors.$indicatorContainer.removeClass('small');}else 
+cuiWizard.helpers.debounce(function(){
+if(cuiWizard.config.bar)cuiWizard.reRender.bar(cuiWizard.scope.currentStep);
+if(cuiWizard.helpers.thereIsRoomForIndicators()&&cuiWizard.config.stepsCollapsed){
+cuiWizard.config.stepsCollapsed=false;
+cuiWizard.selectors.$indicatorContainer.removeClass('small');}else 
 
-if(!self.helpers.thereIsRoomForIndicators()&&!self.config.stepsCollapsed){
-self.config.stepsCollapsed=true;
-self.selectors.$indicatorContainer.addClass('small');}
+if(!cuiWizard.helpers.thereIsRoomForIndicators()&&!cuiWizard.config.stepsCollapsed){
+cuiWizard.config.stepsCollapsed=true;
+cuiWizard.selectors.$indicatorContainer.addClass('small');}
 
-if(self.config.mobileStack&&self.selectors.$window.width()<=self.config.mobileStackBreakingPoint&&!self.config.mobileMode){
-self.selectors.$expandables.forEach(function(expandable,e){
+if(cuiWizard.config.mobileStack&&cuiWizard.selectors.$window.width()<=cuiWizard.config.mobileStackBreakingPoint&&!cuiWizard.config.mobileMode){
+cuiWizard.selectors.$expandables.forEach(function(expandable,e){
 expandable.attr('transition-speed',300);
 expandable.addClass('mobile-element');});
 
-self.config.mobileMode=true;}else 
+cuiWizard.config.mobileMode=true;}else 
 
-if(self.config.mobileStack&&self.selectors.$window.width()>self.config.mobileStackBreakingPoint&&self.config.mobileMode){
-self.selectors.$expandables.forEach(function(expandable,e){
+if(cuiWizard.config.mobileStack&&cuiWizard.selectors.$window.width()>cuiWizard.config.mobileStackBreakingPoint&&cuiWizard.config.mobileMode){
+cuiWizard.selectors.$expandables.forEach(function(expandable,e){
 expandable.attr('transition-speed',0);
 expandable.removeClass('mobile-element');});
 
-self.config.mobileMode=false;}},
+cuiWizard.config.mobileMode=false;}},
 
 200)();},
 
 scrollToStep:function scrollToStep(newStep){
-var firstExpandableTitle=angular.element(self.selectors.$expandables[0].children()[0]);
+var firstExpandableTitle=angular.element(cuiWizard.selectors.$expandables[0].children()[0]);
 var firstExpandableOffset=firstExpandableTitle.offset();
 var titleHeight=firstExpandableTitle[0].scrollHeight;
-self.selectors.$body.animate({scrollTop:firstExpandableOffset.top+titleHeight*(newStep-1)},300,'linear');}},
+cuiWizard.selectors.$body.animate({scrollTop:firstExpandableOffset.top+titleHeight*(newStep-1)},300,'linear');}},
 
 
 scope:{
 currentStep:Number(elem[0].attributes.step.value),
 wizardFinished:false,
 next:function next(state){ // state is optional
-if(state)self.scope.goToState(state);else 
-self.update(self.scope.currentStep+1);},
+if(state)cuiWizard.scope.goToState(state);else 
+cuiWizard.update(cuiWizard.scope.currentStep+1);},
 
 nextWithErrorChecking:function nextWithErrorChecking(form,state){
-if(self.helpers.isFormValid(form))self.scope.next(state);},
+if(cuiWizard.helpers.isFormValid(form))cuiWizard.scope.next(state);},
 
 previous:function previous(state){
-if(state)self.scope.goToSate(state);else 
-self.update(self.scope.currentStep-1);},
+if(state)cuiWizard.scope.goToSate(state);else 
+cuiWizard.update(cuiWizard.scope.currentStep-1);},
 
 goToStep:function goToStep(newStep,state){
-if(newStep===self.scope.currentStep)return;
-if(state)self.scope.goToState(state);
-self.update(newStep);},
+if(newStep===cuiWizard.scope.currentStep)return;
+if(state)cuiWizard.scope.goToState(state);
+cuiWizard.update(newStep);},
 
 goToState:function goToState(state){
 $rootScope.$broadcast('stepChange',{state:state,element:elem});}},
@@ -2250,127 +2195,126 @@ $rootScope.$broadcast('stepChange',{state:state,element:elem});}},
 
 watchers:{
 init:function init(){
-this.windowResize();
-this.languageChange();},
+cuiWizard.watchers.windowResize();
+cuiWizard.watchers.languageChange();},
 
 windowResize:function windowResize(){
-self.selectors.$window.bind('resize',self.helpers.resizeHandler);},
+cuiWizard.selectors.$window.bind('resize',cuiWizard.helpers.resizeHandler);},
 
 languageChange:function languageChange(){
 scope.$on('languageChange',function(){
-if(self.helpers.thereIsRoomForIndicators()&&self.config.stepsCollapsed){
-self.config.stepsCollapsed=false;
-self.selectors.$indicatorContainer.removeClass('small');}else 
+if(cuiWizard.helpers.thereIsRoomForIndicators()&&cuiWizard.config.stepsCollapsed){
+cuiWizard.config.stepsCollapsed=false;
+cuiWizard.selectors.$indicatorContainer.removeClass('small');}else 
 
-if(!self.helpers.thereIsRoomForIndicators()&&!self.config.stepsCollapsed){
-self.config.stepsCollapsed=true;
-self.selectors.$indicatorContainer.addClass('small');}
+if(!cuiWizard.helpers.thereIsRoomForIndicators()&&!cuiWizard.config.stepsCollapsed){
+cuiWizard.config.stepsCollapsed=true;
+cuiWizard.selectors.$indicatorContainer.addClass('small');}
 
-if(self.config.bar)self.reRender.bar(self.scope.currentStep);});}},
+if(cuiWizard.config.bar)cuiWizard.reRender.bar(cuiWizard.scope.currentStep);});}},
 
 
 
 render:{
 indicators:function indicators(){
-self.selectors.$indicatorContainer.append('<div class="cui-steps"></div>');
-self.selectors.$stepIndicatorContainer=angular.element(self.selectors.$indicatorContainer[0].querySelector('.cui-steps'));
-self.selectors.$steps.each(function(i,step){
-var indicator=angular.element(self.helpers.getIndicatorMarkup(i)),
+cuiWizard.selectors.$indicatorContainer.append('<div class="cui-steps"></div>');
+cuiWizard.selectors.$stepIndicatorContainer=angular.element(cuiWizard.selectors.$indicatorContainer[0].querySelector('.cui-steps'));
+cuiWizard.selectors.$steps.each(function(i,step){
+var indicator=angular.element(cuiWizard.helpers.getIndicatorMarkup(i)),
 compiledIndicator=$compile(indicator)(scope);
-self.selectors.$stepIndicatorContainer.append(compiledIndicator);});
+cuiWizard.selectors.$stepIndicatorContainer.append(compiledIndicator);});
 
-self.selectors.$indicators=angular.element(self.selectors.$stepIndicatorContainer[0].querySelectorAll('.step-indicator'));
-self.config.numberOfSteps=self.selectors.$indicators.length;},
+cuiWizard.selectors.$indicators=angular.element(cuiWizard.selectors.$stepIndicatorContainer[0].querySelectorAll('.step-indicator'));
+cuiWizard.config.numberOfSteps=cuiWizard.selectors.$indicators.length;},
 
 bar:function bar(){
 $timeout(function(){
-self.selectors.$indicatorContainer.append('<div class="steps-bar"><div class="steps-bar-fill"></div></div>');
-self.selectors.$bar=angular.element(self.selectors.$indicatorContainer[0].querySelector('.steps-bar'));
-self.selectors.$barFill=angular.element(self.selectors.$indicatorContainer[0].querySelector('.steps-bar-fill'));
-self.selectors.$bar[0].style.left=self.selectors.$indicators[0].scrollWidth/2+'px'; // bar starts at the center point of the 1st inicator
-self.selectors.$bar[0].style.right=self.selectors.$indicators[self.config.numberOfSteps-1].scrollWidth/2+'px'; // ends at center of last indicator
-if(self.scope.currentStep===1)self.selectors.$barFill[0].style.width='0px';else 
+cuiWizard.selectors.$indicatorContainer.append('<div class="steps-bar"><div class="steps-bar-fill"></div></div>');
+cuiWizard.selectors.$bar=angular.element(cuiWizard.selectors.$indicatorContainer[0].querySelector('.steps-bar'));
+cuiWizard.selectors.$barFill=angular.element(cuiWizard.selectors.$indicatorContainer[0].querySelector('.steps-bar-fill'));
+cuiWizard.selectors.$bar[0].style.left=cuiWizard.selectors.$indicators[0].scrollWidth/2+'px'; // bar starts at the center point of the 1st inicator
+cuiWizard.selectors.$bar[0].style.right=cuiWizard.selectors.$indicators[cuiWizard.config.numberOfSteps-1].scrollWidth/2+'px'; // ends at center of last indicator
+if(cuiWizard.scope.currentStep===1)cuiWizard.selectors.$barFill[0].style.width='0px';else 
 {
-self.selectors.$barFill[0].style.width=self.selectors.$indicators[self.scope.currentStep-1].offsetLeft-self.selectors.$indicators[0].scrollWidth/2+self.selectors.$indicators[self.scope.currentStep-1].scrollWidth/2+'px';}});},
+cuiWizard.selectors.$barFill[0].style.width=cuiWizard.selectors.$indicators[cuiWizard.scope.currentStep-1].offsetLeft-cuiWizard.selectors.$indicators[0].scrollWidth/2+cuiWizard.selectors.$indicators[cuiWizard.scope.currentStep-1].scrollWidth/2+'px';}});},
 
 
 
 steps:function steps(){
-if(!self.config.mobileStack)return;
-self.selectors.$expandables=[];
-self.selectors.$steps.each(function(i,step){
-var stepInfo=self.helpers.getStepInfo(i);
+if(!cuiWizard.config.mobileStack)return;
+cuiWizard.selectors.$expandables=[];
+cuiWizard.selectors.$steps.each(function(i,step){
+var stepInfo=cuiWizard.helpers.getStepInfo(i);
 var expandableClass='';
-if(self.scope.currentStep===i+1){
-$(this).addClass('active');
-expandableClass=' expanded';}
+if(cuiWizard.scope.currentStep===i+1){
+$(step).addClass('active');
+expandableClass='expanded';}
 
 var expandable=$($compile( // compile a new expandable
-String.prototype.concat(
-'<cui-expandable class="cui-expandable cui-expandable--wizard',expandableClass,'" transition-speed="0">',
-'<cui-expandable-title class="cui-expandable__title cui-expandable__title--wizard">',
-self.helpers.getIndicatorMarkup(i),'</cui-expandable-title>',
-'<cui-expandable-body class="cui-expandable__body cui-expandable__body--wizard"></cui-expandable-body>',
-'</cui-expandable>'))(
+'<cui-expandable class="cui-expandable cui-expandable--wizard '+expandableClass+'" transition-speed="0">\n                                    <cui-expandable-title class="cui-expandable__title cui-expandable__title--wizard">\n                                        '+
+
+cuiWizard.helpers.getIndicatorMarkup(i)+'\n                                    </cui-expandable-title>\n                                    <cui-expandable-body class="cui-expandable__body cui-expandable__body--wizard"></cui-expandable-body>\n                                </cui-expandable>')(
+
+
 
 scope));
-expandable.insertBefore($(this));
-$(this).detach().appendTo(expandable.children()[1]);
-self.selectors.$expandables.push($(this).parent().parent());});}},
+expandable.insertBefore(step);
+$(step).detach().appendTo(expandable.children()[1]);
+cuiWizard.selectors.$expandables.push($(step).parent().parent());});}},
 
 
 
 reRender:{
 indicators:function indicators(newStep,oldStep){ // newStep goes from 1 to numberOfSteps+1
-self.selectors.$indicators.each(function(i,indicator){
-if(i+1<newStep)$(this).addClass('visited');else 
-$(this).removeClass('visited');});
+cuiWizard.selectors.$indicators.each(function(i,indicator){
+if(i+1<newStep)$(indicator).addClass('visited');else 
+$(indicator).removeClass('visited');});
 
-self.selectors.$indicators[oldStep-1].classList.remove('active');
-self.selectors.$indicators[newStep-1].classList.add('active');},
+cuiWizard.selectors.$indicators[oldStep-1].classList.remove('active');
+cuiWizard.selectors.$indicators[newStep-1].classList.add('active');},
 
 steps:function steps(newStep,oldStep){
-self.selectors.$expandables.forEach(function(expandable,i){
+cuiWizard.selectors.$expandables.forEach(function(expandable,i){
 if(i+1<newStep)expandable.addClass('visited');else 
 expandable.removeClass('visited');});
 
-self.selectors.$steps[oldStep-1].classList.remove('active');
-self.selectors.$steps[newStep-1].classList.add('active');
-self.selectors.$expandables[oldStep-1].removeClass('expanded');
-self.selectors.$expandables[newStep-1].addClass('expanded');
-self.selectors.$expandables[oldStep-1][0].querySelector('.step-indicator').classList.remove('active');
-self.selectors.$expandables[newStep-1][0].querySelector('.step-indicator').classList.add('active');},
+cuiWizard.selectors.$steps[oldStep-1].classList.remove('active');
+cuiWizard.selectors.$steps[newStep-1].classList.add('active');
+cuiWizard.selectors.$expandables[oldStep-1].removeClass('expanded');
+cuiWizard.selectors.$expandables[newStep-1].addClass('expanded');
+cuiWizard.selectors.$expandables[oldStep-1][0].querySelector('.step-indicator').classList.remove('active');
+cuiWizard.selectors.$expandables[newStep-1][0].querySelector('.step-indicator').classList.add('active');},
 
 indicatorContainer:function indicatorContainer(){
-if(self.helpers.thereIsRoomForIndicators()&&self.config.stepsCollapsed){
-self.config.stepsCollapsed=false;
-self.selectors.$indicatorContainer.removeClass('small');}else 
+if(cuiWizard.helpers.thereIsRoomForIndicators()&&cuiWizard.config.stepsCollapsed){
+cuiWizard.config.stepsCollapsed=false;
+cuiWizard.selectors.$indicatorContainer.removeClass('small');}else 
 
-if(!self.helpers.thereIsRoomForIndicators()&&!self.config.stepsCollapsed){
-self.config.stepsCollapsed=true;
-self.selectors.$indicatorContainer.addClass('small');}},
+if(!cuiWizard.helpers.thereIsRoomForIndicators()&&!cuiWizard.config.stepsCollapsed){
+cuiWizard.config.stepsCollapsed=true;
+cuiWizard.selectors.$indicatorContainer.addClass('small');}},
 
 
 bar:function bar(newStep){
-if(newStep===1)self.selectors.$barFill[0].style.width='0px';else 
+if(newStep===1)cuiWizard.selectors.$barFill[0].style.width='0px';else 
 {
-self.selectors.$barFill[0].style.width=self.selectors.$indicators[newStep-1].offsetLeft-self.selectors.$indicators[0].scrollWidth/2+self.selectors.$indicators[newStep-1].scrollWidth/2+'px';}}},
+cuiWizard.selectors.$barFill[0].style.width=cuiWizard.selectors.$indicators[newStep-1].offsetLeft-cuiWizard.selectors.$indicators[0].scrollWidth/2+cuiWizard.selectors.$indicators[newStep-1].scrollWidth/2+'px';}}},
 
 
 
 update:function update(newStep,oldStep){
-if(self.config.mobileMode)self.helpers.scrollToStep(newStep);
-self.reRender.indicators(newStep,self.scope.currentStep);
-if(self.config.mobileStack)self.reRender.steps(newStep,self.scope.currentStep);
-if(self.config.bar)self.reRender.bar(newStep);
-scope.currentStep=self.scope.currentStep=newStep;
-if(newStep===self.config.numberOfSteps)scope.wizardFinished=self.scope.wizardFinished=true;
+if(cuiWizard.config.mobileMode)cuiWizard.helpers.scrollToStep(newStep);
+cuiWizard.reRender.indicators(newStep,cuiWizard.scope.currentStep);
+if(cuiWizard.config.mobileStack)cuiWizard.reRender.steps(newStep,cuiWizard.scope.currentStep);
+if(cuiWizard.config.bar)cuiWizard.reRender.bar(newStep);
+scope.currentStep=cuiWizard.scope.currentStep=newStep;
+if(newStep===cuiWizard.config.numberOfSteps)scope.wizardFinished=cuiWizard.scope.wizardFinished=true;
 attrs.$set('step',newStep);}};
 
 
 cuiWizard.initScope();
 cuiWizard.render.indicators();
-if(self.config.bar){cuiWizard.render.bar();}
+if(cuiWizard.config.bar)cuiWizard.render.bar();
 cuiWizard.render.steps();
 cuiWizard.watchers.init();
 cuiWizard.selectors.$window.resize();}};}]);
@@ -2435,19 +2379,21 @@ angular.module('cui-ng').
 directive('focusIf',['$timeout',function($timeout){
 return {
 restrict:'A',
-link:function link($scope,$element,$attrs){
-var dom=$element[0];
-if($attrs.focusIf){
-$scope.$watch($attrs.focusIf,focus);}else 
-{
-focus(true);}
+link:function link(scope,elem,attrs){
+var element=elem[0];
 
-function focus(condition){
+var focus=function focus(condition){
 if(condition){
 $timeout(function(){
-dom.focus();},
-$scope.$eval($attrs.focusDelay)||0);}}}};}]);
+element.focus();},
+scope.$eval(attrs.focusDelay)||0);}};
 
+
+
+if(attrs.focusIf){
+scope.$watch(attrs.focusIf,focus);}else 
+{
+focus(true);}}};}]);
 
 
 
@@ -2470,10 +2416,8 @@ hideSaveButton:'=hideSaveIf'},
 link:function link(scope,ele,attrs){
 var inlineEdit={
 init:function init(){
-this.scope.init.bind(this)();
-this.scope.watchers.bind(this)();
-this.scope.functions.bind(this)();
-this.render.bind(this)();},
+angular.forEach(inlineEdit.scope,function(initScope){
+initScope();});},
 
 
 config:{
@@ -2481,7 +2425,6 @@ valueClass:attrs.valueClass||"cui-field-val__val",
 inputClass:attrs.inputClass||"cui-field-val__val",
 labelClass:attrs.labelClass||"cui-field-val__field",
 wrapperClass:attrs.wrapperClass||"cui-field-val"},
-
 
 scope:{
 init:function init(){
@@ -2503,74 +2446,78 @@ $timeout(function(){
 scope.saveCallback()();});}
 
 
-this.helpers.getDisplayValue();}.
-bind(this);
-scope.parseKeyCode=function(e){
-if(e.keyCode===13){ // if enter is pressed save input and toggle eddit.
-scope.toggleEdit();
-scope.saveInput();}
+inlineEdit.helpers.setDisplayValue();};
 
-if(e.keyCode===27){ // if escape is pressed toggle edit and don't save.
-scope.toggleEdit();}};
+scope.parseKeyCode=function(e){
+switch(event.which){
+case 13:
+scope.saveInput();
+scope.toggleEdit();
+break;
+case 27:
+scope.toggleEdit();
+break;}};
 
 
 scope.editChangeCallback=function(editMode){
 if(editMode===false){
-scope.tempEditCallback()(undefined);
+scope.tempEditCallback()&&scope.tempEditCallback()(undefined);
 return;}
 
-if(scope.tempEditCallback())scope.tempEditCallback()(scope.editInput);};},
+scope.tempEditCallback()&&scope.tempEditCallback()(scope.editInput);};},
 
 
 watchers:function watchers(){
-scope.$watch('display',this.helpers.getDisplayValue);
-scope.$watch('model',this.helpers.getDisplayValue);}},
+scope.$watch('display',inlineEdit.helpers.setDisplayValue);
+scope.$watch('model',inlineEdit.helpers.setDisplayValue);}},
 
 
 
 helpers:{
 getLabel:function getLabel(){
-var label='';
-if(attrs.label!==undefined)return label.concat('{{"',attrs.label,'"| translate}}');else 
+var label=void 0;
+if(attrs.label!==undefined)return '{{\''+attrs.label+'\'| translate}}';else 
 if(attrs.name!==undefined)return attrs.name;else 
-console.log('Inline-edit needs 1 of the following attributes: label or name.');},
+throw new Error('Inline-edit needs 1 of the following attributes: label or name.');},
 
 getInput:function getInput(){
 attrs.type=attrs.type||'text';
-if(attrs.type==='dropdown')return String.prototype.concat(
-'<select ng-model="$parent.editInput" class="',this.config.inputClass,'"',
-'ng-init="matchModels()" ng-options="',attrs.optionsExpression,'" ng-if="edit" ng-change="editChangeCallback()"></select>');else 
-if(attrs.type==='auto-complete')return String.prototype.concat('<div auto-complete selected-object="$parent.editInput" local-data="localData"',
-' search-fields="',attrs.searchFields,'" title-field="',attrs.titleField,'" input-class="',this.config.inputClass,'" ',
-' match-class="highlight" ng-init="matchModels()" auto-match="true"',
-' ng-if="edit" ng-keypress="parseKeyCode($event)" initial-value="$parent.editInput.title" input-changed="editChangeCallback()"></div>');
-return String.prototype.concat('<input type="',attrs.type,'" ng-model="$parent.editInput" class="',this.config.inputClass,'" ',
-'ng-init="matchModels()" ng-if="edit" ng-keyup="parseKeyCode($event)" focus-if="focus" ng-change="editChangeCallback()"/>');},
+switch(attrs.type){
+case 'dropdown':
+return '<select ng-model="$parent.editInput" class="'+inlineEdit.config.inputClass+'" ng-init="matchModels()" ng-options="'+attrs.optionsExpression+'"\n                  ng-if="edit" ng-change="editChangeCallback()"></select>';
 
-getDisplayValue:function getDisplayValue(){
+case 'auto-complete':
+return '<div auto-complete selected-object="$parent.editInput" local-data="localData" search-fields="'+attrs.searchFields+'"\n                  title-field="'+
+attrs.titleField+'" input-class="'+inlineEdit.config.inputClass+'" match-class="highlight" ng-init="matchModels()" auto-match="true"\n                  ng-if="edit" ng-keypress="parseKeyCode($event)" initial-value="$parent.editInput.title" input-changed="editChangeCallback()"></div>';
+
+default:
+return '<input type="'+attrs.type+'" ng-model="$parent.editInput" class="'+inlineEdit.config.inputClass+'"\n                  ng-init="matchModels()" ng-if="edit" ng-keyup="parseKeyCode($event)" focus-if="focus" ng-change="editChangeCallback()"/>';}},
+
+
+
+
+setDisplayValue:function setDisplayValue(){
 if(attrs.type==="password"){
 scope.displayValue=Array(scope.model?scope.model.length+1:0).join('•');}else 
 
 scope.displayValue=scope.display||scope.model;}},
 
 
-
 render:function render(){
-var element=$compile(
-String.prototype.concat(
-'<div class="',this.config.wrapperClass,'">',
-'<span class="',this.config.labelClass,'">',this.helpers.getLabel.call(this),':</span>',
-'<span ng-if="!edit" class="',this.config.valueClass,'">','{{displayValue}}','</span>',this.helpers.getInput.call(this),
-'</div>',
-'<span class="cui-link" ng-click="toggleEdit()" ng-if="!edit">{{"cui-edit" | translate}}</span>',
-'<span class="cui-link" ng-if="edit && !hideSaveButton" ng-click="saveInput();toggleEdit();">{{"cui-update" | translate}}</span>',
-'<span class="cui-link" ng-if="edit" ng-click="toggleEdit()">{{"cui-cancel" | translate}}</span>'))(
+var element=$compile('<div class="'+
+inlineEdit.config.wrapperClass+'">\n                <span class="'+
+inlineEdit.config.labelClass+'">'+inlineEdit.helpers.getLabel()+'</span>\n                <span ng-if="!edit" class="'+
+inlineEdit.config.valueClass+'">{{displayValue}}</span>'+inlineEdit.helpers.getInput()+'\n            </div>\n            <span class="cui-link" ng-click="toggleEdit()" ng-if="!edit">{{"cui-edit" | translate}}</span>\n            <span class="cui-link" ng-if="edit && !hideSaveButton" ng-click="saveInput();toggleEdit();">{{"cui-update" | translate}}</span>\n            <span class="cui-link" ng-if="edit" ng-click="toggleEdit()">{{"cui-cancel" | translate}}</span>')(
+
+
+
+
 scope);
 angular.element(ele[0]).html(element);}};
 
 
-
-inlineEdit.init();}};}]);
+inlineEdit.init();
+inlineEdit.render();}};}]);
 
 
 
@@ -2599,12 +2546,7 @@ var listeners={};
 // add variable to detect touch users moving..
 var touchMove=false;
 
-// Add event listeners to handle various events. Destop will ignore touch events
-document.addEventListener("touchmove",offClickEventHandler,true);
-document.addEventListener("touchend",offClickEventHandler,true);
-document.addEventListener('click',offClickEventHandler,true);
-
-function targetInFilter(target,elms){
+var targetInFilter=function targetInFilter(target,elms){
 if(!target||!elms)return false;
 var elmsLen=elms.length;
 for(var i=0;i<elmsLen;++i){
@@ -2625,10 +2567,10 @@ if(containsTarget){
 return true;}}
 
 
-return false;}
+return false;};
 
 
-function offClickEventHandler(event){
+var offClickEventHandler=function offClickEventHandler(event){
 // If event is a touchmove adjust touchMove state
 if(event.type==='touchmove'){
 touchMove=true;
@@ -2644,15 +2586,23 @@ return false;}
 
 var target=event.target||event.srcElement;
 angular.forEach(listeners,function(listener,i){
-if(!(listener.elm.contains(target)||targetInFilter(target,listener.offClickFilter))){
+var filter=listener.offClickFilter();
+if(!(listener.elm.contains(target)||targetInFilter(target,filter))){
 $rootScope.$evalAsync(function(){
 listener.cb(listener.scope,{
-$event:event});});}});}
+$event:event});});}});};
 
 
 
 
 
+
+
+
+// Add event listeners to handle various events. Destop will ignore touch events
+document.addEventListener("touchmove",offClickEventHandler,true);
+document.addEventListener("touchend",offClickEventHandler,true);
+document.addEventListener('click',offClickEventHandler,true);
 
 
 return {
@@ -2661,49 +2611,35 @@ compile:function compile($element,attr){
 var fn=$parse(attr.offClick);
 return function(scope,element){
 var elmId=id++;
-var offClickFilter;
-var removeWatcher;
+var removeWatcher=void 0;
 
-offClickFilter=document.querySelectorAll(scope.$eval(attr.offClickFilter));
+var on=function on(){
+listeners[elmId]={
+elm:element[0],
+cb:fn,
+scope:scope,
+offClickFilter:function offClickFilter(){return document.querySelectorAll(scope.$eval(attr.offClickFilter));}};};
+
+
+
+var off=function off(){
+listeners[elmId]=null;
+delete listeners[elmId];};
+
 
 if(attr.offClickIf){
-removeWatcher=$rootScope.$watch(function(){
-return $parse(attr.offClickIf)(scope);},
-function(newVal){
-if(newVal){
-on();}else 
-if(!newVal){
-off();}});}else 
+removeWatcher=$rootScope.$watch(function(){return $parse(attr.offClickIf)(scope);},function(newVal){
+newVal&&on()||!newVal&&off();});}else 
 
-
-{
-on();}
-
-
-attr.$observe('offClickFilter',function(value){
-offClickFilter=document.querySelectorAll(scope.$eval(value));});
-
+on();
 
 scope.$on('$destroy',function(){
 off();
 if(removeWatcher){
 removeWatcher();}
 
-element=null;});
+element=null;});};}};}]);
 
-
-function on(){
-listeners[elmId]={
-elm:element[0],
-cb:fn,
-scope:scope,
-offClickFilter:offClickFilter};}
-
-
-
-function off(){
-listeners[elmId]=null;
-delete listeners[elmId];}};}};}]);
 
 
 
@@ -2745,19 +2681,18 @@ onPageChange:'&',
 page:'=ngModel'},
 
 link:function link(scope,elem,attrs){
-var self,resizeInterval;
+var resizeInterval=void 0;
 var paginate={
 initScope:function initScope(){
-self=this;
-self.config.numberOfPages=self.helpers.getNumberOfPages();
-self.config.howManyPagesWeCanShow=self.helpers.howManyPagesWeCanShow();
+paginate.config.numberOfPages=paginate.helpers.getNumberOfPages();
+paginate.config.howManyPagesWeCanShow=paginate.helpers.howManyPagesWeCanShow();
 scope.paginate={
-currentPage:scope.page?self.helpers.normalizePage(scope.page):1};
+currentPage:scope.page?paginate.helpers.normalizePage(scope.page):1};
 
 if(scope.onPageChange()){
 scope.onPageChange()(scope.paginate.currentPage);}
 
-angular.forEach(self.scope,function(func,key){
+angular.forEach(paginate.scope,function(func,key){
 scope.paginate[key]=func;});},
 
 
@@ -2778,26 +2713,26 @@ nextButton:attrs.nextButton||'>'},
 watchers:{
 resultsPerPage:function resultsPerPage(){
 scope.$watch(scope.resultsPerPage,function(newResultsPerPage,oldResultsPerPage){
-if(newResultsPerPage&&newResultsPerPage!==oldResultsPerPage)self.helpers.updateConfigAndRerender();});},
+if(newResultsPerPage&&newResultsPerPage!==oldResultsPerPage)paginate.helpers.updateConfigAndRerender();});},
 
 
 count:function count(){
 scope.$watch(scope.count,function(newCount,oldCount){
-if(newCount&&newCount!==oldCount)self.helpers.updateConfigAndRerender();});},
+if(newCount&&newCount!==oldCount)paginate.helpers.updateConfigAndRerender();});},
 
 
 page:function page(){
 scope.$watch('page',function(newPage){
 if(newPage&&newPage!==scope.paginate.currentPage){
-if(newPage>self.config.numberOfPages)scope.paginate.currentPage=self.config.numberOfPages;else 
+if(newPage>paginate.config.numberOfPages)scope.paginate.currentPage=paginate.config.numberOfPages;else 
 if(newPage<1)scope.paginate.currentPage=1;else 
 scope.paginate.currentPage=newPage;
-self.helpers.handleStepChange();}});},
+paginate.helpers.handleStepChange();}});},
 
 
 
 paginateResize:function paginateResize(){
-resizeInterval=$interval(self.helpers.resizeHandler,20);},
+resizeInterval=$interval(paginate.helpers.resizeHandler,50);},
 
 scopeDestroy:function scopeDestroy(){
 scope.$on('$destroy',function(){
@@ -2807,20 +2742,16 @@ $interval.cancel(resizeInterval); // unbinds the resize interval
 
 helpers:{
 updateConfigAndRerender:function updateConfigAndRerender(){
-self.config.numberOfPages=self.helpers.getNumberOfPages();
-self.config.howManyPagesWeCanShow=self.helpers.howManyPagesWeCanShow();
-self.selectors.$pageContainer.replaceWith(self.render.pageContainer());},
+paginate.config.numberOfPages=paginate.helpers.getNumberOfPages();
+paginate.config.howManyPagesWeCanShow=paginate.helpers.howManyPagesWeCanShow();
+paginate.selectors.$pageContainer.replaceWith(paginate.render.pageContainer());},
 
-getNumberOfPages:function getNumberOfPages(){
-return Math.ceil(scope.count()/scope.resultsPerPage());},
-
-getWidthOfAPage:function getWidthOfAPage(){
-return self.helpers.getWidthOfElement($(self.render.pageNumber(1)));},
-
+getNumberOfPages:function getNumberOfPages(){return Math.ceil(scope.count()/scope.resultsPerPage());},
+getWidthOfAPage:function getWidthOfAPage(){return paginate.helpers.getWidthOfElement($(paginate.render.pageNumber(1)));},
 getAvailableSpaceForPages:function getAvailableSpaceForPages(){
-var paginateWidth=self.config.width||self.selectors.$paginate.width();
-var previousWidth=self.helpers.getWidthOfElement(self.render.previousButton());
-var nextWidth=self.helpers.getWidthOfElement(self.render.nextButton());
+var paginateWidth=paginate.config.width||paginate.selectors.$paginate.width();
+var previousWidth=paginate.helpers.getWidthOfElement(paginate.render.previousButton());
+var nextWidth=paginate.helpers.getWidthOfElement(paginate.render.nextButton());
 return paginateWidth-(previousWidth+nextWidth)-1; // - 1 because at certain widths the width() method was off by a pixel
 },
 getWidthOfElement:function getWidthOfElement(element){ // this appends the element to the body, get its width, and removes it. Used for measuring.
@@ -2829,108 +2760,95 @@ var width=element.outerWidth(true);
 element.remove();
 return width;},
 
-howManyPagesWeCanShow:function howManyPagesWeCanShow(){
-return Math.floor(self.helpers.getAvailableSpaceForPages()/self.helpers.getWidthOfAPage());},
-
+howManyPagesWeCanShow:function howManyPagesWeCanShow(){return Math.floor(paginate.helpers.getAvailableSpaceForPages()/paginate.helpers.getWidthOfAPage());},
 handleStepChange:function handleStepChange(){
 scope.page=scope.paginate.currentPage;
 if(scope.onPageChange())scope.onPageChange()(scope.paginate.currentPage);
-self.selectors.$pageContainer.replaceWith(self.render.pageContainer());},
+paginate.selectors.$pageContainer.replaceWith(paginate.render.pageContainer());},
 
 resizeHandler:function resizeHandler(){
-if(!self.config.width)self.config.width=self.selectors.$paginate.width();else 
-if(self.selectors.$paginate.width()!==self.config.width){
-self.config.width=self.selectors.$paginate.width();
-self.config.widthOfAPage=self.helpers.getWidthOfAPage();
-self.config.availableSpaceForPages=self.helpers.getAvailableSpaceForPages();
-self.helpers.updateConfigAndRerender();}},
+if(!paginate.config.width)paginate.config.width=paginate.selectors.$paginate.width();else 
+if(paginate.selectors.$paginate.width()!==paginate.config.width){
+paginate.config.width=paginate.selectors.$paginate.width();
+paginate.config.widthOfAPage=paginate.helpers.getWidthOfAPage();
+paginate.config.availableSpaceForPages=paginate.helpers.getAvailableSpaceForPages();
+paginate.helpers.updateConfigAndRerender();}},
 
 
 whatEllipsesToShow:function whatEllipsesToShow(){
-if(self.config.numberOfPages<=self.config.howManyPagesWeCanShow)return 'none';else 
-if(scope.paginate.currentPage<self.config.howManyPagesWeCanShow/2+1)return 'right';else 
-if(scope.paginate.currentPage<self.config.numberOfPages-self.config.howManyPagesWeCanShow/2)return 'both';else 
+if(paginate.config.numberOfPages<=paginate.config.howManyPagesWeCanShow)return 'none';else 
+if(scope.paginate.currentPage<paginate.config.howManyPagesWeCanShow/2+1)return 'right';else 
+if(scope.paginate.currentPage<paginate.config.numberOfPages-paginate.config.howManyPagesWeCanShow/2)return 'both';else 
 return 'left';},
 
-normalizePage:function normalizePage(page){
-var page=parseInt(page);
-if(page<=self.config.numberOfPages&&page>=1){
+normalizePage:function normalizePage(pageNumber){
+var page=parseInt(pageNumber);
+if(page<=paginate.config.numberOfPages&&page>=1){
 return page;}else 
 
 if(page<1){
 return 1;}else 
 
-return self.config.numberOfPages;}},
+return paginate.config.numberOfPages;}},
 
 
 scope:{
 previous:function previous(){
 if(scope.paginate.currentPage>1){
 scope.paginate.currentPage--;
-self.helpers.handleStepChange();}},
+paginate.helpers.handleStepChange();}},
 
 
 next:function next(){
-if(scope.paginate.currentPage+1<=self.config.numberOfPages){
+if(scope.paginate.currentPage+1<=paginate.config.numberOfPages){
 scope.paginate.currentPage++;
-self.helpers.handleStepChange();}},
+paginate.helpers.handleStepChange();}},
 
 
 goToPage:function goToPage(page){
 if(page===scope.paginate.currentPage)return;
-scope.paginate.currentPage=self.helpers.normalizePage(page);
-self.helpers.handleStepChange();}},
+scope.paginate.currentPage=paginate.helpers.normalizePage(page);
+paginate.helpers.handleStepChange();}},
 
 
 render:{
 init:function init(){
-self.selectors.$paginate.append(self.render.previousButton());
-self.selectors.$paginate.append(self.render.pageContainer());
-self.selectors.$paginate.append(self.render.nextButton());},
+paginate.selectors.$paginate.append(paginate.render.previousButton());
+paginate.selectors.$paginate.append(paginate.render.pageContainer());
+paginate.selectors.$paginate.append(paginate.render.nextButton());},
 
 previousButton:function previousButton(){
-var previousButton=$compile(
-String.prototype.concat(
-'<span ng-click="paginate.previous()" class="',self.config.previousClass,'">',
-self.config.previousButton,
-'</span>'))(
+var previousButton=$compile('<span ng-click="paginate.previous()" class="'+
+paginate.config.previousClass+'">\n                                '+
+paginate.config.previousButton+'\n                            </span>')(
 
 scope);
 return previousButton;},
 
 nextButton:function nextButton(){
-var nextButton=$compile(
-String.prototype.concat(
-'<span ng-click="paginate.next()" class="',self.config.nextClass,'">',
-self.config.nextButton,
-'</span>'))(
+var nextButton=$compile('<span ng-click="paginate.next()" class="'+
+paginate.config.nextClass+'">\n                                '+
+paginate.config.nextButton+'\n                            </span>')(
 
 scope);
 return nextButton;},
 
 ellipses:function ellipses(page){
-var ngClick=' ng-click="paginate.goToPage('+page+')" ';
-var ellipses=$compile(
-String.prototype.concat(
-'<span',ngClick,'class="',self.config.ellipsesClass,'">',self.config.ellipsesButton,'</span>'))(
-
-scope);
+var ngClick='ng-click="paginate.goToPage('+page+')"';
+var ellipses=$compile('<span '+ngClick+' class="'+paginate.config.ellipsesClass+'">'+paginate.config.ellipsesButton+'</span>')(scope);
 return ellipses;},
 
 pageNumber:function pageNumber(page,active){
-var activeClass,ngClick;
-ngClick=' ng-click="paginate.goToPage('+page+')" ';
-if(active)activeClass=' '+self.config.activePageClass;else 
-activeClass='';
-var button=String.prototype.concat(
-'<span',ngClick,'class="',self.config.pageClass,activeClass,'">',page,'</span>');
-
-return $compile(button)(scope);},
+var activeClass=void 0,ngClick=void 0;
+ngClick='ng-click="paginate.goToPage('+page+')"';
+active?activeClass=''+paginate.config.activePageClass:activeClass='';
+var button=$compile('<span '+ngClick+' class="'+paginate.config.pageClass+' '+activeClass+'">'+page+'</span>')(scope);
+return button;},
 
 pagesXToY:function pagesXToY(x,y){
 var pages=[];
 do {
-var page=self.render.pageNumber(x,x===scope.paginate.currentPage);
+var page=paginate.render.pageNumber(x,x===scope.paginate.currentPage);
 pages.push(page);
 x++;}while(
 
@@ -2938,39 +2856,40 @@ x<=y);
 return pages;},
 
 pageNumbers:function pageNumbers(){
-var pages=[],
-whatEllipsesToShow=self.helpers.whatEllipsesToShow();
-
-if(whatEllipsesToShow==='none'){
-pages.push(self.render.pagesXToY(1,self.config.numberOfPages));}else 
-
-if(whatEllipsesToShow==='right'){
-var ellipsesPoint=self.config.howManyPagesWeCanShow-1;
-pages.push(self.render.pagesXToY(1,ellipsesPoint-1));
-pages.push(self.render.ellipses(ellipsesPoint));
-pages.push(self.render.pageNumber(self.config.numberOfPages));}else 
-
-if(whatEllipsesToShow==='both'){
-var firstEllipsesPoint=scope.paginate.currentPage-(Math.ceil(self.config.howManyPagesWeCanShow/2)-2);
-var secondEllipsesPoint=scope.paginate.currentPage+(Math.floor(self.config.howManyPagesWeCanShow/2)-1);
-pages.push(self.render.pageNumber(1));
-pages.push(self.render.ellipses(firstEllipsesPoint));
-pages.push(self.render.pagesXToY(firstEllipsesPoint+1,secondEllipsesPoint-1));
-pages.push(self.render.ellipses(secondEllipsesPoint));
-pages.push(self.render.pageNumber(self.config.numberOfPages));}else 
-
-{ // if the ellipses is on the left
-var ellipsesPoint=self.config.numberOfPages-(self.config.howManyPagesWeCanShow-2);
-pages.push(self.render.pageNumber(1));
-pages.push(self.render.ellipses(ellipsesPoint));
-pages.push(self.render.pagesXToY(ellipsesPoint+1,self.config.numberOfPages));}
-
+var whatEllipsesToShow=paginate.helpers.whatEllipsesToShow();
+var pages=[];
+switch(whatEllipsesToShow){
+case 'none':
+pages.push(paginate.render.pagesXToY(1,paginate.config.numberOfPages));
+break;
+case 'right':
+var ellipsesPoint=paginate.config.howManyPagesWeCanShow-1;
+pages.push(paginate.render.pagesXToY(1,ellipsesPoint-1));
+pages.push(paginate.render.ellipses(ellipsesPoint));
+pages.push(paginate.render.pageNumber(paginate.config.numberOfPages));
+break;
+case 'left':
+var ellipsesPointLeft=paginate.config.numberOfPages-(paginate.config.howManyPagesWeCanShow-2);
+pages.push(paginate.render.pageNumber(1));
+pages.push(paginate.render.ellipses(ellipsesPointLeft));
+pages.push(paginate.render.pagesXToY(ellipsesPointLeft+1,paginate.config.numberOfPages));
+break;
+case 'both':
+var firstEllipsesPoint=scope.paginate.currentPage-(Math.ceil(paginate.config.howManyPagesWeCanShow/2)-2);
+var secondEllipsesPoint=scope.paginate.currentPage+(Math.floor(paginate.config.howManyPagesWeCanShow/2)-1);
+pages.push(paginate.render.pageNumber(1));
+pages.push(paginate.render.ellipses(firstEllipsesPoint));
+pages.push(paginate.render.pagesXToY(firstEllipsesPoint+1,secondEllipsesPoint-1));
+pages.push(paginate.render.ellipses(secondEllipsesPoint));
+pages.push(paginate.render.pageNumber(paginate.config.numberOfPages));
+break;}
+;
 return pages;},
 
 pageContainer:function pageContainer(){
-var pageContainer=$('<span class="'+self.config.pageContainerClass+'"></span>');
-self.selectors.$pageContainer=pageContainer;
-self.render.pageNumbers().forEach(function(page){
+var pageContainer=$('<span class="'+paginate.config.pageContainerClass+'"></span>');
+paginate.selectors.$pageContainer=pageContainer;
+paginate.render.pageNumbers().forEach(function(page){
 pageContainer.append(page);});
 
 return pageContainer;}}};
@@ -3217,9 +3136,9 @@ if(newErrorObject)scope.errors=Object.assign({},newErrorObject);});}};}]);
 
 
 angular.module('cui-ng').
-provider('$pagination',[function(){
-var paginationOptions;
-var userValue;
+provider('$pagination',[function(){var _this2=this;
+var paginationOptions=void 0;
+var userValue=void 0;
 
 this.setPaginationOptions=function(valueArray){
 paginationOptions=valueArray;};
@@ -3233,13 +3152,9 @@ this.setUserValue=function(value){ // sets the user value so that other pages th
 userValue=value;};
 
 
-this.getUserValue=function(){
-return userValue;};
+this.getUserValue=function(){return userValue;};
 
-
-this.$get=function(){
-return this;};}]).
-
+this.$get=function(){return _this2;};}]).
 
 directive('resultsPerPage',['$compile','$pagination',function($compile,$pagination){
 return {
@@ -3248,11 +3163,8 @@ scope:{
 selected:'=ngModel'},
 
 link:function link(scope,elem,attrs){
-var self;
-
 var resultsPerPage={
 initScope:function initScope(){
-self=this;
 scope.options=$pagination.getPaginationOptions();
 scope.selected=$pagination.getUserValue()||scope.options[0];
 
@@ -3261,19 +3173,11 @@ $pagination.setUserValue(selected);
 scope.selected=selected;});},
 
 
-
 config:{
 selectClass:attrs.class||'cui-dropdown'},
 
-
 render:function render(){
-var element=$compile(
-String.prototype.concat(
-'<cui-dropdown class="',this.config.selectClass,'" ng-model="selected"',
-'options="options">',
-'</cui-dropdown>'))(
-
-scope);
+var element=$compile('<cui-dropdown class="'+resultsPerPage.config.selectClass+'" ng-model="selected" options="options"></cui-dropdown>')(scope);
 angular.element(elem).replaceWith(element);}};
 
 
@@ -4328,7 +4232,7 @@ return {
 restrict:'A',
 scope:true,
 link:function link(scope,elem,attrs){
-var tether;
+var tether=void 0;
 elem[0].classList.add('hide--opacity'); // this fixes the incorrect positioning when it first renders
 $timeout(function(){
 tether=new Tether({
