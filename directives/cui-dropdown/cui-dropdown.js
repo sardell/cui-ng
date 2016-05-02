@@ -10,7 +10,7 @@ angular.module('cui-ng')
         },
         link: (scope, elem, attrs, ctrl) => {
             const id=scope.$id, inputName=(`cuiDropdown${id}`);
-            let self, newScope, formName, currentIndex;
+            let self, newScope, dropdownScope, formName, currentIndex;
 
             const cuiDropdown = {
                 initScope: () => {
@@ -67,6 +67,7 @@ angular.module('cui-ng')
                     },
                     destroyDropdown:function(){
                         if(cuiDropdown.selectors.$dropdown) {
+                            dropdownScope.$destroy();
                             cuiDropdown.selectors.$dropdown.detach();
                             cuiDropdown.selectors.$dropdown=null;
                         }
@@ -164,8 +165,7 @@ angular.module('cui-ng')
                         if(newScope) newScope.$destroy(); // this makes sure that if the input has been rendered once the off click handler is removed
                         newScope = scope.$new();
                         const element = $compile(
-                            `<div class="${cuiDropdown.config.inputClass}" ng-click="toggleDropdown()" off-click="destroyDropdown()"
-                                off-click-filter="'${cuiDropdown.config.dropdownWrapperClass},${cuiDropdown.config.dropdownItemClass}'">
+                            `<div class="${cuiDropdown.config.inputClass}" ng-click="toggleDropdown()" off-click="destroyDropdown()" id="cui-dropdown-${id}">
                                 {{displayValue}}
                             </div>`
                         )(newScope);
@@ -173,7 +173,9 @@ angular.module('cui-ng')
                         cuiDropdown.selectors.$cuiDropdown=element;
                     },
                     dropdown: () => {
-                        const dropdown = $compile(`<div class="${cuiDropdown.config.dropdownWrapperClass}"></div>`)(scope);
+                        if(dropdownScope) dropdownScope.$destroy();
+                        dropdownScope = scope.$new();
+                        const dropdown = $compile(`<div class="${cuiDropdown.config.dropdownWrapperClass}" off-click-filter="#cui-dropdown-${id}"></div>`)(dropdownScope);
                         const displayValues=cuiDropdown.helpers.getOptionDisplayValues();
                         displayValues.forEach((value,i) => {
                             dropdown.append(cuiDropdown.helpers.getDropdownItem(i,value));

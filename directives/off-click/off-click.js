@@ -1,5 +1,29 @@
 angular.module('cui-ng')
-.directive('offClick', ['$rootScope', '$parse', ($rootScope, $parse) => {
+.factory('OffClickFilterCache',[()=>{
+    let filterCache={};
+    return filterCache;
+}])
+.directive('offClickFilter',['OffClickFilterCache',(OffClickFilterCache)=>{
+    return {
+        restrict:'A',
+        link : (scope, elem, attrs) => {
+            const filters = attrs.offClickFilter.split(',');
+
+            filters.forEach((filter)=>{
+                OffClickFilterCache[filter] ? OffClickFilterCache[filter].push(elem[0]) : OffClickFilterCache[filter]=[elem[0]];
+            })
+            scope.$on('$destroy',()=>{
+                filters.forEach((filter)=>{
+                    if(OffClickFilterCache[filter].length>1) {
+                        OffClickFilterCache[filter].splice(OffClickFilterCache[filter].indexOf(elem[0]),1);
+                    }
+                    else delete OffClickFilterCache[filter];
+                })
+            });
+        }
+    };
+}])
+.directive('offClick', ['$rootScope', '$parse', 'OffClickFilterCache', ($rootScope, $parse, OffClickFilterCache) => {
     let id = 0;
     let listeners = {};
     // add variable to detect touch users moving..
@@ -45,8 +69,12 @@ angular.module('cui-ng')
         }
         const target = event.target || event.srcElement;
         angular.forEach(listeners, (listener, i) => {
-            const filter = listener.offClickFilter();
-            if (!(listener.elm.contains(target) || targetInFilter(target, filter))) {
+            let filters=[];
+            if(OffClickFilterCache['#'+listener.elm.id]) filters = filters.concat(OffClickFilterCache['#'+listener.elm.id]);
+            listener.elm.classList.forEach((className)=>{
+                if(OffClickFilterCache['.' + className]) filters = filters.concat(OffClickFilterCache['.' + className]);
+            });
+            if (!(listener.elm.contains(target) || targetInFilter(target, filters))) {
                 $rootScope.$evalAsync(function () {
                     listener.cb(listener.scope, {
                         $event: event
@@ -66,8 +94,8 @@ angular.module('cui-ng')
 
     return {
         restrict: 'A',
-        compile: ($element, attr) => {
-            const fn = $parse(attr.offClick);
+        compile: (elem, attrs) => {
+            const fn = $parse(attrs.offClick);
             return function (scope, element) {
                 const elmId = id++;
                 let removeWatcher;
@@ -76,8 +104,7 @@ angular.module('cui-ng')
                     listeners[elmId] = {
                         elm: element[0],
                         cb: fn,
-                        scope: scope,
-                        offClickFilter: () => document.querySelectorAll(scope.$eval(attr.offClickFilter))
+                        scope: scope
                     };
                 };
 
@@ -86,8 +113,8 @@ angular.module('cui-ng')
                     delete listeners[elmId];
                 };
 
-                if (attr.offClickIf) {
-                    removeWatcher = $rootScope.$watch(() => $parse(attr.offClickIf)(scope), (newVal) => {
+                if (attrs.offClickIf) {
+                    removeWatcher = $rootScope.$watch(() => $parse(attrs.offClickIf)(scope), (newVal) => {
                         newVal && on() || !newVal && off()
                     });
                 } else on();
