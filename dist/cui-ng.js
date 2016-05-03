@@ -1,6 +1,6 @@
 'use strict';var _slicedToArray=function(){function sliceIterator(arr,i){var _arr=[];var _n=true;var _d=false;var _e=undefined;try{for(var _i=arr[Symbol.iterator](),_s;!(_n=(_s=_i.next()).done);_n=true){_arr.push(_s.value);if(i&&_arr.length===i)break;}}catch(err){_d=true;_e=err;}finally {try{if(!_n&&_i["return"])_i["return"]();}finally {if(_d)throw _e;}}return _arr;}return function(arr,i){if(Array.isArray(arr)){return arr;}else if(Symbol.iterator in Object(arr)){return sliceIterator(arr,i);}else {throw new TypeError("Invalid attempt to destructure non-iterable instance");}};}();var _typeof=typeof Symbol==="function"&&typeof Symbol.iterator==="symbol"?function(obj){return typeof obj;}:function(obj){return obj&&typeof Symbol==="function"&&obj.constructor===Symbol?"symbol":typeof obj;};function _defineProperty(obj,key,value){if(key in obj){Object.defineProperty(obj,key,{value:value,enumerable:true,configurable:true,writable:true});}else {obj[key]=value;}return obj;}
 
-// cui-ng build Tue May 03 2016 09:05:16
+// cui-ng build Tue May 03 2016 09:20:58
 
 (function(angular){'use strict';
 
@@ -1068,28 +1068,55 @@ return returnValue;},
 
 getOptionDisplayValues:function getOptionDisplayValues(){
 var displayValues=[];var _cuiDropdown$config$d=
-cuiDropdown.config.displayValue.replace(/( |\)|\))/g,'').split('|');var _cuiDropdown$config$d2=_slicedToArray(_cuiDropdown$config$d,2);var filter=_cuiDropdown$config$d2[0];var keyString=_cuiDropdown$config$d2[1];
-if(cuiDropdown.config.defaultOption){
-if(cuiDropdown.config.defaultOptionValue.indexOf('(')>-1){
+cuiDropdown.config.displayValue.replace(/( |\)|\))/g,'').split('|');var _cuiDropdown$config$d2=_slicedToArray(_cuiDropdown$config$d,2);var filter=_cuiDropdown$config$d2[0];var keyString=_cuiDropdown$config$d2[1];var _cuiDropdown$config=
+cuiDropdown.config;var defaultOption=_cuiDropdown$config.defaultOption;var defaultOptionValue=_cuiDropdown$config.defaultOptionValue;var displayValue=_cuiDropdown$config.displayValue;
+if(defaultOption){
+if(defaultOptionValue.indexOf('(')>-1){
 displayValues.push($filter(filter)(keyString));}else 
 
-displayValues.push(cuiDropdown.config.defaultOptionValue);}
+displayValues.push(defaultOptionValue);}
 
-if(cuiDropdown.config.displayValue.indexOf('(')<0)keyString=cuiDropdown.config.displayValue;
+if(displayValue.indexOf('(')<0)keyString=displayValue;
+
+switch(displayValue){
+case 'value': // if we just want to display values from an object
+angular.forEach(scope.options(),function(val){
+displayValues.push(val);});
+
+break;
+case 'key':
+angular.forEach(scope.option(),function(val,key){ // if we just want to display the keys from an object
+displayValues.push(key);});
+
+break;
+default:
 scope.options().forEach(function(option){
-if(cuiDropdown.config.displayValue.indexOf('|')>=0)displayValues.push($filter(filter)(cuiDropdown.helpers.getKeyValue(keyString,option)));else 
-displayValues.push(cuiDropdown.helpers.getKeyValue(keyString,option));});
-
+if(displayValue.indexOf('|')>=0)displayValues.push($filter(filter)(cuiDropdown.helpers.getKeyValue(keyString,option))); // if we're using a filter
+else displayValues.push(cuiDropdown.helpers.getKeyValue(keyString,option)); // else just get the correct key from the option object
+});}
+;
 return displayValues;},
 
 getOptionReturnValues:function getOptionReturnValues(){
-var returnValues=[];
-if(cuiDropdown.config.defaultOption){
-returnValues.push(null);}
+var returnValues=[];var _cuiDropdown$config2=
+cuiDropdown.config;var defaultOption=_cuiDropdown$config2.defaultOption;var returnValue=_cuiDropdown$config2.returnValue;
+if(defaultOption)returnValues.push(null); // if there's a default option it won't have any return value
+switch(returnValue){
+case 'value':
+angular.forEach(scope.options(),function(val){
+returnValues.push(val);});
 
-scope.options().forEach(function(option){
-returnValues.push(cuiDropdown.helpers.getKeyValue(cuiDropdown.config.returnValue,option));});
+break;
+case 'key':
+angular.forEach(scope.options(),function(val,key){
+returnValues.push(key);});
 
+break;
+default:
+angular.forEach(scope.options(),function(val){
+returnValues.push(val);});}
+
+;
 return returnValues;},
 
 getDropdownItem:function getDropdownItem(index,displayValue){

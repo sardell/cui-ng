@@ -92,27 +92,54 @@ angular.module('cui-ng')
                     getOptionDisplayValues:() => {
                         let displayValues = [];
                         let [ filter, keyString ] = cuiDropdown.config.displayValue.replace(/( |\)|\))/g,'').split('|');
-                        if(cuiDropdown.config.defaultOption) {
-                            if(cuiDropdown.config.defaultOptionValue.indexOf('(')>-1){
+                        const { defaultOption, defaultOptionValue, displayValue } = cuiDropdown.config;
+                        if(defaultOption) {
+                            if(defaultOptionValue.indexOf('(')>-1){
                                 displayValues.push($filter(filter)(keyString));
                             }
-                            else displayValues.push(cuiDropdown.config.defaultOptionValue);
+                            else displayValues.push(defaultOptionValue);
                         }
-                        if( cuiDropdown.config.displayValue.indexOf('(') < 0 ) keyString = cuiDropdown.config.displayValue;
-                        scope.options().forEach((option) => {
-                            if(cuiDropdown.config.displayValue.indexOf('|') >= 0) displayValues.push($filter(filter)(cuiDropdown.helpers.getKeyValue(keyString,option)));
-                            else displayValues.push(cuiDropdown.helpers.getKeyValue(keyString,option));
-                        });
+                        if( displayValue.indexOf('(') < 0 ) keyString = displayValue;
+
+                        switch (displayValue){
+                            case 'value': // if we just want to display values from an object
+                                angular.forEach(scope.options(),(val)=>{
+                                    displayValues.push(val);
+                                });
+                                break;
+                            case 'key':
+                                angular.forEach(scope.option(),(val,key)=>{ // if we just want to display the keys from an object
+                                    displayValues.push(key);
+                                });
+                                break;
+                            default:
+                                scope.options().forEach((option) => {
+                                    if(displayValue.indexOf('|') >= 0) displayValues.push($filter(filter)(cuiDropdown.helpers.getKeyValue(keyString,option))); // if we're using a filter
+                                    else displayValues.push(cuiDropdown.helpers.getKeyValue(keyString,option)); // else just get the correct key from the option object
+                                });
+                        };
                         return displayValues;
                     },
                     getOptionReturnValues:() => {
                         let returnValues=[];
-                        if(cuiDropdown.config.defaultOption) {
-                            returnValues.push(null);
-                        }
-                        scope.options().forEach((option) => {
-                            returnValues.push(cuiDropdown.helpers.getKeyValue(cuiDropdown.config.returnValue,option));
-                        });
+                        const { defaultOption, returnValue } = cuiDropdown.config;
+                        if(defaultOption) returnValues.push(null); // if there's a default option it won't have any return value
+                        switch (returnValue){
+                            case 'value':
+                                angular.forEach(scope.options(),(val)=>{
+                                    returnValues.push(val);
+                                });
+                                break;
+                            case 'key':
+                                angular.forEach(scope.options(),(val,key)=>{
+                                    returnValues.push(key);
+                                });
+                                break;
+                            default:
+                                angular.forEach(scope.options(),(val)=>{
+                                    returnValues.push(val);
+                                });
+                        };
                         return returnValues;
                     },
                     getDropdownItem:(index,displayValue) => {
