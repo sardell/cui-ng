@@ -1,6 +1,6 @@
 'use strict';var _slicedToArray=function(){function sliceIterator(arr,i){var _arr=[];var _n=true;var _d=false;var _e=undefined;try{for(var _i=arr[Symbol.iterator](),_s;!(_n=(_s=_i.next()).done);_n=true){_arr.push(_s.value);if(i&&_arr.length===i)break;}}catch(err){_d=true;_e=err;}finally {try{if(!_n&&_i["return"])_i["return"]();}finally {if(_d)throw _e;}}return _arr;}return function(arr,i){if(Array.isArray(arr)){return arr;}else if(Symbol.iterator in Object(arr)){return sliceIterator(arr,i);}else {throw new TypeError("Invalid attempt to destructure non-iterable instance");}};}();var _typeof=typeof Symbol==="function"&&typeof Symbol.iterator==="symbol"?function(obj){return typeof obj;}:function(obj){return obj&&typeof Symbol==="function"&&obj.constructor===Symbol?"symbol":typeof obj;};function _defineProperty(obj,key,value){if(key in obj){Object.defineProperty(obj,key,{value:value,enumerable:true,configurable:true,writable:true});}else {obj[key]=value;}return obj;}
 
-// cui-ng build Tue May 03 2016 09:20:58
+// cui-ng build Tue May 03 2016 09:57:32
 
 (function(angular){'use strict';
 
@@ -1551,11 +1551,11 @@ return {
 restrict:'EA',
 scope:{},
 link:function link(scope,elem,attrs){
-var self=void 0,popoverTether=[],repositionedTether=void 0,tetherAttachmentInterval=void 0,targetElementPositionInterval=void 0,cuiPopoverConfig={},positions=void 0,positionInUse=void 0,trialPosition=void 0;
+var self=void 0,popoverTether=[],repositionedTether=void 0,tetherAttachmentInterval=void 0,targetElementPositionInterval=void 0,elementHtmlInterval=void 0,_elementHtml=void 0,cuiPopoverConfig={},positions=void 0,positionInUse=void 0,trialPosition=void 0;
 
 var cuiPopover={
 init:function init(){
-elem.css({opacity:'0','pointer-events':'none',position:'absolute'});
+elem.css({opacity:'0','pointer-events':'none',position:'absolute'}); // hide the original element.
 
 self=this;
 positionInUse=0; // using the default position when we init
@@ -1650,11 +1650,23 @@ newPosition&&popoverTether[positionInUse].position();},
 function(newPosition,oldPosition){return newPosition.top!==oldPosition.top||newPosition.left!==oldPosition.left;});},
 
 
+elementHtml:function elementHtml(){
+elementHtmlInterval=$interval(function(){
+var elemHtml=elem.html();
+if(elemHtml!==_elementHtml){ // if the element html is different that what we have cached
+_elementHtml=elemHtml;
+cuiPopover.render.newHtml(_elementHtml);}},
+
+100);},
+
+
 scopeDestroy:function scopeDestroy(){
 scope.$on('$destroy',function(){
 $interval.cancel(tetherAttachmentInterval);
 $interval.cancel(targetElementPositionInterval);
+$interval.cancel(elementHtmlInterval);
 popoverTether[positionInUse].destroy();
+self.selectors[positionInUse].$contentBox&&self.selectors[positionInUse].$contentBox.detach();
 self.selectors[positionInUse].$container&&self.selectors[positionInUse].$container.detach();
 self.selectors[positionInUse].$pointer&&self.selectors[positionInUse].$pointer.detach();});}},
 
@@ -1679,17 +1691,22 @@ self.selectors[positionIndex].$container[0].classList.add('hide--opacity');
 $container.append($pointer);
 self.selectors[positionIndex].$pointer=$pointer;
 
-// append the cui-popover to the container and apply the margins to make room for the pointer
-
+$timeout(function(){ // this timeout ensures that the content in the element gets compiled before we clone it to the popover.
 var cloneElem=elem.clone();
 cloneElem.css({opacity:'','pointer-events':'',position:''});
+// append the cui-popover to the container and apply the margins to make room for the pointer
 cloneElem.css(getPopoverMargins(opts.position,opts.pointerHeight));
 self.selectors[positionIndex].$container.append(cloneElem);
+self.selectors[positionIndex].$contentBox=cloneElem;
 
 angular.element(document.body).append($container);
 popoverTether[positionIndex]=new Tether(self.helpers.getTetherOptions($container,opts));
 
-popoverTether[positionIndex].position();}},
+popoverTether[positionIndex].position();});},
+
+
+newHtml:function newHtml(_newHtml){
+self.selectors[positionInUse].$contentBox[0].innerHTML=_newHtml;}},
 
 
 newMode:function newMode(_newMode){var 
@@ -1728,8 +1745,8 @@ self.selectors[trialPosition]={};
 var opts=positions[trialPosition];
 self.config(opts);
 self.render.popoverContainer(trialPosition);
-
-if(!popoverTether[trialPosition].element.classList.contains('tether-out-of-bounds')){
+$timeout(function(){
+if(!popoverTether[trialPosition].element.classList.contains('tether-out-of-bounds')){ // if the new element isn't OOB then use it.
 self.selectors[positionInUse].$container.detach();
 popoverTether[positionInUse].destroy();
 delete self.selectors[positionInUse];
@@ -1737,10 +1754,10 @@ positionInUse=trialPosition;
 trialPosition=undefined;
 if(self.selectors[positionInUse].$container[0].classList.contains('hide--opacity'))self.selectors[positionInUse].$container[0].classList.remove('hide--opacity');}else 
 
-{
+{ // else just remove all references to it and this function will run again by itself
 self.selectors[trialPosition].$container.detach();
 popoverTether[trialPosition].destroy();
-delete self.selectors[trialPosition];}}};
+delete self.selectors[trialPosition];}});}};
 
 
 

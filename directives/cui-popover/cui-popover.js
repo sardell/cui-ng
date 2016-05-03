@@ -4,11 +4,11 @@ angular.module('cui-ng')
         restrict: 'EA',
         scope: {},
         link: (scope, elem, attrs) => {
-            let self, popoverTether=[], repositionedTether, tetherAttachmentInterval, targetElementPositionInterval, cuiPopoverConfig = {}, positions, positionInUse, trialPosition;
+            let self, popoverTether=[], repositionedTether, tetherAttachmentInterval, targetElementPositionInterval, elementHtmlInterval, elementHtml, cuiPopoverConfig = {}, positions, positionInUse, trialPosition;
 
             const cuiPopover = {
                 init:function(){
-                    elem.css({opacity:'0','pointer-events':'none',position:'absolute'});
+                    elem.css({opacity:'0','pointer-events':'none',position:'absolute'}); // hide the original element.
 
                     self=this;
                     positionInUse = 0; // using the default position when we init
@@ -103,11 +103,23 @@ angular.module('cui-ng')
                         },(newPosition,oldPosition) => newPosition.top !== oldPosition.top || newPosition.left !== oldPosition.left );
                     },
 
+                    elementHtml:() => {
+                        elementHtmlInterval=$interval(()=>{
+                            let elemHtml = elem.html();
+                            if(elemHtml !== elementHtml) { // if the element html is different that what we have cached
+                                elementHtml = elemHtml;
+                                cuiPopover.render.newHtml(elementHtml);
+                            }
+                        }, 100)
+                    },
+
                     scopeDestroy:() => {
                         scope.$on('$destroy',() => {
                             $interval.cancel(tetherAttachmentInterval);
                             $interval.cancel(targetElementPositionInterval);
+                            $interval.cancel(elementHtmlInterval);
                             popoverTether[positionInUse].destroy();
+                            self.selectors[positionInUse].$contentBox && self.selectors[positionInUse].$contentBox.detach();
                             self.selectors[positionInUse].$container && self.selectors[positionInUse].$container.detach();
                             self.selectors[positionInUse].$pointer && self.selectors[positionInUse].$pointer.detach();
                         })
@@ -132,17 +144,22 @@ angular.module('cui-ng')
                         $container.append($pointer);
                         self.selectors[positionIndex].$pointer = $pointer;
 
-                        // append the cui-popover to the container and apply the margins to make room for the pointer
+                        $timeout(()=>{ // this timeout ensures that the content in the element gets compiled before we clone it to the popover.
+                            const cloneElem = elem.clone();
+                            cloneElem.css({opacity:'','pointer-events':'',position:''});
+                            // append the cui-popover to the container and apply the margins to make room for the pointer
+                            cloneElem.css(getPopoverMargins(opts.position, opts.pointerHeight));
+                            self.selectors[positionIndex].$container.append(cloneElem);
+                            self.selectors[positionIndex].$contentBox = cloneElem;
 
-                        const cloneElem= elem.clone();
-                        cloneElem.css({opacity:'','pointer-events':'',position:''});
-                        cloneElem.css(getPopoverMargins(opts.position, opts.pointerHeight));
-                        self.selectors[positionIndex].$container.append(cloneElem);
+                            angular.element(document.body).append($container);
+                            popoverTether[positionIndex] = new Tether(self.helpers.getTetherOptions($container,opts));
 
-                        angular.element(document.body).append($container);
-                        popoverTether[positionIndex] = new Tether(self.helpers.getTetherOptions($container,opts));
-
-                        popoverTether[positionIndex].position();
+                            popoverTether[positionIndex].position();
+                        });
+                    },
+                    newHtml:(newHtml) => {
+                        self.selectors[positionInUse].$contentBox[0].innerHTML = newHtml;
                     }
                 },
                 newMode:(newMode) => {
@@ -181,21 +198,21 @@ angular.module('cui-ng')
                     const opts = positions[trialPosition];
                     self.config(opts);
                     self.render.popoverContainer(trialPosition);
-
-                    if(!popoverTether[trialPosition].element.classList.contains('tether-out-of-bounds')){
-                        self.selectors[positionInUse].$container.detach()
-                        popoverTether[positionInUse].destroy();
-                        delete self.selectors[positionInUse];
-                        positionInUse = trialPosition;
-                        trialPosition = undefined;
-                        if(self.selectors[positionInUse].$container[0].classList.contains('hide--opacity')) self.selectors[positionInUse].$container[0].classList.remove('hide--opacity');
-                    }
-                    else {
-                        self.selectors[trialPosition].$container.detach()
-                        popoverTether[trialPosition].destroy();
-                        delete self.selectors[trialPosition];
-                    }
-
+                    $timeout(()=>{
+                        if(!popoverTether[trialPosition].element.classList.contains('tether-out-of-bounds')){ // if the new element isn't OOB then use it.
+                            self.selectors[positionInUse].$container.detach()
+                            popoverTether[positionInUse].destroy();
+                            delete self.selectors[positionInUse];
+                            positionInUse = trialPosition;
+                            trialPosition = undefined;
+                            if(self.selectors[positionInUse].$container[0].classList.contains('hide--opacity')) self.selectors[positionInUse].$container[0].classList.remove('hide--opacity');
+                        }
+                        else { // else just remove all references to it and this function will run again by itself
+                            self.selectors[trialPosition].$container.detach()
+                            popoverTether[trialPosition].destroy();
+                            delete self.selectors[trialPosition];
+                        }
+                    });
                 }
             };
             cuiPopover.init();

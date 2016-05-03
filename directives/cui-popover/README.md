@@ -43,3 +43,6 @@ NOTE: `popover-offset` and `content-offset` will only be applied to positions fo
 
 * Major rework. The new way of setting a position array is much more intuitive and functional than the previous implementation, giving the developer an infinite amount of positioning possibilities.
 
+## Change Log 5/3/2016
+
+* Cui-popover now listens for changes to the element's inner html. This ensures that even if the popover is outside of controller's scope it will always be up to date.
