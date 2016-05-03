@@ -1,0 +1,78 @@
+<style>
+  .cui-tree {
+    display:inline-block;
+    position: relative;
+    margin-top:20px;
+  }
+  .cui-tree::before {
+    content:'';
+    width:2px;
+    background-color:rgb(106,152,160);
+    position:absolute;
+    top:-20px;
+    bottom: 28px;
+    left:-1px;
+  }
+
+  .cui-tree__leaf {
+    width:150px;
+    height:40px;
+    border:1px solid rgb(106,152,160);
+    margin-bottom:10px;
+    margin-left:20px;
+    display:flex;
+    align-items: center;
+    justify-content: center;
+    position:relative;
+    color: rgb(0,108,119);
+    font-size:15px;
+    font-weight: bold;
+    cursor:pointer;
+  }
+
+  .cui-tree__leaf::before {
+    content:'';
+    width:20px;
+    background-color:rgb(106,152,160);
+    height:2px;
+    position:absolute;
+    top:50%;
+    left:-20px;
+  }
+
+  .cui-tree--nesting-1 {
+    display:block;
+    position: relative;
+    margin-left:50px;
+  }
+
+  .cui-tree--nesting-1::before {
+    content:'';
+    width:2px;
+    background-color:rgb(106,152,160);
+    position:absolute;
+    top:-10px;
+    bottom: 18px;
+    left:-1px;
+  }
+
+  .cui-tree--nesting-2 {
+    display:block;
+    position: relative;
+    margin-left:50px;
+  }
+
+  .cui-tree--nesting-2::before {
+    content:'';
+    width:2px;
+    background-color:rgb(106,152,160);
+    position:absolute;
+    top:-10px;
+    bottom: 18px;
+    left:-1px;
+  }
+
+</style>
+
+
+<div class="cui-tree" cui-tree="[{id:1, text:'Parent', children:[{id:2, text:'Child', children:[{id:3, text:'Grand Child'},{id:3, text:'Grand Child'}] },{id:4,text:'Child'},{id:4,text:'Child'}] },{text:'Parent'} ]" cui-tree-leaf-display="object.text" cui-tree-leaf-display-filter="cuiI18n" cui-tree-leaf-wrapper="<div class='cui-tree__leaf'></div>" cui-tree-nest-prefix="cui-tree--nesting-"></div>
