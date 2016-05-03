@@ -77,9 +77,9 @@ angular.module('cui-ng')
                     getOptions:() => scope.options(),
                     getKeyValue:(keyString,object) => {
                         const keys=keyString.split('.').slice(1);
+                        let returnValue;
                         if(keys.length===0) return object;
                         else {
-                            let returnValue;
                             let i=0;
                             do {
                                 returnValue? returnValue=returnValue[keys[i]] : returnValue=object[keys[i]];
