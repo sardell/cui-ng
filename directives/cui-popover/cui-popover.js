@@ -96,7 +96,7 @@ angular.module('cui-ng')
                     targetElementPosition:() => {
                         targetElementPositionInterval=$interval(() => {
                             scope.targetPosition = self.selectors.$target.offset();
-                        }, 50)
+                        }, 10);
 
                         scope.$watch('targetPosition',(newPosition) => {
                             newPosition && popoverTether[positionInUse].position();

@@ -91,7 +91,7 @@ angular.module('cui-ng')
                     },
                     getOptionDisplayValues:() => {
                         let displayValues = [];
-                        let [ filter, keyString ] = cuiDropdown.config.displayValue.replace(/( |\)|\))/g,'').split('|');
+                        let [ keyString, filter ] = cuiDropdown.config.displayValue.replace(/( |\)|\))/g,'').split('|');
                         const { defaultOption, defaultOptionValue, displayValue } = cuiDropdown.config;
                         if(defaultOption) {
                             if(defaultOptionValue.indexOf('(')>-1){
