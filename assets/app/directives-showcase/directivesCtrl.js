@@ -32,8 +32,8 @@ angular.module('app')
     };
 }])
 
-.controller('directivesCtrl',['$rootScope','$state','$stateParams','user','$timeout','localStorageService','$scope','$translate','fakeApi','$interval','words','$q',
-function($rootScope,$state,$stateParams,user,$timeout,localStorageService,$scope,$translate,fakeApi,$interval,words,$q) {
+.controller('directivesCtrl',['$rootScope','$state','$stateParams','user','$timeout','localStorageService','$scope','$translate','fakeApi','$interval','words','$q','$compile',
+function($rootScope,$state,$stateParams,user,$timeout,localStorageService,$scope,$translate,fakeApi,$interval,words,$q,$compile) {
 
     var directives = this;
     var timer;
@@ -171,12 +171,59 @@ function($rootScope,$state,$stateParams,user,$timeout,localStorageService,$scope
 
     // On-enter start -----------------------------------------------------------
 
-    directives.onEnterResults=[]
+    directives.onEnterResults=[];
     directives.onEnter = function(text) {
         if(test && text!=='') directives.onEnterResults.push({id:directives.onEnterResults.length+1,text:text});
         directives.onEnterInput = '';
     };
 
     // On-enter end -------------------------------------------------------------
+
+    // cui-tree start -----------------------------------------------------------
+
+    var listOfIds = [1];
+
+    directives.addSibling = function(id,text,tree) {
+        if( tree.some(function(leaf){ return leaf.id===parseInt(id) }) ) {
+            listOfIds.push(listOfIds[listOfIds.length-1]+1);
+            tree.push({id:listOfIds[listOfIds.length-1],text:text});
+        }
+        else {
+            tree.forEach(function(leaf){
+                if(leaf.children && leaf.children.length>0){
+                    directives.addSibling(id,text,leaf.children);
+                }
+            });
+        }
+    };
+
+    directives.addChild = function(id,text,tree) {
+        var indexOfNode = _.findIndex(tree,function(leaf){ return leaf.id === parseInt(id) });
+        if(indexOfNode >= 0) {
+            listOfIds.push(listOfIds[listOfIds.length-1]+1);
+            tree[indexOfNode].children ? tree[indexOfNode].children.push({id:listOfIds[listOfIds.length-1],text:text}) : tree[indexOfNode].children = [{id:listOfIds[listOfIds.length-1],text:text}];
+        }
+        else {
+            tree.forEach(function(leaf){
+                if(leaf.children && leaf.children.length>0){
+                    directives.addChild(id,text,leaf.children);
+                }
+            })
+        }
+    };
+
+
+    var previousActive;
+    directives.leafClickCallback = function(object,leaf,e){
+        if(previousActive){
+            previousActive.classList.remove('active');
+        }
+        previousActive = $(leaf)[0];
+        previousActive.classList.add('active');
+        directives.leafBeingHandled = object;
+    };
+
+    // cui-tree end -------------------------------------------------------------
+
 
 }]);

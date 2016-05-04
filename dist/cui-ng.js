@@ -1,6 +1,6 @@
 'use strict';var _slicedToArray=function(){function sliceIterator(arr,i){var _arr=[];var _n=true;var _d=false;var _e=undefined;try{for(var _i=arr[Symbol.iterator](),_s;!(_n=(_s=_i.next()).done);_n=true){_arr.push(_s.value);if(i&&_arr.length===i)break;}}catch(err){_d=true;_e=err;}finally {try{if(!_n&&_i["return"])_i["return"]();}finally {if(_d)throw _e;}}return _arr;}return function(arr,i){if(Array.isArray(arr)){return arr;}else if(Symbol.iterator in Object(arr)){return sliceIterator(arr,i);}else {throw new TypeError("Invalid attempt to destructure non-iterable instance");}};}();var _typeof=typeof Symbol==="function"&&typeof Symbol.iterator==="symbol"?function(obj){return typeof obj;}:function(obj){return obj&&typeof Symbol==="function"&&obj.constructor===Symbol?"symbol":typeof obj;};function _defineProperty(obj,key,value){if(key in obj){Object.defineProperty(obj,key,{value:value,enumerable:true,configurable:true,writable:true});}else {obj[key]=value;}return obj;}
 
-// cui-ng build Tue May 03 2016 14:41:30
+// cui-ng build Wed May 04 2016 17:04:43
 
 (function(angular){'use strict';
 
@@ -1767,8 +1767,18 @@ cuiPopover.init();}};}]);
 
 
 
+var defaults={
+cuiTreeNest0Class:'cui-tree--nesting-0',
+cuiTreeNestXClass:'cui-tree--nested',
+cuiTreeLeafWrapper:'<div class="cui-tree__leaf"></div>',
+cuiTreeLastLeafClass:'cui-tree__leaf--last',
+cuiTreeBranchWrapper:'<div class="cui-tree__branch"></div>',
+cuiTreeLastBranchClass:'cui-tree__branch--last',
+cuiTreeNestPrefix:'cui-tree--nesting-'};
+
+
 var cuiTreeHelpers={
-getKeyValue:function getKeyValue(keyString,object){
+getKeyValue:function getKeyValue(keyString,object){;
 if(!keyString)return object;
 var keys=keyString.split('.').slice(1);
 var returnValue=void 0;
@@ -1776,33 +1786,87 @@ if(keys.length===0)return object;else
 {
 var i=0;
 do {
-returnValue?returnValue=returnValue[keys[i]]:returnValue=object[keys[i]];
+angular.isDefined(returnValue)?returnValue=returnValue[keys[i]]:returnValue=object[keys[i]];
 i++;}while(
 
 i<keys.length);}
 
-return returnValue;},
+return String(returnValue);},
 
-getElements:function getElements(objects,opts){var nesting=arguments.length<=2||arguments[2]===undefined?0:arguments[2];
-var nodes=[];var 
-getKeyValue=cuiTreeHelpers.getKeyValue;var getElements=cuiTreeHelpers.getElements;var 
-cuiTreeLeafDisplay=opts.cuiTreeLeafDisplay;var cuiTreeLeafDisplayFilter=opts.cuiTreeLeafDisplayFilter;var cuiTreeLeafWrapper=opts.cuiTreeLeafWrapper;var cuiTreeNestPrefix=opts.cuiTreeNestPrefix;
+getDisplayValue:function getDisplayValue(opts,object){var 
+cuiTreeLeafDisplay=opts.cuiTreeLeafDisplay;var cuiTreeLeafDisplayFilter=opts.cuiTreeLeafDisplayFilter;var 
+getKeyValue=cuiTreeHelpers.getKeyValue;
+var propertiesToDisplay=cuiTreeLeafDisplay.split('+');
+propertiesToDisplay=propertiesToDisplay.map(function(x){return x.trim();});
 
-var $node=$('<div class="'+(cuiTreeNestPrefix+nesting)+'"></div>');
-objects.forEach(function(object){
-var $elementInner=$('<span>'+getKeyValue(cuiTreeLeafDisplay,object)+'</span>');
-var $leafWrapper=$(cuiTreeLeafWrapper).append($elementInner);
-$node.append($leafWrapper);
-if(object.children)$node.append(getElements(object.children,opts,nesting+1)); // recursively gets the child nodes
-});
+var displayValue='';
+propertiesToDisplay.forEach(function(property){
+if(property.indexOf('\'')>=0||property.indexOf('"')>=0){
+displayValue+=property.split('\'').join('').split('"').join('');}else 
+
+displayValue+=getKeyValue(property,object);});
+
+return displayValue;},
+
+getClassListForNestingLevel:function getClassListForNestingLevel(opts,nesting){var 
+cuiTreeNestPrefix=opts.cuiTreeNestPrefix;var cuiTreeNest0Class=opts.cuiTreeNest0Class;var cuiTreeNestXClass=opts.cuiTreeNestXClass;
+var classList=[];
+switch(nesting){
+case 0:
+classList.push(cuiTreeNest0Class||defaults.cuiTreeNest0Class);
+break;
+default:
+classList.push(cuiTreeNestPrefix||defaults.cuiTreeNestPrefix)+nesting;
+classList.push(cuiTreeNestXClass||defaults.cuiTreeNestXClass);}
+;
+return classList;},
+
+getElements:function getElements(opts,objects,leafClickCallback){var nesting=arguments.length<=3||arguments[3]===undefined?0:arguments[3];var 
+getKeyValue=cuiTreeHelpers.getKeyValue;var getElements=cuiTreeHelpers.getElements;var getDisplayValue=cuiTreeHelpers.getDisplayValue;var getClassListForNestingLevel=cuiTreeHelpers.getClassListForNestingLevel;var 
+cuiTreeBranchWrapper=opts.cuiTreeBranchWrapper;var cuiTreeLeafWrapper=opts.cuiTreeLeafWrapper;var cuiTreeLastLeafClass=opts.cuiTreeLastLeafClass;var cuiTreeLastBranchClass=opts.cuiTreeLastBranchClass;
+var $node=$('<div></div>');
+getClassListForNestingLevel(opts,nesting).forEach(function(className){return $node[0].classList.add(className);});
+objects.forEach(function(object,i){
+var $leafInner=$('<span>'+getDisplayValue(opts,object)+'</span>');
+var $leafWrapper=$(cuiTreeLeafWrapper||defaults.cuiTreeLeafWrapper);
+$leafWrapper[0].addEventListener("click",function(e){leafClickCallback(object,this,e);},true);
+$leafWrapper.append($leafInner);
+if(i===objects.length-1)$leafWrapper[0].classList.add(cuiTreeLastLeafClass||defaults.cuiTreeLastLeafClass); // add class to last leaf of each indent level.
+if(object.children){ // if it has children creat a new branch for the leaf and it's children
+var $branchWrapper=$(cuiTreeBranchWrapper||defaults.cuiTreeBranchWrapper).append($leafWrapper);
+if(i===objects.length-1)$branchWrapper[0].classList.add(cuiTreeLastBranchClass||defaults.cuiTreeLastBranchClass);
+$branchWrapper.append(getElements(opts,object.children,leafClickCallback,nesting+1)); // recursively gets the child nodes
+$node.append($branchWrapper);}else 
+
+{
+$node.append($leafWrapper);}});
+
+
 return $node;}};
 
 
 
 var cuiTree={
 pre:function pre(scope,elem,attrs){
-var cuiTreeArray=scope.$eval(attrs.cuiTree);
-elem.append(cuiTreeHelpers.getElements(cuiTreeArray,attrs));}};
+var $tree=void 0;
+var leafClickCallback=scope.$eval(attrs.cuiTreeLeafClickCallback);
+
+var renderTree=function renderTree(tree){
+if($tree){
+$tree.detach();
+$tree.children().unbind();}
+
+$tree=cuiTreeHelpers.getElements(attrs,tree,leafClickCallback);
+elem.append($tree);};
+
+
+scope.$watch(function(){return scope.$eval(attrs.cuiTree);},function(newTree){
+if(newTree)renderTree(newTree);},
+true);
+
+scope.$on('$destroy',function(){
+$tree.children().unbind();});}};
+
 
 
 
@@ -1810,7 +1874,7 @@ angular.module('cui-ng').
 directive('cuiTree',[function(){
 return {
 restrict:'A',
-scope:{},
+scope:true,
 compile:function compile(){var 
 pre=cuiTree.pre;var post=cuiTree.post;
 return {pre:pre,post:post};}};}]);
