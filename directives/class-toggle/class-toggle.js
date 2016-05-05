@@ -4,7 +4,7 @@ angular.module('cui-ng')
         restrict:'EAC',
         scope: true,
         link:(scope,elem,attrs) => {
-            const toggledClass=attrs.toggledClass,
+            const toggledClass=attrs.toggledClass || 'class-toggle-' + scope.$id,
                 elementClass = () => elem.attr('class'),
                 checkIfToggled = (elementClass) => {
                     scope.toggled = elementClass.indexOf(toggledClass) >= 0

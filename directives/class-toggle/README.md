@@ -21,3 +21,7 @@ You can also use `toggleOn()` or `toggleOff()` to only add or remove the class f
 ## Change Log 3/7/2016
 
 * Now also takes class-toggle as an attribute.
+
+## Change Log 5/5/2016
+
+* No longer requires the 'toggled-class' attribute (if the purpose it to only access the toggled scope var).
