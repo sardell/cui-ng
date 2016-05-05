@@ -130,7 +130,7 @@ angular.module('app')
         // cui Auth
         API.handleCovAuthResponse(event, toState, toParams, fromState, fromParams);
         // determines if user is able to access the particular route we're navigation to
-        routing($rootScope, $state, toState, toParams, fromState, fromParams, User.getEntitlements());
+        routing(toState, toParams, fromState, fromParams, User.getEntitlements());
         // for menu handling
         Menu.handleStateChange(toState.menu);
     });

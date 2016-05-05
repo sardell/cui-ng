@@ -2,7 +2,7 @@ angular.module('app')
 .factory('User',['$rootScope',function($rootScope) {
 
     var user = {
-        entitlements: []
+        entitlements: undefined
     };
 
     var userName = {};
@@ -15,7 +15,7 @@ angular.module('app')
             return user.cuid || '[cuid]';
         },
         setEntitlements : function(newEntitlements){
-            user.entitlements=newEntitlements;
+            user.entitlements = newEntitlements;
         },
         getEntitlements : function(){
             return user.entitlements;

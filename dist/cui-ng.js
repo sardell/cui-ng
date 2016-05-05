@@ -1,6 +1,6 @@
 'use strict';var _slicedToArray=function(){function sliceIterator(arr,i){var _arr=[];var _n=true;var _d=false;var _e=undefined;try{for(var _i=arr[Symbol.iterator](),_s;!(_n=(_s=_i.next()).done);_n=true){_arr.push(_s.value);if(i&&_arr.length===i)break;}}catch(err){_d=true;_e=err;}finally {try{if(!_n&&_i["return"])_i["return"]();}finally {if(_d)throw _e;}}return _arr;}return function(arr,i){if(Array.isArray(arr)){return arr;}else if(Symbol.iterator in Object(arr)){return sliceIterator(arr,i);}else {throw new TypeError("Invalid attempt to destructure non-iterable instance");}};}();var _typeof=typeof Symbol==="function"&&typeof Symbol.iterator==="symbol"?function(obj){return typeof obj;}:function(obj){return obj&&typeof Symbol==="function"&&obj.constructor===Symbol?"symbol":typeof obj;};function _defineProperty(obj,key,value){if(key in obj){Object.defineProperty(obj,key,{value:value,enumerable:true,configurable:true,writable:true});}else {obj[key]=value;}return obj;}
 
-// cui-ng build Thu May 05 2016 11:39:50
+// cui-ng build Thu May 05 2016 12:34:37
 
 (function(angular){'use strict';
 
@@ -4486,106 +4486,83 @@ elem[0].classList.remove(attrs.uiSrefActiveNested);};}};}]);
 
 
 
-// how to use:
-// .run(['$rootScope', '$state', 'cui.authorization.routing' function($rootScope,$state){
-//   $rootScope.$on('$stateChangeStart', function(event, toState){
-//     cui.authorization.routing($state,toState,userEntitlements);
-//   })
-// }])
-//
-// userEntitlements must be an array of entitlements.
-// It will redirect to a state called 'login' if no user is defined
-// It will redirect to a state called 'notAuthorized' if the user doesn't have permission
+var goToState=function goToState($state,$rootScope,stateName,toState,toParams,fromState,fromParams,$timeout,notify){
+$timeout(function(){
+$state.go(stateName,toParams,{notify:notify}).then(function(){
+$rootScope.$broadcast('$stateChangeSuccess',toState,toParams,fromState,fromParams);});});};
+
+
+
+
+
 angular.module('cui.authorization',[]).
-factory('cui.authorization.routing',['cui.authorization.authorize','$timeout',
-function(authorize,$timeout){
-var routing=function routing($rootScope,$state,toState,toParams,fromState,fromParams,userEntitlements){
-var authorized;
+factory('cui.authorization.routing',['cui.authorization.authorize','$timeout','$rootScope','$state',function(authorize,$timeout,$rootScope,$state){
+var routing=function routing(toState,toParams,fromState,fromParams,userEntitlements){var loginRequiredState=arguments.length<=5||arguments[5]===undefined?'loginRequired':arguments[5];var nonAuthState=arguments.length<=6||arguments[6]===undefined?'notAuthorized':arguments[6];
+var authorized=void 0;
 if(toState.access!==undefined){
-// console.log('Access rules for this route: \n' +
-// 'loginRequired: ' + toState.access.loginRequired + '\n' +
-// 'requiredEntitlements: ' + toState.access.requiredEntitlements);
-authorized=authorize.authorize(toState.access.loginRequired,
-toState.access.requiredEntitlements,toState.access.entitlementType,userEntitlements);
-// console.log('authorized: ' + authorized);
-if(authorized==='login required'){
-$timeout(function(){
-$state.go('login',toParams).then(function(){
-$rootScope.$broadcast('$stateChangeSuccess',toState,toParams,fromState,fromParams);});});}else 
+authorized=authorize.authorize(toState.access.loginRequired,toState.access.requiredEntitlements,toState.access.entitlementType,userEntitlements);
 
+var stateName=void 0,notify=void 0;
 
-if(authorized==='not authorized'){
-$timeout(function(){
-$state.go('notAuthorized',toParams).then(function(){
-$rootScope.$broadcast('$stateChangeSuccess',toState,toParams,fromState,fromParams);});});}else 
+switch(authorized){
+case 'login required':
+stateName=loginRequiredState;
+case 'not authorized':
+stateName=nonAuthState;
+default:
+notify=true;
+case 'authorized':
+stateName=toState.name;
+notify=false;
+break;}
+;
 
-
-
-if(authorized==='authorized'){
-$timeout(function(){
-$state.go(toState.name,toParams,{notify:false}).then(function(){
-$rootScope.$broadcast('$stateChangeSuccess',toState,toParams,fromState,fromParams);});});}}else 
-
-
-
+goToState($state,$rootScope,stateName,toState,toParams,fromState,fromParams,$timeout,notify);}else 
 
 {
-$state.go(toState.name,toParams,{notify:false}).then(function(){
-$rootScope.$broadcast('$stateChangeSuccess',toState,toParams,fromState,fromParams);});}};
-
+goToState($state,$rootScope,toState.name,toState,toParams,fromState,fromParams,$timeout,false);}};
 
 
 
 return routing;}]).
 
-
-
-factory('cui.authorization.authorize',[
-function(){
-var authorize=function authorize(loginRequired,requiredEntitlements,entitlementType,userEntitlements){
+factory('cui.authorization.authorize',[function(){
+var authorize=function authorize(loginRequired,requiredEntitlements){var entitlementType=arguments.length<=2||arguments[2]===undefined?'atLeastOne':arguments[2];var userEntitlements=arguments[3];
 var loweredPermissions=[],
 hasPermission=true,
-permission,i,
 result='not authorized';
-entitlementType=entitlementType||'atLeastOne';
-if(loginRequired===true&&userEntitlements.length===0){
+
+if(loginRequired===true&&userEntitlements===undefined){
 result='login required';}else 
-if(loginRequired===true&&userEntitlements!==undefined&&(
-requiredEntitlements===undefined||requiredEntitlements.length===0)){
+
+if(loginRequired===true&&userEntitlements!==undefined&&(requiredEntitlements===undefined||requiredEntitlements.length===0)){
 // Login is required but no specific permissions are specified.
 result='authorized';}else 
+
 if(requiredEntitlements){
 angular.forEach(userEntitlements,function(permission){
 loweredPermissions.push(permission.toLowerCase());});
 
-for(i=0;i<requiredEntitlements.length;i++){
-permission=requiredEntitlements[i].toLowerCase();
+for(var i=0;i<requiredEntitlements.length;i++){
+var permission=requiredEntitlements[i].toLowerCase();
 
 if(entitlementType==='all'){
 hasPermission=hasPermission&&loweredPermissions.indexOf(permission)>-1;
-// if all the permissions are required and hasPermission is false there is no point carrying on
-if(hasPermission===false){
-break;}}else 
+// i1f all the permissions are required and hasPermission is false there is no point carrying on
+if(hasPermission===false)break;}else 
 
 if(entitlementType==='atLeastOne'){
 hasPermission=loweredPermissions.indexOf(permission)>-1;
 // if we only need one of the permissions and we have it there is no point carrying on
-if(hasPermission){
-break;}}}
+if(hasPermission)break;}}
 
 
-
-result=hasPermission?
-'authorized':
-'not authorized';}
+result=hasPermission?'authorized':'not authorized';}
 
 return result;};
 
 
-return {
-authorize:authorize};}]).
-
-
+return {authorize:authorize};}]).
 
 directive('cuiAccess',['cui.authorization.authorize',function(authorize){
 return {
@@ -4595,18 +4572,15 @@ userEntitlements:'=',
 cuiAccess:'='},
 
 link:function link(scope,elem,attrs){
-scope.loginRequired=true;
-scope.requiredEntitlements=scope.cuiAccess.requiredEntitlements||[];
-scope.entitlementType=scope.cuiAccess.entitlementType||'atLeastOne';
-elem=angular.element(elem);
+var requiredEntitlements=scope.cuiAccess.requiredEntitlements||[];
+var entitlementType=scope.cuiAccess.entitlementType||'atLeastOne';
+
+var initalDisplay=elem.css('display');
+
 scope.$watch('userEntitlements',function(){
-var authorized=authorize.authorize(scope.loginRequired,scope.requiredEntitlements,scope.entitlementType,scope.userEntitlements);
-if(authorized!=='authorized'){
-elem.addClass('hide');}else 
-
-{
-elem.removeClass('hide');}});}};}]);})(
-
+var authorized=authorize.authorize(true,requiredEntitlements,entitlementType,scope.userEntitlements);
+if(authorized!=='authorized')elem.css('display','none');else 
+elem.css('display',initalDisplay);});}};}]);})(
 
 
 
