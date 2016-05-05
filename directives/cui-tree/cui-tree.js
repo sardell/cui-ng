@@ -45,7 +45,8 @@ const cuiTreeHelpers = {
                 tempDisplayValue = getKeyValue(property.trim(), object);
             }
 
-            if(filter) tempDisplayValue = $filter(filter.trim())(tempDisplayValue.trim());
+            if(typeof tempDisplayValue==='string') tempDisplayValue = tempDisplayValue.trim();
+            if(filter) tempDisplayValue = $filter(filter.trim())(tempDisplayValue);
 
             displayValue += tempDisplayValue;
         });

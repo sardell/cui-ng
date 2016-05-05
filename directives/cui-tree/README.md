@@ -11,6 +11,8 @@ Cui-Tree is a directive that generates a tree like markup structure, based on an
   <div class="cui-tree" cui-tree="app.tree" cui-tree-leaf-display="object.text"></div>
 ```
 
+* cui-tree-leaf-display determines what to show in each leaf, and it accepts: properties from each object (use object.propertyName), strings ( wrap them in '' ) and filters ( ex: (object.name | cuiI18n) ). You can also concat display values ( ex : cui-tree-leaf-display="object.text + ' ' + object.text2" )
+
 ```javascript
     app.tree=[
         {
