@@ -14,6 +14,7 @@ Cui-ng is an angular module with a series of custom directives and utilities for
 * [Cui-Expandable](https://github.com/thirdwavellc/cui-ng/tree/master/directives/cui-expandable)
 * [Cui-Icon](https://github.com/thirdwavellc/cui-ng/tree/master/directives/cui-icon)
 * [Cui-Popover](https://github.com/thirdwavellc/cui-ng/tree/master/directives/cui-popover)
+* [Cui-Tree](https://github.com/thirdwavellc/cui-ng/tree/master/directives/cui-tree)
 * [Cui-Wizard](https://github.com/thirdwavellc/cui-ng/tree/master/directives/cui-wizard)
 * [Custom-error](https://github.com/thirdwavellc/cui-ng/tree/master/directives/custom-error)
 * [Focus-if](https://github.com/thirdwavellc/cui-ng/tree/master/directives/focus-if)
