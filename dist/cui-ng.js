@@ -1,6 +1,6 @@
 'use strict';var _slicedToArray=function(){function sliceIterator(arr,i){var _arr=[];var _n=true;var _d=false;var _e=undefined;try{for(var _i=arr[Symbol.iterator](),_s;!(_n=(_s=_i.next()).done);_n=true){_arr.push(_s.value);if(i&&_arr.length===i)break;}}catch(err){_d=true;_e=err;}finally {try{if(!_n&&_i["return"])_i["return"]();}finally {if(_d)throw _e;}}return _arr;}return function(arr,i){if(Array.isArray(arr)){return arr;}else if(Symbol.iterator in Object(arr)){return sliceIterator(arr,i);}else {throw new TypeError("Invalid attempt to destructure non-iterable instance");}};}();var _typeof=typeof Symbol==="function"&&typeof Symbol.iterator==="symbol"?function(obj){return typeof obj;}:function(obj){return obj&&typeof Symbol==="function"&&obj.constructor===Symbol?"symbol":typeof obj;};function _defineProperty(obj,key,value){if(key in obj){Object.defineProperty(obj,key,{value:value,enumerable:true,configurable:true,writable:true});}else {obj[key]=value;}return obj;}
 
-// cui-ng build Wed May 04 2016 17:04:43
+// cui-ng build Thu May 05 2016 11:27:08
 
 (function(angular){'use strict';
 
@@ -1791,20 +1791,32 @@ i++;}while(
 
 i<keys.length);}
 
-return String(returnValue);},
+return returnValue;},
 
-getDisplayValue:function getDisplayValue(opts,object){var 
-cuiTreeLeafDisplay=opts.cuiTreeLeafDisplay;var cuiTreeLeafDisplayFilter=opts.cuiTreeLeafDisplayFilter;var 
+getDisplayValue:function getDisplayValue($filter,opts,object){var 
+cuiTreeLeafDisplay=opts.cuiTreeLeafDisplay;var 
 getKeyValue=cuiTreeHelpers.getKeyValue;
 var propertiesToDisplay=cuiTreeLeafDisplay.split('+');
 propertiesToDisplay=propertiesToDisplay.map(function(x){return x.trim();});
 
-var displayValue='';
+var displayValue='',
+filter=void 0;
 propertiesToDisplay.forEach(function(property){
-if(property.indexOf('\'')>=0||property.indexOf('"')>=0){
-displayValue+=property.split('\'').join('').split('"').join('');}else 
+var tempDisplayValue=void 0;
+if(property.indexOf('|')>=0){var _property$replace$spl=
+property.replace(/(\(|\)|\))/g,'').split('|'); // if it's a filter
+var _property$replace$spl2=_slicedToArray(_property$replace$spl,2);property=_property$replace$spl2[0];filter=_property$replace$spl2[1];}
 
-displayValue+=getKeyValue(property,object);});
+if(property.indexOf('\'')>=0||property.indexOf('"')>=0){
+tempDisplayValue=property.split('\'').join('').split('"').join('');}else 
+
+{
+tempDisplayValue=getKeyValue(property.trim(),object);}
+
+
+if(filter)tempDisplayValue=$filter(filter.trim())(tempDisplayValue.trim());
+
+displayValue+=tempDisplayValue;});
 
 return displayValue;},
 
@@ -1816,26 +1828,26 @@ case 0:
 classList.push(cuiTreeNest0Class||defaults.cuiTreeNest0Class);
 break;
 default:
-classList.push(cuiTreeNestPrefix||defaults.cuiTreeNestPrefix)+nesting;
+classList.push((cuiTreeNestPrefix||defaults.cuiTreeNestPrefix)+nesting);
 classList.push(cuiTreeNestXClass||defaults.cuiTreeNestXClass);}
 ;
 return classList;},
 
-getElements:function getElements(opts,objects,leafClickCallback){var nesting=arguments.length<=3||arguments[3]===undefined?0:arguments[3];var 
+getElements:function getElements($filter,opts,objects,leafClickCallback){var nesting=arguments.length<=4||arguments[4]===undefined?0:arguments[4];var 
 getKeyValue=cuiTreeHelpers.getKeyValue;var getElements=cuiTreeHelpers.getElements;var getDisplayValue=cuiTreeHelpers.getDisplayValue;var getClassListForNestingLevel=cuiTreeHelpers.getClassListForNestingLevel;var 
 cuiTreeBranchWrapper=opts.cuiTreeBranchWrapper;var cuiTreeLeafWrapper=opts.cuiTreeLeafWrapper;var cuiTreeLastLeafClass=opts.cuiTreeLastLeafClass;var cuiTreeLastBranchClass=opts.cuiTreeLastBranchClass;
 var $node=$('<div></div>');
 getClassListForNestingLevel(opts,nesting).forEach(function(className){return $node[0].classList.add(className);});
 objects.forEach(function(object,i){
-var $leafInner=$('<span>'+getDisplayValue(opts,object)+'</span>');
+var $leafInner=$('<span>'+getDisplayValue($filter,opts,object)+'</span>');
 var $leafWrapper=$(cuiTreeLeafWrapper||defaults.cuiTreeLeafWrapper);
-$leafWrapper[0].addEventListener("click",function(e){leafClickCallback(object,this,e);},true);
+if(leafClickCallback)$leafWrapper[0].addEventListener("click",function(e){leafClickCallback(object,this,e);},true);
 $leafWrapper.append($leafInner);
 if(i===objects.length-1)$leafWrapper[0].classList.add(cuiTreeLastLeafClass||defaults.cuiTreeLastLeafClass); // add class to last leaf of each indent level.
 if(object.children){ // if it has children creat a new branch for the leaf and it's children
 var $branchWrapper=$(cuiTreeBranchWrapper||defaults.cuiTreeBranchWrapper).append($leafWrapper);
 if(i===objects.length-1)$branchWrapper[0].classList.add(cuiTreeLastBranchClass||defaults.cuiTreeLastBranchClass);
-$branchWrapper.append(getElements(opts,object.children,leafClickCallback,nesting+1)); // recursively gets the child nodes
+$branchWrapper.append(getElements($filter,opts,object.children,leafClickCallback,nesting+1)); // recursively gets the child nodes
 $node.append($branchWrapper);}else 
 
 {
@@ -1846,7 +1858,8 @@ return $node;}};
 
 
 
-var cuiTree={
+var cuiTree=function cuiTree($filter){
+return {
 pre:function pre(scope,elem,attrs){
 var $tree=void 0;
 var leafClickCallback=scope.$eval(attrs.cuiTreeLeafClickCallback);
@@ -1856,7 +1869,7 @@ if($tree){
 $tree.detach();
 $tree.children().unbind();}
 
-$tree=cuiTreeHelpers.getElements(attrs,tree,leafClickCallback);
+$tree=cuiTreeHelpers.getElements($filter,attrs,tree,leafClickCallback);
 elem.append($tree);};
 
 
@@ -1865,19 +1878,19 @@ if(newTree)renderTree(newTree);},
 true);
 
 scope.$on('$destroy',function(){
-$tree.children().unbind();});}};
+$tree.children().unbind();});}};};
+
 
 
 
 
 angular.module('cui-ng').
-directive('cuiTree',[function(){
+directive('cuiTree',['$filter',function($filter){
 return {
 restrict:'A',
 scope:true,
-compile:function compile(){var 
-pre=cuiTree.pre;var post=cuiTree.post;
-return {pre:pre,post:post};}};}]);
+compile:function compile(){
+return cuiTree($filter);}};}]);
 
 
 
