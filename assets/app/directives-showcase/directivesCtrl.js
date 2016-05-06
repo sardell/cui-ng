@@ -134,6 +134,12 @@ function($rootScope,$state,$stateParams,user,$timeout,localStorageService,$scope
         }
     });
 
+    $scope.$watch('directives.count', function(newCount){
+        if(directives.rerenderPaginate) {
+            directives.rerenderPaginate();
+        }
+    });
+
     directives.handlePageChange = function(page) {
         directives.currentPage = page;
     };

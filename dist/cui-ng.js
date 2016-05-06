@@ -1,6 +1,6 @@
 'use strict';var _slicedToArray=function(){function sliceIterator(arr,i){var _arr=[];var _n=true;var _d=false;var _e=undefined;try{for(var _i=arr[Symbol.iterator](),_s;!(_n=(_s=_i.next()).done);_n=true){_arr.push(_s.value);if(i&&_arr.length===i)break;}}catch(err){_d=true;_e=err;}finally {try{if(!_n&&_i["return"])_i["return"]();}finally {if(_d)throw _e;}}return _arr;}return function(arr,i){if(Array.isArray(arr)){return arr;}else if(Symbol.iterator in Object(arr)){return sliceIterator(arr,i);}else {throw new TypeError("Invalid attempt to destructure non-iterable instance");}};}();var _typeof=typeof Symbol==="function"&&typeof Symbol.iterator==="symbol"?function(obj){return typeof obj;}:function(obj){return obj&&typeof Symbol==="function"&&obj.constructor===Symbol?"symbol":typeof obj;};function _defineProperty(obj,key,value){if(key in obj){Object.defineProperty(obj,key,{value:value,enumerable:true,configurable:true,writable:true});}else {obj[key]=value;}return obj;}
 
-// cui-ng build Fri May 06 2016 12:26:07
+// cui-ng build Fri May 06 2016 17:00:11
 
 (function(angular){'use strict';
 
@@ -2880,20 +2880,19 @@ scope:{
 resultsPerPage:'&',
 count:'&',
 onPageChange:'&',
-page:'=ngModel'},
+page:'=ngModel',
+attachRerenderTo:'='},
 
 link:function link(scope,elem,attrs){
 var resizeInterval=void 0;
 var paginate={
 initScope:function initScope(){
-paginate.config.numberOfPages=paginate.helpers.getNumberOfPages();
-paginate.config.howManyPagesWeCanShow=paginate.helpers.howManyPagesWeCanShow();
 scope.paginate={
 currentPage:scope.page?paginate.helpers.normalizePage(scope.page):1};
 
-if(scope.onPageChange()){
-scope.onPageChange()(scope.paginate.currentPage);}
-
+paginate.helpers.updateConfig();
+paginate.render.pageContainer();
+if(attrs.attachRerenderTo)scope.attachRerenderTo=paginate.scope.updateConfigAndReRender;
 angular.forEach(paginate.scope,function(func,key){
 scope.paginate[key]=func;});},
 
@@ -2914,22 +2913,23 @@ nextButton:attrs.nextButton||'>'},
 
 watchers:{
 resultsPerPage:function resultsPerPage(){
-scope.$watch(scope.resultsPerPage,function(newResultsPerPage,oldResultsPerPage){
-if(newResultsPerPage&&newResultsPerPage!==oldResultsPerPage)paginate.helpers.updateConfigAndRerender();});},
+scope.$watch(scope.resultsPerPage,function(newCount,oldCount){
+if(newCount&&oldCount&&newCount!==oldCount){
+scope.page=scope.paginate.currentPage=1;
+paginate.helpers.updateConfig();
+paginate.scope.reRender();
+$timeout(function(){
+if(scope.onPageChange())scope.onPageChange()(scope.paginate.currentPage);});}});},
 
 
-count:function count(){
-scope.$watch(scope.count,function(newCount,oldCount){
-if(newCount&&newCount!==oldCount)paginate.helpers.updateConfigAndRerender();});},
 
 
 page:function page(){
-scope.$watch('page',function(newPage){
-if(newPage&&newPage!==scope.paginate.currentPage){
-if(newPage>paginate.config.numberOfPages)scope.paginate.currentPage=paginate.config.numberOfPages;else 
-if(newPage<1)scope.paginate.currentPage=1;else 
-scope.paginate.currentPage=newPage;
-paginate.helpers.handleStepChange();}});},
+scope.$watch('page',function(newPage,oldPage){
+if(newPage&&oldPage&&newPage!==scope.paginate.currentPage){
+scope.page=scope.paginate.currentPage=paginate.helpers.normalizePage(newPage);
+paginate.helpers.updateConfig();
+paginate.scope.reRender();}});},
 
 
 
@@ -2943,10 +2943,9 @@ $interval.cancel(resizeInterval); // unbinds the resize interval
 
 
 helpers:{
-updateConfigAndRerender:function updateConfigAndRerender(){
+updateConfig:function updateConfig(){
 paginate.config.numberOfPages=paginate.helpers.getNumberOfPages();
-paginate.config.howManyPagesWeCanShow=paginate.helpers.howManyPagesWeCanShow();
-paginate.selectors.$pageContainer.replaceWith(paginate.render.pageContainer());},
+paginate.config.howManyPagesWeCanShow=paginate.helpers.howManyPagesWeCanShow();},
 
 getNumberOfPages:function getNumberOfPages(){return Math.ceil(scope.count()/scope.resultsPerPage());},
 getWidthOfAPage:function getWidthOfAPage(){return paginate.helpers.getWidthOfElement($(paginate.render.pageNumber(1)));},
@@ -2964,17 +2963,17 @@ return width;},
 
 howManyPagesWeCanShow:function howManyPagesWeCanShow(){return Math.floor(paginate.helpers.getAvailableSpaceForPages()/paginate.helpers.getWidthOfAPage());},
 handleStepChange:function handleStepChange(){
-scope.page=scope.paginate.currentPage;
+scope.page=scope.paginate.currentPage=paginate.helpers.normalizePage(scope.paginate.currentPage);
+$timeout(function(){
 if(scope.onPageChange())scope.onPageChange()(scope.paginate.currentPage);
-paginate.selectors.$pageContainer.replaceWith(paginate.render.pageContainer());},
+paginate.scope.reRender();});},
+
 
 resizeHandler:function resizeHandler(){
 if(!paginate.config.width)paginate.config.width=paginate.selectors.$paginate.width();else 
 if(paginate.selectors.$paginate.width()!==paginate.config.width){
 paginate.config.width=paginate.selectors.$paginate.width();
-paginate.config.widthOfAPage=paginate.helpers.getWidthOfAPage();
-paginate.config.availableSpaceForPages=paginate.helpers.getAvailableSpaceForPages();
-paginate.helpers.updateConfigAndRerender();}},
+paginate.helpers.updateConfig();}},
 
 
 whatEllipsesToShow:function whatEllipsesToShow(){
@@ -3010,7 +3009,20 @@ paginate.helpers.handleStepChange();}},
 goToPage:function goToPage(page){
 if(page===scope.paginate.currentPage)return;
 scope.paginate.currentPage=paginate.helpers.normalizePage(page);
-paginate.helpers.handleStepChange();}},
+paginate.helpers.handleStepChange();},
+
+reRender:function reRender(){
+paginate.selectors.$pageContainer.replaceWith(paginate.render.pageContainer());},
+
+updateConfigAndReRender:function updateConfigAndReRender(){
+paginate.helpers.updateConfig();
+if(scope.paginate.currentPage>paginate.config.numberOfPages){
+scope.page=scope.paginate.currentPage=paginate.helpers.normalizePage(scope.paginate.currentPage);
+paginate.scope.reRender();}else 
+
+{
+paginate.scope.reRender();}}},
+
 
 
 render:{
@@ -3050,7 +3062,7 @@ return button;},
 pagesXToY:function pagesXToY(x,y){
 var pages=[];
 do {
-var page=paginate.render.pageNumber(x,x===scope.paginate.currentPage);
+var page=paginate.render.pageNumber(x,x===(scope.paginate.currentPage||scope.page));
 pages.push(page);
 x++;}while(
 

@@ -6,20 +6,19 @@ angular.module('cui-ng')
             resultsPerPage: '&',
             count: '&',
             onPageChange: '&',
-            page: '=ngModel'
+            page: '=ngModel',
+            attachRerenderTo: '='
         },
         link: (scope, elem, attrs) => {
             let resizeInterval;
             const paginate = {
                 initScope:() => {
-                    paginate.config.numberOfPages = paginate.helpers.getNumberOfPages();
-                    paginate.config.howManyPagesWeCanShow = paginate.helpers.howManyPagesWeCanShow();
                     scope.paginate = {
                         currentPage:scope.page? paginate.helpers.normalizePage(scope.page) : 1
                     };
-                    if(scope.onPageChange()) {
-                        scope.onPageChange()(scope.paginate.currentPage);
-                    }
+                    paginate.helpers.updateConfig();
+                    paginate.render.pageContainer();
+                    if(attrs.attachRerenderTo) scope.attachRerenderTo = paginate.scope.updateConfigAndReRender;
                     angular.forEach(paginate.scope,(func,key) => {
                         scope.paginate[key]=func;
                     });
@@ -40,22 +39,23 @@ angular.module('cui-ng')
                 },
                 watchers:{
                     resultsPerPage:() => {
-                        scope.$watch(scope.resultsPerPage,(newResultsPerPage,oldResultsPerPage) => {
-                            if(newResultsPerPage && newResultsPerPage!==oldResultsPerPage) paginate.helpers.updateConfigAndRerender();
-                        });
-                    },
-                    count:() => {
-                        scope.$watch(scope.count,(newCount,oldCount) => {
-                            if(newCount && newCount!==oldCount) paginate.helpers.updateConfigAndRerender();
+                        scope.$watch(scope.resultsPerPage,(newCount,oldCount) => {
+                            if(newCount && oldCount && newCount!==oldCount){
+                                scope.page = scope.paginate.currentPage = 1;
+                                paginate.helpers.updateConfig();
+                                paginate.scope.reRender();
+                                $timeout(()=>{
+                                    if(scope.onPageChange()) scope.onPageChange()(scope.paginate.currentPage);
+                                });
+                            }
                         });
                     },
                     page:() => {
-                        scope.$watch('page',(newPage) => {
-                            if(newPage && newPage!==scope.paginate.currentPage) {
-                                if(newPage > paginate.config.numberOfPages) scope.paginate.currentPage=paginate.config.numberOfPages;
-                                else if(newPage < 1) scope.paginate.currentPage=1;
-                                else scope.paginate.currentPage=newPage;
-                                paginate.helpers.handleStepChange();
+                        scope.$watch('page',(newPage,oldPage) => {
+                            if(newPage && oldPage && newPage!==scope.paginate.currentPage) {
+                                scope.page = scope.paginate.currentPage = paginate.helpers.normalizePage(newPage);
+                                paginate.helpers.updateConfig();
+                                paginate.scope.reRender();
                             }
                         });
                     },
@@ -69,10 +69,9 @@ angular.module('cui-ng')
                     }
                 },
                 helpers:{
-                    updateConfigAndRerender:() => {
+                    updateConfig:() => {
                         paginate.config.numberOfPages = paginate.helpers.getNumberOfPages();
                         paginate.config.howManyPagesWeCanShow = paginate.helpers.howManyPagesWeCanShow();
-                        paginate.selectors.$pageContainer.replaceWith(paginate.render.pageContainer());
                     },
                     getNumberOfPages:() => Math.ceil(scope.count()/scope.resultsPerPage()),
                     getWidthOfAPage:() => paginate.helpers.getWidthOfElement($(paginate.render.pageNumber(1))),
@@ -90,17 +89,17 @@ angular.module('cui-ng')
                     },
                     howManyPagesWeCanShow:() => Math.floor(paginate.helpers.getAvailableSpaceForPages()/paginate.helpers.getWidthOfAPage()),
                     handleStepChange:() => {
-                        scope.page = scope.paginate.currentPage;
-                        if(scope.onPageChange()) scope.onPageChange()(scope.paginate.currentPage);
-                        paginate.selectors.$pageContainer.replaceWith(paginate.render.pageContainer());
+                        scope.page = scope.paginate.currentPage = paginate.helpers.normalizePage(scope.paginate.currentPage);
+                        $timeout(()=>{
+                            if(scope.onPageChange()) scope.onPageChange()(scope.paginate.currentPage);
+                            paginate.scope.reRender();
+                        });
                     },
                     resizeHandler:() => {
                         if(!paginate.config.width) paginate.config.width = paginate.selectors.$paginate.width();
                         else if(paginate.selectors.$paginate.width() !== paginate.config.width) {
                             paginate.config.width = paginate.selectors.$paginate.width();
-                            paginate.config.widthOfAPage = paginate.helpers.getWidthOfAPage();
-                            paginate.config.availableSpaceForPages = paginate.helpers.getAvailableSpaceForPages();
-                            paginate.helpers.updateConfigAndRerender();
+                            paginate.helpers.updateConfig();
                         }
                     },
                     whatEllipsesToShow:() => {
@@ -137,6 +136,19 @@ angular.module('cui-ng')
                         if(page === scope.paginate.currentPage) return;
                         scope.paginate.currentPage = paginate.helpers.normalizePage(page);
                         paginate.helpers.handleStepChange();
+                    },
+                    reRender:() => {
+                        paginate.selectors.$pageContainer.replaceWith(paginate.render.pageContainer());
+                    },
+                    updateConfigAndReRender:() => {
+                        paginate.helpers.updateConfig();
+                        if(scope.paginate.currentPage > paginate.config.numberOfPages) {
+                            scope.page = scope.paginate.currentPage = paginate.helpers.normalizePage(scope.paginate.currentPage);
+                            paginate.scope.reRender();
+                        }
+                        else {
+                            paginate.scope.reRender();
+                        }
                     }
                 },
                 render:{
@@ -176,7 +188,7 @@ angular.module('cui-ng')
                     pagesXToY:(x,y) => {
                         let pages=[];
                         do {
-                            const page = paginate.render.pageNumber(x, x===scope.paginate.currentPage);
+                            const page = paginate.render.pageNumber(x, x===(scope.paginate.currentPage || scope.page ));
                             pages.push(page);
                             x++;
                         }
