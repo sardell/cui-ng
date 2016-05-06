@@ -159,6 +159,8 @@ angular.module('cui-ng')
                             currentIndex = 0;
                             return;
                         }
+                        console.log('returns',returnValues);
+                        console.log('model',typeof scope.ngModel);
                         let index = _.findIndex(returnValues, (value) => angular.equals(value,scope.ngModel))
                         if(index > -1){
                             scope.displayValue = displayValues[index];

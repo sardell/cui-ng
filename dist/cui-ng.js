@@ -1,6 +1,6 @@
 'use strict';var _slicedToArray=function(){function sliceIterator(arr,i){var _arr=[];var _n=true;var _d=false;var _e=undefined;try{for(var _i=arr[Symbol.iterator](),_s;!(_n=(_s=_i.next()).done);_n=true){_arr.push(_s.value);if(i&&_arr.length===i)break;}}catch(err){_d=true;_e=err;}finally {try{if(!_n&&_i["return"])_i["return"]();}finally {if(_d)throw _e;}}return _arr;}return function(arr,i){if(Array.isArray(arr)){return arr;}else if(Symbol.iterator in Object(arr)){return sliceIterator(arr,i);}else {throw new TypeError("Invalid attempt to destructure non-iterable instance");}};}();var _typeof=typeof Symbol==="function"&&typeof Symbol.iterator==="symbol"?function(obj){return typeof obj;}:function(obj){return obj&&typeof Symbol==="function"&&obj.constructor===Symbol?"symbol":typeof obj;};function _defineProperty(obj,key,value){if(key in obj){Object.defineProperty(obj,key,{value:value,enumerable:true,configurable:true,writable:true});}else {obj[key]=value;}return obj;}
 
-// cui-ng build Fri May 06 2016 11:39:01
+// cui-ng build Fri May 06 2016 12:20:31
 
 (function(angular){'use strict';
 
@@ -1136,6 +1136,8 @@ scope.ngModel=returnValues[0];
 currentIndex=0;
 return;}
 
+console.log('returns',returnValues);
+console.log('model',_typeof(scope.ngModel));
 var index=_.findIndex(returnValues,function(value){return angular.equals(value,scope.ngModel);});
 if(index>-1){
 scope.displayValue=displayValues[index];
@@ -3352,8 +3354,7 @@ return paginationOptions;};
 
 this.setUserValue=function(value){ // sets the user value so that other pages that use that directive will have that value saved
 try{
-var localStorageService=$injector.get('localStorageService');
-localStorageService.set('resultsPerPage',value);}
+localStorage.setItem('cui.resultsPerPage',value);}
 
 catch(e){}
 userValue=value;};
@@ -3361,8 +3362,7 @@ userValue=value;};
 
 this.getUserValue=function(){
 try{
-var localStorageService=$injector.get('localStorageService');
-userValue=localStorageService.get('resultsPerPage');}
+userValue=parseInt(localStorage.getItem('cui.resultsPerPage'));}
 
 catch(e){}
 return userValue;};
@@ -3397,7 +3397,6 @@ angular.element(elem).replaceWith(element);}};
 
 resultsPerPage.initScope();
 resultsPerPage.render();}};}]);
-
 
 
 
