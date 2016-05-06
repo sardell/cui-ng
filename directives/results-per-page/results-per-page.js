@@ -1,5 +1,5 @@
 angular.module('cui-ng')
-.provider('$pagination', [function() {
+.provider('$pagination', ['$injector',function($injector) {
 	let paginationOptions;
 	let userValue;
 
@@ -12,10 +12,22 @@ angular.module('cui-ng')
 	};
 
 	this.setUserValue = (value) => { // sets the user value so that other pages that use that directive will have that value saved
+		try {
+			const localStorageService = $injector.get('localStorageService');
+			localStorageService.set('resultsPerPage',value);
+		}
+		catch (e){ }
 		userValue = value;
 	};
 
-	this.getUserValue = () => userValue;
+	this.getUserValue = () => {
+		try {
+			const localStorageService=$injector.get('localStorageService');
+			userValue = localStorageService.get('resultsPerPage');
+		}
+		catch (e){ }
+		return userValue;
+	}
 
 	this.$get = () => this;
 }])
