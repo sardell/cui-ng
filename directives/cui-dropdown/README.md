@@ -13,8 +13,8 @@ Cui-dropdown generates a dropdown with the help of tether.
 
 ### Optional attributes
 
- * `class`: (default 'cui-input') Class or classes to be applied to the div that holds the selected value
- * `dropdown-class`: (default 'cui-dropdown') Class to be applied to the dropdown
+ * `class`: (default 'cui-dropdown') Class or classes to be applied to the div that holds the selected value
+ * `dropdown-class`: (default 'cui-dropdown__wrapper') Class to be applied to the dropdown
  * `dropdown-item-class`: (default 'cui-dropdown__item') Class to be applied to each item in the dropdown
  * `attachment`: (default 'top middle') Tether attachment
  * `target-attachment`: (default 'bottom middle') Tether target attachment
@@ -25,3 +25,7 @@ Cui-dropdown generates a dropdown with the help of tether.
 ## Change Log 4/11/2016
 
  * You can now add a default option ( with the attribute default-option, which you can pass a string or a filter with the parenthesis syntax ) and `ng-required` validation (you have to use default-option for this to work). Note that if you set a default option, but your ng-model matches one of the return-values, then the dropdown will still auto-select the option that contains that value.
+
+## Change Log 5/3/2016
+
+* We can now loop over an object's key value pairs, simply put that object in the `options` and use "key" or "value" in `return-value` or `display-value`.

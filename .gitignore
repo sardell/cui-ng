@@ -9,7 +9,10 @@ results/
 **/.DS_store
 .tmp/
 build/
-assets/css/*.css
+assets/css/
+assets/concatJs/
+assets/templateCache.js
+.npmrc
 
 *sublime*
 

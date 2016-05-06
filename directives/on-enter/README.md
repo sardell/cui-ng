@@ -3,7 +3,7 @@ Version 1.0
 
 
 ## Description
-Fires a certain function when the element it's applied on receive an 'enter' keypress.
+Fires a certain function when the element it's applied on receives an 'enter' keypress.
 
 ## How to use
 

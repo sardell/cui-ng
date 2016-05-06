@@ -1,5 +1,5 @@
 angular.module('cui-ng')
-.directive('cuiDropdown', ['$compile','$timeout','$filter',function($compile,$timeout,$filter) {
+.directive('cuiDropdown', ['$compile','$timeout','$filter',($compile,$timeout,$filter) => {
     return {
         require:'ngModel',
         restrict: 'E',
@@ -8,27 +8,25 @@ angular.module('cui-ng')
             options:'&',
             constraints: '&'
         },
-        link: function(scope, elem, attrs, ctrl) {
-            var id=scope.$id;
-            var self,newScope,formName,inputName=('cuiDropdown'+id);
-            var cuiDropdown = {
-                initScope: function() {
-                    self = this;
+        link: (scope, elem, attrs, ctrl) => {
+            const id=scope.$id, inputName=(`cuiDropdown${id}`);
+            let self, newScope, dropdownScope, formName, currentIndex;
+
+            const cuiDropdown = {
+                initScope: () => {
                     if(attrs.ngRequired || attrs.required){
-                        ctrl.$validators['required']=function(){
-                           return ctrl.$viewValue!==null;
-                        };
+                        ctrl.$validators['required'] = () => ctrl.$viewValue!==null;
                     }
-                    angular.forEach(self.watchers,function(initWatcher){
+                    angular.forEach(cuiDropdown.watchers,(initWatcher) => {
                         initWatcher();
                     });
-                    angular.forEach(self.scope,function(value,key){
+                    angular.forEach(cuiDropdown.scope,(value,key) => {
                         scope[key]=value;
                     });
                 },
                 config: {
                     inputClass: attrs.class || 'cui-dropdown',
-                    dropdownWrapperClass: attrs.dropdownClass || 'cui-dropdown__current-value',
+                    dropdownWrapperClass: attrs.dropdownClass || 'cui-dropdown__wrapper',
                     dropdownItemClass: attrs.dropdownItemClass || 'cui-dropdown__item',
                     attachment: attrs.attachment || 'top left',
                     targetAttachment: attrs.targetAttachment || 'top left',
@@ -45,46 +43,44 @@ angular.module('cui-ng')
                     $body: angular.element(document.body)
                 },
                 watchers:{
-                    dropdownClick:function(){
-                        scope.$on(id.toString(),self.helpers.reassignModel); // each dropdown item broadcasts the cui-dropdown scope id and passes the index of the choice
+                    dropdownClick:() => {
+                        scope.$on(id.toString(),cuiDropdown.helpers.reassignModel); // each dropdown item broadcasts the cui-dropdown scope id and passes the index of the choice
                     },
-                    languageChange:function(){
-                        scope.$on('languageChange',self.helpers.handleLanguageChange)
+                    languageChange:() => {
+                        scope.$on('languageChange',cuiDropdown.helpers.handleLanguageChange)
                     },
-                    options:function(){
-                        scope.$watch(scope.options,function(newOptions,oldOptions){
+                    options:() => {
+                        scope.$watch(scope.options,(newOptions,oldOptions) => {
                             if(newOptions) {
-                                self.helpers.setInitialInputValue();
-                                self.render.currentValueBox();
+                                cuiDropdown.helpers.setInitialInputValue();
+                                cuiDropdown.render.currentValueBox();
                             }
-                        },function(newOptions,oldOptions){
-                            return !angular.equals(newOptions,oldOptions);
-                        });
+                        },(newOptions,oldOptions) => !angular.equals(newOptions,oldOptions));
                     }
                 },
                 scope:{
-                    renderDropdown:function(){
-                        if(!self.selectors.$dropdown){
-                            self.render.dropdown();
+                    toggleDropdown:() => {
+                        if(!cuiDropdown.selectors.$dropdown){
+                            cuiDropdown.render.dropdown();
                         }
+                        else cuiDropdown.scope.destroyDropdown();
                     },
                     destroyDropdown:function(){
-                        if(self.selectors.$dropdown) {
-                            self.selectors.$dropdown.detach();
-                            self.selectors.$dropdown=null;
+                        if(cuiDropdown.selectors.$dropdown) {
+                            dropdownScope.$destroy();
+                            cuiDropdown.selectors.$dropdown.detach();
+                            cuiDropdown.selectors.$dropdown=null;
                         }
                     }
                 },
                 helpers: {
-                    getOptions:function(){
-                        return scope.options();
-                    },
-                    getKeyValue:function(keyString,object){
-                        var keys=keyString.split('.').slice(1);
+                    getOptions:() => scope.options(),
+                    getKeyValue:(keyString,object) => {
+                        const keys=keyString.split('.').slice(1);
+                        let returnValue;
                         if(keys.length===0) return object;
                         else {
-                            var returnValue;
-                            var i=0;
+                            let i=0;
                             do {
                                 returnValue? returnValue=returnValue[keys[i]] : returnValue=object[keys[i]];
                                 i++;
@@ -93,113 +89,133 @@ angular.module('cui-ng')
                         }
                         return returnValue;
                     },
-                    getOptionDisplayValues:function(){
-                        var displayValues=[];
-                        if(self.config.defaultOption) {
-                            if(self.config.defaultOptionValue.indexOf('(')>-1){
-                                var arrayWithKeyAndFilter=self.config.displayValue.replace(/( |\)|\))/g,'').split('|');
-                                var filter=arrayWithKeyAndFilter[1];
-                                var keyString=arrayWithKeyAndFilter[0];
+                    getOptionDisplayValues:() => {
+                        let displayValues = [];
+                        let [ keyString, filter ] = cuiDropdown.config.displayValue.replace(/( |\)|\))/g,'').split('|');
+                        const { defaultOption, defaultOptionValue, displayValue } = cuiDropdown.config;
+                        if(defaultOption) {
+                            if(defaultOptionValue.indexOf('(')>-1){
                                 displayValues.push($filter(filter)(keyString));
                             }
-                            else displayValues.push(self.config.defaultOptionValue);
+                            else displayValues.push(defaultOptionValue);
                         }
-                        if(self.config.displayValue.indexOf('(')>-1){
-                            var arrayWithKeyAndFilter=self.config.displayValue.replace(/( |\)|\))/g,'').split('|');
-                            var filter=arrayWithKeyAndFilter[1];
-                            var keyString=arrayWithKeyAndFilter[0];
-                        }
-                        else var keyString=self.config.displayValue;
-                        scope.options().forEach(function(option){
-                            if(filter) displayValues.push($filter(filter)(self.helpers.getKeyValue(keyString,option)));
-                            else displayValues.push(self.helpers.getKeyValue(keyString,option));
-                        });
+                        if( displayValue.indexOf('(') < 0 ) keyString = displayValue;
+
+                        switch (displayValue){
+                            case 'value': // if we just want to display values from an object
+                                angular.forEach(scope.options(),(val)=>{
+                                    displayValues.push(val);
+                                });
+                                break;
+                            case 'key':
+                                angular.forEach(scope.option(),(val,key)=>{ // if we just want to display the keys from an object
+                                    displayValues.push(key);
+                                });
+                                break;
+                            default:
+                                scope.options().forEach((option) => {
+                                    if(displayValue.indexOf('|') >= 0) displayValues.push($filter(filter)(cuiDropdown.helpers.getKeyValue(keyString,option))); // if we're using a filter
+                                    else displayValues.push(cuiDropdown.helpers.getKeyValue(keyString,option)); // else just get the correct key from the option object
+                                });
+                        };
                         return displayValues;
                     },
-                    getOptionReturnValues:function(){
-                        var returnValues=[];
-                        if(self.config.defaultOption) {
-                            returnValues.push(null);
-                        }
-                        scope.options().forEach(function(option){
-                            returnValues.push(self.helpers.getKeyValue(self.config.returnValue,option));
-                        });
+                    getOptionReturnValues:() => {
+                        let returnValues=[];
+                        const { defaultOption, returnValue } = cuiDropdown.config;
+                        if(defaultOption) returnValues.push(null); // if there's a default option it won't have any return value
+                        switch (returnValue){
+                            case 'value':
+                                angular.forEach(scope.options(),(val)=>{
+                                    returnValues.push(val);
+                                });
+                                break;
+                            case 'key':
+                                angular.forEach(scope.options(),(val,key)=>{
+                                    returnValues.push(key);
+                                });
+                                break;
+                            default:
+                                angular.forEach(scope.options(),(val)=>{
+                                    returnValues.push(val);
+                                });
+                        };
                         return returnValues;
                     },
-                    getDropdownItem:function(index,displayValue){
-                        var ngClick=' ng-click="$root.$broadcast(\''+ id + '\',' + index + ')" ';
+                    getDropdownItem:(index,displayValue) => {
+                        let ngClick=`$root.$broadcast('${id}',${index})`;
                         return $compile(
-                            String.prototype.concat('<div class="', self.config.dropdownItemClass,'"',ngClick,'>',
-                                displayValue,
-                            '</div>')
+                            `<div class="${cuiDropdown.config.dropdownItemClass}" ng-click="${ngClick}">
+                                ${displayValue}
+                            </div>`
                         )(scope);
                     },
-                    setInitialInputValue:function(){
-                        var displayValues=self.helpers.getOptionDisplayValues();
-                        var returnValues=self.helpers.getOptionReturnValues();
+                    setInitialInputValue:() => {
+                        const displayValues = cuiDropdown.helpers.getOptionDisplayValues();
+                        const returnValues = cuiDropdown.helpers.getOptionReturnValues();
                         if(!scope.ngModel) {
-                            scope.displayValue=displayValues[0];
-                            scope.ngModel=returnValues[0];
+                            scope.displayValue = displayValues[0];
+                            scope.ngModel = returnValues[0];
+                            currentIndex = 0;
                             return;
                         }
-                        var index=_.findIndex(returnValues, function(value) {
-                            return angular.equals(value,scope.ngModel)
-                        });
-                        if(index>-1){
-                            scope.displayValue=displayValues[index];
+                        let index = _.findIndex(returnValues, (value) => angular.equals(value,scope.ngModel))
+                        if(index > -1){
+                            scope.displayValue = displayValues[index];
+                            currentIndex = index;
                         }
                         else {
-                            scope.displayValue=displayValues[0];
-                            scope.ngModel=returnValues[0];
+                            scope.displayValue = displayValues[0];
+                            scope.ngModel = returnValues[0];
+                            currentIndex = 0;
                         }
                     },
-                    reassignModel:function(e,index){
-                        var index=parseInt(index);
-                        var displayValues=self.helpers.getOptionDisplayValues();
-                        var returnValues=self.helpers.getOptionReturnValues();
-                        scope.displayValue=displayValues[index];
-                        scope.ngModel=returnValues[index];
-                        self.scope.destroyDropdown();
+                    reassignModel:(e,index) => {
+                        if(typeof index === 'number'){
+                          currentIndex = index;
+                        }
+                        else {
+                          index = currentIndex;
+                        }
+                        const displayValues = cuiDropdown.helpers.getOptionDisplayValues();
+                        const returnValues=cuiDropdown.helpers.getOptionReturnValues();
+                        scope.displayValue = displayValues[index];
+                        scope.ngModel = returnValues[index];
+                        cuiDropdown.scope.destroyDropdown();
                     },
-                    handleLanguageChange:function(){
-                        self.helpers.reassignModel();
+                    handleLanguageChange:() => {
+                        cuiDropdown.helpers.reassignModel();
                     }
                 },
                 render: {
-                    currentValueBox: function() {
+                    currentValueBox: () => {
                         if(newScope) newScope.$destroy(); // this makes sure that if the input has been rendered once the off click handler is removed
-                        newScope=scope.$new();
-                        var element = $compile(
-                            String.prototype.concat(
-                                '<div class="', self.config.inputClass, '" ng-click="renderDropdown()" off-click="destroyDropdown()">',
-                                    '{{displayValue}}',
-                                '</div>'
-                            )
+                        newScope = scope.$new();
+                        const element = $compile(
+                            `<div class="${cuiDropdown.config.inputClass}" ng-click="toggleDropdown()" off-click="destroyDropdown()" id="cui-dropdown-${id}">
+                                {{displayValue}}
+                            </div>`
                         )(newScope);
-                        self.selectors.$cuiDropdown.replaceWith(element);
-                        self.selectors.$cuiDropdown=element;
+                        cuiDropdown.selectors.$cuiDropdown.replaceWith(element);
+                        cuiDropdown.selectors.$cuiDropdown=element;
                     },
-
-                    dropdown: function() {
-                        var dropdown = $compile(
-                            String.prototype.concat(
-                                '<div class="', self.config.dropdownWrapperClass, '">',
-                                '</div>'
-                            )
-                        )(scope);
-                        var displayValues=self.helpers.getOptionDisplayValues();
-                        displayValues.forEach(function(value,i){
-                            dropdown.append(self.helpers.getDropdownItem(i,value));
+                    dropdown: () => {
+                        if(dropdownScope) dropdownScope.$destroy();
+                        dropdownScope = scope.$new();
+                        const dropdown = $compile(`<div class="${cuiDropdown.config.dropdownWrapperClass}" off-click-filter="#cui-dropdown-${id}"></div>`)(dropdownScope);
+                        const displayValues=cuiDropdown.helpers.getOptionDisplayValues();
+                        displayValues.forEach((value,i) => {
+                            dropdown.append(cuiDropdown.helpers.getDropdownItem(i,value));
                         });
-                        dropdown.width(self.selectors.$cuiDropdown.outerWidth()*0.9);
-                        self.selectors.$dropdown=dropdown;
-                        self.selectors.$body.append(dropdown);
+                        dropdown.width(cuiDropdown.selectors.$cuiDropdown.outerWidth() * 0.9);
+                        cuiDropdown.selectors.$dropdown = dropdown;
+                        cuiDropdown.selectors.$body.append(dropdown);
                         new Tether({
-                            element:self.selectors.$dropdown[0],
-                            target:self.selectors.$cuiDropdown[0],
-                            attachment:self.config.attachment,
-                            targetAttachment:self.config.targetAttachment,
-                            constraints:scope.constraints() || self.config.defaultConstraints
+                            element:cuiDropdown.selectors.$dropdown[0],
+                            target:cuiDropdown.selectors.$cuiDropdown[0],
+                            attachment:cuiDropdown.config.attachment,
+                            targetAttachment:cuiDropdown.config.targetAttachment,
+                            constraints:scope.constraints() || cuiDropdown.config.defaultConstraints
                         });
                     }
                 }

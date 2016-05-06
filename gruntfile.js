@@ -1,5 +1,8 @@
 module.exports = function(grunt) {
   require('load-grunt-tasks')(grunt);
+  var vars = {
+    dateTime:grunt.template.today('default')
+  };
   grunt.initConfig ({
     watch:{
       css:{
@@ -7,8 +10,8 @@ module.exports = function(grunt) {
         tasks: ['sass']
       },
       scripts:{
-        files: ['providers/**/*.js','filters/**/*.js','directives/**/*.js','utilities/**/*.js'],
-        tasks: ['concat'],
+        files: ['providers/**/*.js','filters/**/*.js','directives/**/*.js','utilities/**/*.js','assets/app/**/*.js'],
+        tasks: ['concat:dev','concat:build'],
         options: {
           spawn: false,
         },
@@ -27,7 +30,7 @@ module.exports = function(grunt) {
             src : [
                 '**/*.html',
                 'dist/*.js',
-                'assets/scripts/*.js',
+                'assets/app/**/*.js',
                 '**/*.css'
             ]
         },
@@ -77,10 +80,19 @@ module.exports = function(grunt) {
     concat: {
       options: {
            separator: '\n\n',
+           banner: grunt.template.process('\n\n// cui-ng build <%= dateTime %>\n\n', {data: vars})
       },
-      dist: {
+      dev:{
+        src: ['modules/app.intro.js','assets/app/**/*.js','modules/app.outro.js'],
+        dest: 'assets/concatJs/app.js'
+      },
+      build: {
         src: ['modules/cui-ng.intro.js','providers/**/*.js','filters/**/*.js','directives/**/*.js','utilities/**/*.js','modules/cui-ng.outro.js'],
         dest: 'dist/cui-ng.js'
+      },
+      buildDemo: {
+        src: ['modules/app.intro.js','assets/templateCache.js','assets/app/**/*.js','modules/app.outro.js'],
+        dest: 'assets/concatJs/app.js'
       }
     },
     filerev:{
@@ -93,8 +105,12 @@ module.exports = function(grunt) {
         src: 'index.html',
         dest: 'build/index.html'
       },
-      angularTemplates: {
-        src: 'assets/angular-templates/**/*.html',
+      appConfig: {
+        src: 'appConfig.json',
+        dest: 'build/appConfig.json'
+      },
+      svgs : {
+        src: 'bower_components/cui-icons/dist/**/*.svg',
         dest: 'build/'
       },
       languageFiles: {
@@ -105,16 +121,8 @@ module.exports = function(grunt) {
         src: 'bower_components/angular-i18n/*.js',
         dest: 'build/'
       },
-      svgList: {
-        src: 'bower_components/cui-icons/iconList',
-        dest: 'build/'
-      },
-      svgs: {
-        src: ['bower_components/cui-icons/dist/**/*.svg'],
-        dest: 'build/'
-      },
-      countries: {
-        src: ['bower_components/cui-i18n/dist/cui-i18n/angular-translate/countries/*.json'],
+      cuiI18n: {
+        src: ['bower_components/cui-i18n/dist/cui-i18n/angular-translate/**/*.json'],
         dest: 'build/'
       },
       lato:{
@@ -129,7 +137,15 @@ module.exports = function(grunt) {
     },
     uglify: {
       options: {
+        sourceMap: true,
         mangle: false
+      },
+      dist: {
+        src:'dist/cui-ng.js',
+        dest:'dist/cui-ng.min.js',
+        options:{
+          mangle:true
+        }
       }
     },
     jasmine: {
@@ -143,11 +159,47 @@ module.exports = function(grunt) {
     },
     jshint: {
       all: ['directives/**/*.js','utilities/**/*.js']
+    },
+    ngtemplates: {
+      app: {
+        src: 'assets/app/**/*.html',
+        dest: 'assets/templateCache.js',
+        options: {
+          htmlmin: {
+            collapseBooleanAttributes: true,
+            collapseWhiteSpace: true,
+            removeAttributeQuotes: true,
+            removeComments: true,
+            removeEmptyAttributes: true,
+            removeReduntantAttributes: true,
+            removeScriptTypeAttributes: true,
+            removeStyleLinkAttributes: true
+          },
+          module: 'app'
+        }
+      }
+    },
+    babel: {
+      options: {
+        sourceMap: true,
+        presets: ['es2015'],
+        retainLines:true
+      },
+      dev: {
+        files: {
+          'assets/concatJs/app.js': 'assets/concatJs/app.js'
+        }
+      },
+      build: {
+        files: {
+          'dist/cui-ng.js': 'dist/cui-ng.js'
+        }
+      }
     }
   });
 
-  grunt.registerTask('default', ['sass','concat','browserSync:dev','watch']);
-  grunt.registerTask('build', ['sass','clean','copy','concat','useminPrepare','concat:generated','cssmin:generated','uglify:generated','filerev','usemin']);
+  grunt.registerTask('default', ['sass','concat:dev','concat:build','babel','browserSync:dev','watch']);
+  grunt.registerTask('build', ['ngtemplates','sass','clean','copy','concat:build','concat:buildDemo','babel:build','uglify:dist','useminPrepare','concat:generated','cssmin:generated','uglify:generated','filerev','usemin']);
   grunt.registerTask('demo', ['browserSync:demo']);
   grunt.registerTask('test', ['concat','jasmine']);
   grunt.registerTask('lint', ['jshint']);
