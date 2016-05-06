@@ -23,6 +23,7 @@ angular.module('cui.authorization',[])
           stateName = nonAuthState;
         default :
           notify = true;
+          break;
         case 'authorized':
           stateName = toState.name;
           notify = false;

@@ -1,5 +1,5 @@
 angular.module('cui-ng')
-.provider('$pagination', ['$injector',function($injector) {
+.provider('$pagination', [function() {
 	let paginationOptions;
 	let userValue;
 
