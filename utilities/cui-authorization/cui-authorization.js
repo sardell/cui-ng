@@ -1,14 +1,17 @@
 const goToState = ($state,$rootScope,stateName,toState,toParams,fromState,fromParams) => {
   $state.go(stateName,toParams,{ notify:false }).then(()=>{
-    $rootScope.$broadcast('$stateChangeSuccess',toState,toParams,fromState,fromParams);
+    $rootScope.$broadcast('$stateChangeSuccess',{toState,toParams,fromState,fromParams});
   });
 };
 
 
 angular.module('cui.authorization',[])
-.factory('cui.authorization.routing', ['cui.authorization.authorize', '$timeout','$rootScope','$state',(authorize,$timeout,$rootScope,$state) => {
+.factory('cui.authorization.routing', ['cui.authorization.authorize', '$timeout','$rootScope','$state','PubSub',(authorize,$timeout,$rootScope,$state,PubSub) => {
   const routing = (toState, toParams, fromState, fromParams, userEntitlements,loginRequiredState='loginRequired',nonAuthState='notAuthorized') => {
+    PubSub.publish('stateChange',{ toState, toParams, fromState, fromParams });
+
     let authorized;
+
     if (toState.access !== undefined) {
       authorized = authorize.authorize(toState.access.loginRequired, toState.access.requiredEntitlements, toState.access.entitlementType, userEntitlements);
 

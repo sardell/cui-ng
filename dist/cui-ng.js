@@ -1,6 +1,6 @@
 'use strict';var _slicedToArray=function(){function sliceIterator(arr,i){var _arr=[];var _n=true;var _d=false;var _e=undefined;try{for(var _i=arr[Symbol.iterator](),_s;!(_n=(_s=_i.next()).done);_n=true){_arr.push(_s.value);if(i&&_arr.length===i)break;}}catch(err){_d=true;_e=err;}finally {try{if(!_n&&_i["return"])_i["return"]();}finally {if(_d)throw _e;}}return _arr;}return function(arr,i){if(Array.isArray(arr)){return arr;}else if(Symbol.iterator in Object(arr)){return sliceIterator(arr,i);}else {throw new TypeError("Invalid attempt to destructure non-iterable instance");}};}();var _typeof=typeof Symbol==="function"&&typeof Symbol.iterator==="symbol"?function(obj){return typeof obj;}:function(obj){return obj&&typeof Symbol==="function"&&obj.constructor===Symbol?"symbol":typeof obj;};function _defineProperty(obj,key,value){if(key in obj){Object.defineProperty(obj,key,{value:value,enumerable:true,configurable:true,writable:true});}else {obj[key]=value;}return obj;}
 
-// cui-ng build Tue May 10 2016 13:41:23
+// cui-ng build Tue May 10 2016 16:50:58
 
 (function(angular){'use strict';
 
@@ -45,6 +45,160 @@ if(languageObjectToUse!=undefined)return languageObjectToUse.text||languageObjec
 this.$get=function(){
 return this;};}]);
 
+
+
+angular.module('cui-ng').
+factory('PubSub',['$timeout',function($timeout){
+/**
+     * Alias a method while keeping the context correct,
+     * to allow for overwriting of target method.
+     *
+     * @param {String} fn The name of the target method.
+     * @returns {Function} The aliased method.
+     */
+function alias(fn){
+return function closure(){
+return this[fn].apply(this,arguments);};}
+
+
+
+var PubSub={
+topics:{}, // Storage for topics that can be broadcast or listened to.
+subUid:-1 // A topic identifier.
+};
+
+/**
+     * Subscribe to events of interest with a specific topic name and a
+     * callback function, to be executed when the topic/event is observed.
+     *
+     * @param topic {String} The topic name.
+     * @param callback {Function} Callback function to execute on event.
+     * @param once {Boolean} Checks if event will be triggered only one time (optional).
+     * @returns number token
+     */
+PubSub.subscribe=function(topic,callback,once){
+var token=this.subUid+=1,
+obj={};
+
+if(!this.topics[topic]){
+this.topics[topic]=[];}
+
+
+obj.token=token;
+obj.callback=callback;
+obj.once=!!once;
+
+this.topics[topic].push(obj);
+
+return token;};
+
+
+/**
+     * Subscribe to events of interest setting a flag
+     * indicating the event will be published only one time.
+     *
+     * @param topic {String} The topic name.
+     * @param callback {Function} Callback function to execute on event.
+     */
+PubSub.subscribeOnce=function(topic,callback){
+return this.subscribe(topic,callback,true);};
+
+
+/**
+     * Publish or broadcast events of interest with a specific
+     * topic name and arguments such as the data to pass along.
+     *
+     * @param topic {String} The topic name.
+     * @param args {Object || Array} The data to be passed.
+     * @return bool false if topic does not exist.
+     * @returns bool true if topic exists and event is published.
+     */
+PubSub.publish=function(topic,args){
+var that=this,
+subscribers,
+len;
+
+if(!this.topics[topic]){
+return false;}
+
+
+$timeout(function(){
+subscribers=that.topics[topic];
+len=subscribers?subscribers.length:0;
+
+while(len){
+len-=1;
+subscribers[len].callback(topic,args);
+
+// Unsubscribe from event based on tokenized reference,
+// if subscriber's property once is set to true.
+if(subscribers[len].once===true){
+that.unsubscribe(subscribers[len].token);}}},
+
+
+0);
+
+return true;};
+
+
+/**
+     * Unsubscribe from a specific topic, based on  the topic name,
+     * or based on a tokenized reference to the subscription.
+     *
+     * @param t {String || Object} Topic name or subscription referenece.
+     * @returns {*} bool false if argument passed does not match a subscribed event.
+     */
+PubSub.unsubscribe=function(t){
+var prop,
+len,
+tf=false;
+
+for(prop in this.topics){
+if(this.topics.hasOwnProperty(prop)){
+if(this.topics[prop]){
+len=this.topics[prop].length;
+
+while(len){
+len-=1;
+
+// If t is a tokenized reference to the subscription.
+// Removes one subscription from the array.
+if(this.topics[prop][len].token===t){
+this.topics[prop].splice(len,1);
+return t;}
+
+
+// If t is the event type.
+// Removes all the subscriptions that match the event type.
+if(prop===t){
+this.topics[prop].splice(len,1);
+tf=true;}}
+
+
+
+if(tf===true){
+return t;}}}}
+
+
+
+
+
+return false;};
+
+
+/**
+     * Alias for public methods.
+     * subscribe     -> on
+     * subscribeOnce -> once
+     * publish       -> trigger
+     * unsubscribe   -> off
+     */
+PubSub.on=alias('subscribe');
+PubSub.once=alias('subscribeOnce');
+PubSub.trigger=alias('publish');
+PubSub.off=alias('unsubscribe');
+
+return PubSub;}]);
 
 
 angular.module('cui-ng').
@@ -4478,10 +4632,12 @@ elem[0].classList.remove('hide--opacity');});}};}]);
 
 
 angular.module('cui-ng').
-directive('uiSrefActiveNested',['$state',function($state){
+directive('uiSrefActiveNested',['$state','PubSub',function($state,PubSub){
 return {
 restrict:'A',
-link:function link(scope,elem,attrs){
+compile:function compile(){
+return {
+pre:function pre(scope,elem,attrs){
 var parentState=void 0;
 if(!attrs.uiSref){
 throw 'ui-sref-active-nested can only be used on elements with a ui-sref attribute';
@@ -4493,16 +4649,23 @@ parentState=attrs.uiSref.split('.')[0];}
 
 // else if it's a parent state
 else parentState=attrs.uiSref;
-scope.$on('$stateChangeStart',applyActiveClassIfNestedState);
 
-var applyActiveClassIfNestedState=function applyActiveClassIfNestedState(e,toState){
+var applyActiveClassIfNestedState=function applyActiveClassIfNestedState(e,_ref){var toState=_ref.toState;var toParams=_ref.toParams;var fromState=_ref.fromState;var fromParams=_ref.fromParams;
 if(toState.name.indexOf('.')>-1&&toState.name.split('.')[0]===parentState){
 elem[0].classList.add(attrs.uiSrefActiveNested);}else 
 
 if(toState.name.indexOf('.')===-1&&toState.name===parentState){
 elem[0].classList.add(attrs.uiSrefActiveNested);}else 
 
-elem[0].classList.remove(attrs.uiSrefActiveNested);};}};}]);
+elem[0].classList.remove(attrs.uiSrefActiveNested);};
+
+
+PubSub.subscribe('stateChange',applyActiveClassIfNestedState);
+
+scope.$on('$destroy',function(){
+PubSub.unsubscribe('stateChange');});}};}};}]);
+
+
 
 
 
@@ -4510,15 +4673,18 @@ elem[0].classList.remove(attrs.uiSrefActiveNested);};}};}]);
 
 var goToState=function goToState($state,$rootScope,stateName,toState,toParams,fromState,fromParams){
 $state.go(stateName,toParams,{notify:false}).then(function(){
-$rootScope.$broadcast('$stateChangeSuccess',toState,toParams,fromState,fromParams);});};
+$rootScope.$broadcast('$stateChangeSuccess',{toState:toState,toParams:toParams,fromState:fromState,fromParams:fromParams});});};
 
 
 
 
 angular.module('cui.authorization',[]).
-factory('cui.authorization.routing',['cui.authorization.authorize','$timeout','$rootScope','$state',function(authorize,$timeout,$rootScope,$state){
+factory('cui.authorization.routing',['cui.authorization.authorize','$timeout','$rootScope','$state','PubSub',function(authorize,$timeout,$rootScope,$state,PubSub){
 var routing=function routing(toState,toParams,fromState,fromParams,userEntitlements){var loginRequiredState=arguments.length<=5||arguments[5]===undefined?'loginRequired':arguments[5];var nonAuthState=arguments.length<=6||arguments[6]===undefined?'notAuthorized':arguments[6];
+PubSub.publish('stateChange',{toState:toState,toParams:toParams,fromState:fromState,fromParams:fromParams});
+
 var authorized=void 0;
+
 if(toState.access!==undefined){
 authorized=authorize.authorize(toState.access.loginRequired,toState.access.requiredEntitlements,toState.access.entitlementType,userEntitlements);
 
