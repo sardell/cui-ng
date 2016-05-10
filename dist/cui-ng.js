@@ -1,6 +1,6 @@
 'use strict';var _slicedToArray=function(){function sliceIterator(arr,i){var _arr=[];var _n=true;var _d=false;var _e=undefined;try{for(var _i=arr[Symbol.iterator](),_s;!(_n=(_s=_i.next()).done);_n=true){_arr.push(_s.value);if(i&&_arr.length===i)break;}}catch(err){_d=true;_e=err;}finally {try{if(!_n&&_i["return"])_i["return"]();}finally {if(_d)throw _e;}}return _arr;}return function(arr,i){if(Array.isArray(arr)){return arr;}else if(Symbol.iterator in Object(arr)){return sliceIterator(arr,i);}else {throw new TypeError("Invalid attempt to destructure non-iterable instance");}};}();var _typeof=typeof Symbol==="function"&&typeof Symbol.iterator==="symbol"?function(obj){return typeof obj;}:function(obj){return obj&&typeof Symbol==="function"&&obj.constructor===Symbol?"symbol":typeof obj;};function _defineProperty(obj,key,value){if(key in obj){Object.defineProperty(obj,key,{value:value,enumerable:true,configurable:true,writable:true});}else {obj[key]=value;}return obj;}
 
-// cui-ng build Fri May 06 2016 17:00:11
+// cui-ng build Tue May 10 2016 13:41:23
 
 (function(angular){'use strict';
 
@@ -4508,11 +4508,9 @@ elem[0].classList.remove(attrs.uiSrefActiveNested);};}};}]);
 
 
 
-var goToState=function goToState($state,$rootScope,stateName,toState,toParams,fromState,fromParams,$timeout,notify){
-$timeout(function(){
-$state.go(stateName,toParams,{notify:notify}).then(function(){
-$rootScope.$broadcast('$stateChangeSuccess',toState,toParams,fromState,fromParams);});});};
-
+var goToState=function goToState($state,$rootScope,stateName,toState,toParams,fromState,fromParams){
+$state.go(stateName,toParams,{notify:false}).then(function(){
+$rootScope.$broadcast('$stateChangeSuccess',toState,toParams,fromState,fromParams);});};
 
 
 
@@ -4524,7 +4522,7 @@ var authorized=void 0;
 if(toState.access!==undefined){
 authorized=authorize.authorize(toState.access.loginRequired,toState.access.requiredEntitlements,toState.access.entitlementType,userEntitlements);
 
-var stateName=void 0,notify=void 0;
+var stateName=void 0;
 
 switch(authorized){
 case 'login required':
@@ -4532,18 +4530,16 @@ stateName=loginRequiredState;
 case 'not authorized':
 stateName=nonAuthState;
 default:
-notify=true;
 break;
 case 'authorized':
 stateName=toState.name;
-notify=false;
 break;}
 ;
 
-goToState($state,$rootScope,stateName,toState,toParams,fromState,fromParams,$timeout,notify);}else 
+goToState($state,$rootScope,stateName,toState,toParams,fromState,fromParams);}else 
 
 {
-goToState($state,$rootScope,toState.name,toState,toParams,fromState,fromParams,$timeout,false);}};
+goToState($state,$rootScope,toState.name,toState,toParams,fromState,fromParams);}};
 
 
 

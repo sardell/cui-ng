@@ -1,8 +1,6 @@
-const goToState = ($state,$rootScope,stateName,toState,toParams,fromState,fromParams,$timeout,notify) => {
-  $timeout(()=>{
-    $state.go(stateName,toParams,{ notify }).then(()=>{
-      $rootScope.$broadcast('$stateChangeSuccess',toState,toParams,fromState,fromParams);
-    });
+const goToState = ($state,$rootScope,stateName,toState,toParams,fromState,fromParams) => {
+  $state.go(stateName,toParams,{ notify:false }).then(()=>{
+    $rootScope.$broadcast('$stateChangeSuccess',toState,toParams,fromState,fromParams);
   });
 };
 
@@ -14,7 +12,7 @@ angular.module('cui.authorization',[])
     if (toState.access !== undefined) {
       authorized = authorize.authorize(toState.access.loginRequired, toState.access.requiredEntitlements, toState.access.entitlementType, userEntitlements);
 
-      let stateName,notify;
+      let stateName;
 
       switch (authorized){
         case 'login required':
@@ -22,18 +20,16 @@ angular.module('cui.authorization',[])
         case 'not authorized':
           stateName = nonAuthState;
         default :
-          notify = true;
           break;
         case 'authorized':
           stateName = toState.name;
-          notify = false;
           break;
       };
 
-      goToState($state,$rootScope,stateName,toState,toParams,fromState,fromParams,$timeout,notify);
+      goToState($state,$rootScope,stateName,toState,toParams,fromState,fromParams);
     }
     else {
-      goToState($state,$rootScope,toState.name,toState,toParams,fromState,fromParams,$timeout,false);
+      goToState($state,$rootScope,toState.name,toState,toParams,fromState,fromParams);
     }
   };
 
