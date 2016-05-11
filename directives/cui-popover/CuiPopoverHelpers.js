@@ -127,23 +127,23 @@ angular.module('cui-ng')
                 switch (position) {
                     case 'top':
                         return {
-                            bottom:'0',
+                            bottom:'1px',
                             transform:'translate(-50%,' + (-Math.ceil(parseFloat(containerPadding['padding-bottom'])) + pointerHeight) + 'px)'
                         };
                     case 'bottom':
                         return {
-                            top:'0',
+                            top:'1px',
                             transform: 'translate(-50%,' + (Math.ceil(parseFloat(containerPadding['padding-top'])) - pointerHeight) + 'px)'
                         };
                     case 'left':
                         return {
                             right: (parseFloat(containerPadding['padding-right']) - pointerHeight) + 'px',
-                            transform: 'translate(0,-50%)'
+                            transform: 'translate(-1px,-50%)'
                         };
                     case 'right':
                         return {
                             left: (parseFloat(containerPadding['padding-left']) - pointerHeight) + 'px',
-                            transform: 'translate(0,-50%)'
+                            transform: 'translate(1px,-50%)'
                         };
                 };
             };

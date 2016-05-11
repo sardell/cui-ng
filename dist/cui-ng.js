@@ -1,6 +1,6 @@
 'use strict';var _slicedToArray=function(){function sliceIterator(arr,i){var _arr=[];var _n=true;var _d=false;var _e=undefined;try{for(var _i=arr[Symbol.iterator](),_s;!(_n=(_s=_i.next()).done);_n=true){_arr.push(_s.value);if(i&&_arr.length===i)break;}}catch(err){_d=true;_e=err;}finally {try{if(!_n&&_i["return"])_i["return"]();}finally {if(_d)throw _e;}}return _arr;}return function(arr,i){if(Array.isArray(arr)){return arr;}else if(Symbol.iterator in Object(arr)){return sliceIterator(arr,i);}else {throw new TypeError("Invalid attempt to destructure non-iterable instance");}};}();var _typeof=typeof Symbol==="function"&&typeof Symbol.iterator==="symbol"?function(obj){return typeof obj;}:function(obj){return obj&&typeof Symbol==="function"&&obj.constructor===Symbol?"symbol":typeof obj;};function _defineProperty(obj,key,value){if(key in obj){Object.defineProperty(obj,key,{value:value,enumerable:true,configurable:true,writable:true});}else {obj[key]=value;}return obj;}
 
-// cui-ng build Tue May 10 2016 16:50:58
+// cui-ng build Wed May 11 2016 12:45:17
 
 (function(angular){'use strict';
 
@@ -1587,23 +1587,23 @@ var pointerOffset=function pointerOffset(){
 switch(position){
 case 'top':
 return {
-bottom:'0',
+bottom:'1px',
 transform:'translate(-50%,'+(-Math.ceil(parseFloat(containerPadding['padding-bottom']))+pointerHeight)+'px)'};
 
 case 'bottom':
 return {
-top:'0',
+top:'1px',
 transform:'translate(-50%,'+(Math.ceil(parseFloat(containerPadding['padding-top']))-pointerHeight)+'px)'};
 
 case 'left':
 return {
 right:parseFloat(containerPadding['padding-right'])-pointerHeight+'px',
-transform:'translate(0,-50%)'};
+transform:'translate(-1px,-50%)'};
 
 case 'right':
 return {
 left:parseFloat(containerPadding['padding-left'])-pointerHeight+'px',
-transform:'translate(0,-50%)'};}
+transform:'translate(1px,-50%)'};}
 
 ;};
 
@@ -1703,8 +1703,9 @@ angular.module('cui-ng').
 directive('cuiPopover',['CuiPopoverHelpers','$compile','$timeout','$interval',function(CuiPopoverHelpers,$compile,$timeout,$interval){
 return {
 restrict:'EA',
-scope:{},
-link:function link(scope,elem,attrs){
+compile:function compile(){
+return {
+pre:function pre(scope,elem,attrs){
 var self=void 0,popoverTether=[],repositionedTether=void 0,tetherAttachmentInterval=void 0,targetElementPositionInterval=void 0,elementHtmlInterval=void 0,_elementHtml=void 0,cuiPopoverConfig={},positions=void 0,positionInUse=void 0,trialPosition=void 0;
 
 var cuiPopover={
@@ -1794,15 +1795,6 @@ self.newMode('normal');}},
 100);},
 
 
-targetElementPosition:function targetElementPosition(){
-targetElementPositionInterval=$interval(function(){
-scope.targetPosition=self.selectors.$target.offset();},
-10);
-
-scope.$watch('targetPosition',function(newPosition){
-newPosition&&popoverTether[positionInUse].position();},
-function(newPosition,oldPosition){return newPosition.top!==oldPosition.top||newPosition.left!==oldPosition.left;});},
-
 
 elementHtml:function elementHtml(){
 elementHtmlInterval=$interval(function(){
@@ -1814,11 +1806,20 @@ cuiPopover.render.newHtml(_elementHtml);}},
 100);},
 
 
+targetElementPosition:function targetElementPosition(){
+targetElementPositionInterval=$interval(function(){
+scope.targetPosition=self.selectors.$target.offset();},
+50);
+
+scope.$watch('targetPosition',function(newPosition){
+newPosition&&popoverTether[positionInUse].position();},
+function(newPosition,oldPosition){return newPosition.top!==oldPosition.top||newPosition.left!==oldPosition.left;});},
+
+
 scopeDestroy:function scopeDestroy(){
 scope.$on('$destroy',function(){
 $interval.cancel(tetherAttachmentInterval);
 $interval.cancel(targetElementPositionInterval);
-$interval.cancel(elementHtmlInterval);
 popoverTether[positionInUse].destroy();
 self.selectors[positionInUse].$contentBox&&self.selectors[positionInUse].$contentBox.detach();
 self.selectors[positionInUse].$container&&self.selectors[positionInUse].$container.detach();
@@ -1845,22 +1846,24 @@ self.selectors[positionIndex].$container[0].classList.add('hide--opacity');
 $container.append($pointer);
 self.selectors[positionIndex].$pointer=$pointer;
 
-$timeout(function(){ // this timeout ensures that the content in the element gets compiled before we clone it to the popover.
 var cloneElem=elem.clone();
 cloneElem.css({opacity:'','pointer-events':'',position:''});
 // append the cui-popover to the container and apply the margins to make room for the pointer
 cloneElem.css(getPopoverMargins(opts.position,opts.pointerHeight));
+$compile(cloneElem.contents())(scope);
 self.selectors[positionIndex].$container.append(cloneElem);
 self.selectors[positionIndex].$contentBox=cloneElem;
+
+
 
 angular.element(document.body).append($container);
 popoverTether[positionIndex]=new Tether(self.helpers.getTetherOptions($container,opts));
 
-popoverTether[positionIndex].position();});},
-
+popoverTether[positionIndex].position();},
 
 newHtml:function newHtml(_newHtml){
-self.selectors[positionInUse].$contentBox[0].innerHTML=_newHtml;}},
+var newContent=$compile('<div>'+_newHtml+'</div>')(scope);
+self.selectors[positionInUse].$contentBox.html(newContent);}},
 
 
 newMode:function newMode(_newMode){var 
@@ -1899,7 +1902,8 @@ self.selectors[trialPosition]={};
 var opts=positions[trialPosition];
 self.config(opts);
 self.render.popoverContainer(trialPosition);
-$timeout(function(){
+
+
 if(!popoverTether[trialPosition].element.classList.contains('tether-out-of-bounds')){ // if the new element isn't OOB then use it.
 self.selectors[positionInUse].$container.detach();
 popoverTether[positionInUse].destroy();
@@ -1911,12 +1915,14 @@ if(self.selectors[positionInUse].$container[0].classList.contains('hide--opacity
 { // else just remove all references to it and this function will run again by itself
 self.selectors[trialPosition].$container.detach();
 popoverTether[trialPosition].destroy();
-delete self.selectors[trialPosition];}});}};
+delete self.selectors[trialPosition];}}};
 
 
 
 
-cuiPopover.init();}};}]);
+cuiPopover.init();}};}};}]);
+
+
 
 
 
