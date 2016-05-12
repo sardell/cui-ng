@@ -1,11 +1,15 @@
-<span id="test" ng-click="directives.popoverOpen=true" style="cursor:pointer">Click me!!</span>
+<span id="test" ng-click="directives.popoverOpen=true" style="cursor:pointer" ng-init="directives.arrayOfThings=[1,2,3]">Click me!!</span>
 
 <div cui-popover
   target="#test" pointer-height="13" pointer-width="10"
   popover-positions="[{position:'top', popoverOffset:'10px 0', contentOffset:'0'},'invert','any','hide']"
   off-click="directives.popoverOpen=false" off-click-filter="'#test'"
-  ng-if="directives.popoverOpen" style="height:500px;width:200px;display:inline-block;background:#333;padding:10px;color:#EEE;border-radius:3px">
-    Hi! I'm a popover and I'm responsive!
+  style="height:500px;width:200px;display:inline-block;background:#333;padding:10px;color:#EEE;border-radius:3px">
+    <span ng-repeat='thing in directives.arrayOfThings'>{{thing}}</span>
+    <span ng-click="directives.clickedThing=!directives.clickedThing">Click me</span>
+    {{directives.clickedThing}}
 </div>
 <br/><br/>
+<span ng-click="directives.clickedThing=!directives.clickedThing">Click me</span>
+{{ directives.clickedThing }}
 <a class="cui-link" href="https://github.com/thirdwavellc/cui-ng/tree/master/directives/cui-popover" target="blank">Click here for the extended documentation.</a>

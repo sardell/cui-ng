@@ -145,11 +145,13 @@ angular.module('cui-ng')
                                 $container.append($pointer);
                                 self.selectors[positionIndex].$pointer = $pointer;
 
-                                const cloneElem = elem.clone();
+                                const cloneElem = angular.element(elem[0].outerHTML);
+                                // make sure to not recompile ng-repeats
+                                cloneElem.html($compile('<div>' + elem[0].innerHTML.replace(/ng-repeat="([^"]*)"/g,'') + '</div>')(scope));
+
                                 cloneElem.css({opacity:'','pointer-events':'',position:''});
                                 // append the cui-popover to the container and apply the margins to make room for the pointer
                                 cloneElem.css(getPopoverMargins(opts.position, opts.pointerHeight));
-                                $compile(cloneElem.contents())(scope);
                                 self.selectors[positionIndex].$container.append(cloneElem);
                                 self.selectors[positionIndex].$contentBox = cloneElem;
 
@@ -161,8 +163,8 @@ angular.module('cui-ng')
                                 popoverTether[positionIndex].position();
                             },
                             newHtml:(newHtml) => {
-                                const newContent = $compile('<div>' + newHtml + '</div>')(scope);
-                                self.selectors[positionInUse].$contentBox.html(newContent);
+                                // make sure to not recompile ng-repeats
+                                self.selectors[positionInUse].$contentBox.html($compile('<div>' + newHtml.replace(/ng-repeat="([^"]*)"/g,'') + '</div>')(scope));
                             }
                         },
                         newMode:(newMode) => {

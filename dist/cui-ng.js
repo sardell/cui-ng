@@ -1,6 +1,6 @@
 'use strict';var _slicedToArray=function(){function sliceIterator(arr,i){var _arr=[];var _n=true;var _d=false;var _e=undefined;try{for(var _i=arr[Symbol.iterator](),_s;!(_n=(_s=_i.next()).done);_n=true){_arr.push(_s.value);if(i&&_arr.length===i)break;}}catch(err){_d=true;_e=err;}finally {try{if(!_n&&_i["return"])_i["return"]();}finally {if(_d)throw _e;}}return _arr;}return function(arr,i){if(Array.isArray(arr)){return arr;}else if(Symbol.iterator in Object(arr)){return sliceIterator(arr,i);}else {throw new TypeError("Invalid attempt to destructure non-iterable instance");}};}();var _typeof=typeof Symbol==="function"&&typeof Symbol.iterator==="symbol"?function(obj){return typeof obj;}:function(obj){return obj&&typeof Symbol==="function"&&obj.constructor===Symbol?"symbol":typeof obj;};function _defineProperty(obj,key,value){if(key in obj){Object.defineProperty(obj,key,{value:value,enumerable:true,configurable:true,writable:true});}else {obj[key]=value;}return obj;}
 
-// cui-ng build Wed May 11 2016 12:45:17
+// cui-ng build Thu May 12 2016 09:58:40
 
 (function(angular){'use strict';
 
@@ -1846,11 +1846,13 @@ self.selectors[positionIndex].$container[0].classList.add('hide--opacity');
 $container.append($pointer);
 self.selectors[positionIndex].$pointer=$pointer;
 
-var cloneElem=elem.clone();
+var cloneElem=angular.element(elem[0].outerHTML);
+// make sure to not recompile ng-repeats
+cloneElem.html($compile('<div>'+elem[0].innerHTML.replace(/ng-repeat="([^"]*)"/g,'')+'</div>')(scope));
+
 cloneElem.css({opacity:'','pointer-events':'',position:''});
 // append the cui-popover to the container and apply the margins to make room for the pointer
 cloneElem.css(getPopoverMargins(opts.position,opts.pointerHeight));
-$compile(cloneElem.contents())(scope);
 self.selectors[positionIndex].$container.append(cloneElem);
 self.selectors[positionIndex].$contentBox=cloneElem;
 
@@ -1862,8 +1864,8 @@ popoverTether[positionIndex]=new Tether(self.helpers.getTetherOptions($container
 popoverTether[positionIndex].position();},
 
 newHtml:function newHtml(_newHtml){
-var newContent=$compile('<div>'+_newHtml+'</div>')(scope);
-self.selectors[positionInUse].$contentBox.html(newContent);}},
+// make sure to not recompile ng-repeats
+self.selectors[positionInUse].$contentBox.html($compile('<div>'+_newHtml.replace(/ng-repeat="([^"]*)"/g,'')+'</div>')(scope));}},
 
 
 newMode:function newMode(_newMode){var 
