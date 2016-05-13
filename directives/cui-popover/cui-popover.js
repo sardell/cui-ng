@@ -173,7 +173,7 @@ angular.module('cui-ng')
                                 case 'normal': // if we can show the popover in the current position
                                     if(self.selectors[positionInUse].$container[0].classList.contains('hide--opacity')){
                                         $timeout(()=>{
-                                            popoverTether[positionIndex].position();
+                                            popoverTether[positionInUse].position();
                                             self.selectors[positionInUse].$container[0].classList.remove('hide--opacity');
                                         });
                                     }
