@@ -13,7 +13,9 @@ angular.module('cui-ng')
                 expandableBody.animate({'height':'toggle'}, parseInt(elem.attr('transition-speed') || 300) ,'linear');
             };
 
-            scope.toggleExpand = () => {
+            scope.toggleExpand = (event) => {
+                // this way labels won't toggle expand twice
+                if(event && event.target.tagName==='INPUT' && event.target.labels && event.target.labels.length > 0 ) return;
                 toggleClass();
             };
             scope.expand = () => {
