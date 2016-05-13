@@ -160,7 +160,6 @@ angular.module('cui-ng')
                                 angular.element(document.body).append($container);
                                 popoverTether[positionIndex] = new Tether(self.helpers.getTetherOptions($container,opts));
 
-                                popoverTether[positionIndex].position();
                             },
                             newHtml:(newHtml) => {
                                 // make sure to not recompile ng-repeats
@@ -172,7 +171,12 @@ angular.module('cui-ng')
                             const opts = cuiPopoverConfig;
                             switch(newMode){
                                 case 'normal': // if we can show the popover in the current position
-                                    self.selectors[positionInUse].$container[0].classList.contains('hide--opacity') && self.selectors[positionInUse].$container[0].classList.remove('hide--opacity');
+                                    if(self.selectors[positionInUse].$container[0].classList.contains('hide--opacity')){
+                                        $timeout(()=>{
+                                            popoverTether[positionIndex].position();
+                                            self.selectors[positionInUse].$container[0].classList.remove('hide--opacity');
+                                        });
+                                    }
                                     break;
                                 case 'try-another':
                                     self.tryAnotherPosition();
