@@ -6,9 +6,8 @@ const goToState = ($state,$rootScope,stateName,toState,toParams,fromState,fromPa
 
 
 angular.module('cui.authorization',[])
-.factory('cui.authorization.routing', ['cui.authorization.authorize', '$timeout','$rootScope','$state','PubSub',(authorize,$timeout,$rootScope,$state,PubSub) => {
+.factory('cui.authorization.routing', ['cui.authorization.authorize', '$timeout','$rootScope','$state',(authorize,$timeout,$rootScope,$state) => {
   const routing = (toState, toParams, fromState, fromParams, userEntitlements,loginRequiredState='loginRequired',nonAuthState='notAuthorized') => {
-    PubSub.publish('stateChange',{ toState, toParams, fromState, fromParams });
 
     let authorized;
 
