@@ -1,24 +1,12 @@
 <!-- CUI-Expandable -->
 <cui-expandable class="cui-expandable" transition-speed="150">
   <!-- Title -->
-  <cui-expandable-title class="cui-expandable__title" ng-click="toggleExpand($event)">Cui-expandable - click me to expand the body
-
-                  <fieldset class="cui-radio__fieldset">
-                    <div class="cui-radio cui-radio--deny">
-                      <input class="cui-radio__input cui-radio--deny" type="radio" id="radio-choice-{{$index+'a'}}" value="deny" ng-model="directives.approve" required />
-                      <label class="cui-radio__label" for="radio-choice-{{$index+'a'}}">
-                        <div class="cui-radio__outer-button"><div class="cui-radio__inner-button"></div></div>
-                      </label>
-                    </div>
-                  </fieldset>
-
-  <div>
-    <!-- Expanded Content -->
-    <cui-expandable-body class="cui-expandable__body">
-      <span style="padding:20px;margin:30px;display:block;">Cui-expandable is an angular directive that allows for the easy creation of an element that collapses its contents.
-      <a href="https://github.com/thirdwavellc/cui-ng/tree/master/directives/cui-expandable" target="blank" class="cui-link">Click here for the full docs.</a><span>
-    </cui-expandable-body>
-  </div>
+  <cui-expandable-title class="cui-expandable__title" ng-click="toggleExpand()">Cui-expandable - click me to expand the body</cui-expandable-title>
+  <!-- Expanded Content -->
+  <cui-expandable-body class="cui-expandable__body">
+    <span style="padding:20px;margin:30px;display:block;">Cui-expandable is an angular directive that allows for the easy creation of an element that collapses its contents.
+    <a href="https://github.com/thirdwavellc/cui-ng/tree/master/directives/cui-expandable" target="blank" class="cui-link">Click here for the full docs.</a><span>
+  </cui-expandable-body>
 
   <br/><br/>
 
