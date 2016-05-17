@@ -1,6 +1,6 @@
 'use strict';var _slicedToArray=function(){function sliceIterator(arr,i){var _arr=[];var _n=true;var _d=false;var _e=undefined;try{for(var _i=arr[Symbol.iterator](),_s;!(_n=(_s=_i.next()).done);_n=true){_arr.push(_s.value);if(i&&_arr.length===i)break;}}catch(err){_d=true;_e=err;}finally {try{if(!_n&&_i["return"])_i["return"]();}finally {if(_d)throw _e;}}return _arr;}return function(arr,i){if(Array.isArray(arr)){return arr;}else if(Symbol.iterator in Object(arr)){return sliceIterator(arr,i);}else {throw new TypeError("Invalid attempt to destructure non-iterable instance");}};}();var _typeof=typeof Symbol==="function"&&typeof Symbol.iterator==="symbol"?function(obj){return typeof obj;}:function(obj){return obj&&typeof Symbol==="function"&&obj.constructor===Symbol?"symbol":typeof obj;};function _defineProperty(obj,key,value){if(key in obj){Object.defineProperty(obj,key,{value:value,enumerable:true,configurable:true,writable:true});}else {obj[key]=value;}return obj;}
 
-// cui-ng build Tue May 17 2016 15:10:40
+// cui-ng build Tue May 17 2016 15:20:54
 
 (function(angular){'use strict';
 
@@ -1209,7 +1209,7 @@ getOptionDisplayValues:function getOptionDisplayValues(){
 var displayValues=[];var _cuiDropdown$config=
 cuiDropdown.config;var defaultOption=_cuiDropdown$config.defaultOption;var defaultOptionValue=_cuiDropdown$config.defaultOptionValue;var displayValue=_cuiDropdown$config.displayValue;
 if(defaultOption)displayValues.push(scope.$eval(defaultOptionValue)); // push an empty return option for error handling
-scope.options().forEach(function(value,key){
+angular.forEach(scope.options(),function(value,key){
 if(!displayValue)displayValues.push(value);else 
 
 {
@@ -1227,7 +1227,7 @@ getOptionReturnValues:function getOptionReturnValues(){
 var returnValues=[];var _cuiDropdown$config2=
 cuiDropdown.config;var defaultOption=_cuiDropdown$config2.defaultOption;var returnValue=_cuiDropdown$config2.returnValue;
 if(defaultOption)returnValues.push(null); // if there's a default option it won't have any return value
-scope.options().forEach(function(value,key){
+angular.forEach(scope.options(),function(value,key){
 if(!returnValue)returnValues.push(value);else 
 
 {

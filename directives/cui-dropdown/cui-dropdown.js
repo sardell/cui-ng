@@ -78,14 +78,14 @@ angular.module('cui-ng')
                         let displayValues = [];
                         const { defaultOption, defaultOptionValue, displayValue } = cuiDropdown.config;
                         if(defaultOption) displayValues.push(scope.$eval(defaultOptionValue)); // push an empty return option for error handling
-                        scope.options().forEach((value,key) => {
+                        angular.forEach(scope.options(),(value,key) => {
                             if(!displayValue) displayValues.push(value);
 
                             else {
                                 const displayScope = {
                                     object : value,
-                                    value : value,
-                                    key: key
+                                    value,
+                                    key
                                 };
                                 displayValues.push(scope.$eval(displayValue,displayScope));
                             }
@@ -96,14 +96,14 @@ angular.module('cui-ng')
                         let returnValues=[];
                         const { defaultOption, returnValue } = cuiDropdown.config;
                         if(defaultOption) returnValues.push(null); // if there's a default option it won't have any return value
-                        scope.options().forEach((value,key) => {
+                        angular.forEach(scope.options(),(value,key) => {
                             if(!returnValue) returnValues.push(value);
 
                             else {
                                 const returnScope = {
                                     object : value,
-                                    value : value,
-                                    key: key
+                                    value,
+                                    key
                                 };
                                 returnValues.push(scope.$eval(returnValue,returnScope));
                             }
