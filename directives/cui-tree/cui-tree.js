@@ -29,7 +29,7 @@ const cuiTreeHelpers = {
         return classList;
     },
     getElements : (scope, opts, objects, leafClickCallback, nesting=0) => {
-        const { getKeyValue, getElements, getDisplayValue, getClassListForNestingLevel } = cuiTreeHelpers;
+        const { getElements, getDisplayValue, getClassListForNestingLevel } = cuiTreeHelpers;
         const { cuiTreeBranchWrapper, cuiTreeLeafWrapper, cuiTreeLastLeafClass, cuiTreeLastBranchClass } = opts;
         let $node = $(`<div></div>`);
         getClassListForNestingLevel(opts,nesting).forEach(className => $node[0].classList.add(className));
