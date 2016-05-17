@@ -45,3 +45,6 @@ Note:
 
 ![cui-tree-example](https://github.com/thirdwavellc/cui-ng/blob/master/directives/cui-tree/cui-tree.png?raw=true)
 
+## Change Log 5/17/2016
+
+* Now using scope.$eval to parse the display value. No breaking changes.

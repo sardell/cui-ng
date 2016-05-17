@@ -1,6 +1,6 @@
 'use strict';var _slicedToArray=function(){function sliceIterator(arr,i){var _arr=[];var _n=true;var _d=false;var _e=undefined;try{for(var _i=arr[Symbol.iterator](),_s;!(_n=(_s=_i.next()).done);_n=true){_arr.push(_s.value);if(i&&_arr.length===i)break;}}catch(err){_d=true;_e=err;}finally {try{if(!_n&&_i["return"])_i["return"]();}finally {if(_d)throw _e;}}return _arr;}return function(arr,i){if(Array.isArray(arr)){return arr;}else if(Symbol.iterator in Object(arr)){return sliceIterator(arr,i);}else {throw new TypeError("Invalid attempt to destructure non-iterable instance");}};}();var _typeof=typeof Symbol==="function"&&typeof Symbol.iterator==="symbol"?function(obj){return typeof obj;}:function(obj){return obj&&typeof Symbol==="function"&&obj.constructor===Symbol?"symbol":typeof obj;};function _defineProperty(obj,key,value){if(key in obj){Object.defineProperty(obj,key,{value:value,enumerable:true,configurable:true,writable:true});}else {obj[key]=value;}return obj;}
 
-// cui-ng build Mon May 16 2016 13:43:17
+// cui-ng build Tue May 17 2016 15:09:30
 
 (function(angular){'use strict';
 
@@ -1163,8 +1163,8 @@ attachment:attrs.attachment||'top left',
 targetAttachment:attrs.targetAttachment||'top left',
 offset:attrs.offset||'0 0',
 defaultConstraints:[{to:'window',attachment:'together none'}],
-returnValue:attrs.returnValue||'option',
-displayValue:attrs.displayValue||'option',
+returnValue:attrs.returnValue,
+displayValue:attrs.displayValue,
 required:attrs.ngRequired||attrs.required||false,
 defaultOption:angular.isDefined(attrs.defaultOption),
 defaultOptionValue:attrs.defaultOption||'("select-one" | translate)'},
@@ -1205,72 +1205,40 @@ cuiDropdown.selectors.$dropdown=null;}}},
 
 
 helpers:{
-getOptions:function getOptions(){return scope.options();},
-getKeyValue:function getKeyValue(keyString,object){
-var keys=keyString.split('.').slice(1);
-var returnValue=void 0;
-if(keys.length===0)return object;else 
-{
-var i=0;
-do {
-returnValue?returnValue=returnValue[keys[i]]:returnValue=object[keys[i]];
-i++;}while(
-
-i<keys.length);}
-
-return returnValue;},
-
 getOptionDisplayValues:function getOptionDisplayValues(){
-var displayValues=[];var _cuiDropdown$config$d=
-cuiDropdown.config.displayValue.replace(/( |\)|\))/g,'').split('|');var _cuiDropdown$config$d2=_slicedToArray(_cuiDropdown$config$d,2);var keyString=_cuiDropdown$config$d2[0];var filter=_cuiDropdown$config$d2[1];var _cuiDropdown$config=
+var displayValues=[];var _cuiDropdown$config=
 cuiDropdown.config;var defaultOption=_cuiDropdown$config.defaultOption;var defaultOptionValue=_cuiDropdown$config.defaultOptionValue;var displayValue=_cuiDropdown$config.displayValue;
-if(defaultOption){
-if(defaultOptionValue.indexOf('(')>-1){
-displayValues.push($filter(filter)(keyString));}else 
+if(defaultOption)displayValues.push(scope.$eval(defaultOptionValue)); // push an empty return option for error handling
+scope.options().forEach(function(value,key){
+if(!displayValue)displayValues.push(value);else 
 
-displayValues.push(defaultOptionValue);}
+{
+var displayScope={
+object:value,
+value:value,
+key:key};
 
-if(displayValue.indexOf('(')<0)keyString=displayValue;
+displayValues.push(scope.$eval(displayValue,displayScope));}});
 
-switch(displayValue){
-case 'value': // if we just want to display values from an object
-angular.forEach(scope.options(),function(val){
-displayValues.push(val);});
 
-break;
-case 'key':
-angular.forEach(scope.option(),function(val,key){ // if we just want to display the keys from an object
-displayValues.push(key);});
-
-break;
-default:
-scope.options().forEach(function(option){
-if(displayValue.indexOf('|')>=0)displayValues.push($filter(filter)(cuiDropdown.helpers.getKeyValue(keyString,option))); // if we're using a filter
-else displayValues.push(cuiDropdown.helpers.getKeyValue(keyString,option)); // else just get the correct key from the option object
-});}
-;
 return displayValues;},
 
 getOptionReturnValues:function getOptionReturnValues(){
 var returnValues=[];var _cuiDropdown$config2=
 cuiDropdown.config;var defaultOption=_cuiDropdown$config2.defaultOption;var returnValue=_cuiDropdown$config2.returnValue;
 if(defaultOption)returnValues.push(null); // if there's a default option it won't have any return value
-switch(returnValue){
-case 'value':
-angular.forEach(scope.options(),function(val){
-returnValues.push(val);});
+scope.options().forEach(function(value,key){
+if(!returnValue)returnValues.push(value);else 
 
-break;
-case 'key':
-angular.forEach(scope.options(),function(val,key){
-returnValues.push(key);});
+{
+var returnScope={
+object:value,
+value:value,
+key:key};
 
-break;
-default:
-angular.forEach(scope.options(),function(val){
-returnValues.push(val);});}
+returnValues.push(scope.$eval(returnValue,returnScope));}});
 
-;
+
 return returnValues;},
 
 getDropdownItem:function getDropdownItem(index,displayValue){
@@ -1946,48 +1914,11 @@ cuiTreeNestPrefix:'cui-tree--nesting-'};
 
 
 var cuiTreeHelpers={
-getKeyValue:function getKeyValue(keyString,object){;
-if(!keyString)return object;
-var keys=keyString.split('.').slice(1);
-var returnValue=void 0;
-if(keys.length===0)return object;else 
-{
-var i=0;
-do {
-angular.isDefined(returnValue)?returnValue=returnValue[keys[i]]:returnValue=object[keys[i]];
-i++;}while(
-
-i<keys.length);}
-
-return returnValue;},
-
-getDisplayValue:function getDisplayValue($filter,opts,object){var 
-cuiTreeLeafDisplay=opts.cuiTreeLeafDisplay;var 
-getKeyValue=cuiTreeHelpers.getKeyValue;
+getDisplayValue:function getDisplayValue(scope,opts,object){var 
+cuiTreeLeafDisplay=opts.cuiTreeLeafDisplay;
 var propertiesToDisplay=cuiTreeLeafDisplay.split('+');
-propertiesToDisplay=propertiesToDisplay.map(function(x){return x.trim();});
 
-var displayValue='',
-filter=void 0;
-propertiesToDisplay.forEach(function(property){
-var tempDisplayValue=void 0;
-if(property.indexOf('|')>=0){var _property$replace$spl=
-property.replace(/(\(|\)|\))/g,'').split('|'); // if it's a filter
-var _property$replace$spl2=_slicedToArray(_property$replace$spl,2);property=_property$replace$spl2[0];filter=_property$replace$spl2[1];}
-
-if(property.indexOf('\'')>=0||property.indexOf('"')>=0){
-tempDisplayValue=property.split('\'').join('').split('"').join('');}else 
-
-{
-tempDisplayValue=getKeyValue(property.trim(),object);}
-
-
-if(typeof tempDisplayValue==='string')tempDisplayValue=tempDisplayValue.trim();
-if(filter)tempDisplayValue=$filter(filter.trim())(tempDisplayValue);
-
-displayValue+=tempDisplayValue;});
-
-return displayValue;},
+return scope.$eval(cuiTreeLeafDisplay,{object:object});},
 
 getClassListForNestingLevel:function getClassListForNestingLevel(opts,nesting){var 
 cuiTreeNestPrefix=opts.cuiTreeNestPrefix;var cuiTreeNest0Class=opts.cuiTreeNest0Class;var cuiTreeNestXClass=opts.cuiTreeNestXClass;
@@ -2002,13 +1933,13 @@ classList.push(cuiTreeNestXClass||defaults.cuiTreeNestXClass);}
 ;
 return classList;},
 
-getElements:function getElements($filter,opts,objects,leafClickCallback){var nesting=arguments.length<=4||arguments[4]===undefined?0:arguments[4];var 
+getElements:function getElements(scope,opts,objects,leafClickCallback){var nesting=arguments.length<=4||arguments[4]===undefined?0:arguments[4];var 
 getKeyValue=cuiTreeHelpers.getKeyValue;var getElements=cuiTreeHelpers.getElements;var getDisplayValue=cuiTreeHelpers.getDisplayValue;var getClassListForNestingLevel=cuiTreeHelpers.getClassListForNestingLevel;var 
 cuiTreeBranchWrapper=opts.cuiTreeBranchWrapper;var cuiTreeLeafWrapper=opts.cuiTreeLeafWrapper;var cuiTreeLastLeafClass=opts.cuiTreeLastLeafClass;var cuiTreeLastBranchClass=opts.cuiTreeLastBranchClass;
 var $node=$('<div></div>');
 getClassListForNestingLevel(opts,nesting).forEach(function(className){return $node[0].classList.add(className);});
 objects.forEach(function(object,i){
-var $leafInner=$('<span>'+getDisplayValue($filter,opts,object)+'</span>');
+var $leafInner=$('<span>'+getDisplayValue(scope,opts,object)+'</span>');
 var $leafWrapper=$(cuiTreeLeafWrapper||defaults.cuiTreeLeafWrapper);
 if(leafClickCallback)$leafWrapper[0].addEventListener("click",function(e){leafClickCallback(object,this,e);},true);
 $leafWrapper.append($leafInner);
@@ -2016,7 +1947,7 @@ if(i===objects.length-1)$leafWrapper[0].classList.add(cuiTreeLastLeafClass||defa
 if(object.children){ // if it has children creat a new branch for the leaf and it's children
 var $branchWrapper=$(cuiTreeBranchWrapper||defaults.cuiTreeBranchWrapper).append($leafWrapper);
 if(i===objects.length-1)$branchWrapper[0].classList.add(cuiTreeLastBranchClass||defaults.cuiTreeLastBranchClass);
-$branchWrapper.append(getElements($filter,opts,object.children,leafClickCallback,nesting+1)); // recursively gets the child nodes
+$branchWrapper.append(getElements(scope,opts,object.children,leafClickCallback,nesting+1)); // recursively gets the child nodes
 $node.append($branchWrapper);}else 
 
 {
@@ -2027,8 +1958,7 @@ return $node;}};
 
 
 
-var cuiTree=function cuiTree($filter){
-return {
+var cuiTree={
 pre:function pre(scope,elem,attrs){
 var $tree=void 0;
 var leafClickCallback=scope.$eval(attrs.cuiTreeLeafClickCallback);
@@ -2038,7 +1968,7 @@ if($tree){
 $tree.detach();
 $tree.children().unbind();}
 
-$tree=cuiTreeHelpers.getElements($filter,attrs,tree,leafClickCallback);
+$tree=cuiTreeHelpers.getElements(scope,attrs,tree,leafClickCallback);
 elem.append($tree);};
 
 
@@ -2047,19 +1977,18 @@ if(newTree)renderTree(newTree);},
 true);
 
 scope.$on('$destroy',function(){
-$tree.children().unbind();});}};};
-
+$tree.children().unbind();});}};
 
 
 
 
 angular.module('cui-ng').
-directive('cuiTree',['$filter',function($filter){
+directive('cuiTree',[function(){
 return {
 restrict:'A',
 scope:true,
 compile:function compile(){
-return cuiTree($filter);}};}]);
+return cuiTree;}};}]);
 
 
 

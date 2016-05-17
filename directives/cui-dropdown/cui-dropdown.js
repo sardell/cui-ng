@@ -32,8 +32,8 @@ angular.module('cui-ng')
                     targetAttachment: attrs.targetAttachment || 'top left',
                     offset: attrs.offset || '0 0',
                     defaultConstraints: [{ to: 'window', attachment: 'together none'}],
-                    returnValue: attrs.returnValue || 'option',
-                    displayValue: attrs.displayValue || 'option',
+                    returnValue: attrs.returnValue,
+                    displayValue: attrs.displayValue,
                     required: attrs.ngRequired || attrs.required || false,
                     defaultOption: angular.isDefined(attrs.defaultOption),
                     defaultOptionValue: attrs.defaultOption || '("select-one" | translate)'
@@ -74,72 +74,40 @@ angular.module('cui-ng')
                     }
                 },
                 helpers: {
-                    getOptions:() => scope.options(),
-                    getKeyValue:(keyString,object) => {
-                        const keys=keyString.split('.').slice(1);
-                        let returnValue;
-                        if(keys.length===0) return object;
-                        else {
-                            let i=0;
-                            do {
-                                returnValue? returnValue=returnValue[keys[i]] : returnValue=object[keys[i]];
-                                i++;
-                            }
-                            while (i<keys.length);
-                        }
-                        return returnValue;
-                    },
                     getOptionDisplayValues:() => {
                         let displayValues = [];
-                        let [ keyString, filter ] = cuiDropdown.config.displayValue.replace(/( |\)|\))/g,'').split('|');
                         const { defaultOption, defaultOptionValue, displayValue } = cuiDropdown.config;
-                        if(defaultOption) {
-                            if(defaultOptionValue.indexOf('(')>-1){
-                                displayValues.push($filter(filter)(keyString));
-                            }
-                            else displayValues.push(defaultOptionValue);
-                        }
-                        if( displayValue.indexOf('(') < 0 ) keyString = displayValue;
+                        if(defaultOption) displayValues.push(scope.$eval(defaultOptionValue)); // push an empty return option for error handling
+                        scope.options().forEach((value,key) => {
+                            if(!displayValue) displayValues.push(value);
 
-                        switch (displayValue){
-                            case 'value': // if we just want to display values from an object
-                                angular.forEach(scope.options(),(val)=>{
-                                    displayValues.push(val);
-                                });
-                                break;
-                            case 'key':
-                                angular.forEach(scope.option(),(val,key)=>{ // if we just want to display the keys from an object
-                                    displayValues.push(key);
-                                });
-                                break;
-                            default:
-                                scope.options().forEach((option) => {
-                                    if(displayValue.indexOf('|') >= 0) displayValues.push($filter(filter)(cuiDropdown.helpers.getKeyValue(keyString,option))); // if we're using a filter
-                                    else displayValues.push(cuiDropdown.helpers.getKeyValue(keyString,option)); // else just get the correct key from the option object
-                                });
-                        };
+                            else {
+                                const displayScope = {
+                                    object : value,
+                                    value : value,
+                                    key: key
+                                };
+                                displayValues.push(scope.$eval(displayValue,displayScope));
+                            }
+                        });
                         return displayValues;
                     },
                     getOptionReturnValues:() => {
                         let returnValues=[];
                         const { defaultOption, returnValue } = cuiDropdown.config;
                         if(defaultOption) returnValues.push(null); // if there's a default option it won't have any return value
-                        switch (returnValue){
-                            case 'value':
-                                angular.forEach(scope.options(),(val)=>{
-                                    returnValues.push(val);
-                                });
-                                break;
-                            case 'key':
-                                angular.forEach(scope.options(),(val,key)=>{
-                                    returnValues.push(key);
-                                });
-                                break;
-                            default:
-                                angular.forEach(scope.options(),(val)=>{
-                                    returnValues.push(val);
-                                });
-                        };
+                        scope.options().forEach((value,key) => {
+                            if(!returnValue) returnValues.push(value);
+
+                            else {
+                                const returnScope = {
+                                    object : value,
+                                    value : value,
+                                    key: key
+                                };
+                                returnValues.push(scope.$eval(returnValue,returnScope));
+                            }
+                        });
                         return returnValues;
                     },
                     getDropdownItem:(index,displayValue) => {

@@ -29,3 +29,7 @@ Cui-dropdown generates a dropdown with the help of tether.
 ## Change Log 5/3/2016
 
 * We can now loop over an object's key value pairs, simply put that object in the `options` and use "key" or "value" in `return-value` or `display-value`.
+
+## Change Log 5/17/2016
+
+* Now using scope.$eval to parse return / display values. The only breaking change is that strings must now be passed wrapped in quotes within the display-value, return-value and default-option attributes. The benefit of adding this mechanism is that you can now concatenate strings and values within these, meaning you can do `display-value="'Question ' +  object.question"`, for example.

@@ -7,7 +7,7 @@
 <input class="cui-input" ng-model="directives.options" ng-init="directives.options='option1,option2,option3'"/>
 
 <!-- CUI-Dropdown -->
-<cui-dropdown name="test" ng-model="directives.dropdownTest" options="directives.options.split(',')" default-option="Select one" ng-required="true"></cui-dropdown>
+<cui-dropdown name="test" ng-model="directives.dropdownTest" options="directives.options.split(',')" default-option="'Select one'" ng-required="true"></cui-dropdown>
 
 <span ng-if="directives.dropdownTest">Currently selected: {{directives.dropdownTest}}<br/><br/></span>
 
