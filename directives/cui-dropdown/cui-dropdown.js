@@ -1,5 +1,5 @@
 angular.module('cui-ng')
-.directive('cuiDropdown', ['$compile','$timeout','$filter',($compile,$timeout,$filter) => {
+.directive('cuiDropdown', ['$compile',($compile) => {
     return {
         require:'ngModel',
         restrict: 'E',
