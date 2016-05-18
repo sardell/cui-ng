@@ -9,7 +9,7 @@ angular.module('cui-ng')
 
                     const cuiPopover = {
                         init:function(){
-                            elem.css({opacity:'0','pointer-events':'none',position:'absolute'}); // hide the original element.
+                            elem.css({opacity:'0','pointer-events':'none',position:'fixed',right:'0'}); // hide the original element.
 
                             self=this;
                             positionInUse = 0; // using the default position when we init
