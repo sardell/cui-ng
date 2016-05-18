@@ -71,7 +71,7 @@ angular.module('cui-ng')
         angular.forEach(listeners, (listener, i) => {
             let filters=[];
             if(OffClickFilterCache['#'+listener.elm.id]) filters = filters.concat(OffClickFilterCache['#'+listener.elm.id]);
-            listener.elm.classList.forEach((className)=>{
+            angular.forEach(listener.elm.classList, (className)=>{
                 if(OffClickFilterCache['.' + className]) filters = filters.concat(OffClickFilterCache['.' + className]);
             });
             if (!(listener.elm.contains(target) || targetInFilter(target, filters))) {
