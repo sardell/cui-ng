@@ -179,7 +179,7 @@ function($rootScope,$state,$stateParams,user,$timeout,localStorageService,$scope
 
     directives.onEnterResults=[];
     directives.onEnter = function(text) {
-        if(test && text!=='') directives.onEnterResults.push({id:directives.onEnterResults.length+1,text:text});
+        if(text && text!=='') directives.onEnterResults.push({id:directives.onEnterResults.length+1,text:text});
         directives.onEnterInput = '';
     };
 

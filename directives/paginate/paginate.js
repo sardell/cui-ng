@@ -52,7 +52,7 @@ angular.module('cui-ng')
                     },
                     page:() => {
                         scope.$watch('page',(newPage,oldPage) => {
-                            if(newPage && oldPage && newPage!==scope.paginate.currentPage) {
+                            if(newPage && newPage!==scope.paginate.currentPage) {
                                 scope.page = scope.paginate.currentPage = paginate.helpers.normalizePage(newPage);
                                 paginate.helpers.updateConfig();
                                 paginate.scope.reRender();

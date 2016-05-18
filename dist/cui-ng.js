@@ -1,6 +1,6 @@
 'use strict';var _slicedToArray=function(){function sliceIterator(arr,i){var _arr=[];var _n=true;var _d=false;var _e=undefined;try{for(var _i=arr[Symbol.iterator](),_s;!(_n=(_s=_i.next()).done);_n=true){_arr.push(_s.value);if(i&&_arr.length===i)break;}}catch(err){_d=true;_e=err;}finally {try{if(!_n&&_i["return"])_i["return"]();}finally {if(_d)throw _e;}}return _arr;}return function(arr,i){if(Array.isArray(arr)){return arr;}else if(Symbol.iterator in Object(arr)){return sliceIterator(arr,i);}else {throw new TypeError("Invalid attempt to destructure non-iterable instance");}};}();var _typeof=typeof Symbol==="function"&&typeof Symbol.iterator==="symbol"?function(obj){return typeof obj;}:function(obj){return obj&&typeof Symbol==="function"&&obj.constructor===Symbol?"symbol":typeof obj;};function _defineProperty(obj,key,value){if(key in obj){Object.defineProperty(obj,key,{value:value,enumerable:true,configurable:true,writable:true});}else {obj[key]=value;}return obj;}
 
-// cui-ng build Wed May 18 2016 09:14:08
+// cui-ng build Wed May 18 2016 09:20:56
 
 (function(angular){'use strict';
 
@@ -3023,7 +3023,7 @@ if(scope.onPageChange())scope.onPageChange()(scope.paginate.currentPage);});}});
 
 page:function page(){
 scope.$watch('page',function(newPage,oldPage){
-if(newPage&&oldPage&&newPage!==scope.paginate.currentPage){
+if(newPage&&newPage!==scope.paginate.currentPage){
 scope.page=scope.paginate.currentPage=paginate.helpers.normalizePage(newPage);
 paginate.helpers.updateConfig();
 paginate.scope.reRender();}});},
