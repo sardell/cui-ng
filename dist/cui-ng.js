@@ -1,6 +1,6 @@
 'use strict';var _slicedToArray=function(){function sliceIterator(arr,i){var _arr=[];var _n=true;var _d=false;var _e=undefined;try{for(var _i=arr[Symbol.iterator](),_s;!(_n=(_s=_i.next()).done);_n=true){_arr.push(_s.value);if(i&&_arr.length===i)break;}}catch(err){_d=true;_e=err;}finally {try{if(!_n&&_i["return"])_i["return"]();}finally {if(_d)throw _e;}}return _arr;}return function(arr,i){if(Array.isArray(arr)){return arr;}else if(Symbol.iterator in Object(arr)){return sliceIterator(arr,i);}else {throw new TypeError("Invalid attempt to destructure non-iterable instance");}};}();var _typeof=typeof Symbol==="function"&&typeof Symbol.iterator==="symbol"?function(obj){return typeof obj;}:function(obj){return obj&&typeof Symbol==="function"&&obj.constructor===Symbol?"symbol":typeof obj;};function _defineProperty(obj,key,value){if(key in obj){Object.defineProperty(obj,key,{value:value,enumerable:true,configurable:true,writable:true});}else {obj[key]=value;}return obj;}
 
-// cui-ng build Wed May 18 2016 08:56:09
+// cui-ng build Wed May 18 2016 09:14:08
 
 (function(angular){'use strict';
 
@@ -1769,7 +1769,7 @@ self.newMode('normal');}},
 elementHtml:function elementHtml(){
 elementHtmlInterval=$interval(function(){
 var elemHtml=elem.html();
-if(elemHtml!==_elementHtml){ // if the element html is different that what we have cached
+if(elemHtml!==_elementHtml){ // if the element html is different than what we have cached
 _elementHtml=elemHtml;
 cuiPopover.render.newHtml(_elementHtml);}},
 
@@ -1810,7 +1810,7 @@ var $pointer=getPointer(opts);
 // apply stylings to the container
 $container.css(getContainerPaddings(opts));
 self.selectors[positionIndex].$container=$container;
-self.selectors[positionIndex].$container[0].classList.add('hide--opacity');
+self.selectors[positionIndex].$container[0].style.opacity='0';
 
 // append the pointer to the container
 $container.append($pointer);
@@ -1820,7 +1820,7 @@ var cloneElem=angular.element(elem[0].outerHTML);
 // make sure to not recompile ng-repeats
 cloneElem.html($compile('<div>'+elem[0].innerHTML.replace(/ng-repeat="([^"]*)"/g,'')+'</div>')(scope));
 
-cloneElem.css({opacity:'','pointer-events':'',position:''});
+cloneElem.css({opacity:'','pointer-events':'',position:'',right:''});
 // append the cui-popover to the container and apply the margins to make room for the pointer
 cloneElem.css(getPopoverMargins(opts.position,opts.pointerHeight));
 self.selectors[positionIndex].$container.append(cloneElem);
@@ -1842,10 +1842,10 @@ getPointer=CuiPopoverHelpers.getPointer;var getPopoverMargins=CuiPopoverHelpers.
 var opts=cuiPopoverConfig;
 switch(_newMode){
 case 'normal': // if we can show the popover in the current position
-if(self.selectors[positionInUse].$container[0].classList.contains('hide--opacity')){
+if(self.selectors[positionInUse].$container[0].style.opacity==='0'){
 $timeout(function(){
 popoverTether[positionInUse].position();
-self.selectors[positionInUse].$container[0].classList.remove('hide--opacity');});}
+self.selectors[positionInUse].$container[0].style.opacity='1';});}
 
 
 break;
@@ -1861,14 +1861,14 @@ trialPosition++;
 
 if(trialPosition===positionInUse)return;
 if(trialPosition===positions.length){
-trialPosition=undefined; // start over
+trialPosition=undefined; // next tryAnotherPosition will try the first position in the array of positions provided
 return;}
 
 
 if(trialPosition===positions.length-1){ // if we reached the last position
 if(positions[trialPosition]==='hide'){ // and none of them were able to show and 'hide' was passed as last fallback, hide element.
-if(!self.selectors[positionInUse].$container[0].classList.contains('hide--opacity'))self.selectors[positionInUse].$container[0].classList.add('hide--opacity');
-trialPosition=undefined; // start over
+if(self.selectors[positionInUse].$container[0].style.opacity==='0')self.selectors[positionInUse].$container[0].style.opacity='1';
+trialPosition=undefined;
 return;}}
 
 
@@ -1886,7 +1886,7 @@ popoverTether[positionInUse].destroy();
 delete self.selectors[positionInUse];
 positionInUse=trialPosition;
 trialPosition=undefined;
-if(self.selectors[positionInUse].$container[0].classList.contains('hide--opacity'))self.selectors[positionInUse].$container[0].classList.remove('hide--opacity');}else 
+if(self.selectors[positionInUse].$container[0].style.opacity==='0')self.selectors[positionInUse].$container[0].style.opacity='1';}else 
 
 { // else just remove all references to it and this function will run again by itself
 self.selectors[trialPosition].$container.detach();

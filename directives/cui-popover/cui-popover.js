@@ -9,7 +9,7 @@ angular.module('cui-ng')
 
                     const cuiPopover = {
                         init:function(){
-                            elem.css({opacity:'0','pointer-events':'none',position:'fixed',right:'0'}); // hide the original element.
+                            elem.css({opacity:'0', 'pointer-events':'none', position:'fixed', right:'0'}); // hide the original element.
 
                             self=this;
                             positionInUse = 0; // using the default position when we init
@@ -98,7 +98,7 @@ angular.module('cui-ng')
                             elementHtml:() => {
                                 elementHtmlInterval=$interval(()=>{
                                     let elemHtml = elem.html();
-                                    if(elemHtml !== elementHtml) { // if the element html is different that what we have cached
+                                    if(elemHtml !== elementHtml) { // if the element html is different than what we have cached
                                         elementHtml = elemHtml;
                                         cuiPopover.render.newHtml(elementHtml);
                                     }
@@ -139,7 +139,7 @@ angular.module('cui-ng')
                                 // apply stylings to the container
                                 $container.css(getContainerPaddings(opts));
                                 self.selectors[positionIndex].$container = $container;
-                                self.selectors[positionIndex].$container[0].classList.add('hide--opacity');
+                                self.selectors[positionIndex].$container[0].style.opacity = '0';
 
                                 // append the pointer to the container
                                 $container.append($pointer);
@@ -149,7 +149,7 @@ angular.module('cui-ng')
                                 // make sure to not recompile ng-repeats
                                 cloneElem.html($compile('<div>' + elem[0].innerHTML.replace(/ng-repeat="([^"]*)"/g,'') + '</div>')(scope));
 
-                                cloneElem.css({opacity:'','pointer-events':'',position:''});
+                                cloneElem.css({opacity:'','pointer-events':'',position:'',right:''});
                                 // append the cui-popover to the container and apply the margins to make room for the pointer
                                 cloneElem.css(getPopoverMargins(opts.position, opts.pointerHeight));
                                 self.selectors[positionIndex].$container.append(cloneElem);
@@ -171,10 +171,10 @@ angular.module('cui-ng')
                             const opts = cuiPopoverConfig;
                             switch(newMode){
                                 case 'normal': // if we can show the popover in the current position
-                                    if(self.selectors[positionInUse].$container[0].classList.contains('hide--opacity')){
+                                    if(self.selectors[positionInUse].$container[0].style.opacity === '0'){
                                         $timeout(()=>{
                                             popoverTether[positionInUse].position();
-                                            self.selectors[positionInUse].$container[0].classList.remove('hide--opacity');
+                                            self.selectors[positionInUse].$container[0].style.opacity = '1';
                                         });
                                     }
                                     break;
@@ -190,14 +190,14 @@ angular.module('cui-ng')
 
                             if(trialPosition === positionInUse) return;
                             if(trialPosition === positions.length) {
-                                trialPosition = undefined; // start over
+                                trialPosition = undefined; // next tryAnotherPosition will try the first position in the array of positions provided
                                 return;
                             }
 
                             if(trialPosition === positions.length-1){ // if we reached the last position
                                 if(positions[trialPosition] === 'hide') { // and none of them were able to show and 'hide' was passed as last fallback, hide element.
-                                    if(!self.selectors[positionInUse].$container[0].classList.contains('hide--opacity')) self.selectors[positionInUse].$container[0].classList.add('hide--opacity');
-                                    trialPosition = undefined; // start over
+                                    if(self.selectors[positionInUse].$container[0].style.opacity === '0') self.selectors[positionInUse].$container[0].style.opacity = '1';
+                                    trialPosition = undefined;
                                     return;
                                 }
                             }
@@ -215,7 +215,7 @@ angular.module('cui-ng')
                                 delete self.selectors[positionInUse];
                                 positionInUse = trialPosition;
                                 trialPosition = undefined;
-                                if(self.selectors[positionInUse].$container[0].classList.contains('hide--opacity')) self.selectors[positionInUse].$container[0].classList.remove('hide--opacity');
+                                if(self.selectors[positionInUse].$container[0].style.opacity === '0') self.selectors[positionInUse].$container[0].style.opacity = '1';
                             }
                             else { // else just remove all references to it and this function will run again by itself
                                 self.selectors[trialPosition].$container.detach()
