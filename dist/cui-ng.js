@@ -1,6 +1,6 @@
 'use strict';var _slicedToArray=function(){function sliceIterator(arr,i){var _arr=[];var _n=true;var _d=false;var _e=undefined;try{for(var _i=arr[Symbol.iterator](),_s;!(_n=(_s=_i.next()).done);_n=true){_arr.push(_s.value);if(i&&_arr.length===i)break;}}catch(err){_d=true;_e=err;}finally {try{if(!_n&&_i["return"])_i["return"]();}finally {if(_d)throw _e;}}return _arr;}return function(arr,i){if(Array.isArray(arr)){return arr;}else if(Symbol.iterator in Object(arr)){return sliceIterator(arr,i);}else {throw new TypeError("Invalid attempt to destructure non-iterable instance");}};}();var _typeof=typeof Symbol==="function"&&typeof Symbol.iterator==="symbol"?function(obj){return typeof obj;}:function(obj){return obj&&typeof Symbol==="function"&&obj.constructor===Symbol?"symbol":typeof obj;};function _defineProperty(obj,key,value){if(key in obj){Object.defineProperty(obj,key,{value:value,enumerable:true,configurable:true,writable:true});}else {obj[key]=value;}return obj;}
 
-// cui-ng build Wed May 18 2016 16:42:12
+// cui-ng build Wed May 18 2016 16:50:45
 
 (function(angular){'use strict';
 
@@ -1028,7 +1028,7 @@ scope.$watch(elementClass,checkIfToggled);}};}]);
 
 
 angular.module('cui-ng').
-directive('cuiAvatar',['$timeout','$http','$filter',function($timeout,$http,$filter){
+directive('cuiAvatar',['$http','$filter',function($http,$filter){
 return {
 restrict:'A',
 scope:{
@@ -1036,7 +1036,9 @@ cuiAvatar:'=',
 cuiAvatarNames:'=',
 cuiAvatarEmail:'='},
 
-link:function link(scope,elem,attrs){
+compile:function compile(){
+return {
+pre:function pre(scope,elem,attrs){
 var cuiAvatar={
 selectors:{
 $elem:angular.element(elem[0])},
@@ -1088,7 +1090,7 @@ nameToDisplay+=nameSection[0].toUpperCase();}});
 return nameToDisplay;};
 
 cuiAvatar.selectors.$elem[0].innerHTML='<div class="cui-avatar__initials"></div>';
-cuiAvatar.selectors.$initials=angular.element(elem[0].querySelector('.cui-avatar__initials'));
+cuiAvatar.selectors.$initials=angular.element(cuiAvatar.selectors.$elem[0].childNodes[0]);
 cuiAvatar.selectors.$initials[0].innerHTML=name();},
 
 
@@ -1096,7 +1098,7 @@ image:function image(){
 var applyImage=function applyImage(imgSrc){
 if(cuiAvatar.config.colorClassAdded)cuiAvatar.selectors.$elem[0].classList.remove(cuiAvatar.config.colorClassAdded); // remove the random color class added before applying an image
 cuiAvatar.selectors.$elem[0].innerHTML='<div class="cui-avatar__image-container"></div>';
-cuiAvatar.selectors.$image=angular.element(elem[0].querySelector('.cui-avatar__image-container'));
+cuiAvatar.selectors.$image=angular.element(cuiAvatar.selectors.$elem[0].childNodes[0]);
 cuiAvatar.selectors.$image[0].style.backgroundImage='url("'+imgSrc+'")';};
 
 var img=new Image();
@@ -1124,7 +1126,9 @@ cuiAvatar.render.image();}};
 cuiAvatar.render.nameBackground();
 cuiAvatar.render.initials();
 cuiAvatar.render.image();
-cuiAvatar.watchers();}};}]);
+cuiAvatar.watchers();}};}};}]);
+
+
 
 
 
