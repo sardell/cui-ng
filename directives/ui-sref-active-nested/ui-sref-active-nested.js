@@ -4,7 +4,7 @@ angular.module('cui-ng')
         restrict:'A',
         compile:()=>{
             return {
-                pre: (scope,elem,attrs) => {
+                pre:(scope,elem,attrs) => {
                     let parentState;
                     if(!attrs.uiSref) {
                         throw 'ui-sref-active-nested can only be used on elements with a ui-sref attribute';
@@ -17,7 +17,7 @@ angular.module('cui-ng')
                     // else if it's a parent state
                     else parentState=attrs.uiSref;
 
-                    let applyActiveClassIfNestedState = (e, {toState, toParams, fromState, fromParams}) => {
+                    let applyActiveClassIfNestedState = (e, { toState }) => {
                         if(toState.name.indexOf('.')>-1 && toState.name.split('.')[0] === parentState){
                             elem[0].classList.add(attrs.uiSrefActiveNested);
                         }
@@ -28,6 +28,8 @@ angular.module('cui-ng')
                     };
 
                     PubSub.subscribe('stateChange', applyActiveClassIfNestedState);
+
+                    applyActiveClassIfNestedState(null, { toState: $state.current });
 
                     scope.$on('$destroy',()=>{
                         PubSub.unsubscribe('stateChange');
