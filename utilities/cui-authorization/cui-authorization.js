@@ -83,15 +83,31 @@ angular.module('cui.authorization',[])
             cuiAccess:'='
         },
         link: (scope,elem,attrs) => {
-            const requiredEntitlements = scope.cuiAccess.requiredEntitlements || [];
-            const entitlementType = scope.cuiAccess.entitlementType || 'atLeastOne';
+            const requiredEntitlements = scope.cuiAccess && scope.cuiAccess.requiredEntitlements || [];
+            const entitlementType = scope.cuiAccess && scope.cuiAccess.entitlementType || 'atLeastOne';
 
+            const notAuthorizedClasses = attrs.notAuthorizedClasses && attrs.notAuthorizedClasses.split(',').map(className => className.trim());
             const initalDisplay = elem.css('display');
+
+            const giveAuth = () => {
+                if(notAuthorizedClasses) {
+                    notAuthorizedClasses.forEach(className => elem[0].classList.remove(className));
+                }
+                else elem.css('display',initalDisplay);
+            };
+
+            const removeAuth = () => {
+                if(notAuthorizedClasses) {
+                    notAuthorizedClasses.forEach(className => elem[0].classList.add(className));
+                }
+                else elem.css('display','none');
+            };
+
 
             scope.$watch('userEntitlements',() => {
                 const authorized=authorize.authorize(true, requiredEntitlements, entitlementType, scope.userEntitlements);
-                if(authorized!=='authorized') elem.css('display','none');
-                else elem.css('display',initalDisplay);
+                if(authorized!=='authorized') removeAuth();
+                else giveAuth();
             });
         }
     };

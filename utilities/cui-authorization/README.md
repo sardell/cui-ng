@@ -81,3 +81,8 @@ Within `entitlementType` in the `access` object of each state there are 2 option
 * Now accepts a login required state name and a non authorized state name to override the default ones.
 * By non logged user we now assume that `entitlements` is undefined. A logged in user with no entitlements should have an empty array for his entitlements.
 * No longer adds `hide` class to the elements that use the cui-access directive. Instead adds `display:none` and resets back to previous display value when the user has access to that element.
+
+## Change Log 5/23/2016
+
+* The cui-access directive now allows you to no pass any required entitlements or entitlement types, simply by doing `cui-access user-entitlements="base.user.entitlements"`
+* Now accepts a comma separated list of classes to apply when the user is not authorized to have access to that element - `not-authorized-classes="hide, collapse"` , for example.

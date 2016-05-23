@@ -1,6 +1,6 @@
 'use strict';var _slicedToArray=function(){function sliceIterator(arr,i){var _arr=[];var _n=true;var _d=false;var _e=undefined;try{for(var _i=arr[Symbol.iterator](),_s;!(_n=(_s=_i.next()).done);_n=true){_arr.push(_s.value);if(i&&_arr.length===i)break;}}catch(err){_d=true;_e=err;}finally {try{if(!_n&&_i["return"])_i["return"]();}finally {if(_d)throw _e;}}return _arr;}return function(arr,i){if(Array.isArray(arr)){return arr;}else if(Symbol.iterator in Object(arr)){return sliceIterator(arr,i);}else {throw new TypeError("Invalid attempt to destructure non-iterable instance");}};}();var _typeof=typeof Symbol==="function"&&typeof Symbol.iterator==="symbol"?function(obj){return typeof obj;}:function(obj){return obj&&typeof Symbol==="function"&&obj.constructor===Symbol?"symbol":typeof obj;};function _defineProperty(obj,key,value){if(key in obj){Object.defineProperty(obj,key,{value:value,enumerable:true,configurable:true,writable:true});}else {obj[key]=value;}return obj;}
 
-// cui-ng build Thu May 19 2016 15:43:11
+// cui-ng build Mon May 23 2016 09:50:44
 
 (function(angular){'use strict';
 
@@ -4705,15 +4705,32 @@ userEntitlements:'=',
 cuiAccess:'='},
 
 link:function link(scope,elem,attrs){
-var requiredEntitlements=scope.cuiAccess.requiredEntitlements||[];
-var entitlementType=scope.cuiAccess.entitlementType||'atLeastOne';
+var requiredEntitlements=scope.cuiAccess&&scope.cuiAccess.requiredEntitlements||[];
+var entitlementType=scope.cuiAccess&&scope.cuiAccess.entitlementType||'atLeastOne';
 
+var notAuthorizedClasses=attrs.notAuthorizedClasses&&attrs.notAuthorizedClasses.split(',').map(function(className){return className.trim();});
 var initalDisplay=elem.css('display');
+
+var giveAuth=function giveAuth(){
+if(notAuthorizedClasses){
+notAuthorizedClasses.forEach(function(className){return elem[0].classList.remove(className);});}else 
+
+elem.css('display',initalDisplay);};
+
+
+var removeAuth=function removeAuth(){
+if(notAuthorizedClasses){
+notAuthorizedClasses.forEach(function(className){return elem[0].classList.add(className);});}else 
+
+elem.css('display','none');};
+
+
 
 scope.$watch('userEntitlements',function(){
 var authorized=authorize.authorize(true,requiredEntitlements,entitlementType,scope.userEntitlements);
-if(authorized!=='authorized')elem.css('display','none');else 
-elem.css('display',initalDisplay);});}};}]);})(
+if(authorized!=='authorized')removeAuth();else 
+giveAuth();});}};}]);})(
+
 
 
 
