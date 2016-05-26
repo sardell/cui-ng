@@ -1,6 +1,6 @@
 'use strict';var _slicedToArray=function(){function sliceIterator(arr,i){var _arr=[];var _n=true;var _d=false;var _e=undefined;try{for(var _i=arr[Symbol.iterator](),_s;!(_n=(_s=_i.next()).done);_n=true){_arr.push(_s.value);if(i&&_arr.length===i)break;}}catch(err){_d=true;_e=err;}finally {try{if(!_n&&_i["return"])_i["return"]();}finally {if(_d)throw _e;}}return _arr;}return function(arr,i){if(Array.isArray(arr)){return arr;}else if(Symbol.iterator in Object(arr)){return sliceIterator(arr,i);}else {throw new TypeError("Invalid attempt to destructure non-iterable instance");}};}();var _typeof=typeof Symbol==="function"&&typeof Symbol.iterator==="symbol"?function(obj){return typeof obj;}:function(obj){return obj&&typeof Symbol==="function"&&obj.constructor===Symbol?"symbol":typeof obj;};function _defineProperty(obj,key,value){if(key in obj){Object.defineProperty(obj,key,{value:value,enumerable:true,configurable:true,writable:true});}else {obj[key]=value;}return obj;}
 
-// cui-ng build Mon May 23 2016 09:50:44
+// cui-ng build Thu May 26 2016 13:29:28
 
 (function(angular){'use strict';
 
@@ -1006,7 +1006,7 @@ restrict:'EAC',
 scope:true,
 link:function link(scope,elem,attrs){
 var toggledClass=attrs.toggledClass||'class-toggle-'+scope.$id,
-elementClass=function elementClass(){return elem.attr('class');},
+elementClass=function elementClass(){return elem.attr('class')||'';},
 checkIfToggled=function checkIfToggled(elementClass){
 scope.toggled=elementClass.indexOf(toggledClass)>=0;};
 
@@ -1355,7 +1355,7 @@ if(!scope.expanded)toggleClass();};
 scope.collapse=function(){
 if(scope.expanded)toggleClass();};
 
-scope.$watch(function(){return elem.attr('class');},function(newValue,oldValue){
+scope.$watch(function(){return elem.attr('class')||'';},function(newValue,oldValue){
 if(oldValue===newValue&&newValue.indexOf('expanded')>-1){ // if the element the expanded class put in by default
 scope.expanded=true;
 toggleBody();}else 

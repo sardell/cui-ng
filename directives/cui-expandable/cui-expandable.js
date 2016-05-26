@@ -24,7 +24,7 @@ angular.module('cui-ng')
             scope.collapse = () => {
             	if(scope.expanded) toggleClass();
             };
-            scope.$watch(() => elem.attr('class') , (newValue,oldValue) => {
+            scope.$watch(() => elem.attr('class') || '' , (newValue,oldValue) => {
                 if(oldValue === newValue && newValue.indexOf('expanded') > -1 ){ // if the element the expanded class put in by default
                     scope.expanded = true;
                     toggleBody();
