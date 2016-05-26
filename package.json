@@ -10,9 +10,6 @@
     "type": "git",
     "url": "https://github.com/thirdwavellc/cui-ng"
   },
-  "publishConfig": {
-    "registry": "http://nexus.thirdwavellc.com/content/repositories/cui-npm/"
-  },
   "bugs": {
     "url": "https://github.com/thirdwavellc/cui-ng/issues"
   },
