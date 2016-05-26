@@ -36,3 +36,7 @@ You can also use `expand()` or `collapse()` to only open or only collapse the ex
 ## Change Log 2/25/2016
 
 * Now takes an optional attribute, `transition-speed`, which is the millisecond value of the transition on expand / collapse (default is 300ms, but for smaller expandables a smaller value is recommended).
+
+## Change Log 5/13/2016
+
+* Fixes issue where if there was a label inside of the element with toggleExpand() and the label got clicked it would fire toggleExpand twice. To use this fix, you will have to call toggleExpand with the ng-click event, if there is a label within that toggle expand element. (`ng-click="toggleExpand($event)"`)

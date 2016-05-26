@@ -1,17 +1,14 @@
 angular.module('cui-ng')
-.directive('match', ['$parse', matchDirective]);
-function matchDirective($parse) {
+.directive('match', ['$parse', ($parse) => {
   return {
     restrict: 'A',
     require: 'ngModel',
-    link: function (scope, element, attrs, ctrl) {
-      var checkIfMatch=function(values){
+    link: (scope, element, attrs, ctrl) => {
+      const checkIfMatch = (values) => {
         ctrl.$setValidity('match', values[0] === (values[1] || ''));
       };
 
-      scope.$watch(function () {
-        return [scope.$eval(attrs.match), ctrl.$viewValue];
-      }, checkIfMatch,true);
+      scope.$watch(()=> [scope.$eval(attrs.match), ctrl.$viewValue], checkIfMatch, (newValues,oldValues) => !angular.equals(newValues,oldValues));
     }
   };
-}
+}]);

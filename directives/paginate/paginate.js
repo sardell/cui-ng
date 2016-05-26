@@ -1,27 +1,25 @@
 angular.module('cui-ng')
-.directive('paginate',['$compile','$timeout','$interval',function($compile,$timeout,$interval){
+.directive('paginate',['$compile','$timeout','$interval',($compile,$timeout,$interval) => {
     return {
         restrict: 'AE',
         scope: {
             resultsPerPage: '&',
             count: '&',
             onPageChange: '&',
-            page: '=ngModel'
+            page: '=ngModel',
+            attachRerenderTo: '='
         },
-        link: function(scope, elem, attrs){
-            var self,resizeInterval;
-            var paginate={
-                initScope:function(){
-                    self=this;
-                    self.config.numberOfPages=self.helpers.getNumberOfPages();
-                    self.config.howManyPagesWeCanShow=self.helpers.howManyPagesWeCanShow();
-                    scope.paginate={
-                        currentPage:scope.page? self.helpers.normalizePage(scope.page) : 1
+        link: (scope, elem, attrs) => {
+            let resizeInterval;
+            const paginate = {
+                initScope:() => {
+                    scope.paginate = {
+                        currentPage:scope.page? paginate.helpers.normalizePage(scope.page) : 1
                     };
-                    if(scope.onPageChange()) {
-                        scope.onPageChange()(scope.paginate.currentPage);
-                    }
-                    angular.forEach(self.scope,function(func,key){
+                    paginate.helpers.updateConfig();
+                    paginate.render.pageContainer();
+                    if(attrs.attachRerenderTo) scope.attachRerenderTo = paginate.scope.updateConfigAndReRender;
+                    angular.forEach(paginate.scope,(func,key) => {
                         scope.paginate[key]=func;
                     });
                 },
@@ -40,201 +38,198 @@ angular.module('cui-ng')
                     nextButton: attrs.nextButton || '>'
                 },
                 watchers:{
-                    resultsPerPage:function(){
-                        scope.$watch(scope.resultsPerPage,function(newResultsPerPage,oldResultsPerPage){
-                            if(newResultsPerPage && newResultsPerPage!==oldResultsPerPage) self.helpers.updateConfigAndRerender();
-                        });
-                    },
-                    count:function(){
-                        scope.$watch(scope.count,function(newCount,oldCount){
-                            if(newCount && newCount!==oldCount) self.helpers.updateConfigAndRerender();
-                        });
-                    },
-                    page:function(){
-                        scope.$watch('page',function(newPage){
-                            if(newPage && newPage!==scope.paginate.currentPage) {
-                                if(newPage > self.config.numberOfPages) scope.paginate.currentPage=self.config.numberOfPages;
-                                else if(newPage < 1) scope.paginate.currentPage=1;
-                                else scope.paginate.currentPage=newPage;
-                                self.helpers.handleStepChange();
+                    resultsPerPage:() => {
+                        scope.$watch(scope.resultsPerPage,(newCount,oldCount) => {
+                            if(newCount && oldCount && newCount!==oldCount){
+                                scope.page = scope.paginate.currentPage = 1;
+                                paginate.helpers.updateConfig();
+                                paginate.scope.reRender();
+                                $timeout(()=>{
+                                    if(scope.onPageChange()) scope.onPageChange()(scope.paginate.currentPage);
+                                });
                             }
                         });
                     },
-                    paginateResize:function(){
-                        resizeInterval=$interval(self.helpers.resizeHandler,20);
+                    page:() => {
+                        scope.$watch('page',(newPage,oldPage) => {
+                            if(newPage && newPage!==scope.paginate.currentPage) {
+                                scope.page = scope.paginate.currentPage = paginate.helpers.normalizePage(newPage);
+                                paginate.helpers.updateConfig();
+                                paginate.scope.reRender();
+                            }
+                        });
                     },
-                    scopeDestroy:function(){
-                        scope.$on('$destroy',function(){
+                    paginateResize:() => {
+                        resizeInterval=$interval(paginate.helpers.resizeHandler,50);
+                    },
+                    scopeDestroy:() => {
+                        scope.$on('$destroy',() => {
                             $interval.cancel(resizeInterval); // unbinds the resize interval
                         });
                     }
                 },
                 helpers:{
-                    updateConfigAndRerender:function(){
-                        self.config.numberOfPages=self.helpers.getNumberOfPages();
-                        self.config.howManyPagesWeCanShow=self.helpers.howManyPagesWeCanShow();
-                        self.selectors.$pageContainer.replaceWith(self.render.pageContainer());
+                    updateConfig:() => {
+                        paginate.config.numberOfPages = paginate.helpers.getNumberOfPages();
+                        paginate.config.howManyPagesWeCanShow = paginate.helpers.howManyPagesWeCanShow();
                     },
-                    getNumberOfPages:function(){
-                        return Math.ceil(scope.count()/scope.resultsPerPage());
-                    },
-                    getWidthOfAPage:function(){
-                        return self.helpers.getWidthOfElement($(self.render.pageNumber(1)));
-                    },
-                    getAvailableSpaceForPages:function(){
-                        var paginateWidth=self.config.width || self.selectors.$paginate.width();
-                        var previousWidth=self.helpers.getWidthOfElement(self.render.previousButton());
-                        var nextWidth=self.helpers.getWidthOfElement(self.render.nextButton());
+                    getNumberOfPages:() => Math.ceil(scope.count()/scope.resultsPerPage()),
+                    getWidthOfAPage:() => paginate.helpers.getWidthOfElement($(paginate.render.pageNumber(1))),
+                    getAvailableSpaceForPages:() => {
+                        const paginateWidth = paginate.config.width || paginate.selectors.$paginate.width();
+                        const previousWidth = paginate.helpers.getWidthOfElement(paginate.render.previousButton());
+                        const nextWidth = paginate.helpers.getWidthOfElement(paginate.render.nextButton());
                         return paginateWidth - ( previousWidth + nextWidth )-1; // - 1 because at certain widths the width() method was off by a pixel
                     },
-                    getWidthOfElement:function(element){ // this appends the element to the body, get its width, and removes it. Used for measuring.
+                    getWidthOfElement:(element) => { // this appends the element to the body, get its width, and removes it. Used for measuring.
                         element.appendTo(document.body);
-                        var width=element.outerWidth(true);
+                        const width=element.outerWidth(true);
                         element.remove();
                         return width;
                     },
-                    howManyPagesWeCanShow:function(){
-                        return Math.floor(self.helpers.getAvailableSpaceForPages()/self.helpers.getWidthOfAPage());
+                    howManyPagesWeCanShow:() => Math.floor(paginate.helpers.getAvailableSpaceForPages()/paginate.helpers.getWidthOfAPage()),
+                    handleStepChange:() => {
+                        scope.page = scope.paginate.currentPage = paginate.helpers.normalizePage(scope.paginate.currentPage);
+                        $timeout(()=>{
+                            if(scope.onPageChange()) scope.onPageChange()(scope.paginate.currentPage);
+                            paginate.scope.reRender();
+                        });
                     },
-                    handleStepChange:function(){
-                        scope.page=scope.paginate.currentPage;
-                        if(scope.onPageChange()) scope.onPageChange()(scope.paginate.currentPage);
-                        self.selectors.$pageContainer.replaceWith(self.render.pageContainer());
-                    },
-                    resizeHandler:function(){
-                        if(!self.config.width) self.config.width=self.selectors.$paginate.width();
-                        else if(self.selectors.$paginate.width()!==self.config.width) {
-                            self.config.width=self.selectors.$paginate.width();
-                            self.config.widthOfAPage=self.helpers.getWidthOfAPage();
-                            self.config.availableSpaceForPages=self.helpers.getAvailableSpaceForPages();
-                            self.helpers.updateConfigAndRerender();
+                    resizeHandler:() => {
+                        if(!paginate.config.width) paginate.config.width = paginate.selectors.$paginate.width();
+                        else if(paginate.selectors.$paginate.width() !== paginate.config.width) {
+                            paginate.config.width = paginate.selectors.$paginate.width();
+                            paginate.helpers.updateConfig();
                         }
                     },
-                    whatEllipsesToShow:function(){
-                        if(self.config.numberOfPages <= self.config.howManyPagesWeCanShow) return 'none';
-                        else if(scope.paginate.currentPage < ((self.config.howManyPagesWeCanShow/2)+1)) return 'right';
-                        else if(scope.paginate.currentPage < (self.config.numberOfPages -  ((self.config.howManyPagesWeCanShow/2)))) return 'both';
+                    whatEllipsesToShow:() => {
+                        if(paginate.config.numberOfPages <= paginate.config.howManyPagesWeCanShow) return 'none';
+                        else if(scope.paginate.currentPage < ((paginate.config.howManyPagesWeCanShow/2)+1)) return 'right';
+                        else if(scope.paginate.currentPage < (paginate.config.numberOfPages -  (paginate.config.howManyPagesWeCanShow/2))) return 'both';
                         else return 'left';
                     },
-                    normalizePage:function(page){
-                        var page=parseInt(page);
-                        if(page <= self.config.numberOfPages && page >= 1){
+                    normalizePage:(pageNumber) => {
+                        const page = parseInt(pageNumber);
+                        if(page <= paginate.config.numberOfPages && page >= 1){
                             return page;
                         }
                         else if(page < 1){
                             return 1;
                         }
-                        else return self.config.numberOfPages;
+                        else return paginate.config.numberOfPages;
                     }
                 },
                 scope:{
-                    previous:function(){
+                    previous:() => {
                         if(scope.paginate.currentPage > 1){
                             scope.paginate.currentPage--;
-                            self.helpers.handleStepChange();
+                            paginate.helpers.handleStepChange();
                         }
                     },
-                    next:function(){
-                        if(scope.paginate.currentPage+1 <= self.config.numberOfPages){
+                    next:() => {
+                        if(scope.paginate.currentPage+1 <= paginate.config.numberOfPages){
                             scope.paginate.currentPage++;
-                            self.helpers.handleStepChange();
+                            paginate.helpers.handleStepChange();
                         }
                     },
-                    goToPage:function(page){
-                        if(page===scope.paginate.currentPage) return;
-                        scope.paginate.currentPage=self.helpers.normalizePage(page);
-                        self.helpers.handleStepChange();
+                    goToPage:(page) => {
+                        if(page === scope.paginate.currentPage) return;
+                        scope.paginate.currentPage = paginate.helpers.normalizePage(page);
+                        paginate.helpers.handleStepChange();
+                    },
+                    reRender:() => {
+                        paginate.selectors.$pageContainer.replaceWith(paginate.render.pageContainer());
+                    },
+                    updateConfigAndReRender:() => {
+                        paginate.helpers.updateConfig();
+                        if(scope.paginate.currentPage > paginate.config.numberOfPages) {
+                            scope.page = scope.paginate.currentPage = paginate.helpers.normalizePage(scope.paginate.currentPage);
+                            paginate.scope.reRender();
+                        }
+                        else {
+                            paginate.scope.reRender();
+                        }
                     }
                 },
                 render:{
-                    init:function(){
-                        self.selectors.$paginate.append(self.render.previousButton());
-                        self.selectors.$paginate.append(self.render.pageContainer());
-                        self.selectors.$paginate.append(self.render.nextButton());
+                    init:() => {
+                        paginate.selectors.$paginate.append(paginate.render.previousButton());
+                        paginate.selectors.$paginate.append(paginate.render.pageContainer());
+                        paginate.selectors.$paginate.append(paginate.render.nextButton());
                     },
-                    previousButton:function(){
-                        var previousButton=$compile(
-                            String.prototype.concat(
-                                '<span ng-click="paginate.previous()" class="', self.config.previousClass , '">',
-                                    self.config.previousButton,
-                                '</span>'
-                            )
+                    previousButton:() => {
+                        const previousButton = $compile(
+                            `<span ng-click="paginate.previous()" class="${paginate.config.previousClass}">
+                                ${paginate.config.previousButton}
+                            </span>`
                         )(scope);
                         return previousButton;
                     },
-                    nextButton:function(){
-                        var nextButton=$compile(
-                            String.prototype.concat(
-                                '<span ng-click="paginate.next()" class="', self.config.nextClass , '">',
-                                    self.config.nextButton,
-                                '</span>'
-                            )
+                    nextButton:() => {
+                        const nextButton = $compile(
+                            `<span ng-click="paginate.next()" class="${paginate.config.nextClass}">
+                                ${paginate.config.nextButton}
+                            </span>`
                         )(scope);
                         return nextButton;
                     },
-                    ellipses:function(page){
-                        var ngClick=' ng-click="paginate.goToPage(' + page + ')" ';
-                        var ellipses=$compile(
-                            String.prototype.concat(
-                                '<span', ngClick, 'class="', self.config.ellipsesClass, '">', self.config.ellipsesButton, '</span>'
-                            )
-                        )(scope);
+                    ellipses:(page) => {
+                        const ngClick=`ng-click="paginate.goToPage(${page})"`;
+                        const ellipses = $compile(`<span ${ngClick} class="${paginate.config.ellipsesClass}">${paginate.config.ellipsesButton}</span>`)(scope);
                         return ellipses;
                     },
-                    pageNumber:function(page,active){
-                        var activeClass,ngClick;
-                        ngClick=' ng-click="paginate.goToPage(' + page + ')" ';
-                        if(active) activeClass=' ' + self.config.activePageClass;
-                        else activeClass='';
-                        var button=String.prototype.concat(
-                            '<span', ngClick, 'class="', self.config.pageClass , activeClass , '">', page , '</span>'
-                        );
-                        return $compile(button)(scope);
+                    pageNumber:(page,active) => {
+                        let activeClass, ngClick;
+                        ngClick = `ng-click="paginate.goToPage(${page})"`;
+                        active? activeClass=`${paginate.config.activePageClass}` : activeClass='';
+                        const button=$compile(`<span ${ngClick} class="${paginate.config.pageClass} ${activeClass}">${page}</span>`)(scope);
+                        return button;
                     },
-                    pagesXToY:function(x,y){
-                        var pages=[];
+                    pagesXToY:(x,y) => {
+                        let pages=[];
                         do {
-                            var page=self.render.pageNumber(x,x===scope.paginate.currentPage);
+                            const page = paginate.render.pageNumber(x, x===(scope.paginate.currentPage || scope.page ));
                             pages.push(page);
-                            x++
+                            x++;
                         }
                         while(x <= y);
                         return pages;
                     },
-                    pageNumbers:function(){
-                        var pages=[],
-                            whatEllipsesToShow=self.helpers.whatEllipsesToShow();
-
-                        if(whatEllipsesToShow==='none'){
-                            pages.push(self.render.pagesXToY(1,self.config.numberOfPages));
-                        }
-                        else if(whatEllipsesToShow==='right') {
-                            var ellipsesPoint=self.config.howManyPagesWeCanShow-1;
-                            pages.push(self.render.pagesXToY(1,ellipsesPoint-1));
-                            pages.push(self.render.ellipses(ellipsesPoint));
-                            pages.push(self.render.pageNumber(self.config.numberOfPages));
-                        }
-                        else if(whatEllipsesToShow==='both') {
-                            var firstEllipsesPoint=scope.paginate.currentPage-(Math.ceil(self.config.howManyPagesWeCanShow/2)-2);
-                            var secondEllipsesPoint=scope.paginate.currentPage + (Math.floor(self.config.howManyPagesWeCanShow/2)-1);
-                            pages.push(self.render.pageNumber(1));
-                            pages.push(self.render.ellipses(firstEllipsesPoint));
-                            pages.push(self.render.pagesXToY(firstEllipsesPoint+1,secondEllipsesPoint-1));
-                            pages.push(self.render.ellipses(secondEllipsesPoint));
-                            pages.push(self.render.pageNumber(self.config.numberOfPages));
-                        }
-                        else  { // if the ellipses is on the left
-                            var ellipsesPoint=self.config.numberOfPages-(self.config.howManyPagesWeCanShow-2);
-                            pages.push(self.render.pageNumber(1));
-                            pages.push(self.render.ellipses(ellipsesPoint));
-                            pages.push(self.render.pagesXToY(ellipsesPoint+1,self.config.numberOfPages));
-                        }
+                    pageNumbers:() => {
+                        const whatEllipsesToShow = paginate.helpers.whatEllipsesToShow();
+                        let pages = [];
+                        switch (whatEllipsesToShow){
+                            case 'none':
+                                pages.push(paginate.render.pagesXToY(1, paginate.config.numberOfPages));
+                                break;
+                            case 'right':
+                                const ellipsesPoint = paginate.config.howManyPagesWeCanShow - 1;
+                                pages.push(paginate.render.pagesXToY(1,ellipsesPoint-1));
+                                pages.push(paginate.render.ellipses(ellipsesPoint));
+                                pages.push(paginate.render.pageNumber(paginate.config.numberOfPages));
+                                break;
+                            case 'left':
+                                const ellipsesPointLeft = paginate.config.numberOfPages - (paginate.config.howManyPagesWeCanShow-2);
+                                pages.push(paginate.render.pageNumber(1));
+                                pages.push(paginate.render.ellipses(ellipsesPointLeft));
+                                pages.push(paginate.render.pagesXToY(ellipsesPointLeft+1, paginate.config.numberOfPages));
+                                break;
+                            case 'both':
+                                const firstEllipsesPoint=scope.paginate.currentPage - (Math.ceil(paginate.config.howManyPagesWeCanShow/2)-2);
+                                const secondEllipsesPoint=scope.paginate.currentPage + (Math.floor(paginate.config.howManyPagesWeCanShow/2)-1);
+                                pages.push(paginate.render.pageNumber(1));
+                                pages.push(paginate.render.ellipses(firstEllipsesPoint));
+                                pages.push(paginate.render.pagesXToY(firstEllipsesPoint+1, secondEllipsesPoint-1));
+                                pages.push(paginate.render.ellipses(secondEllipsesPoint));
+                                pages.push(paginate.render.pageNumber(paginate.config.numberOfPages));
+                                break;
+                        };
                         return pages;
                     },
-                    pageContainer:function(){
-                        var pageContainer=$('<span class="' + self.config.pageContainerClass + '"></span>');
-                        self.selectors.$pageContainer=pageContainer;
-                        self.render.pageNumbers().forEach(function(page){
+                    pageContainer:() => {
+                        const pageContainer = $(`<span class="${paginate.config.pageContainerClass}"></span>`);
+                        paginate.selectors.$pageContainer = pageContainer;
+                        paginate.render.pageNumbers().forEach((page) => {
                             pageContainer.append(page);
                         });
                         return pageContainer;
@@ -242,10 +237,10 @@ angular.module('cui-ng')
                 }
             };
 
-            $timeout(function(){
+            $timeout(() => {
                 paginate.initScope();
                 paginate.render.init();
-                angular.forEach(paginate.watchers,function(initWatcher){
+                angular.forEach(paginate.watchers,(initWatcher) => {
                     initWatcher();
                 });
             });

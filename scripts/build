@@ -1,4 +1,5 @@
 #!/bin/bash
+
 nvm use
 npm install
 npm update
@@ -7,5 +8,4 @@ bower update
 bower update cui-styleguide --force
 grunt build
 mvn clean package deploy -U
-npm version patch
 npm publish

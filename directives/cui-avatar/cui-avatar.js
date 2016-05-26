@@ -1,5 +1,5 @@
 angular.module('cui-ng')
-.directive('cuiAvatar',['$timeout','$http','$filter',function($timeout,$http,$filter){
+.directive('cuiAvatar',['$http','$filter',($http,$filter) => {
     return{
         restrict: 'A',
         scope:{
@@ -7,111 +7,99 @@ angular.module('cui-ng')
             cuiAvatarNames:'=',
             cuiAvatarEmail:'='
         },
-        link:function(scope,elem,attrs){
-            var self;
-            var cuiAvatar={
-                initScope:function(){
-                    self=this;
-                },
-                selectors:{
-                    $elem:angular.element(elem[0])
-                },
-                config:{
-                    colorClassPrefix:attrs.cuiAvatarColorClassPrefix || false,
-                    colorCount:attrs.cuiAvatarColorCount || 0,
-                    cuiI18nFilter:angular.isDefined(attrs.cuiAvatarCuii18nFilter) || false,
-                    maxNumberOfInitials: attrs.cuiAvatarMaxNumInitials || 2
-                },
-                watchers:function(){
-                   scope.$watch('cuiAvatar',function(newAvatar){
-                       if(newAvatar){
-                           self.update();
-                       }
-                   });
-                    scope.$watch('cuiAvatarNames',function(newNameArray){
-                       if(newNameArray){
-                           self.update();
-                       }
-                   });
-                   scope.$watch('cuiAvatarEmail',function(newEmail){
-                        if(newEmail){
-                            self.update();
-                        }
-                   });
-                },
-                render:{
-                    nameBackground:function(){
-                        if(self.config.colorClassPrefix) {
-                            if(self.config.colorCount===0) throw 'For cui-avatar if you specify color class prefix you must specify the attribute cui-avatar-color-count';
-                            if(_.find(self.selectors.$elem[0].classList,function(className){
-                                return className.indexOf(self.config.colorClassPrefix)>-1;
-                            }) !==undefined ) return; // if there's already a class that looks like the one specified in cuiAvatarColorClassPrefix
-                            var classNumberToApply=Math.floor(Math.random()*self.config.colorCount + 1);
-                            self.selectors.$elem[0].classList.add(self.config.colorClassPrefix + classNumberToApply);
-                            self.config.colorClassAdded=self.config.colorClassPrefix + classNumberToApply;
-                        }
-                    },
+        compile: () => {
+            return {
+                pre: (scope,elem,attrs) => {
+                    const cuiAvatar = {
+                        selectors:{
+                            $elem:angular.element(elem[0])
+                        },
+                        config:{
+                            colorClassPrefix:attrs.cuiAvatarColorClassPrefix || false,
+                            colorCount:attrs.cuiAvatarColorCount || 0,
+                            cuiI18nFilter:angular.isDefined(attrs.cuiAvatarCuii18nFilter) || false,
+                            maxNumberOfInitials: attrs.cuiAvatarMaxNumInitials || 2
+                        },
+                        watchers:() => {
+                           scope.$watch('cuiAvatar',(newAvatar) => {
+                               if(newAvatar) cuiAvatar.update();
+                           });
+                            scope.$watch('cuiAvatarNames',(newNameArray) => {
+                               if(newNameArray) cuiAvatar.update();
+                           });
+                           scope.$watch('cuiAvatarEmail',(newEmail) => {
+                                if(newEmail) cuiAvatar.update();
+                           });
+                        },
+                        render:{
+                            nameBackground:() => {
+                                if(cuiAvatar.config.colorClassPrefix) {
+                                    if(cuiAvatar.config.colorCount===0) throw 'For cui-avatar if you specify color class prefix you must specify the attribute cui-avatar-color-count';
 
-                    initials:function() {
-                        if (!scope.cuiAvatarNames) {
-                            return;
-                        }
-                        var name = function() {
-                            var internationalizedName, nameToDisplay = '';
-                            if (self.config.cuiI18nFilter) {
-                                internationalizedName = $filter('cuiI18n')(scope.cuiAvatarNames).split(' ');
-                            }
-                            (internationalizedName || scope.cuiAvatarNames).forEach(function(nameSection, i) {
-                                if (i < self.config.maxNumberOfInitials) {
-                                    if (!nameSection) {
-                                        return;
-                                    }
-                                    nameToDisplay += nameSection[0].toUpperCase();
+                                    let colorClassAlreadyApplied = _.find(cuiAvatar.selectors.$elem[0].classList,(className) => className.indexOf(cuiAvatar.config.colorClassPrefix)>-1 );
+                                    if(colorClassAlreadyApplied) return;
+
+                                    let classNumberToApply = Math.floor(Math.random()*cuiAvatar.config.colorCount + 1);
+                                    cuiAvatar.selectors.$elem[0].classList.add(cuiAvatar.config.colorClassPrefix + classNumberToApply);
+                                    cuiAvatar.config.colorClassAdded = cuiAvatar.config.colorClassPrefix + classNumberToApply;
                                 }
-                            });
-                            return nameToDisplay;
-                        };
+                            },
 
-                        self.selectors.$elem[0].innerHTML = '<div class="cui-avatar__initials"></div>';
-                        self.selectors.$initials = angular.element(elem[0].querySelector('.cui-avatar__initials'));
-                        self.selectors.$initials[0].innerHTML = name();
-                    },
+                            initials:() => {
+                                if (!scope.cuiAvatarNames) return;
+                                const name = () => {
+                                    let internationalizedName, nameToDisplay = '';
+                                    if (cuiAvatar.config.cuiI18nFilter) {
+                                        internationalizedName = $filter('cuiI18n')(scope.cuiAvatarNames).split(' ');
+                                    }
+                                    (internationalizedName || scope.cuiAvatarNames).forEach((nameSection, i) => {
+                                        if (i < cuiAvatar.config.maxNumberOfInitials) {
+                                            if (!nameSection) return;
+                                            nameToDisplay += nameSection[0].toUpperCase();
+                                        }
+                                    });
+                                    return nameToDisplay;
+                                };
+                                cuiAvatar.selectors.$elem[0].innerHTML = `<div class="cui-avatar__initials"></div>`;
+                                cuiAvatar.selectors.$initials = angular.element(cuiAvatar.selectors.$elem[0].childNodes[0]);
+                                cuiAvatar.selectors.$initials[0].innerHTML = name();
+                            },
 
-                    image:function(){
-                        function applyImage(imgSrc){
-                            if(self.config.colorClassAdded) self.selectors.$elem[0].classList.remove(self.config.colorClassAdded); // remove the random color class added before applying an image
-                            self.selectors.$elem[0].innerHTML='<div class="cui-avatar__image-container"></div>';
-                            self.selectors.$image=angular.element(elem[0].querySelector('.cui-avatar__image-container'));
-                            self.selectors.$image[0].style.backgroundImage=String.prototype.concat('url("',imgSrc,'")');
+                            image:() =>{
+                                const applyImage = (imgSrc) => {
+                                    if(cuiAvatar.config.colorClassAdded) cuiAvatar.selectors.$elem[0].classList.remove(cuiAvatar.config.colorClassAdded); // remove the random color class added before applying an image
+                                    cuiAvatar.selectors.$elem[0].innerHTML = `<div class="cui-avatar__image-container"></div>`;
+                                    cuiAvatar.selectors.$image = angular.element(cuiAvatar.selectors.$elem[0].childNodes[0]);
+                                    cuiAvatar.selectors.$image[0].style.backgroundImage = `url("${imgSrc}")`;
+                                };
+                                let img = new Image();
+                                if(scope.cuiAvatar && scope.cuiAvatar!==''){
+                                    img.src = scope.cuiAvatar;
+                                    img.onload = applyImage(img.src);
+                                }
+                                else if (scope.cuiAvatarEmail){
+                                    const hashedEmail = md5(scope.cuiAvatarEmail);
+                                    $http.get(`https://www.gravatar.com/avatar/${hashedEmail}?d=404`) // ?d=404 tells gravatar not to give me a default gravatar
+                                    .then((res)=> { // If the user has a gravatar account and has set a picture
+                                        img.src = `https://www.gravatar.com/avatar/${hashedEmail}`;
+                                        img.onload = applyImage(img.src);
+                                    });
+                                }
+                                else return;
+                            }
+                        },
+                        update:() => {
+                            cuiAvatar.render.nameBackground();
+                            cuiAvatar.render.initials();
+                            cuiAvatar.render.image();
                         }
-                        var img=new Image();
-                        if(scope.cuiAvatar && scope.cuiAvatar!==''){
-                            img.src=scope.cuiAvatar;
-                            img.onload=applyImage(img.src);
-                        }
-                        else if (scope.cuiAvatarEmail){
-                            var hashedEmail=md5(scope.cuiAvatarEmail);
-                            $http.get('https://www.gravatar.com/avatar/'+hashedEmail+'?d=404') // ?d=404 tells gravatar not to give me a default gravatar
-                            .then(function(res){ // If the user has a gravatar account and has set a picture
-                                img.src='https://www.gravatar.com/avatar/'+hashedEmail;
-                                img.onload=applyImage(img.src);
-                            });
-                        }
-                        else return;
-                    }
-                },
-                update:function(){
-                    self.render.nameBackground();
-                    self.render.initials();
-                    self.render.image();
+                    };
+                    cuiAvatar.render.nameBackground();
+                    cuiAvatar.render.initials();
+                    cuiAvatar.render.image();
+                    cuiAvatar.watchers();
                 }
             };
-
-            cuiAvatar.initScope();
-            cuiAvatar.render.nameBackground();
-            cuiAvatar.render.initials();
-            cuiAvatar.render.image();
-            cuiAvatar.watchers();
         }
     };
 }]);

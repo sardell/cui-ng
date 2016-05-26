@@ -1,12 +1,14 @@
 <style>
-.cui-input {
-  width: 500px;
-}
+  .cui-dropdown {
+    width:50%;
+  }
 </style>
 
 <input class="cui-input" ng-model="directives.options" ng-init="directives.options='option1,option2,option3'"/>
 
 <!-- CUI-Dropdown -->
-<cui-dropdown class="cui-input" name="test" ng-model="directives.dropdownTest" options="directives.options.split(',')" default-option="Select one" ng-required="true"></cui-dropdown>
+<cui-dropdown name="test" ng-model="directives.dropdownTest" options="directives.options.split(',')" default-option="'Select one'" ng-required="true"></cui-dropdown>
+
+<span ng-if="directives.dropdownTest">Currently selected: {{directives.dropdownTest}}<br/><br/></span>
 
 <a class="cui-link" href="https://github.com/thirdwavellc/cui-ng/tree/master/directives/cui-dropdown" target="blank">Click here for the extended documentation.</a>

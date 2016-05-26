@@ -1,27 +1,21 @@
 angular.module('cui-ng')
 .provider('$cuiIcon', [function(){
-    var iconSets={};
+    let iconSets={};
 
-    this.iconSet=function(namespace,path,viewBox){
-        iconSets[namespace]={
-            path:path,
-            viewBox:viewBox || undefined
-        };
+    this.iconSet = (namespace,path,viewBox) => {
+        iconSets[namespace]={path,viewBox};
     };
 
-    this.getIconSets=function(){
-        return iconSets;
-    };
+    this.getIconSets = () => iconSets;
 
-    this.getIconSet=function(namespace){
+    this.getIconSet = (namespace) => {
         if(!iconSets[namespace]) {
-            console.log('This collection of icons needs to be defined within your app\`s config');
-            return;
+            throw new Error(`The icon collection with the namespace ${namespace} is not yet defined in the $cuiIcon provider.`);
         }
         return iconSets[namespace];
     };
 
-    this.$get=function(){
+    this.$get = function(){
         return this;
     };
 }]);

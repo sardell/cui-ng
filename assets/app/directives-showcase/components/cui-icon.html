@@ -1,8 +1,22 @@
+<style>
+  .icon-class {
+    width:100px;
+    height:100px;
+  }
+
+  .icon-class:hover{
+    fill:skyblue;
+  }
+
+</style>
+
 <span>The cui-icon directive makes it easier to use vector-based icons in your app (as opposed to raster-based icons types like PNG). The directive supports both icon fonts and SVG icons.<br/>
 All styling (color, size, etc) can be done as expected, via css.</span>
-
-<cui-icon cui-svg-icon="cui:user" class="medium-icon" svg-class="test tes2"></cui-icon>
-<cui-icon cui-svg-icon="cui:skyscraper" class="medium-icon"></cui-icon>
+<br/>
+<br/>
+<cui-icon cui-svg-icon="cui:user" svg-class="icon-class" viewBox="0 0 50 50"></cui-icon>
+<br/>
+<cui-icon cui-svg-icon="cui:skyscraper" svg-class="icon-class" viewBox="0 0 50 50"></cui-icon>
 
 <span style="margin-top:15px;display:block;">This directive requires a bit of setup to be able to use, refer to the docs for more info.</span><br/><br/>
 

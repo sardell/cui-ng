@@ -1,6 +1,6 @@
 <style>
-.paginate {
-  width:400px;
+.cui-paginate {
+  min-width:450px;
 }
 </style>
 
@@ -9,13 +9,13 @@
 <!-- Results Per Page -->
 Count: <input ng-model="directives.count" type="number" ng-init="directives.count=200"/><br/><br/>
 
-Results Per Page: <results-per-page ng-model="directives.perPage" class="throwaway"></results-per-page><br/><br/>
+Results Per Page: <results-per-page ng-model="directives.perPage"></results-per-page><br/><br/>
 
 Page: <input ng-model="directives.page" placeholder="page" type="number"/><br/><br/>
 
 Current page, updated by on-page-change callback: {{directives.currentPage}}<br/><br/>
 
-<paginate class="cui-paginate" results-per-page="directives.perPage" count="directives.count" on-page-change="directives.handlePageChange" previous-button="<span></span>" next-button="<span></span>" ng-model="directives.page"></paginate>
+<paginate class="cui-paginate" results-per-page="directives.perPage" count="directives.count" on-page-change="directives.handlePageChange" attach-rerender-to="directives.rerenderPaginate" ng-model="directives.page"></paginate>
 
 <br/>
 

@@ -1,33 +1,35 @@
 angular.module('cui-ng')
-.directive('cuiExpandable',[function(){
+.directive('cuiExpandable',[() => {
     return{
         restrict:'E',
         scope:true,
-        link:function(scope,elem,attrs){
-            var expandableBody=angular.element(elem[0].querySelector('cui-expandable-body'));
+        link:(scope,elem,attrs) => {
+            const expandableBody = angular.element(elem[0].querySelector('cui-expandable-body'));
             expandableBody.hide(); // hide the body by default
-            var toggleClass=function(){
+            const toggleClass = () => {
                 elem.toggleClass('expanded');
             };
-            var toggleBody=function(){
-                expandableBody.animate({'height':'toggle'}, parseInt(elem.attr('transition-speed')||300) ,'linear');
+            const toggleBody = () => {
+                expandableBody.animate({'height':'toggle'}, parseInt(elem.attr('transition-speed') || 300) ,'linear');
             };
 
-            scope.toggleExpand=function(){
+            scope.toggleExpand = (event) => {
+                // this way labels won't toggle expand twice
+                if(event && event.target.tagName==='INPUT' && event.target.labels && event.target.labels.length > 0 ) return;
                 toggleClass();
             };
-            scope.expand=function(){
+            scope.expand = () => {
                 if(!scope.expanded) toggleClass();
             };
-            scope.collapse=function(){
+            scope.collapse = () => {
             	if(scope.expanded) toggleClass();
             };
-            scope.$watch(function() {return elem.attr('class'); }, function(newValue,oldValue){
-                if(oldValue===newValue && newValue.indexOf('expanded')>-1 ){ // if the element the expanded class put in by default
-                    scope.expanded=true;
+            scope.$watch(() => elem.attr('class') || '' , (newValue,oldValue) => {
+                if(oldValue === newValue && newValue.indexOf('expanded') > -1 ){ // if the element the expanded class put in by default
+                    scope.expanded = true;
                     toggleBody();
                 }
-                else if(newValue.indexOf('expanded')===-1){
+                else if(newValue.indexOf('expanded') === -1){
                     if(scope.expanded===true) toggleBody();
                     scope.expanded=false;
                 }

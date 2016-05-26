@@ -1,25 +1,22 @@
 angular.module('cui-ng')
-.directive('classToggle',[function(){
+.directive('classToggle',[() => {
     return{
         restrict:'EAC',
         scope: true,
-        link:function(scope,elem,attrs){
-            var toggledClass=attrs.toggledClass,
-                elementClass=function(){
-                    return elem.attr('class');
-                },
-                checkIfToggled=function(elementClass){
-                    if(elementClass.indexOf(toggledClass)>-1) scope.toggled=true;
-                    else scope.toggled=false;
+        link:(scope,elem,attrs) => {
+            const toggledClass=attrs.toggledClass || 'class-toggle-' + scope.$id,
+                elementClass = () => elem.attr('class') || '',
+                checkIfToggled = (elementClass) => {
+                    scope.toggled = elementClass.indexOf(toggledClass) >= 0
                 };
 
-            scope.toggleClass=function(){
+            scope.toggleClass = () => {
                 elem.toggleClass(toggledClass);
             };
-            scope.toggleOn=function(){
+            scope.toggleOn = () => {
                 if(!scope.toggled) scope.toggleClass();
             };
-            scope.toggleOff=function(){
+            scope.toggleOff = () => {
                 if(scope.toggled) scope.toggleClass();
             };
 

@@ -30,7 +30,7 @@ function($translateProvider,$locationProvider,$cuiIconProvider,$cuiI18nProvider,
         controller: returnCtrlAs('directives')
     });
 
-    // This is used to remove the # from the URLs in an angular app. To be able to use this, 
+    // This is used to remove the # from the URLs in an angular app. To be able to use this,
     // you'll require some server side config, so that every path serves the index.html file.
     // Rread more: https://github.com/angular-ui/ui-router/wiki/Frequently-Asked-Questions#how-to-configure-your-server-to-work-with-html5mode
     // $locationProvider.html5Mode(true);
@@ -38,13 +38,13 @@ function($translateProvider,$locationProvider,$cuiIconProvider,$cuiI18nProvider,
     //fixes infinite digest loop with ui-router
     $urlRouterProvider.otherwise( function($injector) {
       var $state = $injector.get("$state");
-      // this will be the state a user is directed to when angular can't find a match for the URL it receives. 
+      // this will be the state a user is directed to when angular can't find a match for the URL it receives.
       // You can use this to redirect to a 404 page
-      $state.go('index'); 
+      $state.go('index');
     });
 
     if (appConfig.languages) {
-        // This should not be altered, unless you want to get language files from a different location 
+        // This should not be altered, unless you want to get language files from a different location
         // than bower_components/cui-i18n/dist/cui-i18n/angular-translate/
         if (!$cuiI18nProvider) {
             throw new Error('You have languages configured in your appConfig.json file, but you don\'t have cui-i18n installed and/or injected into your config block.');
@@ -84,12 +84,15 @@ function($translateProvider,$locationProvider,$cuiIconProvider,$cuiI18nProvider,
             return;
         }
         appConfig.iconSets.forEach(function(iconSet){
-            $cuiIconProvider.iconSet(iconSet.name, iconSet.path, '0 0 160 60');
+            $cuiIconProvider.iconSet(iconSet.name, iconSet.path, iconSet.defaultViewBox || null);
         })
     }
 
     // Used for results-per-page and paginate
-    $paginationProvider.setPaginationOptions([10,25,50,100]);
+    if (appConfig.paginationOptions){
+        $paginationProvider.setPaginationOptions(appConfig.paginationOptions);
+    }
+    else throw new Error('You don\'t have any paginationOptions set in appConfig.json');
 
 }]);
 
@@ -98,7 +101,7 @@ angular.module('app')
     function(LocaleService,$cuiI18n,$cuiIcon,$rootScope,$state,$http,$templateCache,User,routing,Menu,API){
 
     if (appConfig.languages) {
-        // This should not be altered, unless you want to get language files from 
+        // This should not be altered, unless you want to get language files from
         // a different location than bower_components/cui-i18n/dist/cui-i18n/angular-translate/
         if (!$cuiI18n) {
             throw new Error('You have languages configured in your appConfig.json file, but you don\'t have cui-i18n installed and/or injected into your config block.');
@@ -127,7 +130,7 @@ angular.module('app')
         // cui Auth
         API.handleCovAuthResponse(event, toState, toParams, fromState, fromParams);
         // determines if user is able to access the particular route we're navigation to
-        routing($rootScope, $state, toState, toParams, fromState, fromParams, User.getEntitlements());
+        routing(toState, toParams, fromState, fromParams, User.getEntitlements());
         // for menu handling
         Menu.handleStateChange(toState.menu);
     });

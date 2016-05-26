@@ -15,9 +15,10 @@ angular.module('app')
     return {
         checkIfUsernameAvailable: function(username) {
             var deferred = $q.defer();
-            $timeout(function() {
+            var delay = (Math.random() * 1000); // Simulate API random delay
+            $timeout(function(){
                 deferred.resolve(username !== 'Steven.Seagal');
-            }, 600);
+            }, delay);
             return deferred.promise;
         }
     };
@@ -31,10 +32,8 @@ angular.module('app')
     };
 }])
 
-.controller('directivesCtrl',['$rootScope','$state','$stateParams','user','$timeout','localStorageService','$scope','$translate','fakeApi','$interval','words',
-        'CuiPasswordPolicies',
-function($rootScope,$state,$stateParams,user,$timeout,localStorageService,$scope,$translate,fakeApi,$interval,words,
-        CuiPasswordPolicies) {
+.controller('directivesCtrl',['$rootScope','$state','$stateParams','user','$timeout','localStorageService','$scope','$translate','fakeApi','$interval','words','$q','$compile',
+function($rootScope,$state,$stateParams,user,$timeout,localStorageService,$scope,$translate,fakeApi,$interval,words,$q,$compile) {
 
     var directives = this;
     var timer;
@@ -69,17 +68,17 @@ function($rootScope,$state,$stateParams,user,$timeout,localStorageService,$scope
     directives.passwordPolicies.max = 8,
 
     $scope.$watch('directives.passwordPolicies', function(newPolicies, oldPolicies) {
-        if(newPolicies) CuiPasswordPolicies.set([{
-            allowUpperChars:directives.passwordPolicies.allowUpperChars,
-            allowLowerChars:directives.passwordPolicies.allowLowerChars,
-            allowNumChars:directives.passwordPolicies.allowNumChars,
-            allowSpecialChars:directives.passwordPolicies.allowSpecialChars,
-            requiredNumberOfCharClasses:directives.passwordPolicies.requiredNumberOfCharClasses,
-            disallowedChars:directives.passwordPolicies.disallowedChars,
-            min:directives.passwordPolicies.min,
-            max:directives.passwordPolicies.max,
-            disallowedWords:directives.passwordPolicies.disallowedWords.split(',')
-        }]);
+        if(newPolicies) directives.passwordPolicyObject = {
+            allowUpperChars:newPolicies.allowUpperChars,
+            allowLowerChars:newPolicies.allowLowerChars,
+            allowNumChars:newPolicies.allowNumChars,
+            allowSpecialChars:newPolicies.allowSpecialChars,
+            requiredNumberOfCharClasses:newPolicies.requiredNumberOfCharClasses,
+            disallowedChars:newPolicies.disallowedChars,
+            min:newPolicies.min,
+            max:newPolicies.max,
+            disallowedWords:newPolicies.disallowedWords.split(',')
+        };
     }, true);
 
     directives.customErrors ={
@@ -127,25 +126,17 @@ function($rootScope,$state,$stateParams,user,$timeout,localStorageService,$scope
         });
     };
 
-    directives.testCallback = function() {
-        console.log('hi!');
-    };
-
-    directives.onEdit = function(value) {
-        console.log('test');
-        if (!angular.isDefined(value)) {
-            directives.inlineError = {};
-        }
-        else directives.inlineError = {
-            test:value
-        };
-        directives.noSave = (value !== 'admin');
-    };
 
     // Paginate Start -----------------------------------------------------------
     $scope.$on('$stateChangeSuccess', function(event, toState, toParams, fromState, fromParams) {
         if (toParams.page) {
             directives.page = parseInt($stateParams.page);
+        }
+    });
+
+    $scope.$watch('directives.count', function(newCount){
+        if(directives.rerenderPaginate) {
+            directives.rerenderPaginate();
         }
     });
 
@@ -182,5 +173,63 @@ function($rootScope,$state,$stateParams,user,$timeout,localStorageService,$scope
 
     directives.buildEntitlements();
     // CUI-Authorization End ----------------------------------------------------
+
+
+    // On-enter start -----------------------------------------------------------
+
+    directives.onEnterResults=[];
+    directives.onEnter = function(text) {
+        if(text && text!=='') directives.onEnterResults.push({id:directives.onEnterResults.length+1,text:text});
+        directives.onEnterInput = '';
+    };
+
+    // On-enter end -------------------------------------------------------------
+
+    // cui-tree start -----------------------------------------------------------
+
+    var listOfIds = [1];
+
+    directives.addSibling = function(id,text,tree) {
+        if( tree.some(function(leaf){ return leaf.id===parseInt(id) }) ) {
+            listOfIds.push(listOfIds[listOfIds.length-1]+1);
+            tree.push({id:listOfIds[listOfIds.length-1],text:text});
+        }
+        else {
+            tree.forEach(function(leaf){
+                if(leaf.children && leaf.children.length>0){
+                    directives.addSibling(id,text,leaf.children);
+                }
+            });
+        }
+    };
+
+    directives.addChild = function(id,text,tree) {
+        var indexOfNode = _.findIndex(tree,function(leaf){ return leaf.id === parseInt(id) });
+        if(indexOfNode >= 0) {
+            listOfIds.push(listOfIds[listOfIds.length-1]+1);
+            tree[indexOfNode].children ? tree[indexOfNode].children.push({id:listOfIds[listOfIds.length-1],text:text}) : tree[indexOfNode].children = [{id:listOfIds[listOfIds.length-1],text:text}];
+        }
+        else {
+            tree.forEach(function(leaf){
+                if(leaf.children && leaf.children.length>0){
+                    directives.addChild(id,text,leaf.children);
+                }
+            })
+        }
+    };
+
+
+    var previousActive;
+    directives.leafClickCallback = function(object,leaf,e){
+        if(previousActive){
+            previousActive.classList.remove('active');
+        }
+        previousActive = $(leaf)[0];
+        previousActive.classList.add('active');
+        directives.leafBeingHandled = object;
+    };
+
+    // cui-tree end -------------------------------------------------------------
+
 
 }]);

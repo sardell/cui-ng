@@ -14,7 +14,7 @@ NOTE: If you need more customized password validation rules use [`custom-error`]
 ```html
 <input type="password" name="password" ng-model="app.password" ng-required="true"
 ng-class="{'error-class': signOn.password.$touched && signOn.password.$invalid}"
-password-validation></input>
+password-validation="app.passwordRules"></input>
 
 <div password-popover ng-messages="signOn.password.$error" ng-messages-multiple ng-if="signOn.password.$invalid">
    <div ng-messages-include="assets/angular-templates/password-messages.html"></div>
@@ -26,10 +26,8 @@ Notice how we are passing an attribute of `password-popover` to the ng-messages 
 
 The div appended with the ng-messages attribute uses the ng-messages directive to display the errors, ng-if ensures that they are only shown when the field is invalid.
 
-The way you set new password policies is by calling `CuiPasswordPolicies.set` and pass it an array that looks like this (the position of each object in the array does not matter, as long as the keys match)
 ```js
-    CuiPasswordPolicies.set(
-      [
+    app.passwordRules=[
         {
             'allowUpperChars':true,
             'allowLowerChars':true,
@@ -46,7 +44,6 @@ The way you set new password policies is by calling `CuiPasswordPolicies.set` an
             'max':18
         }
     ]
-  };
 ```
 
 
@@ -139,3 +136,7 @@ This file will contain the markup shown for each error message. Use this to buil
 ## Change Log 3/25/2015
 
 * You no longer need to pass a password policy array into the directive. Simply call the `CuiPasswordPolicies` factory's method `.set` and pass it the array of password policies. The directive will handle the rest.
+
+## Change Log 4/26/2015
+
+* Back to the default behavior of setting policies by attaching them to the `password-validation` attribute. This was done to allow for multiple password validations on the same page.
