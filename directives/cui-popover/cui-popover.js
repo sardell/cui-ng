@@ -119,6 +119,7 @@ angular.module('cui-ng')
                                 scope.$on('$destroy',() => {
                                     $interval.cancel(tetherAttachmentInterval);
                                     $interval.cancel(targetElementPositionInterval);
+                                    $interval.cancel(elementHtmlInterval);
                                     popoverTether[positionInUse].destroy();
                                     self.selectors[positionInUse].$contentBox && self.selectors[positionInUse].$contentBox.detach();
                                     self.selectors[positionInUse].$container && self.selectors[positionInUse].$container.detach();
