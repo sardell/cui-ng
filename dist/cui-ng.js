@@ -1,6 +1,6 @@
 'use strict';var _slicedToArray=function(){function sliceIterator(arr,i){var _arr=[];var _n=true;var _d=false;var _e=undefined;try{for(var _i=arr[Symbol.iterator](),_s;!(_n=(_s=_i.next()).done);_n=true){_arr.push(_s.value);if(i&&_arr.length===i)break;}}catch(err){_d=true;_e=err;}finally {try{if(!_n&&_i["return"])_i["return"]();}finally {if(_d)throw _e;}}return _arr;}return function(arr,i){if(Array.isArray(arr)){return arr;}else if(Symbol.iterator in Object(arr)){return sliceIterator(arr,i);}else {throw new TypeError("Invalid attempt to destructure non-iterable instance");}};}();var _typeof=typeof Symbol==="function"&&typeof Symbol.iterator==="symbol"?function(obj){return typeof obj;}:function(obj){return obj&&typeof Symbol==="function"&&obj.constructor===Symbol?"symbol":typeof obj;};function _defineProperty(obj,key,value){if(key in obj){Object.defineProperty(obj,key,{value:value,enumerable:true,configurable:true,writable:true});}else {obj[key]=value;}return obj;}
 
-// cui-ng build Thu May 26 2016 13:29:28
+// cui-ng build Fri May 27 2016 10:27:39
 
 (function(angular){'use strict';
 
@@ -1693,7 +1693,7 @@ positions=scope.$eval(attrs.popoverPositions);
 positions=CuiPopoverHelpers.parsePositionArray(positions);
 self.config(positions[positionInUse]);
 self.selectors[positionInUse]={};
-self.render.popoverContainer(positionInUse);
+$timeout(function(){return self.render.popoverContainer(positionInUse);});
 
 angular.forEach(self.watchers,function(initWatcher){
 initWatcher();});},
@@ -1820,9 +1820,7 @@ self.selectors[positionIndex].$container[0].style.opacity='0';
 $container.append($pointer);
 self.selectors[positionIndex].$pointer=$pointer;
 
-var cloneElem=angular.element(elem[0].outerHTML);
-// make sure to not recompile ng-repeats
-cloneElem.html($compile('<div>'+elem[0].innerHTML.replace(/ng-repeat="([^"]*)"/g,'')+'</div>')(scope));
+var cloneElem=angular.element(elem).clone(true,true);
 
 cloneElem.css({opacity:'','pointer-events':'',position:'',right:''});
 // append the cui-popover to the container and apply the margins to make room for the pointer
@@ -1837,8 +1835,7 @@ popoverTether[positionIndex]=new Tether(self.helpers.getTetherOptions($container
 
 
 newHtml:function newHtml(_newHtml){
-// make sure to not recompile ng-repeats
-self.selectors[positionInUse].$contentBox.html($compile('<div>'+_newHtml.replace(/ng-repeat="([^"]*)"/g,'')+'</div>')(scope));}},
+self.selectors[positionInUse].$contentBox=elem.clone(true,true);}},
 
 
 newMode:function newMode(_newMode){var 
