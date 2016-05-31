@@ -31,7 +31,7 @@
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-assembly-plugin</artifactId>
         <configuration>
-          <descriptor>assembly.xml</descriptor>
+          <descriptor>src/assembly/tar.xml</descriptor>
           <finalName>cui-ng-${project.version}</finalName>
         </configuration>
         <executions>
