@@ -1,40 +1,15 @@
-angular.module('cui-ng')
-.factory('OffClickFilterCache',[()=>{
-    let filterCache={};
-    return filterCache;
-}])
-.directive('offClickFilter',['OffClickFilterCache',(OffClickFilterCache)=>{
-    return {
-        restrict:'A',
-        link : (scope, elem, attrs) => {
-            const filters = attrs.offClickFilter.split(',');
-
-            filters.forEach((filter)=>{
-                OffClickFilterCache[filter] ? OffClickFilterCache[filter].push(elem[0]) : OffClickFilterCache[filter]=[elem[0]];
-            })
-            scope.$on('$destroy',()=>{
-                filters.forEach((filter)=>{
-                    if(OffClickFilterCache[filter].length>1) {
-                        OffClickFilterCache[filter].splice(OffClickFilterCache[filter].indexOf(elem[0]),1);
-                    }
-                    else delete OffClickFilterCache[filter];
-                })
-            });
-        }
-    };
-}])
-.directive('offClick', ['$rootScope', '$parse', 'OffClickFilterCache', ($rootScope, $parse, OffClickFilterCache) => {
-    let id = 0;
-    let listeners = {};
+angular.module('cui-ng').directive('offClick', ["$rootScope", "$parse", "OffClickFilterCache", function ($rootScope, $parse, OffClickFilterCache) {
+    var id = 0;
+    var listeners = {};
     // add variable to detect touch users moving..
-    let touchMove = false;
+    var touchMove = false;
 
-    const targetInFilter = (target, elms) => {
+    var targetInFilter = function targetInFilter(target, elms) {
         if (!target || !elms) return false;
-        const elmsLen = elms.length;
-        for (let i = 0; i < elmsLen; ++i) {
-            const currentElem = elms[i];
-            let containsTarget = false;
+        var elmsLen = elms.length;
+        for (var i = 0; i < elmsLen; ++i) {
+            var currentElem = elms[i];
+            var containsTarget = false;
             try {
                 containsTarget = currentElem.contains(target);
             } catch (e) {
@@ -51,28 +26,31 @@ angular.module('cui-ng')
             }
         }
         return false;
-    }
+    };
 
-    const offClickEventHandler = (event) => {
+    var offClickEventHandler = function offClickEventHandler(event) {
         // If event is a touchmove adjust touchMove state
-        if( event.type === 'touchmove' ){
+        if (event.type === 'touchmove') {
             touchMove = true;
             // And end function
             return false;
         }
         // This will always fire on the touchend after the touchmove runs...
-        if( touchMove ){
+        if (touchMove) {
             // Reset touchmove to false
             touchMove = false;
             // And end function
             return false;
         }
-        const target = event.target || event.srcElement;
-        angular.forEach(listeners, (listener, i) => {
-            let filters=[];
-            if(OffClickFilterCache['#'+listener.elm.id]) filters = filters.concat(OffClickFilterCache['#'+listener.elm.id]);
-            angular.forEach(listener.elm.classList, (className)=>{
-                if(OffClickFilterCache['.' + className]) filters = filters.concat(OffClickFilterCache['.' + className]);
+        var target = event.target || event.srcElement;
+        angular.forEach(listeners, function (listener, i) {
+            var filters = [];
+            if (listener.elm.id && listener.elm.id !== '') {
+                if (OffClickFilterCache['#' + listener.elm.id]) filters = filters.concat(OffClickFilterCache['#' + listener.elm.id]);
+            }
+            // classList is an object in IE10 and 11 iirc, using angular.forEach to iterate both over an array or object values
+            angular.forEach(listener.elm.classList, function (className) {
+                if (OffClickFilterCache['.' + className]) filters = filters.concat(OffClickFilterCache['.' + className]);
             });
             if (!(listener.elm.contains(target) || targetInFilter(target, filters))) {
                 $rootScope.$evalAsync(function () {
@@ -81,26 +59,24 @@ angular.module('cui-ng')
                     });
                 });
             }
-
         });
-    }
-
+    };
 
     // Add event listeners to handle various events. Destop will ignore touch events
     document.addEventListener("touchmove", offClickEventHandler, true);
     document.addEventListener("touchend", offClickEventHandler, true);
     document.addEventListener('click', offClickEventHandler, true);
 
-
     return {
         restrict: 'A',
-        compile: (elem, attrs) => {
-            const fn = $parse(attrs.offClick);
-            return function (scope, element) {
-                const elmId = id++;
-                let removeWatcher;
+        compile: function compile(elem, attrs) {
+            var fn = $parse(attrs.offClick);
 
-                const on = () => {
+            var elmId = id++;
+            var removeWatcher = void 0;
+
+            return function (scope, element) {
+                var on = function on() {
                     listeners[elmId] = {
                         elm: element[0],
                         cb: fn,
@@ -108,26 +84,61 @@ angular.module('cui-ng')
                     };
                 };
 
-                const off = () => {
+                var off = function off() {
                     listeners[elmId] = null;
                     delete listeners[elmId];
                 };
 
                 if (attrs.offClickIf) {
-                    removeWatcher = $rootScope.$watch(() => $parse(attrs.offClickIf)(scope), (newVal) => {
-                        newVal && on() || !newVal && off()
+                    removeWatcher = $rootScope.$watch(function () {
+                        return $parse(attrs.offClickIf)(scope);
+                    }, function (newVal) {
+                        newVal && on() || !newVal && off();
                     });
                 } else on();
 
-                scope.$on('$destroy', () => {
+                scope.$on('$destroy', function () {
                     off();
                     if (removeWatcher) {
                         removeWatcher();
                     }
                     element = null;
                 });
-
             };
         }
     };
 }]);
+angular.module('cui-ng').directive('offClickFilter', ["OffClickFilterCache", "$parse", function (OffClickFilterCache, $parse) {
+    var filters = void 0;
+
+    return {
+        restrict: 'A',
+        compile: function compile(elem, attrs) {
+            return function (scope, element) {
+                filters = $parse(attrs.offClickFilter)(scope).split(',').map(function (x) {
+                    return x.trim();
+                });
+
+                filters.forEach(function (filter) {
+                    OffClickFilterCache[filter] ? OffClickFilterCache[filter].push(elem[0]) : OffClickFilterCache[filter] = [elem[0]];
+                });
+
+                scope.$on('$destroy', function () {
+                    element = null;
+                    filters.forEach(function (filter) {
+                        if (OffClickFilterCache[filter].length > 1) {
+                            OffClickFilterCache[filter].splice(OffClickFilterCache[filter].indexOf(elem[0]), 1);
+                        } else {
+                            OffClickFilterCache[filter] = null;
+                            delete OffClickFilterCache[filter];
+                        }
+                    });
+                });
+            };
+        }
+    };
+}]);
+angular.module('cui-ng').factory('OffClickFilterCache', function () {
+    var filterCache = {};
+    return filterCache;
+});
