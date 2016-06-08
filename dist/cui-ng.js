@@ -1,6 +1,6 @@
 'use strict';var _slicedToArray=function(){function sliceIterator(arr,i){var _arr=[];var _n=true;var _d=false;var _e=undefined;try{for(var _i=arr[Symbol.iterator](),_s;!(_n=(_s=_i.next()).done);_n=true){_arr.push(_s.value);if(i&&_arr.length===i)break;}}catch(err){_d=true;_e=err;}finally {try{if(!_n&&_i["return"])_i["return"]();}finally {if(_d)throw _e;}}return _arr;}return function(arr,i){if(Array.isArray(arr)){return arr;}else if(Symbol.iterator in Object(arr)){return sliceIterator(arr,i);}else {throw new TypeError("Invalid attempt to destructure non-iterable instance");}};}();var _typeof=typeof Symbol==="function"&&typeof Symbol.iterator==="symbol"?function(obj){return typeof obj;}:function(obj){return obj&&typeof Symbol==="function"&&obj.constructor===Symbol?"symbol":typeof obj;};function _defineProperty(obj,key,value){if(key in obj){Object.defineProperty(obj,key,{value:value,enumerable:true,configurable:true,writable:true});}else {obj[key]=value;}return obj;}
 
-// cui-ng build Mon Jun 06 2016 10:00:07
+// cui-ng build Wed Jun 08 2016 14:11:24
 
 (function(angular){'use strict';
 
@@ -1330,13 +1330,21 @@ cuiDropdown.initScope();}};}]);
 
 
 angular.module('cui-ng').
-directive('cuiExpandable',[function(){
+directive('cuiExpandable',['$compile',function($compile){
 return {
 restrict:'E',
-scope:true,
-link:function link(scope,elem,attrs){
+transclude:true,
+link:function link(scope,elem,attrs,ctrl,transclude){
+var newScope=scope.$parent.$new();
+scope.$on('$destroy',function(){return newScope.$destroy();});
+
+transclude(newScope,function(clone,innerScope){
+elem.append(clone);});
+
+
 var expandableBody=angular.element(elem[0].querySelector('cui-expandable-body'));
 expandableBody.hide(); // hide the body by default
+
 var toggleClass=function toggleClass(){
 elem.toggleClass('expanded');};
 
@@ -1344,30 +1352,29 @@ var toggleBody=function toggleBody(){
 expandableBody.animate({'height':'toggle'},parseInt(elem.attr('transition-speed')||300),'linear');};
 
 
-scope.toggleExpand=function(event){
+newScope.toggleExpand=function(event){
 // this way labels won't toggle expand twice
 if(event&&event.target.tagName==='INPUT'&&event.target.labels&&event.target.labels.length>0)return;
 toggleClass();};
 
-scope.expand=function(){
-if(!scope.expanded)toggleClass();};
+newScope.expand=function(){
+if(!newScope.expanded)toggleClass();};
 
-scope.collapse=function(){
-if(scope.expanded)toggleClass();};
+newScope.collapse=function(){
+if(newScope.expanded)toggleClass();};
 
-scope.$watch(function(){return elem.attr('class')||'';},function(newValue,oldValue){
+newScope.$watch(function(){return elem.attr('class')||'';},function(newValue,oldValue){
 if(oldValue===newValue&&newValue.indexOf('expanded')>-1){ // if the element the expanded class put in by default
-scope.expanded=true;
+newScope.expanded=true;
 toggleBody();}else 
 
 if(newValue.indexOf('expanded')===-1){
-if(scope.expanded===true)toggleBody();
-scope.expanded=false;}else 
+if(newScope.expanded===true)toggleBody();
+newScope.expanded=false;}else 
 
 {
-if(scope.expanded===false)toggleBody();
-scope.expanded=true;}});}};}]);
-
+if(newScope.expanded===false)toggleBody();
+newScope.expanded=true;}});}};}]);
 
 
 
