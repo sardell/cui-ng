@@ -1,5 +1,5 @@
 angular.module('app')
-.factory('Menu',[function(){
+.factory('Menu',[ '$rootScope',function($rootScope){
     return {
         desktop:{
             'state':'open', // default state for desktop menu

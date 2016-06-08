@@ -1,15 +1,14 @@
 angular.module('cui-ng')
-.directive('cuiExpandable',['$compile',($compile) => {
+.directive('cuiExpandable',[() => {
     return{
         restrict:'E',
+        scope: {},
         transclude: true,
         link: (scope, elem, attrs, ctrl, transclude) => {
             const newScope = scope.$parent.$new()
             scope.$on('$destroy',() => newScope.$destroy())
 
-            transclude(newScope, (clone, innerScope) => {
-                elem.append(clone)
-            })
+            transclude(newScope, clone => elem.append(clone))
 
             const expandableBody = angular.element(elem[0].querySelector('cui-expandable-body'))
             expandableBody.hide() // hide the body by default
