@@ -27,12 +27,12 @@ angular.module('cui-ng')
                         else elem[0].classList.remove(attrs.uiSrefActiveNested);
                     };
 
-                    PubSub.subscribe('stateChange', applyActiveClassIfNestedState);
+                    const unsub = PubSub.subscribe('stateChange', applyActiveClassIfNestedState);
 
                     applyActiveClassIfNestedState(null, { toState: $state.current });
 
-                    scope.$on('$destroy',()=>{
-                        PubSub.unsubscribe('stateChange');
+                    scope.$on('$destroy',() => {
+                        PubSub.unsubscribe(unsub);
                     });
                 }
             };

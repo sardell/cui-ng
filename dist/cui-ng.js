@@ -1,6 +1,6 @@
 'use strict';var _slicedToArray=function(){function sliceIterator(arr,i){var _arr=[];var _n=true;var _d=false;var _e=undefined;try{for(var _i=arr[Symbol.iterator](),_s;!(_n=(_s=_i.next()).done);_n=true){_arr.push(_s.value);if(i&&_arr.length===i)break;}}catch(err){_d=true;_e=err;}finally {try{if(!_n&&_i["return"])_i["return"]();}finally {if(_d)throw _e;}}return _arr;}return function(arr,i){if(Array.isArray(arr)){return arr;}else if(Symbol.iterator in Object(arr)){return sliceIterator(arr,i);}else {throw new TypeError("Invalid attempt to destructure non-iterable instance");}};}();var _typeof=typeof Symbol==="function"&&typeof Symbol.iterator==="symbol"?function(obj){return typeof obj;}:function(obj){return obj&&typeof Symbol==="function"&&obj.constructor===Symbol?"symbol":typeof obj;};function _defineProperty(obj,key,value){if(key in obj){Object.defineProperty(obj,key,{value:value,enumerable:true,configurable:true,writable:true});}else {obj[key]=value;}return obj;}
 
-// cui-ng build Thu Jun 09 2016 16:19:06
+// cui-ng build Thu Jun 09 2016 17:08:35
 
 (function(angular){'use strict';
 
@@ -1330,16 +1330,17 @@ cuiDropdown.initScope();}};}]);
 
 
 angular.module('cui-ng').
-directive('cuiExpandable',[function(){
+directive('cuiExpandable',['$compile',function($compile){
 return {
 restrict:'E',
-scope:{},
 transclude:true,
 link:function link(scope,elem,attrs,ctrl,transclude){
 var newScope=scope.$parent.$new();
 scope.$on('$destroy',function(){return newScope.$destroy();});
 
-transclude(newScope,function(clone){return elem.append(clone);});
+transclude(newScope,function(clone,innerScope){
+elem.append(clone);});
+
 
 var expandableBody=angular.element(elem[0].querySelector('cui-expandable-body'));
 expandableBody.hide(); // hide the body by default
@@ -4613,11 +4614,13 @@ active=false;}};
 
 
 
-PubSub.subscribe('stateChange',handleStateChange);
+var unsub=PubSub.subscribe('stateChange',handleStateChange);
 
 handleStateChange(null,{toState:$state.current});
 
-scope.$on('$destroy',function(){return PubSub.unsubscribe('stateChange');});}};}};}]);
+scope.$on('$destroy',function(){
+PubSub.unsubscribe(unsub);});}};}};}]);
+
 
 
 
@@ -4653,12 +4656,12 @@ elem[0].classList.add(attrs.uiSrefActiveNested);}else
 elem[0].classList.remove(attrs.uiSrefActiveNested);};
 
 
-PubSub.subscribe('stateChange',applyActiveClassIfNestedState);
+var unsub=PubSub.subscribe('stateChange',applyActiveClassIfNestedState);
 
 applyActiveClassIfNestedState(null,{toState:$state.current});
 
 scope.$on('$destroy',function(){
-PubSub.unsubscribe('stateChange');});}};}};}]);
+PubSub.unsubscribe(unsub);});}};}};}]);
 
 
 

@@ -19,11 +19,13 @@ angular.module('cui-ng')
                         }
                     };
 
-                    PubSub.subscribe('stateChange', handleStateChange);
+                    const unsub = PubSub.subscribe('stateChange', handleStateChange)
 
-                    handleStateChange(null, { toState: $state.current });
+                    handleStateChange(null, { toState: $state.current })
 
-                    scope.$on('$destroy',()=> PubSub.unsubscribe('stateChange'));
+                    scope.$on('$destroy',()=> {
+                        PubSub.unsubscribe(unsub)
+                    })
                 }
             }
         }
