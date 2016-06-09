@@ -74,10 +74,6 @@ function($translateProvider,$locationProvider,$cuiIconProvider,$cuiI18nProvider,
     }
 
     if (appConfig.iconSets) {
-        if (!$cuiIconProvider) {
-            throw new Error('You have icon sets configured in your appConfig.json file, but you don\'t have cui-icons installed and/or injected into your config block.');
-            return;
-        }
         appConfig.iconSets.forEach(function(iconSet){
             $cuiIconProvider.iconSet(iconSet.name, iconSet.path, iconSet.defaultViewBox || null);
         })

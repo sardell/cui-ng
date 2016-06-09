@@ -1,6 +1,6 @@
 'use strict';var _slicedToArray=function(){function sliceIterator(arr,i){var _arr=[];var _n=true;var _d=false;var _e=undefined;try{for(var _i=arr[Symbol.iterator](),_s;!(_n=(_s=_i.next()).done);_n=true){_arr.push(_s.value);if(i&&_arr.length===i)break;}}catch(err){_d=true;_e=err;}finally {try{if(!_n&&_i["return"])_i["return"]();}finally {if(_d)throw _e;}}return _arr;}return function(arr,i){if(Array.isArray(arr)){return arr;}else if(Symbol.iterator in Object(arr)){return sliceIterator(arr,i);}else {throw new TypeError("Invalid attempt to destructure non-iterable instance");}};}();var _typeof=typeof Symbol==="function"&&typeof Symbol.iterator==="symbol"?function(obj){return typeof obj;}:function(obj){return obj&&typeof Symbol==="function"&&obj.constructor===Symbol?"symbol":typeof obj;};function _defineProperty(obj,key,value){if(key in obj){Object.defineProperty(obj,key,{value:value,enumerable:true,configurable:true,writable:true});}else {obj[key]=value;}return obj;}
 
-// cui-ng build Wed Jun 08 2016 17:12:23
+// cui-ng build Thu Jun 09 2016 14:52:40
 
 (function(angular){'use strict';
 
@@ -4593,6 +4593,36 @@ elem[0].classList.remove('hide--opacity');});}};}]);
 
 
 angular.module('cui-ng').
+directive('uiSrefActiveFor',['$state','PubSub',function($state,PubSub){
+return {
+restrict:'A',
+compile:function compile(){
+return {
+pre:function pre(scope,elem,attrs){
+var active=void 0,
+classList=attrs.uiSrefActiveForClasses?attrs.uiSrefActiveForClasses.split(',').map(function(x){return x.trim;}):['active'];
+
+var handleStateChange=function handleStateChange(e,_ref){var toState=_ref.toState;
+if(toState.name.indexOf(attrs.uiSrefActiveFor)>=0&&!active){
+classList.forEach(function(className){return elem[0].classList.add(className);});}else 
+
+if(toState.name.indexOf(attrs.uiSrefActiveFor)<0&&active){
+classList.forEach(function(className){return elem[0].classList.remove(className);});}};
+
+
+
+PubSub.subscribe('stateChange',handleStateChange);
+
+handleStateChange(null,{toState:$state.current});
+
+scope.$on('$destroy',function(){return PubSub.unsubscribe('stateChange');});}};}};}]);
+
+
+
+
+
+
+angular.module('cui-ng').
 directive('uiSrefActiveNested',['$state','PubSub',function($state,PubSub){
 return {
 restrict:'A',
@@ -4611,7 +4641,7 @@ parentState=attrs.uiSref.split('.')[0];}
 // else if it's a parent state
 else parentState=attrs.uiSref;
 
-var applyActiveClassIfNestedState=function applyActiveClassIfNestedState(e,_ref){var toState=_ref.toState;
+var applyActiveClassIfNestedState=function applyActiveClassIfNestedState(e,_ref2){var toState=_ref2.toState;
 if(toState.name.indexOf('.')>-1&&toState.name.split('.')[0]===parentState){
 elem[0].classList.add(attrs.uiSrefActiveNested);}else 
 

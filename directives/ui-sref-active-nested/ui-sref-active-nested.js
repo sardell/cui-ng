@@ -2,7 +2,7 @@ angular.module('cui-ng')
 .directive('uiSrefActiveNested',['$state','PubSub',($state,PubSub) => {
     return{
         restrict:'A',
-        compile:()=>{
+        compile:() => {
             return {
                 pre:(scope,elem,attrs) => {
                     let parentState;

@@ -27,6 +27,7 @@ Cui-ng is an angular module with a series of custom directives and utilities for
 * [Results-Per-Page](https://github.com/thirdwavellc/cui-ng/tree/master/directives/results-per-page)
 * [Tags-input](https://github.com/thirdwavellc/cui-ng/tree/master/directives/tags-input)
 * [Tether](https://github.com/thirdwavellc/cui-ng/tree/master/directives/tether)
+* [Ui-Sref-Active-For](https://github.com/thirdwavellc/cui-ng/tree/master/directives/ui-sref-active-for)
 * [Ui-Sref-Active-Nested](https://github.com/thirdwavellc/cui-ng/tree/master/directives/ui-sref-active-nested)
 
 ## Providers
