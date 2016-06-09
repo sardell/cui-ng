@@ -11,9 +11,11 @@ angular.module('cui-ng')
                     const handleStateChange = (e, { toState }) => {
                         if(toState.name.indexOf(attrs.uiSrefActiveFor) >= 0 && !active) {
                             classList.forEach(className => elem[0].classList.add(className))
+                            active = true
                         }
                         else if(toState.name.indexOf(attrs.uiSrefActiveFor) < 0 && active) {
                             classList.forEach(className => elem[0].classList.remove(className))
+                            active = false
                         }
                     };
 
