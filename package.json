@@ -1,20 +1,17 @@
 {
-  "name": "cui-ng",
-  "description": "CUI Angular Components",
+  "name": "@covisint/cui-ng",
+  "description": "Library of Angular directives for use with CUI projects",
   "version": "1.9.6",
-  "author": "Thirdwave LLC <sales@thirdwavellc.com> (http://www.thirdwavellc.com/)",
-  "homepage": "https://github.com/thirdwavellc/cui-ng",
-  "licence": "ISC",
+  "homepage": "https://github.com/covisint/cui-ng",
+  "license": "LicenseRef-LICENSE",
+  "author": "Thirdwave LLC <info@thirdwavellc.com> (http://www.thirdwavellc.com/)",
   "main": "dist/",
   "repository": {
     "type": "git",
-    "url": "https://github.com/thirdwavellc/cui-ng"
-  },
-  "publishConfig": {
-    "registry": "http://nexus.thirdwavellc.com/content/repositories/cui-npm/"
+    "url": "https://github.com/covisint/cui-ng"
   },
   "bugs": {
-    "url": "https://github.com/thirdwavellc/cui-ng/issues"
+    "url": "https://github.com/covisint/cui-ng/issues"
   },
   "files": [
     "dist/"

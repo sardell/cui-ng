@@ -11,14 +11,27 @@
 
   <groupId>com.covisint.cui</groupId>
   <artifactId>cui-ng</artifactId>
-  <version>0.0.1-SNAPSHOT</version>
+  <version>1.9.6-SNAPSHOT</version>
+
+  <name>CUI Angular Components</name>
+  <description>The collection of Angular Components for use by Covisint Product Apps.</description>
+  <organization>
+    <name>Covisint</name>
+  </organization>
+
+  <scm>
+    <url>https://github.com/covisint/cui-ng</url>
+    <connection>scm:git:git@github.com:covisint/cui-ng.git</connection>
+    <tag>HEAD</tag>
+  </scm>
+
   <build>
     <plugins>
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-assembly-plugin</artifactId>
         <configuration>
-          <descriptor>assembly.xml</descriptor>
+          <descriptor>src/assembly/tar.xml</descriptor>
           <finalName>cui-ng-${project.version}</finalName>
         </configuration>
         <executions>
@@ -67,15 +80,4 @@
 
     </plugins>
   </build>
-
-  <scm>
-    <url>https://github.com/thirdwavellc/cui-ng</url>
-    <connection>scm:git:git@github.com:thirdwavellc/cui-ng.git</connection>
-    <tag>HEAD</tag>
-  </scm>
-  <organization>
-    <name>Covisint</name>
-  </organization>
-  <name>CUI Angular Components</name>
-  <description>The collection of Angular Components for use by Covisint Product Apps.</description>
 </project>
