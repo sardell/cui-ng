@@ -19,11 +19,6 @@ function($translateProvider,$locationProvider,$cuiIconProvider,$cuiI18nProvider,
     // the biggest of them being the ability to set nested states with multiple views per state.
     // See more here https://github.com/angular-ui/ui-router
     $stateProvider
-    // the auth state is used for authentication purposes.
-    .state('auth', {
-        url: '/auth',
-        abstract:true
-    })
    .state('index', {
         url: '/',
         templateUrl: templateBase + 'directives-showcase/directives-showcase.html',
@@ -79,10 +74,6 @@ function($translateProvider,$locationProvider,$cuiIconProvider,$cuiI18nProvider,
     }
 
     if (appConfig.iconSets) {
-        if (!$cuiIconProvider) {
-            throw new Error('You have icon sets configured in your appConfig.json file, but you don\'t have cui-icons installed and/or injected into your config block.');
-            return;
-        }
         appConfig.iconSets.forEach(function(iconSet){
             $cuiIconProvider.iconSet(iconSet.name, iconSet.path, iconSet.defaultViewBox || null);
         })
@@ -97,8 +88,8 @@ function($translateProvider,$locationProvider,$cuiIconProvider,$cuiI18nProvider,
 }]);
 
 angular.module('app')
-.run(['LocaleService','$cuiI18n','$cuiIcon','$rootScope','$state','$http','$templateCache','User','cui.authorization.routing','Menu','API',
-    function(LocaleService,$cuiI18n,$cuiIcon,$rootScope,$state,$http,$templateCache,User,routing,Menu,API){
+.run(['LocaleService','$cuiI18n','$cuiIcon','$rootScope','$state','$http','$templateCache','cui.authorization.routing','Menu',
+    function(LocaleService,$cuiI18n,$cuiIcon,$rootScope,$state,$http,$templateCache,routing,Menu){
 
     if (appConfig.languages) {
         // This should not be altered, unless you want to get language files from
@@ -125,21 +116,5 @@ angular.module('app')
             });
         });
     }
-
-    $rootScope.$on('$stateChangeStart', function(event, toState, toParams, fromState, fromParams) {
-        // cui Auth
-        API.handleCovAuthResponse(event, toState, toParams, fromState, fromParams);
-        // determines if user is able to access the particular route we're navigation to
-        routing(toState, toParams, fromState, fromParams, User.getEntitlements());
-        // for menu handling
-        Menu.handleStateChange(toState.menu);
-    });
-
-    $rootScope.$on('$stateChangeSuccess', function (event, toState, toParams, fromState, fromParams) {
-        // this is for base.goBack()
-        $state.previous = {};
-        $state.previous.name = fromState;
-        $state.previous.params = fromParams;
-    });
 
 }]);

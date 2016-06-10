@@ -170,7 +170,7 @@ angular.module('cui-ng')
                     dropdown: () => {
                         if(dropdownScope) dropdownScope.$destroy();
                         dropdownScope = scope.$new();
-                        const dropdown = $compile(`<div class="${cuiDropdown.config.dropdownWrapperClass}" off-click-filter="#cui-dropdown-${id}"></div>`)(dropdownScope);
+                        const dropdown = $compile(`<div class="${cuiDropdown.config.dropdownWrapperClass}" off-click-filter="'#cui-dropdown-${id}'"></div>`)(dropdownScope);
                         const displayValues=cuiDropdown.helpers.getOptionDisplayValues();
                         displayValues.forEach((value,i) => {
                             dropdown.append(cuiDropdown.helpers.getDropdownItem(i,value));

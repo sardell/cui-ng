@@ -1,6 +1,6 @@
 'use strict';var _slicedToArray=function(){function sliceIterator(arr,i){var _arr=[];var _n=true;var _d=false;var _e=undefined;try{for(var _i=arr[Symbol.iterator](),_s;!(_n=(_s=_i.next()).done);_n=true){_arr.push(_s.value);if(i&&_arr.length===i)break;}}catch(err){_d=true;_e=err;}finally {try{if(!_n&&_i["return"])_i["return"]();}finally {if(_d)throw _e;}}return _arr;}return function(arr,i){if(Array.isArray(arr)){return arr;}else if(Symbol.iterator in Object(arr)){return sliceIterator(arr,i);}else {throw new TypeError("Invalid attempt to destructure non-iterable instance");}};}();var _typeof=typeof Symbol==="function"&&typeof Symbol.iterator==="symbol"?function(obj){return typeof obj;}:function(obj){return obj&&typeof Symbol==="function"&&obj.constructor===Symbol?"symbol":typeof obj;};function _defineProperty(obj,key,value){if(key in obj){Object.defineProperty(obj,key,{value:value,enumerable:true,configurable:true,writable:true});}else {obj[key]=value;}return obj;}
 
-// cui-ng build Thu May 26 2016 14:50:37
+// cui-ng build Fri Jun 10 2016 13:35:57
 
 (function(angular){'use strict';
 
@@ -1305,7 +1305,7 @@ cuiDropdown.selectors.$cuiDropdown=element;},
 dropdown:function dropdown(){
 if(dropdownScope)dropdownScope.$destroy();
 dropdownScope=scope.$new();
-var dropdown=$compile('<div class="'+cuiDropdown.config.dropdownWrapperClass+'" off-click-filter="#cui-dropdown-'+id+'"></div>')(dropdownScope);
+var dropdown=$compile('<div class="'+cuiDropdown.config.dropdownWrapperClass+'" off-click-filter="\'#cui-dropdown-'+id+'\'"></div>')(dropdownScope);
 var displayValues=cuiDropdown.helpers.getOptionDisplayValues();
 displayValues.forEach(function(value,i){
 dropdown.append(cuiDropdown.helpers.getDropdownItem(i,value));});
@@ -1330,13 +1330,21 @@ cuiDropdown.initScope();}};}]);
 
 
 angular.module('cui-ng').
-directive('cuiExpandable',[function(){
+directive('cuiExpandable',['$compile',function($compile){
 return {
 restrict:'E',
-scope:true,
-link:function link(scope,elem,attrs){
+transclude:true,
+link:function link(scope,elem,attrs,ctrl,transclude){
+var newScope=scope.$parent.$new();
+scope.$on('$destroy',function(){return newScope.$destroy();});
+
+transclude(newScope,function(clone,innerScope){
+elem.append(clone);});
+
+
 var expandableBody=angular.element(elem[0].querySelector('cui-expandable-body'));
 expandableBody.hide(); // hide the body by default
+
 var toggleClass=function toggleClass(){
 elem.toggleClass('expanded');};
 
@@ -1344,30 +1352,29 @@ var toggleBody=function toggleBody(){
 expandableBody.animate({'height':'toggle'},parseInt(elem.attr('transition-speed')||300),'linear');};
 
 
-scope.toggleExpand=function(event){
+newScope.toggleExpand=function(event){
 // this way labels won't toggle expand twice
 if(event&&event.target.tagName==='INPUT'&&event.target.labels&&event.target.labels.length>0)return;
 toggleClass();};
 
-scope.expand=function(){
-if(!scope.expanded)toggleClass();};
+newScope.expand=function(){
+if(!newScope.expanded)toggleClass();};
 
-scope.collapse=function(){
-if(scope.expanded)toggleClass();};
+newScope.collapse=function(){
+if(newScope.expanded)toggleClass();};
 
-scope.$watch(function(){return elem.attr('class')||'';},function(newValue,oldValue){
+newScope.$watch(function(){return elem.attr('class')||'';},function(newValue,oldValue){
 if(oldValue===newValue&&newValue.indexOf('expanded')>-1){ // if the element the expanded class put in by default
-scope.expanded=true;
+newScope.expanded=true;
 toggleBody();}else 
 
 if(newValue.indexOf('expanded')===-1){
-if(scope.expanded===true)toggleBody();
-scope.expanded=false;}else 
+if(newScope.expanded===true)toggleBody();
+newScope.expanded=false;}else 
 
 {
-if(scope.expanded===false)toggleBody();
-scope.expanded=true;}});}};}]);
-
+if(newScope.expanded===false)toggleBody();
+newScope.expanded=true;}});}};}]);
 
 
 
@@ -1693,7 +1700,7 @@ positions=scope.$eval(attrs.popoverPositions);
 positions=CuiPopoverHelpers.parsePositionArray(positions);
 self.config(positions[positionInUse]);
 self.selectors[positionInUse]={};
-self.render.popoverContainer(positionInUse);
+$timeout(function(){return self.render.popoverContainer(positionInUse);});
 
 angular.forEach(self.watchers,function(initWatcher){
 initWatcher();});},
@@ -1794,6 +1801,7 @@ scopeDestroy:function scopeDestroy(){
 scope.$on('$destroy',function(){
 $interval.cancel(tetherAttachmentInterval);
 $interval.cancel(targetElementPositionInterval);
+$interval.cancel(elementHtmlInterval);
 popoverTether[positionInUse].destroy();
 self.selectors[positionInUse].$contentBox&&self.selectors[positionInUse].$contentBox.detach();
 self.selectors[positionInUse].$container&&self.selectors[positionInUse].$container.detach();
@@ -1820,9 +1828,7 @@ self.selectors[positionIndex].$container[0].style.opacity='0';
 $container.append($pointer);
 self.selectors[positionIndex].$pointer=$pointer;
 
-var cloneElem=angular.element(elem[0].outerHTML);
-// make sure to not recompile ng-repeats
-cloneElem.html($compile('<div>'+elem[0].innerHTML.replace(/ng-repeat="([^"]*)"/g,'')+'</div>')(scope));
+var cloneElem=angular.element(elem).clone(true,true);
 
 cloneElem.css({opacity:'','pointer-events':'',position:'',right:''});
 // append the cui-popover to the container and apply the margins to make room for the pointer
@@ -1837,8 +1843,7 @@ popoverTether[positionIndex]=new Tether(self.helpers.getTetherOptions($container
 
 
 newHtml:function newHtml(_newHtml){
-// make sure to not recompile ng-repeats
-self.selectors[positionInUse].$contentBox.html($compile('<div>'+_newHtml.replace(/ng-repeat="([^"]*)"/g,'')+'</div>')(scope));}},
+self.selectors[positionInUse].$contentBox=elem.clone(true,true);}},
 
 
 newMode:function newMode(_newMode){var 
@@ -2815,32 +2820,7 @@ scope.$watch(function(){return [scope.$eval(attrs.match),ctrl.$viewValue];},chec
 
 
 
-angular.module('cui-ng').
-factory('OffClickFilterCache',[function(){
-var filterCache={};
-return filterCache;}]).
-
-directive('offClickFilter',['OffClickFilterCache',function(OffClickFilterCache){
-return {
-restrict:'A',
-link:function link(scope,elem,attrs){
-var filters=attrs.offClickFilter.split(',');
-
-filters.forEach(function(filter){
-OffClickFilterCache[filter]?OffClickFilterCache[filter].push(elem[0]):OffClickFilterCache[filter]=[elem[0]];});
-
-scope.$on('$destroy',function(){
-filters.forEach(function(filter){
-if(OffClickFilterCache[filter].length>1){
-OffClickFilterCache[filter].splice(OffClickFilterCache[filter].indexOf(elem[0]),1);}else 
-
-delete OffClickFilterCache[filter];});});}};}]).
-
-
-
-
-
-directive('offClick',['$rootScope','$parse','OffClickFilterCache',function($rootScope,$parse,OffClickFilterCache){
+angular.module('cui-ng').directive('offClick',function($rootScope,$parse,OffClickFilterCache){
 var id=0;
 var listeners={};
 // add variable to detect touch users moving..
@@ -2887,7 +2867,10 @@ return false;}
 var target=event.target||event.srcElement;
 angular.forEach(listeners,function(listener,i){
 var filters=[];
-if(OffClickFilterCache['#'+listener.elm.id])filters=filters.concat(OffClickFilterCache['#'+listener.elm.id]);
+if(listener.elm.id&&listener.elm.id!==''){
+if(OffClickFilterCache['#'+listener.elm.id])filters=filters.concat(OffClickFilterCache['#'+listener.elm.id]);}
+
+// classList is an object in IE10 and 11 iirc, using angular.forEach to iterate both over an array or object values
 angular.forEach(listener.elm.classList,function(className){
 if(OffClickFilterCache['.'+className])filters=filters.concat(OffClickFilterCache['.'+className]);});
 
@@ -2913,10 +2896,11 @@ return {
 restrict:'A',
 compile:function compile(elem,attrs){
 var fn=$parse(attrs.offClick);
-return function(scope,element){
+
 var elmId=id++;
 var removeWatcher=void 0;
 
+return function(scope,element){
 var on=function on(){
 listeners[elmId]={
 elm:element[0],
@@ -2941,13 +2925,44 @@ off();
 if(removeWatcher){
 removeWatcher();}
 
-element=null;});};}};}]);
+element=null;});};}};}).
+
+
+
+
+
+directive('offClickFilter',function(OffClickFilterCache,$parse){
+var filters=void 0;
+
+return {
+restrict:'A',
+compile:function compile(elem,attrs){
+return function(scope,element){
+filters=$parse(attrs.offClickFilter)(scope).split(',').map(function(x){return x.trim();});
+
+filters.forEach(function(filter){
+OffClickFilterCache[filter]?OffClickFilterCache[filter].push(elem[0]):OffClickFilterCache[filter]=[elem[0]];});
+
+
+scope.$on('$destroy',function(){
+element=null;
+filters.forEach(function(filter){
+if(OffClickFilterCache[filter].length>1){
+OffClickFilterCache[filter].splice(OffClickFilterCache[filter].indexOf(elem[0]),1);}else 
+
+{
+OffClickFilterCache[filter]=null;
+delete OffClickFilterCache[filter];}});});};}};}).
 
 
 
 
 
 
+
+factory('OffClickFilterCache',function(){
+var filterCache={};
+return filterCache;});
 
 
 angular.module('cui-ng').
@@ -4579,6 +4594,40 @@ elem[0].classList.remove('hide--opacity');});}};}]);
 
 
 angular.module('cui-ng').
+directive('uiSrefActiveFor',['$state','PubSub',function($state,PubSub){
+return {
+restrict:'A',
+compile:function compile(){
+return {
+pre:function pre(scope,elem,attrs){
+var active=void 0,
+classList=attrs.uiSrefActiveForClasses?attrs.uiSrefActiveForClasses.split(',').map(function(x){return x.trim();}):['active'];
+
+var handleStateChange=function handleStateChange(e,_ref){var toState=_ref.toState;
+if(toState.name.indexOf(attrs.uiSrefActiveFor)>=0&&!active){
+classList.forEach(function(className){return elem[0].classList.add(className);});
+active=true;}else 
+
+if(toState.name.indexOf(attrs.uiSrefActiveFor)<0&&active){
+classList.forEach(function(className){return elem[0].classList.remove(className);});
+active=false;}};
+
+
+
+var unsub=PubSub.subscribe('stateChange',handleStateChange);
+
+handleStateChange(null,{toState:$state.current});
+
+scope.$on('$destroy',function(){
+PubSub.unsubscribe(unsub);});}};}};}]);
+
+
+
+
+
+
+
+angular.module('cui-ng').
 directive('uiSrefActiveNested',['$state','PubSub',function($state,PubSub){
 return {
 restrict:'A',
@@ -4597,7 +4646,7 @@ parentState=attrs.uiSref.split('.')[0];}
 // else if it's a parent state
 else parentState=attrs.uiSref;
 
-var applyActiveClassIfNestedState=function applyActiveClassIfNestedState(e,_ref){var toState=_ref.toState;
+var applyActiveClassIfNestedState=function applyActiveClassIfNestedState(e,_ref2){var toState=_ref2.toState;
 if(toState.name.indexOf('.')>-1&&toState.name.split('.')[0]===parentState){
 elem[0].classList.add(attrs.uiSrefActiveNested);}else 
 
@@ -4607,12 +4656,12 @@ elem[0].classList.add(attrs.uiSrefActiveNested);}else
 elem[0].classList.remove(attrs.uiSrefActiveNested);};
 
 
-PubSub.subscribe('stateChange',applyActiveClassIfNestedState);
+var unsub=PubSub.subscribe('stateChange',applyActiveClassIfNestedState);
 
 applyActiveClassIfNestedState(null,{toState:$state.current});
 
 scope.$on('$destroy',function(){
-PubSub.unsubscribe('stateChange');});}};}};}]);
+PubSub.unsubscribe(unsub);});}};}};}]);
 
 
 

@@ -1,29 +1,4 @@
-angular.module('cui-ng')
-.factory('OffClickFilterCache',[()=>{
-    let filterCache={};
-    return filterCache;
-}])
-.directive('offClickFilter',['OffClickFilterCache',(OffClickFilterCache)=>{
-    return {
-        restrict:'A',
-        link : (scope, elem, attrs) => {
-            const filters = attrs.offClickFilter.split(',');
-
-            filters.forEach((filter)=>{
-                OffClickFilterCache[filter] ? OffClickFilterCache[filter].push(elem[0]) : OffClickFilterCache[filter]=[elem[0]];
-            })
-            scope.$on('$destroy',()=>{
-                filters.forEach((filter)=>{
-                    if(OffClickFilterCache[filter].length>1) {
-                        OffClickFilterCache[filter].splice(OffClickFilterCache[filter].indexOf(elem[0]),1);
-                    }
-                    else delete OffClickFilterCache[filter];
-                })
-            });
-        }
-    };
-}])
-.directive('offClick', ['$rootScope', '$parse', 'OffClickFilterCache', ($rootScope, $parse, OffClickFilterCache) => {
+angular.module('cui-ng').directive('offClick', ($rootScope, $parse, OffClickFilterCache) => {
     let id = 0;
     let listeners = {};
     // add variable to detect touch users moving..
@@ -70,12 +45,15 @@ angular.module('cui-ng')
         const target = event.target || event.srcElement;
         angular.forEach(listeners, (listener, i) => {
             let filters=[];
-            if(OffClickFilterCache['#'+listener.elm.id]) filters = filters.concat(OffClickFilterCache['#'+listener.elm.id]);
-            angular.forEach(listener.elm.classList, (className)=>{
+            if(listener.elm.id && listener.elm.id !== '') {
+                if(OffClickFilterCache['#' + listener.elm.id]) filters = filters.concat(OffClickFilterCache['#'+listener.elm.id]);
+            }
+            // classList is an object in IE10 and 11 iirc, using angular.forEach to iterate both over an array or object values
+            angular.forEach(listener.elm.classList, (className) => {
                 if(OffClickFilterCache['.' + className]) filters = filters.concat(OffClickFilterCache['.' + className]);
             });
             if (!(listener.elm.contains(target) || targetInFilter(target, filters))) {
-                $rootScope.$evalAsync(function () {
+                $rootScope.$evalAsync(() => {
                     listener.cb(listener.scope, {
                         $event: event
                     });
@@ -96,10 +74,11 @@ angular.module('cui-ng')
         restrict: 'A',
         compile: (elem, attrs) => {
             const fn = $parse(attrs.offClick);
-            return function (scope, element) {
-                const elmId = id++;
-                let removeWatcher;
 
+            const elmId = id++;
+            let removeWatcher;
+
+            return (scope, element) => {
                 const on = () => {
                     listeners[elmId] = {
                         elm: element[0],
@@ -126,8 +105,40 @@ angular.module('cui-ng')
                     }
                     element = null;
                 });
-
             };
         }
     };
-}]);
+})
+.directive('offClickFilter', (OffClickFilterCache, $parse) => {
+    let filters;
+
+    return {
+        restrict:'A',
+        compile : (elem, attrs)  => {
+            return (scope, element) => {
+                filters = $parse(attrs.offClickFilter)(scope).split(',').map(x => x.trim());
+
+                filters.forEach(filter => {
+                    OffClickFilterCache[filter] ? OffClickFilterCache[filter].push(elem[0]) : OffClickFilterCache[filter] = [elem[0]];
+                });
+
+                scope.$on('$destroy',()  => {
+                    element = null;
+                    filters.forEach((filter) => {
+                        if(OffClickFilterCache[filter].length > 1)  {
+                            OffClickFilterCache[filter].splice(OffClickFilterCache[filter].indexOf(elem[0]), 1);
+                        }
+                        else {
+                            OffClickFilterCache[filter] = null;
+                            delete OffClickFilterCache[filter];
+                        }
+                    });
+                });
+            };
+        }
+    };
+})
+.factory('OffClickFilterCache', () => {
+    let filterCache = {};
+    return filterCache;
+});

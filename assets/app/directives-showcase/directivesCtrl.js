@@ -232,4 +232,8 @@ function($rootScope,$state,$stateParams,user,$timeout,localStorageService,$scope
     // cui-tree end -------------------------------------------------------------
 
 
+    directives.log=function(message){
+        console.log(message);
+    }
+
 }]);

@@ -18,7 +18,7 @@ angular.module('cui-ng')
                             positions = CuiPopoverHelpers.parsePositionArray(positions);
                             self.config(positions[positionInUse]);
                             self.selectors[positionInUse]={};
-                            self.render.popoverContainer(positionInUse);
+                            $timeout(()=> self.render.popoverContainer(positionInUse));
 
                             angular.forEach(self.watchers, (initWatcher) => {
                                 initWatcher();
@@ -119,6 +119,7 @@ angular.module('cui-ng')
                                 scope.$on('$destroy',() => {
                                     $interval.cancel(tetherAttachmentInterval);
                                     $interval.cancel(targetElementPositionInterval);
+                                    $interval.cancel(elementHtmlInterval);
                                     popoverTether[positionInUse].destroy();
                                     self.selectors[positionInUse].$contentBox && self.selectors[positionInUse].$contentBox.detach();
                                     self.selectors[positionInUse].$container && self.selectors[positionInUse].$container.detach();
@@ -145,9 +146,7 @@ angular.module('cui-ng')
                                 $container.append($pointer);
                                 self.selectors[positionIndex].$pointer = $pointer;
 
-                                const cloneElem = angular.element(elem[0].outerHTML);
-                                // make sure to not recompile ng-repeats
-                                cloneElem.html($compile('<div>' + elem[0].innerHTML.replace(/ng-repeat="([^"]*)"/g,'') + '</div>')(scope));
+                                const cloneElem = angular.element(elem).clone(true,true);
 
                                 cloneElem.css({opacity:'','pointer-events':'',position:'',right:''});
                                 // append the cui-popover to the container and apply the margins to make room for the pointer
@@ -162,8 +161,7 @@ angular.module('cui-ng')
 
                             },
                             newHtml:(newHtml) => {
-                                // make sure to not recompile ng-repeats
-                                self.selectors[positionInUse].$contentBox.html($compile('<div>' + newHtml.replace(/ng-repeat="([^"]*)"/g,'') + '</div>')(scope));
+                                self.selectors[positionInUse].$contentBox = elem.clone(true,true);
                             }
                         },
                         newMode:(newMode) => {

@@ -2,7 +2,7 @@ angular.module('cui-ng')
 .directive('uiSrefActiveNested',['$state','PubSub',($state,PubSub) => {
     return{
         restrict:'A',
-        compile:()=>{
+        compile:() => {
             return {
                 pre:(scope,elem,attrs) => {
                     let parentState;
@@ -27,12 +27,12 @@ angular.module('cui-ng')
                         else elem[0].classList.remove(attrs.uiSrefActiveNested);
                     };
 
-                    PubSub.subscribe('stateChange', applyActiveClassIfNestedState);
+                    const unsub = PubSub.subscribe('stateChange', applyActiveClassIfNestedState);
 
                     applyActiveClassIfNestedState(null, { toState: $state.current });
 
-                    scope.$on('$destroy',()=>{
-                        PubSub.unsubscribe('stateChange');
+                    scope.$on('$destroy',() => {
+                        PubSub.unsubscribe(unsub);
                     });
                 }
             };
