@@ -38,8 +38,7 @@
     "cui-ng-datafactory": "#master",
     "cui-styleguide": "#master",
     "cui-i18n": "#master",
-    "cui-icons": "#master",
-    "cui.js": "#master"
+    "cui-icons": "#master"
   },
   "dependencies": {
     "tether": "~1.3.2",
