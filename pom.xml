@@ -11,7 +11,7 @@
 
   <groupId>com.covisint.cui</groupId>
   <artifactId>cui-ng</artifactId>
-  <version>1.8.10-SNAPSHOT</version>
+  <version>1.9.6-SNAPSHOT</version>
 
   <name>CUI Angular Components</name>
   <description>The collection of Angular Components for use by Covisint Product Apps.</description>
