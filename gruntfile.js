@@ -110,23 +110,23 @@ module.exports = function(grunt) {
         dest: 'build/appConfig.json'
       },
       svgs : {
-        src: 'bower_components/cui-icons/dist/**/*.svg',
+        src: 'node_modules/@covisint/cui-icons/dist/**/*.svg',
         dest: 'build/'
       },
       languageFiles: {
-        src: 'bower_components/cui-i18n/dist/cui-i18n/angular-translate/*.json',
+        src: 'node_modules/@covisint/cui-i18n/dist/cui-i18n/angular-translate/*.json',
         dest: 'build/'
       },
       localeFiles: {
-        src: 'bower_components/angular-i18n/*.js',
+        src: 'node_modules/angular-i18n/*.js',
         dest: 'build/'
       },
       cuiI18n: {
-        src: ['bower_components/cui-i18n/dist/cui-i18n/angular-translate/**/*.json'],
+        src: ['node_modules/@covisint/cui-i18n/dist/cui-i18n/angular-translate/**/*.json'],
         dest: 'build/'
       },
       lato:{
-        src: ['bower_components/lato/font/lato-regular/*.*'],
+        src: ['node_modules/lato/font/lato-regular/*.*'],
         dest: 'build/'
       }
     },
@@ -153,7 +153,7 @@ module.exports = function(grunt) {
         src: ['dist/cui-ng.js'],
         options: {
           specs: 'tests/*.js',
-          helpers: ['bower_components/jquery/dist/jquery.js','bower_components/angular/angular.js','node_modules/angular-mocks/angular-mocks.js']
+          helpers: ['node_modules/jquery/dist/jquery.js','node_modules/angular/angular.js','node_modules/angular-mocks/angular-mocks.js']
         }
       }
     },
