@@ -61,7 +61,7 @@ function($translateProvider,$locationProvider,$cuiIconProvider,$cuiI18nProvider,
 
         $translateProvider
         .useLoader('LocaleLoader',{
-            url: 'bower_components/cui-i18n/dist/cui-i18n/angular-translate/',
+            url: 'node_modules/@covisint/cui-i18n/dist/cui-i18n/angular-translate/',
             prefix: 'locale-',
             suffix: '.json'
         })

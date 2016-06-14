@@ -3,7 +3,7 @@
   "description": "Library of Angular directives for use with CUI projects",
   "version": "1.9.6",
   "homepage": "https://github.com/covisint/cui-ng",
-  "license": "LicenseRef-LICENSE",
+  "license": "SEE LICENSE IN LICENSE",
   "author": "Thirdwave LLC <info@thirdwavellc.com> (http://www.thirdwavellc.com/)",
   "main": "dist/",
   "repository": {
@@ -37,11 +37,23 @@
     "gulp": "^3.9.0",
     "gulp-sass": "^2.0.4",
     "gulp-util": "^3.0.6",
-    "load-grunt-tasks": "^3.3.0"
+    "load-grunt-tasks": "^3.3.0",
+    "angular-messages": "^1.4.7",
+    "angular-local-storage": "^0.2.3",
+    "angular-snap": "^1.8.4",
+    "grunt-angular-templates": "^1.0.3",
+    "@covisint/cui-styleguide": "*",
+    "@covisint/cui-i18n": "*",
+    "@covisint/cui-icons": "*"
   },
   "dependencies": {
     "blueimp-md5": "^2.3.0",
-    "grunt-angular-templates": "^1.0.3",
-    "babel-polyfill": "^6.7.4"
+    "babel-polyfill": "^6.7.4",
+    "tether": "^1.3.2",
+    "lodash": "^4",
+    "jquery": "^2.1.4",
+    "angular-ui-router": "^0.2.15",
+    "angular": "^1.4.7",
+    "snapjs": "^1.2.1"
   }
 }
