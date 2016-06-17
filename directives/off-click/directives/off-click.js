@@ -1,4 +1,5 @@
-angular.module('cui-ng').directive('offClick', ($rootScope, $parse, OffClickFilterCache) => {
+angular.module('cui-ng')
+.directive('offClick', ($rootScope, $parse, OffClickFilterCache) => {
     let id = 0;
     let listeners = {};
     // add variable to detect touch users moving..
@@ -44,7 +45,7 @@ angular.module('cui-ng').directive('offClick', ($rootScope, $parse, OffClickFilt
         }
         const target = event.target || event.srcElement;
         angular.forEach(listeners, (listener, i) => {
-            let filters=[];
+            let filters = OffClickFilterCache['*'] || [];
             if(listener.elm.id && listener.elm.id !== '') {
                 if(OffClickFilterCache['#' + listener.elm.id]) filters = filters.concat(OffClickFilterCache['#'+listener.elm.id]);
             }
@@ -108,37 +109,4 @@ angular.module('cui-ng').directive('offClick', ($rootScope, $parse, OffClickFilt
             };
         }
     };
-})
-.directive('offClickFilter', (OffClickFilterCache, $parse) => {
-    let filters;
-
-    return {
-        restrict:'A',
-        compile : (elem, attrs)  => {
-            return (scope, element) => {
-                filters = $parse(attrs.offClickFilter)(scope).split(',').map(x => x.trim());
-
-                filters.forEach(filter => {
-                    OffClickFilterCache[filter] ? OffClickFilterCache[filter].push(elem[0]) : OffClickFilterCache[filter] = [elem[0]];
-                });
-
-                scope.$on('$destroy',()  => {
-                    element = null;
-                    filters.forEach((filter) => {
-                        if(OffClickFilterCache[filter].length > 1)  {
-                            OffClickFilterCache[filter].splice(OffClickFilterCache[filter].indexOf(elem[0]), 1);
-                        }
-                        else {
-                            OffClickFilterCache[filter] = null;
-                            delete OffClickFilterCache[filter];
-                        }
-                    });
-                });
-            };
-        }
-    };
-})
-.factory('OffClickFilterCache', () => {
-    let filterCache = {};
-    return filterCache;
 });

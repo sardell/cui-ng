@@ -1,0 +1,46 @@
+{
+    "demo": {
+        "assets": "./assets/",
+        "baseDir": "./",
+        "buildDir": "./build/"
+    },
+    "scss": {
+        "demoSrc": "./assets/scss/**/*",
+        "demoEntry": "./assets/scss/main.scss",
+        "demoOut": "./assets/css/main.css"
+    },
+    "js": {
+        "moduleIntro": "./modules/cui-ng.intro.js",
+        "moduleSrc": [
+            "./providers/**/*.js",
+            "./filters/**/*.js",
+            "./directives/**/*.js",
+            "./utilities/**/*.js"
+        ],
+        "moduleOutro": "./modules/cui-ng.outro.js",
+        "moduleOut": "./dist/cui-ng.js",
+        "demoIntro": "./modules/app.intro.js",
+        "demoSrc": "./assets/app/**/*.js",
+        "demoOutro": "./modules/app.outro.js",
+        "demoOut": "./assets/concatJs/app.js",
+        "demoTemplateCache": "./assets/templateCache.js"
+    },
+    "html": {
+        "demoSrc": "assets/app/directives-showcase/**/*.html"
+    },
+    "thingsToCopyToBuild": {
+        "./index.html": "./build/index.html",
+        "./app-config.json": "./build/app-config.json",
+        "./node_modules/@covisint/cui-icons/dist/**/*.svg": "./build/",
+        "./node_modules/@covisint/cui-i18n/dist/cui-i18n/angular-translate/*.json": "./build/",
+        "./node_modules/angular-i18n/*.js": "./build/",
+        "./node_modules/@covisint/cui-i18n/dist/cui-i18n/angular-translate/**/*.json": "./build/",
+        "./node_modules/lato/font/lato-regular/*.*": "./build/"
+    },
+    "tests": "test/**/*.spec.js",
+    "testHelpers": [
+        "./node_modules/jquery/dist/jquery.js",
+        "./node_modules/angular/angular.js",
+        "./node_modules/angular-mocks/angular-mocks.js"
+    ]
+}
