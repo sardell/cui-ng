@@ -1,5 +1,5 @@
 #!/bin/bash
 
-npm update
+npm install
 grunt build
 mvn clean package deploy -U
