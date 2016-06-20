@@ -4,7 +4,7 @@ angular.module('cui-ng')
         restrict:'E',
         transclude: true,
         link: (scope, elem, attrs, ctrl, transclude) => {
-            const newScope = scope.$parent.$new()
+            const newScope = scope.$new()
             scope.$on('$destroy',() => newScope.$destroy())
 
             transclude(newScope, (clone, innerScope) => {
