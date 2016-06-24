@@ -1,10 +1,10 @@
-<span id="test-target" ng-click="directives.popoverOpen=!directives.popoverOpen" style="cursor:pointer" ng-init="directives.arrayOfThings=['Im a popover!','And Im responsive!']">Click me!!</span>
+<span id="test-target" ng-click="directives.popoverOpen=!directives.popoverOpen" style="cursor:pointer" ng-init="directives.arrayOfThings=['Im a popover!','And Im responsive!']" off-click-filter="'#test-tether'">Click me!!</span>
 
 <div cui-popover
   target="#test-target" pointer-height="13" pointer-width="10"
   popover-positions="[{position:'top', popoverOffset:'10px 0', contentOffset:'0'},'invert','any','hide']"
   ng-if="directives.popoverOpen" style="width:200px;display:inline-block;background:#333;padding:30px;color:#EEE;border-radius:3px">
-  <div off-click="directives.popoverOpen=false" id="test-tether" off-click-filter="#test-tether">
+  <div off-click="directives.popoverOpen=false" id="test-tether">
     <span ng-repeat='thing in directives.arrayOfThings'>{{thing}}<br/></span>
   </div>
 </div>

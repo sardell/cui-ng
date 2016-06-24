@@ -95,6 +95,7 @@
   <input ng-model="directives.leafText" placeholder="Name of leaf to add"/>
   <button ng-click="directives.addSibling(directives.leafBeingHandled.id,directives.leafText,directives.tree)">Add sibling</button>
   <button ng-click="directives.addChild(directives.leafBeingHandled.id,directives.leafText,directives.tree)">Add child</button>
+  <button ng-click="directives.removeLeaf(directives.leafBeingHandled.id,directives.tree)">Remove leaf</button>
 </div>
 
 <a class="cui-link" href="https://github.com/thirdwavellc/cui-ng/tree/master/directives/cui-tree" target="blank">Click here for the extended documentation.</a>

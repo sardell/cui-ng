@@ -1,7 +1,7 @@
 angular.module('cui-ng')
-.directive('cuiExpandable',['$compile',($compile) => {
-    return{
-        restrict:'E',
+.directive('cuiExpandable',($compile) => {
+    return {
+        restrict: 'E',
         transclude: true,
         link: (scope, elem, attrs, ctrl, transclude) => {
             const newScope = scope.$new()
@@ -48,4 +48,4 @@ angular.module('cui-ng')
             })
         }
     }
-}])
+})

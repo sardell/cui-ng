@@ -33,6 +33,7 @@ Cui-ng is an angular module with a series of custom directives and utilities for
 ## Providers
 
 * [$cuiI8n](https://github.com/thirdwavellc/cui-ng/tree/master/providers/$cuiI18n)
+* [PubSub](https://github.com/thirdwavellc/cui-ng/tree/master/providers/PubSub)
 
 ## Filters
 

@@ -1,6 +1,6 @@
-'use strict';var _slicedToArray=function(){function sliceIterator(arr,i){var _arr=[];var _n=true;var _d=false;var _e=undefined;try{for(var _i=arr[Symbol.iterator](),_s;!(_n=(_s=_i.next()).done);_n=true){_arr.push(_s.value);if(i&&_arr.length===i)break;}}catch(err){_d=true;_e=err;}finally {try{if(!_n&&_i["return"])_i["return"]();}finally {if(_d)throw _e;}}return _arr;}return function(arr,i){if(Array.isArray(arr)){return arr;}else if(Symbol.iterator in Object(arr)){return sliceIterator(arr,i);}else {throw new TypeError("Invalid attempt to destructure non-iterable instance");}};}();var _typeof=typeof Symbol==="function"&&typeof Symbol.iterator==="symbol"?function(obj){return typeof obj;}:function(obj){return obj&&typeof Symbol==="function"&&obj.constructor===Symbol?"symbol":typeof obj;};function _defineProperty(obj,key,value){if(key in obj){Object.defineProperty(obj,key,{value:value,enumerable:true,configurable:true,writable:true});}else {obj[key]=value;}return obj;}
+'use strict';var _slicedToArray=function(){function sliceIterator(arr,i){var _arr=[];var _n=true;var _d=false;var _e=undefined;try{for(var _i=arr[Symbol.iterator](),_s;!(_n=(_s=_i.next()).done);_n=true){_arr.push(_s.value);if(i&&_arr.length===i)break;}}catch(err){_d=true;_e=err;}finally{try{if(!_n&&_i["return"])_i["return"]();}finally{if(_d)throw _e;}}return _arr;}return function(arr,i){if(Array.isArray(arr)){return arr;}else if(Symbol.iterator in Object(arr)){return sliceIterator(arr,i);}else{throw new TypeError("Invalid attempt to destructure non-iterable instance");}};}();var _typeof=typeof Symbol==="function"&&typeof Symbol.iterator==="symbol"?function(obj){return typeof obj;}:function(obj){return obj&&typeof Symbol==="function"&&obj.constructor===Symbol?"symbol":typeof obj;};function _defineProperty(obj,key,value){if(key in obj){Object.defineProperty(obj,key,{value:value,enumerable:true,configurable:true,writable:true});}else{obj[key]=value;}return obj;}
 
-// cui-ng build Mon Jun 20 2016 11:33:29
+// cui-ng build Fri Jun 24 2016 12:31:02
 
 ;(function(angular){
 'use strict';
@@ -27,9 +27,9 @@ var languageObjectToUse;
 languageObjectToUse=_.find(languageObjectArray,function(languageObject){
 return languageObject.lang===preferedLanguage;});
 
-if(languageObjectToUse!=undefined)return languageObjectToUse.text||languageObjectToUse.value; // if the language being used by the user has a translation
-else {
-if(!preferenceArray){ // if a preference array hasn't been set
+if(languageObjectToUse!=undefined)return languageObjectToUse.text||languageObjectToUse.value;// if the language being used by the user has a translation
+else{
+if(!preferenceArray){// if a preference array hasn't been set
 console.log('You need to configure you prefered language array with cuiI18n.setLocalePreference');
 return;}
 
@@ -63,8 +63,8 @@ return this[fn].apply(this,arguments);};}
 
 
 var PubSub={
-topics:{}, // Storage for topics that can be broadcast or listened to.
-subUid:-1 // A topic identifier.
+topics:{},// Storage for topics that can be broadcast or listened to.
+subUid:-1// A topic identifier.
 };
 
 /**
@@ -220,7 +220,7 @@ var KEY_EN=13;
 var KEY_TAB=9;
 
 var MIN_LENGTH=3;
-var MAX_LENGTH=524288; // the default max length per the html maxlength attribute
+var MAX_LENGTH=524288;// the default max length per the html maxlength attribute
 var PAUSE=500;
 var BLUR_TIMEOUT=200;
 
@@ -271,7 +271,7 @@ elem.on('mousedown',function(event){
 if(event.target.id){
 mousedownOn=event.target.id;
 if(mousedownOn===scope.id+'_dropdown'){
-document.body.addEventListener('click',clickoutHandlerForDropdown);}}else 
+document.body.addEventListener('click',clickoutHandlerForDropdown);}}else
 
 
 {
@@ -293,7 +293,7 @@ handleInputChange(newval,true);}});
 if(attrs.fieldRequired!==undefined){
 scope.$watch('fieldRequired',function(newval,oldval){
 if(!newval||newval==={}){
-ctrl[scope.inputName].$setValidity('required',false);}else 
+ctrl[scope.inputName].$setValidity('required',false);}else
 
 if(newval&&newval!=={}){
 ctrl[scope.inputName].$setValidity('required',true);}});}
@@ -311,9 +311,9 @@ function handleInputChange(newval,initial){
 if(newval){
 if((typeof newval==='undefined'?'undefined':_typeof(newval))==='object'){
 scope.searchStr=extractTitle(newval);
-callOrAssign({originalObject:newval});}else 
+callOrAssign({originalObject:newval});}else
 if(typeof newval==='string'&&newval.length>0){
-scope.searchStr=newval;}else 
+scope.searchStr=newval;}else
 {
 if(console&&console.error){
 console.error('Tried to set '+(!!initial?'initial':'')+' value of angucomplete to',newval,'which is an invalid value');}}
@@ -338,14 +338,14 @@ return event.which?event.which:event.keyCode;}
 
 function callOrAssign(value){
 if(typeof scope.selectedObject==='function'){
-scope.selectedObject(value);}else 
+scope.selectedObject(value);}else
 
 {
 scope.selectedObject=value;}
 
 
 if(value){
-handleRequired(true);}else 
+handleRequired(true);}else
 
 {
 handleRequired(false);}}
@@ -382,7 +382,7 @@ if(key){
 keys=key.split('.');
 result=obj;
 for(var i=0;i<keys.length;i++){
-result=result[keys[i]];}}else 
+result=result[keys[i]];}}else
 
 
 {
@@ -401,7 +401,7 @@ if(!target.match||!target.replace){target=target.toString();}
 matches=target.match(re);
 if(matches){
 result=target.replace(re,
-'<span class="'+scope.matchClass+'">'+matches[0]+'</span>');}else 
+'<span class="'+scope.matchClass+'">'+matches[0]+'</span>');}else
 
 {
 result=target;}
@@ -422,20 +422,20 @@ return;}
 
 
 if(which===KEY_UP||which===KEY_EN){
-event.preventDefault();}else 
+event.preventDefault();}else
 
 if(which===KEY_DW){
 event.preventDefault();
 if(!scope.showDropdown&&scope.searchStr&&scope.searchStr.length>=minlength){
 initResults();
 scope.searching=true;
-searchTimerComplete(scope.searchStr);}}else 
+searchTimerComplete(scope.searchStr);}}else
 
 
 if(which===KEY_ES){
 clearResults();
 scope.$apply(function(){
-inputField.val(scope.searchStr);});}else 
+inputField.val(scope.searchStr);});}else
 
 
 {
@@ -444,7 +444,7 @@ return;}
 
 
 if(!scope.searchStr||scope.searchStr===''){
-scope.showDropdown=false;}else 
+scope.showDropdown=false;}else
 if(scope.searchStr.length>=minlength){
 initResults();
 
@@ -511,7 +511,7 @@ dd.scrollTop=dd.scrollTop+offset;}
 function updateInputField(){
 var current=scope.results[scope.currentIndex];
 if(scope.matchClass){
-inputField.val(extractTitle(current.originalObject));}else 
+inputField.val(extractTitle(current.originalObject));}else
 
 {
 inputField.val(current.title);}}
@@ -526,12 +526,12 @@ var rowTop=null;
 if(which===KEY_EN&&scope.results){
 if(scope.currentIndex>=0&&scope.currentIndex<scope.results.length){
 event.preventDefault();
-scope.selectResult(scope.results[scope.currentIndex]);}else 
+scope.selectResult(scope.results[scope.currentIndex]);}else
 {
 handleOverrideSuggestions(event);
 clearResults();}
 
-scope.$apply();}else 
+scope.$apply();}else
 if(which===KEY_DW&&scope.results){
 event.preventDefault();
 if(scope.currentIndex+1<scope.results.length&&scope.showDropdown){
@@ -543,7 +543,7 @@ updateInputField();});
 if(isScrollOn){
 row=dropdownRow();
 if(dropdownHeight()<row.getBoundingClientRect().bottom){
-dropdownScrollTopTo(dropdownRowOffsetHeight(row));}}}}else 
+dropdownScrollTopTo(dropdownRowOffsetHeight(row));}}}}else
 
 
 
@@ -558,14 +558,14 @@ updateInputField();});
 if(isScrollOn){
 rowTop=dropdownRowTop();
 if(rowTop<0){
-dropdownScrollTopTo(rowTop-1);}}}else 
+dropdownScrollTopTo(rowTop-1);}}}else
 
 
 
 if(scope.currentIndex===0){
 scope.$apply(function(){
 scope.currentIndex=-1;
-inputField.val(scope.searchStr);});}}else 
+inputField.val(scope.searchStr);});}}else
 
 
 if(which===KEY_TAB){
@@ -573,14 +573,14 @@ if(scope.results&&scope.results.length>0&&scope.showDropdown){
 if(scope.currentIndex===-1&&scope.overrideSuggestions){
 // intentionally not sending event so that it does not
 // prevent default tab behavior
-handleOverrideSuggestions();}else 
+handleOverrideSuggestions();}else
 
 {
 if(scope.currentIndex===-1){
 scope.currentIndex=0;}
 
 scope.selectResult(scope.results[scope.currentIndex]);
-scope.$digest();}}else 
+scope.$digest();}}else
 
 
 {
@@ -588,7 +588,7 @@ scope.$digest();}}else
 // intentionally not sending event so that it does not
 // prevent default tab behavior
 if(scope.searchStr&&scope.searchStr.length>0){
-handleOverrideSuggestions();}}}else 
+handleOverrideSuggestions();}}}else
 
 
 if(which===KEY_ES){
@@ -620,7 +620,7 @@ if(!status&&!headers&&!config){
 status=errorRes.status;}
 
 if(scope.remoteUrlErrorCallback){
-scope.remoteUrlErrorCallback(errorRes,status,headers,config);}else 
+scope.remoteUrlErrorCallback(errorRes,status,headers,config);}else
 
 {
 if(console&&console.error){
@@ -725,11 +725,11 @@ return;}
 
 if(scope.localData){
 scope.$apply(function(){
-getLocalResults(str);});}else 
+getLocalResults(str);});}else
 
 
 if(scope.remoteApiHandler){
-getRemoteResultsWithCustomHandler(str);}else 
+getRemoteResultsWithCustomHandler(str);}else
 {
 getRemoteResults(str);}}
 
@@ -765,7 +765,7 @@ scope.results[scope.results.length]={
 title:formattedText,
 description:formattedDesc,
 image:image,
-originalObject:responseData[i]};}}else 
+originalObject:responseData[i]};}}else
 
 
 
@@ -776,9 +776,9 @@ scope.results=[];}
 if(scope.autoMatch&&scope.results.length===1&&
 checkExactMatch(scope.results[0],
 {title:text,desc:description||''},scope.searchStr)){
-scope.showDropdown=false;}else 
+scope.showDropdown=false;}else
 if(scope.results.length===0&&!displayNoResults){
-scope.showDropdown=false;}else 
+scope.showDropdown=false;}else
 {
 scope.showDropdown=true;}}
 
@@ -786,10 +786,10 @@ scope.showDropdown=true;}}
 
 function showAll(){
 if(scope.localData){
-processResults(scope.localData,'');}else 
+processResults(scope.localData,'');}else
 
 if(scope.remoteApiHandler){
-getRemoteResultsWithCustomHandler('');}else 
+getRemoteResultsWithCustomHandler('');}else
 
 {
 getRemoteResults('');}}
@@ -811,7 +811,7 @@ scope.hideResults=function(){
 if(mousedownOn&&(
 mousedownOn===scope.id+'_dropdown'||
 mousedownOn.indexOf('angucomplete')>=0)){
-mousedownOn=null;}else 
+mousedownOn=null;}else
 
 {
 hideTimer=$timeout(function(){
@@ -854,7 +854,7 @@ result.description=extractValue(result.originalObject,scope.descriptionField);}
 
 
 if(scope.clearSelected){
-scope.searchStr=null;}else 
+scope.searchStr=null;}else
 
 {
 scope.searchStr=result.title;}
@@ -866,7 +866,7 @@ clearResults();};
 scope.inputChangeHandler=function(str){
 if(str.length<minlength){
 cancelHttpRequest();
-clearResults();}else 
+clearResults();}else
 
 if(str.length===0&&minlength===0){
 scope.searching=false;
@@ -908,7 +908,7 @@ scope.overrideSuggestions=false;}
 if(scope.fieldRequired&&ctrl){
 // check initial value, if given, set validitity to true
 if(scope.initialValue){
-handleRequired(true);}else 
+handleRequired(true);}else
 
 {
 handleRequired(false);}}
@@ -940,7 +940,7 @@ isScrollOn=css.maxHeight&&css.overflowY==='auto';});}
 
 
 
-return {
+return{
 restrict:'EA',
 require:'^?form',
 scope:{
@@ -1000,14 +1000,15 @@ return link;}};}]);
 
 
 angular.module('cui-ng').
-directive('classToggle',[function(){
-return {
+directive('classToggle',function(){
+return{
 restrict:'EAC',
 scope:true,
 link:function link(scope,elem,attrs){
-var toggledClass=attrs.toggledClass||'class-toggle-'+scope.$id,
-elementClass=function elementClass(){return elem.attr('class')||'';},
-checkIfToggled=function checkIfToggled(elementClass){
+// assign a default "toggled" class
+var toggledClass=attrs.toggledClass||'class-toggle-'+scope.$id;
+var elementClass=function elementClass(){return elem.attr('class')||'';};
+var checkIfToggled=function checkIfToggled(elementClass){
 scope.toggled=elementClass.indexOf(toggledClass)>=0;};
 
 
@@ -1021,15 +1022,15 @@ scope.toggleOff=function(){
 if(scope.toggled)scope.toggleClass();};
 
 
-scope.$watch(elementClass,checkIfToggled);}};}]);
+scope.$watch(elementClass,checkIfToggled);}};});
 
 
 
 
 
 angular.module('cui-ng').
-directive('cuiAvatar',['$http','$filter',function($http,$filter){
-return {
+directive('cuiAvatar',['$http', '$filter', function($http,$filter){
+return{
 restrict:'A',
 scope:{
 cuiAvatar:'=',
@@ -1037,7 +1038,7 @@ cuiAvatarNames:'=',
 cuiAvatarEmail:'='},
 
 compile:function compile(){
-return {
+return{
 pre:function pre(scope,elem,attrs){
 var cuiAvatar={
 selectors:{
@@ -1060,24 +1061,18 @@ scope.$watch('cuiAvatarEmail',function(newEmail){
 if(newEmail)cuiAvatar.update();});},
 
 
-render:{
-nameBackground:function nameBackground(){
-if(cuiAvatar.config.colorClassPrefix){
-if(cuiAvatar.config.colorCount===0)throw 'For cui-avatar if you specify color class prefix you must specify the attribute cui-avatar-color-count';
+helpers:{
+isColorClassApplied:function isColorClassApplied(){
+return _.find(cuiAvatar.selectors.$elem[0].classList,function(className){return className.indexOf(cuiAvatar.config.colorClassPrefix)>-1;});},
 
-var colorClassAlreadyApplied=_.find(cuiAvatar.selectors.$elem[0].classList,function(className){return className.indexOf(cuiAvatar.config.colorClassPrefix)>-1;});
-if(colorClassAlreadyApplied)return;
-
+applyRandomColorClass:function applyRandomColorClass(){
 var classNumberToApply=Math.floor(Math.random()*cuiAvatar.config.colorCount+1);
 cuiAvatar.selectors.$elem[0].classList.add(cuiAvatar.config.colorClassPrefix+classNumberToApply);
-cuiAvatar.config.colorClassAdded=cuiAvatar.config.colorClassPrefix+classNumberToApply;}},
+cuiAvatar.config.colorClassAdded=cuiAvatar.config.colorClassPrefix+classNumberToApply;},
 
-
-
-initials:function initials(){
-if(!scope.cuiAvatarNames)return;
-var name=function name(){
-var internationalizedName=void 0,nameToDisplay='';
+getInitialsToDisplay:function getInitialsToDisplay(){
+var internationalizedName=void 0;
+var nameToDisplay='';
 if(cuiAvatar.config.cuiI18nFilter){
 internationalizedName=$filter('cuiI18n')(scope.cuiAvatarNames).split(' ');}
 
@@ -1087,16 +1082,30 @@ if(!nameSection)return;
 nameToDisplay+=nameSection[0].toUpperCase();}});
 
 
-return nameToDisplay;};
+return nameToDisplay;}},
 
+
+render:{
+nameBackground:function nameBackground(){
+if(cuiAvatar.config.colorClassPrefix){
+if(cuiAvatar.config.colorCount===0){
+throw'For cui-avatar if you specify color class prefix you must specify the a cui-avatar-color-count';}
+
+
+if(cuiAvatar.helpers.isColorClassApplied())return;else
+cuiAvatar.helpers.applyRandomColorClass();}},
+
+
+initials:function initials(){
+if(!scope.cuiAvatarNames)return;
 cuiAvatar.selectors.$elem[0].innerHTML='<div class="cui-avatar__initials"></div>';
 cuiAvatar.selectors.$initials=angular.element(cuiAvatar.selectors.$elem[0].childNodes[0]);
-cuiAvatar.selectors.$initials[0].innerHTML=name();},
-
+cuiAvatar.selectors.$initials[0].innerHTML=cuiAvatar.helpers.getInitialsToDisplay();},
 
 image:function image(){
 var applyImage=function applyImage(imgSrc){
-if(cuiAvatar.config.colorClassAdded)cuiAvatar.selectors.$elem[0].classList.remove(cuiAvatar.config.colorClassAdded); // remove the random color class added before applying an image
+// remove the random color class added before applying an image
+if(cuiAvatar.config.colorClassAdded)cuiAvatar.selectors.$elem[0].classList.remove(cuiAvatar.config.colorClassAdded);
 cuiAvatar.selectors.$elem[0].innerHTML='<div class="cui-avatar__image-container"></div>';
 cuiAvatar.selectors.$image=angular.element(cuiAvatar.selectors.$elem[0].childNodes[0]);
 cuiAvatar.selectors.$image[0].style.backgroundImage='url("'+imgSrc+'")';};
@@ -1104,14 +1113,15 @@ cuiAvatar.selectors.$image[0].style.backgroundImage='url("'+imgSrc+'")';};
 var img=new Image();
 if(scope.cuiAvatar&&scope.cuiAvatar!==''){
 img.src=scope.cuiAvatar;
-img.onload=applyImage(img.src);}else 
+img.onload=applyImage(img.src);}else
 
 if(scope.cuiAvatarEmail){(function(){
 var hashedEmail=md5(scope.cuiAvatarEmail);
-$http.get('https://www.gravatar.com/avatar/'+hashedEmail+'?d=404') // ?d=404 tells gravatar not to give me a default gravatar
-.then(function(res){ // If the user has a gravatar account and has set a picture
+// ?d=404 tells gravatar not to give me a default gravatar
+$http.get('https://www.gravatar.com/avatar/'+hashedEmail+'?d=404').
+then(function(res){// If the user has a gravatar account and has set a picture
 img.src='https://www.gravatar.com/avatar/'+hashedEmail;
-img.onload=applyImage(img.src);});})();}else 
+img.onload=applyImage(img.src);});})();}else
 
 
 return;}},
@@ -1134,8 +1144,8 @@ cuiAvatar.watchers();}};}};}]);
 
 
 angular.module('cui-ng').
-directive('cuiDropdown',['$compile',function($compile){
-return {
+directive('cuiDropdown',['$compile', function($compile){
+return{
 require:'ngModel',
 restrict:'E',
 scope:{
@@ -1144,8 +1154,11 @@ options:'&',
 constraints:'&'},
 
 link:function link(scope,elem,attrs,ctrl){
-var id=scope.$id,inputName='cuiDropdown'+id;
-var self=void 0,newScope=void 0,dropdownScope=void 0,formName=void 0,currentIndex=void 0;
+var id=scope.$id;
+var inputName='cuiDropdown'+id;
+var newScope=void 0;
+var dropdownScope=void 0;
+var currentIndex=void 0;
 
 var cuiDropdown={
 initScope:function initScope(){
@@ -1179,8 +1192,9 @@ $body:angular.element(document.body)},
 
 watchers:{
 dropdownClick:function dropdownClick(){
-scope.$on(id.toString(),cuiDropdown.helpers.reassignModel); // each dropdown item broadcasts the cui-dropdown scope id and passes the index of the choice
-},
+// each dropdown item broadcasts the cui-dropdown scope id and passes the index of the choice
+scope.$on(id.toString(),cuiDropdown.helpers.reassignModel);},
+
 languageChange:function languageChange(){
 scope.$on('languageChange',cuiDropdown.helpers.handleLanguageChange);},
 
@@ -1190,14 +1204,12 @@ if(newOptions){
 cuiDropdown.helpers.setInitialInputValue();
 cuiDropdown.render.currentValueBox();}},
 
-function(newOptions,oldOptions){return !angular.equals(newOptions,oldOptions);});}},
+function(newOptions,oldOptions){return!angular.equals(newOptions,oldOptions);});}},
 
 
 scope:{
 toggleDropdown:function toggleDropdown(){
-if(!cuiDropdown.selectors.$dropdown){
-cuiDropdown.render.dropdown();}else 
-
+if(!cuiDropdown.selectors.$dropdown)cuiDropdown.render.dropdown();else
 cuiDropdown.scope.destroyDropdown();},
 
 destroyDropdown:function destroyDropdown(){
@@ -1212,10 +1224,9 @@ helpers:{
 getOptionDisplayValues:function getOptionDisplayValues(){
 var displayValues=[];var _cuiDropdown$config=
 cuiDropdown.config;var defaultOption=_cuiDropdown$config.defaultOption;var defaultOptionValue=_cuiDropdown$config.defaultOptionValue;var displayValue=_cuiDropdown$config.displayValue;
-if(defaultOption)displayValues.push(scope.$eval(defaultOptionValue)); // push an empty return option for error handling
+if(defaultOption)displayValues.push(scope.$eval(defaultOptionValue));// push an empty return option for error handling
 angular.forEach(scope.options(),function(value,key){
-if(!displayValue)displayValues.push(value);else 
-
+if(!displayValue)displayValues.push(value);else
 {
 var displayScope={
 object:value,
@@ -1230,9 +1241,9 @@ return displayValues;},
 getOptionReturnValues:function getOptionReturnValues(){
 var returnValues=[];var _cuiDropdown$config2=
 cuiDropdown.config;var defaultOption=_cuiDropdown$config2.defaultOption;var returnValue=_cuiDropdown$config2.returnValue;
-if(defaultOption)returnValues.push(null); // if there's a default option it won't have any return value
+if(defaultOption)returnValues.push(null);// if there's a default option it won't have any return value
 angular.forEach(scope.options(),function(value,key){
-if(!returnValue)returnValues.push(value);else 
+if(!returnValue)returnValues.push(value);else
 
 {
 var returnScope={
@@ -1246,7 +1257,7 @@ returnValues.push(scope.$eval(returnValue,returnScope));}});
 return returnValues;},
 
 getDropdownItem:function getDropdownItem(index,displayValue){
-var ngClick='$root.$broadcast(\''+id+'\','+index+')';
+var ngClick='$root.$broadcast(\''+id+'\', '+index+')';
 return $compile('<div class="'+
 cuiDropdown.config.dropdownItemClass+'" ng-click="'+ngClick+'">\n                                '+
 displayValue+'\n                            </div>')(
@@ -1265,8 +1276,7 @@ return;}
 var index=_.findIndex(returnValues,function(value){return angular.equals(value,scope.ngModel);});
 if(index>-1){
 scope.displayValue=displayValues[index];
-currentIndex=index;}else 
-
+currentIndex=index;}else
 {
 scope.displayValue=displayValues[0];
 scope.ngModel=returnValues[0];
@@ -1275,8 +1285,7 @@ currentIndex=0;}},
 
 reassignModel:function reassignModel(e,index){
 if(typeof index==='number'){
-currentIndex=index;}else 
-
+currentIndex=index;}else
 {
 index=currentIndex;}
 
@@ -1292,7 +1301,7 @@ cuiDropdown.helpers.reassignModel();}},
 
 render:{
 currentValueBox:function currentValueBox(){
-if(newScope)newScope.$destroy(); // this makes sure that if the input has been rendered once the off click handler is removed
+if(newScope)newScope.$destroy();// this makes sure that if the input has been rendered once the off click handler is removed
 newScope=scope.$new();
 var element=$compile('<div class="'+
 cuiDropdown.config.inputClass+'" ng-click="toggleDropdown()" off-click="destroyDropdown()" id="cui-dropdown-'+id+'">\n                                {{displayValue}}\n                            </div>')(
@@ -1305,7 +1314,9 @@ cuiDropdown.selectors.$cuiDropdown=element;},
 dropdown:function dropdown(){
 if(dropdownScope)dropdownScope.$destroy();
 dropdownScope=scope.$new();
-var dropdown=$compile('<div class="'+cuiDropdown.config.dropdownWrapperClass+'" off-click-filter="\'#cui-dropdown-'+id+'\'"></div>')(dropdownScope);
+var dropdown=$compile('<div class="'+
+cuiDropdown.config.dropdownWrapperClass+'" off-click-filter="\'#cui-dropdown-'+id+'\'"></div>')(
+dropdownScope);
 var displayValues=cuiDropdown.helpers.getOptionDisplayValues();
 displayValues.forEach(function(value,i){
 dropdown.append(cuiDropdown.helpers.getDropdownItem(i,value));});
@@ -1328,10 +1339,9 @@ cuiDropdown.initScope();}};}]);
 
 
 
-
 angular.module('cui-ng').
-directive('cuiExpandable',['$compile',function($compile){
-return {
+directive('cuiExpandable',['$compile', function($compile){
+return{
 restrict:'E',
 transclude:true,
 link:function link(scope,elem,attrs,ctrl,transclude){
@@ -1343,7 +1353,7 @@ elem.append(clone);});
 
 
 var expandableBody=angular.element(elem[0].querySelector('cui-expandable-body'));
-expandableBody.hide(); // hide the body by default
+expandableBody.hide();// hide the body by default
 
 var toggleClass=function toggleClass(){
 elem.toggleClass('expanded');};
@@ -1364,13 +1374,13 @@ newScope.collapse=function(){
 if(newScope.expanded)toggleClass();};
 
 newScope.$watch(function(){return elem.attr('class')||'';},function(newValue,oldValue){
-if(oldValue===newValue&&newValue.indexOf('expanded')>-1){ // if the element the expanded class put in by default
+if(oldValue===newValue&&newValue.indexOf('expanded')>-1){// if the element the expanded class put in by default
 newScope.expanded=true;
-toggleBody();}else 
+toggleBody();}else
 
 if(newValue.indexOf('expanded')===-1){
 if(newScope.expanded===true)toggleBody();
-newScope.expanded=false;}else 
+newScope.expanded=false;}else
 
 {
 if(newScope.expanded===false)toggleBody();
@@ -1382,7 +1392,7 @@ newScope.expanded=true;}});}};}]);
 
 
 angular.module('cui-ng').
-provider('$cuiIcon',[function(){
+provider('$cuiIcon',function(){
 var iconSets={};
 
 this.iconSet=function(namespace,path,viewBox){
@@ -1399,35 +1409,42 @@ return iconSets[namespace];};
 
 
 this.$get=function(){
-return this;};}]);
+return this;};});
 
 
 
 angular.module('cui-ng').
-directive('cuiIcon',['$cuiIcon',function($cuiIcon){
-return {
+directive('cuiIcon',['$cuiIcon', function($cuiIcon){
+return{
 restrict:'E',
 scope:{},
 link:function link(scope,elem,attrs){
 var icon=attrs.cuiSvgIcon;
+var viewBox=void 0;
+var preserveaspectratio=void 0;
+var svgClass=void 0;
+var path=void 0;
 
-var viewBox=void 0,preserveaspectratio=void 0,svgClass=void 0,path=void 0;
+attrs.preserveaspectratio?
+preserveaspectratio='preserveAspectRatio="'+attrs.preserveaspectratio+'"':
+preserveaspectratio='';
+attrs.svgClass?
+svgClass='class="'+attrs.svgClass+'"':
+svgClass='';
+attrs.viewbox?
+viewBox='viewBox="'+attrs.viewbox+'"':
+viewBox='';
 
-attrs.preserveaspectratio?preserveaspectratio='preserveAspectRatio="'+attrs.preserveaspectratio+'"':preserveaspectratio='';
-attrs.svgClass?svgClass='class="'+attrs.svgClass+'"':svgClass='';
-attrs.viewbox?viewBox='viewBox="'+attrs.viewbox+'"':viewBox='';
-
-if(icon&&icon.indexOf('.svg')>-1){ // if the path is directly specified
-path=icon;}else 
-
-if(icon){ // if the icon is pointing at a namespace put into the provider
+if(icon&&icon.indexOf('.svg')>-1){// if the path is directly specified
+path=icon;}else
+if(icon){// if the icon is pointing at a namespace put into the provider
 var _icon$split=icon.split(':');var _icon$split2=_slicedToArray(_icon$split,2);var iconNamespace=_icon$split2[0];var iconId=_icon$split2[1];
 path=$cuiIcon.getIconSet(iconNamespace).path+'#'+iconId;
 if(viewBox===''&&$cuiIcon.getIconSet(iconNamespace).viewBox){
-viewBox=' viewBox="'+$cuiIcon.getIconSet(iconNamespace).viewBox+'" ';}}else 
-
+viewBox='viewBox="'+$cuiIcon.getIconSet(iconNamespace).viewBox+'"';}}else
 
 throw new Error('You need to define a cui-svg-icon attribute for cui-icon');
+
 var newSvg=$('<svg xmlns="http://www.w3.org/2000/svg" '+
 preserveaspectratio+' '+svgClass+' '+viewBox+'>\n                    <use xlink:href="'+
 path+'"></use>\n                </svg>');
@@ -1440,10 +1457,10 @@ angular.element(elem).replaceWith(newSvg);}};}]);
 
 
 angular.module('cui-ng').
-factory('CuiPopoverHelpers',[function(){
+factory('CuiPopoverHelpers',function(){
 var cuiPopoverHelpers={
 getResetStyles:function getResetStyles(){
-return {
+return{
 'margin-right':'',
 'margin-left':'',
 'margin-bottom':'',
@@ -1456,49 +1473,55 @@ return {
 
 getAttachmentFromPosition:function getAttachmentFromPosition(position){
 switch(position){
-case 'top':
-return 'bottom center';
-case 'bottom':
-return 'top center';
-case 'right':
-return 'middle left';
-case 'left':
-return 'middle right';}
-;},
+case'top':
+return'bottom center';
+case'bottom':
+return'top center';
+case'right':
+return'middle left';
+case'left':
+return'middle right';}},
+
 
 invertAttachmentPartial:function invertAttachmentPartial(partial){
 switch(partial){
-case 'top':
-return 'bottom';
-case 'bottom':
-return 'top';
-case 'left':
-return 'right';
-case 'right':
-return 'left';}
-;},
+case'top':
+return'bottom';
+case'bottom':
+return'top';
+case'left':
+return'right';
+case'right':
+return'left';}},
+
 
 parsePositionArray:function parsePositionArray(positionArray){
-var genericPositions=[{position:'bottom'},
+var genericPositions=[
+{position:'bottom'},
 {position:'top'},
 {position:'right'},
-{position:'left'}]; // these are objects to facilitate the reposition function
+{position:'left'}];
+// these are objects to facilitate the reposition function
 var positions=[];
 if(typeof positionArray==='undefined'){
-positions.push.apply(positions,genericPositions);}else 
+positions.push.apply(positions,genericPositions);}else
 
 {
 positionArray.forEach(function(position,i){
 switch(position){
-case 'any':
+case'any':
 positions.push.apply(positions,genericPositions);
 break;
-case 'invert':
-positions.push(Object.assign({},positionArray[i-1],{position:cuiPopoverHelpers.invertAttachmentPartial(positionArray[i-1].position)}));
+case'invert':
+positions.push(
+Object.assign({},positionArray[i-1],{
+position:cuiPopoverHelpers.invertAttachmentPartial(positionArray[i-1].position)}));
+
+
 break;
 default:
-positions.push(position);}
-;});}
+positions.push(position);}});}
+
 
 
 return positions;},
@@ -1507,110 +1530,119 @@ parseOffset:function parseOffset(offset){
 var splitOffset=offset.split(' ');
 var verticalOffset=cuiPopoverHelpers.getOffsetAndUnitsOfOffset(splitOffset[0]);
 var horizontalOffset=cuiPopoverHelpers.getOffsetAndUnitsOfOffset(splitOffset[1]);
-
-return {verticalOffset:verticalOffset,horizontalOffset:horizontalOffset};},
+return{verticalOffset:verticalOffset,horizontalOffset:horizontalOffset};},
 
 parseAttachment:function parseAttachment(attachment){var _attachment$split=
 attachment.split(' ');var _attachment$split2=_slicedToArray(_attachment$split,2);var verticalAttachment=_attachment$split2[0];var horizontalAttachment=_attachment$split2[1];
-return {verticalAttachment:verticalAttachment,horizontalAttachment:horizontalAttachment};},
+return{verticalAttachment:verticalAttachment,horizontalAttachment:horizontalAttachment};},
 
 getTetherOffset:function getTetherOffset(position,offset){var _cuiPopoverHelpers$pa=
 cuiPopoverHelpers.parseOffset(offset);var verticalOffset=_cuiPopoverHelpers$pa.verticalOffset;var horizontalOffset=_cuiPopoverHelpers$pa.horizontalOffset;
 
 switch(position){
-case 'top':
-case 'bottom':
-return '0 '+horizontalOffset.amount*-1+horizontalOffset.units;
+case'top':
+case'bottom':
+return'0 '+horizontalOffset.amount*-1+horizontalOffset.units;
 default:
-return verticalOffset.amount*-1+verticalOffset.units+' 0';}
-;},
+return verticalOffset.amount*-1+verticalOffset.units+' 0';}},
+
 
 invertAttachment:function invertAttachment(attachment){var _cuiPopoverHelpers$pa2=
 cuiPopoverHelpers.parseAttachment(attachment);var verticalAttachment=_cuiPopoverHelpers$pa2.verticalAttachment;var horizontalAttachment=_cuiPopoverHelpers$pa2.horizontalAttachment;
 return invertAttachmentPartial(verticalAttachment)+' '+invertAttachmentPartial(horizontalAttachment);},
 
 getOffsetAndUnitsOfOffset:function getOffsetAndUnitsOfOffset(offsetPartial){
-var amount=void 0,units=void 0;
+var amount=void 0;
+var units=void 0;
 switch(offsetPartial.indexOf('%')){
-case -1:
+case-1:
 amount=window.parseInt(offsetPartial.split('px')[0]);
 units='px';
 break;
 default:
 amount=window.parseInt(offsetPartial.split('%')[0]);
 units='%';}
-;
-return {amount:amount,units:units};},
 
-getPointerOffset:function getPointerOffset(opts){var 
+return{amount:amount,units:units};},
+
+getPointerOffset:function getPointerOffset(opts){var
 position=opts.position;var offsetBetweenPointerAndContent=opts.offsetBetweenPointerAndContent;var popoverHeight=opts.popoverHeight;var popoverWidth=opts.popoverWidth;var pointerHeight=opts.pointerHeight;var pointerWidth=opts.pointerWidth;var containerHeight=opts.containerHeight;var containerWidth=opts.containerWidth;var distanceBetweenTargetAndPopover=opts.distanceBetweenTargetAndPopover;
 var contentOffset=cuiPopoverHelpers.getOffsetAndUnitsOfOffset(offsetBetweenPointerAndContent);
 var contentOffsetCompensation=function contentOffsetCompensation(){
 switch(position){
-case 'top':
-case 'bottom':
-return {'margin-left':'50%','left':contentOffset.amount*-1+contentOffset.units};
-case 'left':
-case 'right':
+case'top':
+case'bottom':
+return{
+'margin-left':'50%',
+'left':contentOffset.amount*-1+contentOffset.units};
+
+case'left':
+case'right':
 switch(contentOffset.amount){
 case 0:
-return {'top':'50%'};
+return{
+'top':'50%'};
+
 default:
 var topMargin=void 0;
-contentOffset.units==='%'?topMargin=containerHeight*(contentOffset.amount*-1/100):topMargin=contentOffset.amount+contentOffset.units;
-return {'top':'50%','margin-top':topMargin};}
-;}
-;};
+contentOffset.units==='%'?
+topMargin=containerHeight*(contentOffset.amount*-1/100):
+topMargin=contentOffset.amount+contentOffset.units;
+return{
+'top':'50%',
+'margin-top':topMargin};}}};
+
+
+
 
 
 var containerPadding=cuiPopoverHelpers.getContainerPaddings(opts);
 var pointerOffset=function pointerOffset(){
 switch(position){
-case 'top':
-return {
+case'top':
+return{
 bottom:'1px',
 transform:'translate(-50%,'+(-Math.ceil(parseFloat(containerPadding['padding-bottom']))+pointerHeight)+'px)'};
 
-case 'bottom':
-return {
+case'bottom':
+return{
 top:'1px',
 transform:'translate(-50%,'+(Math.ceil(parseFloat(containerPadding['padding-top']))-pointerHeight)+'px)'};
 
-case 'left':
-return {
+case'left':
+return{
 right:parseFloat(containerPadding['padding-right'])-pointerHeight+'px',
 transform:'translate(-1px,-50%)'};
 
-case 'right':
-return {
+case'right':
+return{
 left:parseFloat(containerPadding['padding-left'])-pointerHeight+'px',
-transform:'translate(1px,-50%)'};}
+transform:'translate(1px,-50%)'};}};
 
-;};
+
 
 
 return Object.assign({},cuiPopoverHelpers.getResetStyles(),pointerOffset(),contentOffsetCompensation());},
 
-getPointerBorderStyles:function getPointerBorderStyles(opts){var 
+getPointerBorderStyles:function getPointerBorderStyles(opts){var
 position=opts.position;var pointerHeight=opts.pointerHeight;var pointerWidth=opts.pointerWidth;
 var transparentHorizontalBorder=pointerWidth+'px solid transparent';
 var transparentVerticalBorder=pointerHeight+'px solid transparent';
 if(position==='top'||position==='bottom'){
-return {
+return{
 'border-right':transparentHorizontalBorder,
 'border-left':transparentHorizontalBorder,
 'border-bottom':transparentVerticalBorder,
-'border-top':transparentVerticalBorder};}else 
+'border-top':transparentVerticalBorder};}else
 
-
-return {
+return{
 'border-right':transparentVerticalBorder,
 'border-left':transparentVerticalBorder,
 'border-bottom':transparentHorizontalBorder,
 'border-top':transparentHorizontalBorder};},
 
 
-getPointerStyles:function getPointerStyles(opts){var 
+getPointerStyles:function getPointerStyles(opts){var
 element=opts.element;var position=opts.position;var offsetBetweenPointerAndContent=opts.offsetBetweenPointerAndContent;var popoverHeight=opts.popoverHeight;var popoverWidth=opts.popoverWidth;var pointerHeight=opts.pointerHeight;var pointerWidth=opts.pointerWidth;var containerHeight=opts.containerHeight;var containerWidth=opts.containerWidth;var distanceBetweenTargetAndPopover=opts.distanceBetweenTargetAndPopover;
 var colorOfPopoverBackground=element.css('backgroundColor'),
 stylesOfVisibleBorder=pointerHeight+'px solid '+colorOfPopoverBackground;
@@ -1618,7 +1650,9 @@ stylesOfVisibleBorder=pointerHeight+'px solid '+colorOfPopoverBackground;
 return Object.assign({position:'absolute'},
 cuiPopoverHelpers.getPointerOffset(opts),
 cuiPopoverHelpers.getPointerBorderStyles(opts),_defineProperty({},
+
 'border-'+position,stylesOfVisibleBorder));},
+
 
 
 getPointer:function getPointer(opts){
@@ -1628,45 +1662,48 @@ return $pointer;},
 
 getPopoverMargins:function getPopoverMargins(position,pointerHeight){
 var margin=pointerHeight+'px';
-return {
+return{
 'margin-top':position==='bottom'?margin:'',
 'margin-right':position==='left'?margin:'',
 'margin-bottom':position==='top'?margin:'',
 'margin-left':position==='right'?margin:''};},
 
 
-getContainerPaddings:function getContainerPaddings(opts){var 
+getContainerPaddings:function getContainerPaddings(opts){var
 position=opts.position;var offsetBetweenPointerAndContent=opts.offsetBetweenPointerAndContent;var popoverHeight=opts.popoverHeight;var popoverWidth=opts.popoverWidth;var pointerHeight=opts.pointerHeight;var distanceBetweenTargetAndPopover=opts.distanceBetweenTargetAndPopover;
-var padding=cuiPopoverHelpers.getOffsetAndUnitsOfOffset(distanceBetweenTargetAndPopover);var 
+var padding=cuiPopoverHelpers.getOffsetAndUnitsOfOffset(distanceBetweenTargetAndPopover);var
 
 paddingTop='';var paddingBottom='';var paddingRight='';var paddingLeft='';
 
 if(position==='top'||position==='bottom'){
 var verticalPadding=void 0;
 switch(padding.units){
-default: // 'px' or ''
+default:// 'px' or ''
 verticalPadding=padding.amount+padding.units;
 break;
-case '%':
+case'%':
 var heightOfContainer=popoverHeight+pointerHeight;
 verticalPadding=heightOfContainer*(padding.amount/100)+'px';}
-;
-position==='top'?paddingBottom=verticalPadding:paddingTop=verticalPadding;}else 
 
+position==='top'?
+paddingBottom=verticalPadding:
+paddingTop=verticalPadding;}else
 {
 var horizontalPadding=void 0;
 switch(padding.units){
-default: // 'px' or ''
+default:// 'px' or ''
 horizontalPadding=padding.amount+padding.units;
 break;
-case '%':
+case'%':
 var widthOfContainer=popoverWidth+pointerHeight;
 horizontalPadding=widthOfContainer*(padding.amount/100)+'px';}
-;
-position==='left'?paddingRight=horizontalPadding:paddingLeft=horizontalPadding;}
+
+position==='left'?
+paddingRight=horizontalPadding:
+paddingLeft=horizontalPadding;}
 
 
-return {
+return{
 'padding-top':paddingTop||'',
 'padding-right':paddingRight||'',
 'padding-bottom':paddingBottom||'',
@@ -1675,26 +1712,27 @@ return {
 
 
 
-return cuiPopoverHelpers;}]);
+return cuiPopoverHelpers;});
 
 
 
 
 angular.module('cui-ng').
-directive('cuiPopover',['CuiPopoverHelpers','$compile','$timeout','$interval',function(CuiPopoverHelpers,$compile,$timeout,$interval){
-return {
+directive('cuiPopover',['CuiPopoverHelpers', '$compile', '$timeout', '$interval', function(CuiPopoverHelpers,$compile,$timeout,$interval){
+return{
 restrict:'EA',
 compile:function compile(){
-return {
+return{
 pre:function pre(scope,elem,attrs){
-var self=void 0,popoverTether=[],repositionedTether=void 0,tetherAttachmentInterval=void 0,targetElementPositionInterval=void 0,elementHtmlInterval=void 0,_elementHtml=void 0,cuiPopoverConfig={},positions=void 0,positionInUse=void 0,trialPosition=void 0;
+var self=void 0;
+var popoverTether=[],repositionedTether=void 0,tetherAttachmentInterval=void 0,targetElementPositionInterval=void 0,elementHtmlInterval=void 0,_elementHtml=void 0,cuiPopoverConfig={},positions=void 0,positionInUse=void 0,trialPosition=void 0;
 
 var cuiPopover={
 init:function init(){
-elem.css({opacity:'0','pointer-events':'none',position:'fixed',right:'0'}); // hide the original element.
+elem.css({opacity:'0','pointer-events':'none',position:'fixed',right:'0'});// hide the original element.
 
 self=this;
-positionInUse=0; // using the default position when we init
+positionInUse=0;// using the default position when we init
 if(!attrs.popoverPositions)throw new Error('You must define popover-positions for the cui-popover directive.');
 positions=scope.$eval(attrs.popoverPositions);
 positions=CuiPopoverHelpers.parsePositionArray(positions);
@@ -1729,7 +1767,7 @@ popoverOffsetAttribute,2);targetAndPopoverOffset=_popoverOffsetAttribu[0];pointe
 offset=['0',offsetBetweenPointerAndContent].join(' ');
 targetOffset=['0',pointerOffset].join(' ');
 containerWidth=_this.popoverWidth;
-containerHeight=_this.popoverHeight+_this.pointerHeight;}else 
+containerHeight=_this.popoverHeight+_this.pointerHeight;}else
 
 {var _popoverOffsetAttribu2=_slicedToArray(
 popoverOffsetAttribute,2);pointerOffset=_popoverOffsetAttribu2[0];targetAndPopoverOffset=_popoverOffsetAttribu2[1];
@@ -1750,9 +1788,9 @@ _this.attachment=CuiPopoverHelpers.getAttachmentFromPosition(_this.position);
 _this.targetAttachment=CuiPopoverHelpers.getAttachmentFromPosition(CuiPopoverHelpers.invertAttachmentPartial(_this.position));},
 
 helpers:{
-getTetherOptions:function getTetherOptions(){var element=arguments.length<=0||arguments[0]===undefined?self.selectors.$container[0]:arguments[0];var opts=arguments[1];var 
+getTetherOptions:function getTetherOptions(){var element=arguments.length<=0||arguments[0]===undefined?self.selectors.$container[0]:arguments[0];var opts=arguments[1];var
 target=opts.target;var position=opts.position;var offset=opts.offset;var targetOffset=opts.targetOffset;var targetModifier=opts.targetModifier;var attachment=opts.attachment;var targetAttachment=opts.targetAttachment;
-return {
+return{
 target:target,
 targetModifier:targetModifier,
 attachment:attachment,
@@ -1768,9 +1806,9 @@ watchers:{
 position:function position(){
 tetherAttachmentInterval=$interval(function(){
 if(!popoverTether[positionInUse]||!popoverTether[positionInUse].element)return;
-if(positions.length===1)self.newMode('normal');else 
+if(positions.length===1)self.newMode('normal');else
 {
-if(popoverTether[positionInUse].element.classList.contains('tether-out-of-bounds'))self.newMode('try-another');else 
+if(popoverTether[positionInUse].element.classList.contains('tether-out-of-bounds'))self.newMode('try-another');else
 self.newMode('normal');}},
 
 100);},
@@ -1780,7 +1818,7 @@ self.newMode('normal');}},
 elementHtml:function elementHtml(){
 elementHtmlInterval=$interval(function(){
 var elemHtml=elem.html();
-if(elemHtml!==_elementHtml){ // if the element html is different than what we have cached
+if(elemHtml!==_elementHtml){// if the element html is different than what we have cached
 _elementHtml=elemHtml;
 cuiPopover.render.newHtml(_elementHtml);}},
 
@@ -1813,7 +1851,7 @@ selectors:{
 $target:angular.element(document.querySelector(attrs.target))},
 
 render:{
-popoverContainer:function popoverContainer(positionIndex){var 
+popoverContainer:function popoverContainer(positionIndex){var
 getPointer=CuiPopoverHelpers.getPointer;var getPopoverMargins=CuiPopoverHelpers.getPopoverMargins;var getContainerPaddings=CuiPopoverHelpers.getContainerPaddings;
 var opts=cuiPopoverConfig;
 var $container=$('<div class="cui-popover__container"></div>');
@@ -1846,11 +1884,11 @@ newHtml:function newHtml(_newHtml){
 self.selectors[positionInUse].$contentBox=elem.clone(true,true);}},
 
 
-newMode:function newMode(_newMode){var 
+newMode:function newMode(_newMode){var
 getPointer=CuiPopoverHelpers.getPointer;var getPopoverMargins=CuiPopoverHelpers.getPopoverMargins;var getContainerPaddings=CuiPopoverHelpers.getContainerPaddings;
 var opts=cuiPopoverConfig;
 switch(_newMode){
-case 'normal': // if we can show the popover in the current position
+case'normal':// if we can show the popover in the current position
 if(self.selectors[positionInUse].$container[0].style.opacity==='0'){
 $timeout(function(){
 popoverTether[positionInUse].position();
@@ -1858,24 +1896,24 @@ self.selectors[positionInUse].$container[0].style.opacity='1';});}
 
 
 break;
-case 'try-another':
+case'try-another':
 self.tryAnotherPosition();
 break;}},
 
 
 tryAnotherPosition:function tryAnotherPosition(){
-if(typeof trialPosition==='undefined'&&positionInUse===0)trialPosition=1;else 
-if(typeof trialPosition==='undefined')trialPosition=0;else 
+if(typeof trialPosition==='undefined'&&positionInUse===0)trialPosition=1;else
+if(typeof trialPosition==='undefined')trialPosition=0;else
 trialPosition++;
 
 if(trialPosition===positionInUse)return;
 if(trialPosition===positions.length){
-trialPosition=undefined; // next tryAnotherPosition will try the first position in the array of positions provided
+trialPosition=undefined;// next tryAnotherPosition will try the first position in the array of positions provided
 return;}
 
 
-if(trialPosition===positions.length-1){ // if we reached the last position
-if(positions[trialPosition]==='hide'){ // and none of them were able to show and 'hide' was passed as last fallback, hide element.
+if(trialPosition===positions.length-1){// if we reached the last position
+if(positions[trialPosition]==='hide'){// and none of them were able to show and 'hide' was passed as last fallback, hide element.
 if(self.selectors[positionInUse].$container[0].style.opacity==='0')self.selectors[positionInUse].$container[0].style.opacity='1';
 trialPosition=undefined;
 return;}}
@@ -1889,15 +1927,15 @@ self.config(opts);
 self.render.popoverContainer(trialPosition);
 
 
-if(!popoverTether[trialPosition].element.classList.contains('tether-out-of-bounds')){ // if the new element isn't OOB then use it.
+if(!popoverTether[trialPosition].element.classList.contains('tether-out-of-bounds')){// if the new element isn't OOB then use it.
 self.selectors[positionInUse].$container.detach();
 popoverTether[positionInUse].destroy();
 delete self.selectors[positionInUse];
 positionInUse=trialPosition;
 trialPosition=undefined;
-if(self.selectors[positionInUse].$container[0].style.opacity==='0')self.selectors[positionInUse].$container[0].style.opacity='1';}else 
+if(self.selectors[positionInUse].$container[0].style.opacity==='0')self.selectors[positionInUse].$container[0].style.opacity='1';}else
 
-{ // else just remove all references to it and this function will run again by itself
+{// else just remove all references to it and this function will run again by itself
 self.selectors[trialPosition].$container.detach();
 popoverTether[trialPosition].destroy();
 delete self.selectors[trialPosition];}}};
@@ -1923,13 +1961,13 @@ cuiTreeNestPrefix:'cui-tree--nesting-'};
 
 
 var cuiTreeHelpers={
-getDisplayValue:function getDisplayValue(scope,opts,object){var 
+getDisplayValue:function getDisplayValue(scope,opts,object){var
 cuiTreeLeafDisplay=opts.cuiTreeLeafDisplay;
 var propertiesToDisplay=cuiTreeLeafDisplay.split('+');
 
 return scope.$eval(cuiTreeLeafDisplay,{object:object});},
 
-getClassListForNestingLevel:function getClassListForNestingLevel(opts,nesting){var 
+getClassListForNestingLevel:function getClassListForNestingLevel(opts,nesting){var
 cuiTreeNestPrefix=opts.cuiTreeNestPrefix;var cuiTreeNest0Class=opts.cuiTreeNest0Class;var cuiTreeNestXClass=opts.cuiTreeNestXClass;
 var classList=[];
 switch(nesting){
@@ -1942,8 +1980,8 @@ classList.push(cuiTreeNestXClass||defaults.cuiTreeNestXClass);}
 ;
 return classList;},
 
-getElements:function getElements(scope,opts,objects,leafClickCallback){var nesting=arguments.length<=4||arguments[4]===undefined?0:arguments[4];var 
-getElements=cuiTreeHelpers.getElements;var getDisplayValue=cuiTreeHelpers.getDisplayValue;var getClassListForNestingLevel=cuiTreeHelpers.getClassListForNestingLevel;var 
+getElements:function getElements(scope,opts,objects,leafClickCallback){var nesting=arguments.length<=4||arguments[4]===undefined?0:arguments[4];var
+getElements=cuiTreeHelpers.getElements;var getDisplayValue=cuiTreeHelpers.getDisplayValue;var getClassListForNestingLevel=cuiTreeHelpers.getClassListForNestingLevel;var
 cuiTreeBranchWrapper=opts.cuiTreeBranchWrapper;var cuiTreeLeafWrapper=opts.cuiTreeLeafWrapper;var cuiTreeLastLeafClass=opts.cuiTreeLastLeafClass;var cuiTreeLastBranchClass=opts.cuiTreeLastBranchClass;
 var $node=$('<div></div>');
 getClassListForNestingLevel(opts,nesting).forEach(function(className){return $node[0].classList.add(className);});
@@ -1952,12 +1990,12 @@ var $leafInner=$('<span>'+getDisplayValue(scope,opts,object)+'</span>');
 var $leafWrapper=$(cuiTreeLeafWrapper||defaults.cuiTreeLeafWrapper);
 if(leafClickCallback)$leafWrapper[0].addEventListener("click",function(e){leafClickCallback(object,this,e);},true);
 $leafWrapper.append($leafInner);
-if(i===objects.length-1)$leafWrapper[0].classList.add(cuiTreeLastLeafClass||defaults.cuiTreeLastLeafClass); // add class to last leaf of each indent level.
-if(object.children){ // if it has children creat a new branch for the leaf and it's children
+if(i===objects.length-1)$leafWrapper[0].classList.add(cuiTreeLastLeafClass||defaults.cuiTreeLastLeafClass);// add class to last leaf of each indent level.
+if(object.children){// if it has children creat a new branch for the leaf and it's children
 var $branchWrapper=$(cuiTreeBranchWrapper||defaults.cuiTreeBranchWrapper).append($leafWrapper);
 if(i===objects.length-1)$branchWrapper[0].classList.add(cuiTreeLastBranchClass||defaults.cuiTreeLastBranchClass);
-$branchWrapper.append(getElements(scope,opts,object.children,leafClickCallback,nesting+1)); // recursively gets the child nodes
-$node.append($branchWrapper);}else 
+$branchWrapper.append(getElements(scope,opts,object.children,leafClickCallback,nesting+1));// recursively gets the child nodes
+$node.append($branchWrapper);}else
 
 {
 $node.append($leafWrapper);}});
@@ -1993,7 +2031,7 @@ $tree.children().unbind();});}};
 
 angular.module('cui-ng').
 directive('cuiTree',[function(){
-return {
+return{
 restrict:'A',
 scope:true,
 compile:function compile(){
@@ -2005,7 +2043,7 @@ return cuiTree;}};}]);
 angular.module('cui-ng').
 directive('cuiWizardProto',['$timeout','$compile','$window','$rootScope','$document',
 function($timeout,$compile,$window,$rootScope,$document){
-return {
+return{
 restrict:'E',
 scope:true,
 link:function link(scope,elem,attrs){
@@ -2029,7 +2067,7 @@ snap=angular.element(document.querySelector('snap-content'));
 $body=angular.element('body');
 scope.wizardFinished=false;
 scope.next=function(state){
-if(state)scope.goToState(state);else 
+if(state)scope.goToState(state);else
 {
 scope.currentStep++;
 updateIndicators();
@@ -2041,7 +2079,7 @@ calculateWhereToScroll();};
 
 scope.previous=function(state){
 if(state){
-scope.goToState(state);}else 
+scope.goToState(state);}else
 
 {
 scope.currentStep--;
@@ -2071,19 +2109,19 @@ angular.forEach(field,function(errorField){
 errorField.$setTouched();});});
 
 
-invalidForm[scope.currentStep]=true;}else 
+invalidForm[scope.currentStep]=true;}else
 
 {
 invalidForm[scope.currentStep]=false;
 calculateWhereToScroll();
 if(nextState){
-scope.goToState(nextState);}else 
+scope.goToState(nextState);}else
 
 {scope.next();}}};
 
 
-if(isNaN(scope.currentStep))scope.currentStep=1; // check if step is not a number, only runs once
-else if(scope.currentStep>numberOfSteps)scope.currentStep=numberOfSteps;else 
+if(isNaN(scope.currentStep))scope.currentStep=1;// check if step is not a number, only runs once
+else if(scope.currentStep>numberOfSteps)scope.currentStep=numberOfSteps;else
 if(scope.currentStep<1)scope.currentStep=1;
 createIndicators();
 createBar();
@@ -2115,23 +2153,23 @@ stepTitles.forEach(function(e,i){
 var div;
 if(stepIcons[i]!==undefined){
 if(stepIcons[i].indexOf('.')>-1){
-scope.icons[i]='<div class="icon-container"><div class="icon"><img src="'+stepIcons[i]+'" class="cui-icon-rotate"/></div></div>';}else 
+scope.icons[i]='<div class="icon-container"><div class="icon"><img src="'+stepIcons[i]+'" class="cui-icon-rotate"/></div></div>';}else
 
 {
-scope.icons[i]='<div class="icon-container"><div class="icon"><cui-icon cui-svg-icon="'+stepIcons[i]+'" svg-class="cui-icon-rotate"></cui-icon></div></div>'; // adding svg-class for now until new wizard is out.
+scope.icons[i]='<div class="icon-container"><div class="icon"><cui-icon cui-svg-icon="'+stepIcons[i]+'" svg-class="cui-icon-rotate"></cui-icon></div></div>';// adding svg-class for now until new wizard is out.
 }}
 
 if(clickableIndicators!==undefined&&scope.icons[i]!==undefined){
 div=angular.element('<span class="step-indicator" id="cui-wizard-ref-pointer-'+i+'" ng-click="goToStep('+(
 i+1)+');goToState(\''+(scope.stepStates[i]||scope.defaultString)+'\')">'+
 stepTitles[i]+scope.icons[i]+'</span>');
-div[0].style.cursor='pointer';}else 
+div[0].style.cursor='pointer';}else
 
 if(clickableIndicators!==undefined&&!scope.icons[i]){
 div=angular.element('<span class="step-indicator" id="cui-wizard-ref-pointer-'+i+'" ng-click="goToStep('+(
 i+1)+');goToState(\''+(scope.stepStates[i]||scope.defaultString)+'\')">'+
 stepTitles[i]+'</span>');
-div[0].style.cursor='pointer';}else 
+div[0].style.cursor='pointer';}else
 
 {
 div=angular.element('<span class="step-indicator" id="cui-wizard-ref-pointer-'+i+'">'+stepTitles[i]+(
@@ -2161,7 +2199,7 @@ scope.$indicators[i].classList.remove('active');
 if(mobileStack){$mobileSteps[i].classList.remove('expanded');}
 if(i<scope.currentStep-1){
 scope.$indicators[i].classList.add('visited');
-if(mobileStack){$mobileSteps[i].classList.add('visited');}}else 
+if(mobileStack){$mobileSteps[i].classList.add('visited');}}else
 
 {
 scope.$indicators[i].classList.remove('visited');
@@ -2179,7 +2217,7 @@ $timeout(function(){
 scope.$bar[0].style.left=scope.$indicators[0].scrollWidth/2+'px';
 scope.$bar[0].style.right=scope.$indicators[scope.$indicators.length-1].scrollWidth/2+'px';
 if(scope.currentStep==1){
-scope.$barFill[0].style.width='0px';}else 
+scope.$barFill[0].style.width='0px';}else
 
 {
 scope.$barFill[0].style.width=scope.$indicators[scope.currentStep-1].offsetLeft-scope.$indicators[0].scrollWidth/2+
@@ -2249,7 +2287,7 @@ var indicatorContainerWidth=getIndicatorContainerWidth();
 if(indicatorContainerWidth<indicatorsWidth&&
 indicatorContainerWidth<Math.max(scope.indicatorsWidth||0,indicatorsWidth)){
 scope.indicatorsWidth=indicatorsWidth;
-onlyShowCurrentIndicator();}else 
+onlyShowCurrentIndicator();}else
 
 if(indicatorContainerWidth>scope.indicatorsWidth){
 showAllIndicators();}},
@@ -2270,13 +2308,13 @@ calculateWhereToScroll=function calculateWhereToScroll(){
 var wizardOffset;
 $cuiExpandableTitle=angular.element(elem[0].querySelector('cui-expandable.mobile-element>cui-expandable-title'));
 if($cuiExpandableTitle.length!==0){
-var titleHeight=$cuiExpandableTitle[0].clientHeight;}else 
+var titleHeight=$cuiExpandableTitle[0].clientHeight;}else
 
 var titleHeight=0;
 if(snap.length!==0){
 var snapOffset=snap.scrollTop();
 wizardOffset=elem[0].getBoundingClientRect().top;
-scrollTo(snapOffset+wizardOffset+titleHeight*(scope.currentStep-1));}else 
+scrollTo(snapOffset+wizardOffset+titleHeight*(scope.currentStep-1));}else
 
 {
 var bodyOffset=$body.scrollTop();
@@ -2285,7 +2323,7 @@ scrollTo(bodyOffset+wizardOffset+titleHeight*(scope.currentStep-1));}},
 
 
 scrollTo=function scrollTo(position){
-if(snap.length!==0)snap.animate({scrollTop:position},300,'linear');else 
+if(snap.length!==0)snap.animate({scrollTop:position},300,'linear');else
 $body.animate({scrollTop:position},300,'linear');},
 
 updateStep=function updateStep(){
@@ -2294,13 +2332,13 @@ attrs.$set('step',scope.currentStep);},
 observeStepAttr=function observeStepAttr(){
 attrs.$observe('step',function(newStep){
 if(isNaN(newStep)){
-scope.currentStep=1;}else 
+scope.currentStep=1;}else
 
 if(newStep>numberOfSteps){
-scope.currentStep=numberOfSteps;}else 
+scope.currentStep=numberOfSteps;}else
 
 if(newStep<1){
-scope.currentStep=1;}else 
+scope.currentStep=1;}else
 
 {
 scope.currentStep=newStep;}
@@ -2315,7 +2353,7 @@ init();}};}]);
 
 angular.module('cui-ng').
 directive('cuiWizard',['$timeout','$compile','$window','$rootScope',function($timeout,$compile,$window,$rootScope){
-return {
+return{
 restrict:'E',
 scope:true,
 link:function link(scope,elem,attrs){
@@ -2354,40 +2392,40 @@ errorField.$setTouched();});});},
 
 
 
-getStepInfo:function getStepInfo(step){ // step goes from 0 to numberOfSteps
+getStepInfo:function getStepInfo(step){// step goes from 0 to numberOfSteps
 var $step=cuiWizard.selectors.$steps[step];
-return {
+return{
 stepTitle:$step.attributes['step-title'].value,
 icon:$step.attributes.icon?$step.attributes.icon.value:false,
 state:$step.attributes.state?$step.attributes.state.value:false};},
 
 
 getIconMarkup:function getIconMarkup(icon){
-if(!icon)return '';
+if(!icon)return'';
 var iconMarkup=void 0;
 switch(icon.indexOf('.')){
-case -1:
+case-1:
 iconMarkup='<cui-icon cui-svg-icon="'+icon+'" svg-class="icon-svg"></cui-icon>';
 break;
 default:
 iconMarkup='<img src="'+icon+'" class="cui-icon-rotate"/>';}
 ;
 
-return '<div class="icon-container">\n                                    <div class="icon">\n                                        '+
+return'<div class="icon-container">\n                                    <div class="icon">\n                                        '+
 
 iconMarkup+'\n                                    </div>\n                                </div>';},
 
 
 
-getNgClickForIndicator:function getNgClickForIndicator(stepNumber,stepState){ // stepNUmber from 0 to numberOfSteps
-if(!cuiWizard.config.clickableIndicators)return '';else 
-return 'ng-click="goToStep('+(stepNumber+1)+(','+stepState||'')+')"';},
+getNgClickForIndicator:function getNgClickForIndicator(stepNumber,stepState){// stepNUmber from 0 to numberOfSteps
+if(!cuiWizard.config.clickableIndicators)return'';else
+return'ng-click="goToStep('+(stepNumber+1)+(','+stepState||'')+')"';},
 
-getIndicatorMarkup:function getIndicatorMarkup(stepNumber){ // stepNUmber from 0 to numberOfSteps
+getIndicatorMarkup:function getIndicatorMarkup(stepNumber){// stepNUmber from 0 to numberOfSteps
 var step=cuiWizard.helpers.getStepInfo(stepNumber);
 var indicatorClass=void 0;
 stepNumber+1===cuiWizard.scope.currentStep?indicatorClass='active':stepNumber+1<cuiWizard.scope.currentStep?indicatorClass='visited':indicatorClass='';
-return '<span class="step-indicator '+indicatorClass+'" '+cuiWizard.helpers.getNgClickForIndicator(stepNumber,step.state)+'>\n                                    <span class="step-indicator__title">'+
+return'<span class="step-indicator '+indicatorClass+'" '+cuiWizard.helpers.getNgClickForIndicator(stepNumber,step.state)+'>\n                                    <span class="step-indicator__title">'+
 step.stepTitle+'</span> '+cuiWizard.helpers.getIconMarkup(step.icon)+'\n                                </span>';},
 
 
@@ -2422,7 +2460,7 @@ cuiWizard.helpers.debounce(function(){
 if(cuiWizard.config.bar)cuiWizard.reRender.bar(cuiWizard.scope.currentStep);
 if(cuiWizard.helpers.thereIsRoomForIndicators()&&cuiWizard.config.stepsCollapsed){
 cuiWizard.config.stepsCollapsed=false;
-cuiWizard.selectors.$indicatorContainer.removeClass('small');}else 
+cuiWizard.selectors.$indicatorContainer.removeClass('small');}else
 
 if(!cuiWizard.helpers.thereIsRoomForIndicators()&&!cuiWizard.config.stepsCollapsed){
 cuiWizard.config.stepsCollapsed=true;
@@ -2433,7 +2471,7 @@ cuiWizard.selectors.$expandables.forEach(function(expandable,e){
 expandable.attr('transition-speed',300);
 expandable.addClass('mobile-element');});
 
-cuiWizard.config.mobileMode=true;}else 
+cuiWizard.config.mobileMode=true;}else
 
 if(cuiWizard.config.mobileStack&&cuiWizard.selectors.$window.width()>cuiWizard.config.mobileStackBreakingPoint&&cuiWizard.config.mobileMode){
 cuiWizard.selectors.$expandables.forEach(function(expandable,e){
@@ -2454,15 +2492,15 @@ cuiWizard.selectors.$body.animate({scrollTop:firstExpandableOffset.top+titleHeig
 scope:{
 currentStep:Number(elem[0].attributes.step.value),
 wizardFinished:false,
-next:function next(state){ // state is optional
-if(state)cuiWizard.scope.goToState(state);else 
+next:function next(state){// state is optional
+if(state)cuiWizard.scope.goToState(state);else
 cuiWizard.update(cuiWizard.scope.currentStep+1);},
 
 nextWithErrorChecking:function nextWithErrorChecking(form,state){
 if(cuiWizard.helpers.isFormValid(form))cuiWizard.scope.next(state);},
 
 previous:function previous(state){
-if(state)cuiWizard.scope.goToSate(state);else 
+if(state)cuiWizard.scope.goToSate(state);else
 cuiWizard.update(cuiWizard.scope.currentStep-1);},
 
 goToStep:function goToStep(newStep,state){
@@ -2486,7 +2524,7 @@ languageChange:function languageChange(){
 scope.$on('languageChange',function(){
 if(cuiWizard.helpers.thereIsRoomForIndicators()&&cuiWizard.config.stepsCollapsed){
 cuiWizard.config.stepsCollapsed=false;
-cuiWizard.selectors.$indicatorContainer.removeClass('small');}else 
+cuiWizard.selectors.$indicatorContainer.removeClass('small');}else
 
 if(!cuiWizard.helpers.thereIsRoomForIndicators()&&!cuiWizard.config.stepsCollapsed){
 cuiWizard.config.stepsCollapsed=true;
@@ -2513,9 +2551,9 @@ $timeout(function(){
 cuiWizard.selectors.$indicatorContainer.append('<div class="steps-bar"><div class="steps-bar-fill"></div></div>');
 cuiWizard.selectors.$bar=angular.element(cuiWizard.selectors.$indicatorContainer[0].querySelector('.steps-bar'));
 cuiWizard.selectors.$barFill=angular.element(cuiWizard.selectors.$indicatorContainer[0].querySelector('.steps-bar-fill'));
-cuiWizard.selectors.$bar[0].style.left=cuiWizard.selectors.$indicators[0].scrollWidth/2+'px'; // bar starts at the center point of the 1st inicator
-cuiWizard.selectors.$bar[0].style.right=cuiWizard.selectors.$indicators[cuiWizard.config.numberOfSteps-1].scrollWidth/2+'px'; // ends at center of last indicator
-if(cuiWizard.scope.currentStep===1)cuiWizard.selectors.$barFill[0].style.width='0px';else 
+cuiWizard.selectors.$bar[0].style.left=cuiWizard.selectors.$indicators[0].scrollWidth/2+'px';// bar starts at the center point of the 1st inicator
+cuiWizard.selectors.$bar[0].style.right=cuiWizard.selectors.$indicators[cuiWizard.config.numberOfSteps-1].scrollWidth/2+'px';// ends at center of last indicator
+if(cuiWizard.scope.currentStep===1)cuiWizard.selectors.$barFill[0].style.width='0px';else
 {
 cuiWizard.selectors.$barFill[0].style.width=cuiWizard.selectors.$indicators[cuiWizard.scope.currentStep-1].offsetLeft-cuiWizard.selectors.$indicators[0].scrollWidth/2+cuiWizard.selectors.$indicators[cuiWizard.scope.currentStep-1].scrollWidth/2+'px';}});},
 
@@ -2531,7 +2569,7 @@ if(cuiWizard.scope.currentStep===i+1){
 $(step).addClass('active');
 expandableClass='expanded';}
 
-var expandable=$($compile( // compile a new expandable
+var expandable=$($compile(// compile a new expandable
 '<cui-expandable class="cui-expandable cui-expandable--wizard '+expandableClass+'" transition-speed="0">\n                                    <cui-expandable-title class="cui-expandable__title cui-expandable__title--wizard">\n                                        '+
 
 cuiWizard.helpers.getIndicatorMarkup(i)+'\n                                    </cui-expandable-title>\n                                    <cui-expandable-body class="cui-expandable__body cui-expandable__body--wizard"></cui-expandable-body>\n                                </cui-expandable>')(
@@ -2546,9 +2584,9 @@ cuiWizard.selectors.$expandables.push($(step).parent().parent());});}},
 
 
 reRender:{
-indicators:function indicators(newStep,oldStep){ // newStep goes from 1 to numberOfSteps+1
+indicators:function indicators(newStep,oldStep){// newStep goes from 1 to numberOfSteps+1
 cuiWizard.selectors.$indicators.each(function(i,indicator){
-if(i+1<newStep)$(indicator).addClass('visited');else 
+if(i+1<newStep)$(indicator).addClass('visited');else
 $(indicator).removeClass('visited');});
 
 cuiWizard.selectors.$indicators[oldStep-1].classList.remove('active');
@@ -2556,7 +2594,7 @@ cuiWizard.selectors.$indicators[newStep-1].classList.add('active');},
 
 steps:function steps(newStep,oldStep){
 cuiWizard.selectors.$expandables.forEach(function(expandable,i){
-if(i+1<newStep)expandable.addClass('visited');else 
+if(i+1<newStep)expandable.addClass('visited');else
 expandable.removeClass('visited');});
 
 cuiWizard.selectors.$steps[oldStep-1].classList.remove('active');
@@ -2569,7 +2607,7 @@ cuiWizard.selectors.$expandables[newStep-1][0].querySelector('.step-indicator').
 indicatorContainer:function indicatorContainer(){
 if(cuiWizard.helpers.thereIsRoomForIndicators()&&cuiWizard.config.stepsCollapsed){
 cuiWizard.config.stepsCollapsed=false;
-cuiWizard.selectors.$indicatorContainer.removeClass('small');}else 
+cuiWizard.selectors.$indicatorContainer.removeClass('small');}else
 
 if(!cuiWizard.helpers.thereIsRoomForIndicators()&&!cuiWizard.config.stepsCollapsed){
 cuiWizard.config.stepsCollapsed=true;
@@ -2577,7 +2615,7 @@ cuiWizard.selectors.$indicatorContainer.addClass('small');}},
 
 
 bar:function bar(newStep){
-if(newStep===1)cuiWizard.selectors.$barFill[0].style.width='0px';else 
+if(newStep===1)cuiWizard.selectors.$barFill[0].style.width='0px';else
 {
 cuiWizard.selectors.$barFill[0].style.width=cuiWizard.selectors.$indicators[newStep-1].offsetLeft-cuiWizard.selectors.$indicators[0].scrollWidth/2+cuiWizard.selectors.$indicators[newStep-1].scrollWidth/2+'px';}}},
 
@@ -2605,16 +2643,16 @@ cuiWizard.selectors.$window.resize();}};}]);
 
 angular.module('cui-ng').
 directive('customError',['$q',function($q){
-return {
+return{
 restrict:'A',
 require:'ngModel',
 link:function link(scope,ele,attrs,ctrl){
 var promises={},isLoading=false,amountOfRequestSent=0;
 
-var assignValueFromString=function assignValueFromString(startingObject,string,value){ // gets nested scope variable from parent , used because we can't have isolate scope on this directive
+var assignValueFromString=function assignValueFromString(startingObject,string,value){// gets nested scope variable from parent , used because we can't have isolate scope on this directive
 var arrayOfProperties=string.split('.');
 arrayOfProperties.forEach(function(property,i){
-if(i<arrayOfProperties.length-1)startingObject=startingObject[property];else 
+if(i<arrayOfProperties.length-1)startingObject=startingObject[property];else
 startingObject[property]=value;});};
 
 
@@ -2636,11 +2674,11 @@ angular.forEach(scope.$eval(attrs.customError),function(checkFunction,errorName)
 var checkFunctionReturn=checkFunction(newValue);
 
 if(typeof checkFunctionReturn==="boolean"){
-ctrl.$setValidity(errorName,checkFunctionReturn);}else 
+ctrl.$setValidity(errorName,checkFunctionReturn);}else
 
 {
 startLoading();
-if(!promises[errorName])promises[errorName]=[checkFunctionReturn.promise];else 
+if(!promises[errorName])promises[errorName]=[checkFunctionReturn.promise];else
 promises[errorName].push(checkFunctionReturn.promise);
 $q.all(promises[errorName]).then(function(res){
 ctrl.$setValidity(errorName,checkFunctionReturn.valid(res[promises[errorName].length-1]));
@@ -2658,7 +2696,7 @@ function(newValue,oldValue){return newValue!==oldValue;});}};}]);
 
 angular.module('cui-ng').
 directive('focusIf',['$timeout',function($timeout){
-return {
+return{
 restrict:'A',
 link:function link(scope,elem,attrs){
 var element=elem[0];
@@ -2672,7 +2710,7 @@ scope.$eval(attrs.focusDelay)||0);}};
 
 
 if(attrs.focusIf){
-scope.$watch(attrs.focusIf,focus);}else 
+scope.$watch(attrs.focusIf,focus);}else
 {
 focus(true);}}};}]);
 
@@ -2682,7 +2720,7 @@ focus(true);}}};}]);
 
 angular.module('cui-ng').
 directive('inlineEdit',['$compile','$timeout','$filter',function($compile,$timeout,$filter){
-return {
+return{
 restrict:'E',
 scope:{
 model:'=',
@@ -2757,29 +2795,29 @@ scope.$watch('model',inlineEdit.helpers.setDisplayValue);}},
 helpers:{
 getLabel:function getLabel(){
 var label=void 0;
-if(attrs.label!==undefined)return '{{\''+attrs.label+'\'| translate}}';else 
-if(attrs.name!==undefined)return attrs.name;else 
+if(attrs.label!==undefined)return'{{\''+attrs.label+'\'| translate}}';else
+if(attrs.name!==undefined)return attrs.name;else
 throw new Error('Inline-edit needs 1 of the following attributes: label or name.');},
 
 getInput:function getInput(){
 attrs.type=attrs.type||'text';
 switch(attrs.type){
-case 'dropdown':
-return '<select ng-model="$parent.editInput" class="'+inlineEdit.config.inputClass+'" ng-init="matchModels()" ng-options="'+attrs.optionsExpression+'"\n                  ng-if="edit" ng-change="editChangeCallback()"></select>';
+case'dropdown':
+return'<select ng-model="$parent.editInput" class="'+inlineEdit.config.inputClass+'" ng-init="matchModels()" ng-options="'+attrs.optionsExpression+'"\n                  ng-if="edit" ng-change="editChangeCallback()"></select>';
 
-case 'auto-complete':
-return '<div auto-complete selected-object="$parent.editInput" local-data="localData" search-fields="'+attrs.searchFields+'"\n                  title-field="'+
+case'auto-complete':
+return'<div auto-complete selected-object="$parent.editInput" local-data="localData" search-fields="'+attrs.searchFields+'"\n                  title-field="'+
 attrs.titleField+'" input-class="'+inlineEdit.config.inputClass+'" match-class="highlight" ng-init="matchModels()" auto-match="true"\n                  ng-if="edit" ng-keypress="parseKeyCode($event)" initial-value="$parent.editInput.title" input-changed="editChangeCallback()"></div>';
 
 default:
-return '<input type="'+attrs.type+'" ng-model="$parent.editInput" class="'+inlineEdit.config.inputClass+'"\n                  ng-init="matchModels()" ng-if="edit" ng-keyup="parseKeyCode($event)" focus-if="focus" ng-change="editChangeCallback()"/>';}},
+return'<input type="'+attrs.type+'" ng-model="$parent.editInput" class="'+inlineEdit.config.inputClass+'"\n                  ng-init="matchModels()" ng-if="edit" ng-keyup="parseKeyCode($event)" focus-if="focus" ng-change="editChangeCallback()"/>';}},
 
 
 
 
 setDisplayValue:function setDisplayValue(){
 if(attrs.type==="password"){
-scope.displayValue=Array(scope.model?scope.model.length+1:0).join('•');}else 
+scope.displayValue=Array(scope.model?scope.model.length+1:0).join('•');}else
 
 scope.displayValue=scope.display||scope.model;}},
 
@@ -2807,7 +2845,7 @@ inlineEdit.render();}};}]);
 
 angular.module('cui-ng').
 directive('match',['$parse',function($parse){
-return {
+return{
 restrict:'A',
 require:'ngModel',
 link:function link(scope,element,attrs,ctrl){
@@ -2815,7 +2853,7 @@ var checkIfMatch=function checkIfMatch(values){
 ctrl.$setValidity('match',values[0]===(values[1]||''));};
 
 
-scope.$watch(function(){return [scope.$eval(attrs.match),ctrl.$viewValue];},checkIfMatch,function(newValues,oldValues){return !angular.equals(newValues,oldValues);});}};}]);
+scope.$watch(function(){return[scope.$eval(attrs.match),ctrl.$viewValue];},checkIfMatch,function(newValues,oldValues){return!angular.equals(newValues,oldValues);});}};}]);
 
 
 
@@ -2824,7 +2862,7 @@ angular.module('cui-ng').
 directive('offClickFilter',['OffClickFilterCache', '$parse', function(OffClickFilterCache,$parse){
 var filters=void 0;
 
-return {
+return{
 restrict:'A',
 compile:function compile(elem,attrs){
 return function(scope,element){
@@ -2837,7 +2875,7 @@ OffClickFilterCache[filter]?OffClickFilterCache[filter].push(element[0]):OffClic
 scope.$on('$destroy',function(){
 filters.forEach(function(filter){
 if(OffClickFilterCache[filter].length>1){
-OffClickFilterCache[filter].splice(OffClickFilterCache[filter].indexOf(element[0]),1);}else 
+OffClickFilterCache[filter].splice(OffClickFilterCache[filter].indexOf(element[0]),1);}else
 
 {
 OffClickFilterCache[filter]=null;
@@ -2924,7 +2962,7 @@ document.addEventListener("touchend",offClickEventHandler,true);
 document.addEventListener('click',offClickEventHandler,true);
 
 
-return {
+return{
 restrict:'A',
 compile:function compile(elem,attrs){
 var fn=$parse(attrs.offClick);
@@ -2948,7 +2986,7 @@ delete listeners[elmId];};
 
 if(attrs.offClickIf){
 removeWatcher=$rootScope.$watch(function(){return $parse(attrs.offClickIf)(scope);},function(newVal){
-newVal&&on()||!newVal&&off();});}else 
+newVal&&on()||!newVal&&off();});}else
 
 on();
 
@@ -2972,7 +3010,7 @@ return filterCache;});
 
 angular.module('cui-ng').
 directive('onEnter',['$timeout',function($timeout){
-return {
+return{
 restrict:'A',
 require:'ngModel',
 link:function link(scope,element,attrs,ctrl){
@@ -2995,7 +3033,7 @@ element.unbind();});}};}]);
 
 angular.module('cui-ng').
 directive('paginate',['$compile','$timeout','$interval',function($compile,$timeout,$interval){
-return {
+return{
 restrict:'AE',
 scope:{
 resultsPerPage:'&',
@@ -3059,7 +3097,7 @@ resizeInterval=$interval(paginate.helpers.resizeHandler,50);},
 
 scopeDestroy:function scopeDestroy(){
 scope.$on('$destroy',function(){
-$interval.cancel(resizeInterval); // unbinds the resize interval
+$interval.cancel(resizeInterval);// unbinds the resize interval
 });}},
 
 
@@ -3074,9 +3112,9 @@ getAvailableSpaceForPages:function getAvailableSpaceForPages(){
 var paginateWidth=paginate.config.width||paginate.selectors.$paginate.width();
 var previousWidth=paginate.helpers.getWidthOfElement(paginate.render.previousButton());
 var nextWidth=paginate.helpers.getWidthOfElement(paginate.render.nextButton());
-return paginateWidth-(previousWidth+nextWidth)-1; // - 1 because at certain widths the width() method was off by a pixel
+return paginateWidth-(previousWidth+nextWidth)-1;// - 1 because at certain widths the width() method was off by a pixel
 },
-getWidthOfElement:function getWidthOfElement(element){ // this appends the element to the body, get its width, and removes it. Used for measuring.
+getWidthOfElement:function getWidthOfElement(element){// this appends the element to the body, get its width, and removes it. Used for measuring.
 element.appendTo(document.body);
 var width=element.outerWidth(true);
 element.remove();
@@ -3091,25 +3129,25 @@ paginate.scope.reRender();});},
 
 
 resizeHandler:function resizeHandler(){
-if(!paginate.config.width)paginate.config.width=paginate.selectors.$paginate.width();else 
+if(!paginate.config.width)paginate.config.width=paginate.selectors.$paginate.width();else
 if(paginate.selectors.$paginate.width()!==paginate.config.width){
 paginate.config.width=paginate.selectors.$paginate.width();
 paginate.helpers.updateConfig();}},
 
 
 whatEllipsesToShow:function whatEllipsesToShow(){
-if(paginate.config.numberOfPages<=paginate.config.howManyPagesWeCanShow)return 'none';else 
-if(scope.paginate.currentPage<paginate.config.howManyPagesWeCanShow/2+1)return 'right';else 
-if(scope.paginate.currentPage<paginate.config.numberOfPages-paginate.config.howManyPagesWeCanShow/2)return 'both';else 
-return 'left';},
+if(paginate.config.numberOfPages<=paginate.config.howManyPagesWeCanShow)return'none';else
+if(scope.paginate.currentPage<paginate.config.howManyPagesWeCanShow/2+1)return'right';else
+if(scope.paginate.currentPage<paginate.config.numberOfPages-paginate.config.howManyPagesWeCanShow/2)return'both';else
+return'left';},
 
 normalizePage:function normalizePage(pageNumber){
 var page=parseInt(pageNumber);
 if(page<=paginate.config.numberOfPages&&page>=1){
-return page;}else 
+return page;}else
 
 if(page<1){
-return 1;}else 
+return 1;}else
 
 return paginate.config.numberOfPages;}},
 
@@ -3139,7 +3177,7 @@ updateConfigAndReRender:function updateConfigAndReRender(){
 paginate.helpers.updateConfig();
 if(scope.paginate.currentPage>paginate.config.numberOfPages){
 scope.page=scope.paginate.currentPage=paginate.helpers.normalizePage(scope.paginate.currentPage);
-paginate.scope.reRender();}else 
+paginate.scope.reRender();}else
 
 {
 paginate.scope.reRender();}}},
@@ -3182,7 +3220,7 @@ return button;},
 
 pagesXToY:function pagesXToY(x,y){
 var pages=[];
-do {
+do{
 var page=paginate.render.pageNumber(x,x===(scope.paginate.currentPage||scope.page));
 pages.push(page);
 x++;}while(
@@ -3194,22 +3232,22 @@ pageNumbers:function pageNumbers(){
 var whatEllipsesToShow=paginate.helpers.whatEllipsesToShow();
 var pages=[];
 switch(whatEllipsesToShow){
-case 'none':
+case'none':
 pages.push(paginate.render.pagesXToY(1,paginate.config.numberOfPages));
 break;
-case 'right':
+case'right':
 var ellipsesPoint=paginate.config.howManyPagesWeCanShow-1;
 pages.push(paginate.render.pagesXToY(1,ellipsesPoint-1));
 pages.push(paginate.render.ellipses(ellipsesPoint));
 pages.push(paginate.render.pageNumber(paginate.config.numberOfPages));
 break;
-case 'left':
+case'left':
 var ellipsesPointLeft=paginate.config.numberOfPages-(paginate.config.howManyPagesWeCanShow-2);
 pages.push(paginate.render.pageNumber(1));
 pages.push(paginate.render.ellipses(ellipsesPointLeft));
 pages.push(paginate.render.pagesXToY(ellipsesPointLeft+1,paginate.config.numberOfPages));
 break;
-case 'both':
+case'both':
 var firstEllipsesPoint=scope.paginate.currentPage-(Math.ceil(paginate.config.howManyPagesWeCanShow/2)-2);
 var secondEllipsesPoint=scope.paginate.currentPage+(Math.floor(paginate.config.howManyPagesWeCanShow/2)-1);
 pages.push(paginate.render.pageNumber(1));
@@ -3247,14 +3285,14 @@ angular.module('cui-ng').
 factory('CuiPasswordInfo',[function(){
 var policies={};
 var info={};
-return {info:info,policies:policies};}]).
+return{info:info,policies:policies};}]).
 
 factory('CuiPasswordValidators',['CuiPasswordInfo',function(CuiPasswordInfo){
 RegExp.escape=function(text){return text.replace(/[-[\]{}()*+?.,\\^$|#\s]/g,"\\$&");};
 
 var validators=function validators(policies,id){
-CuiPasswordInfo.info[id]={}; // Initialize the object that holds the info for this password validation (disallowedWords, disallowedChars)
-return {
+CuiPasswordInfo.info[id]={};// Initialize the object that holds the info for this password validation (disallowedWords, disallowedChars)
+return{
 lowercase:function lowercase(modelValue,viewValue){
 if(!modelValue)return false;
 if(getValidators(policies,id).complex(modelValue,viewValue))return true;
@@ -3273,7 +3311,7 @@ return (/.*[0-9].*/.test(viewValue));},
 special:function special(modelValue,viewValue){
 if(!modelValue)return false;
 if(getValidators(policies,id).complex(modelValue,viewValue))return true;
-return !/^[a-z0-9]+$/i.test(viewValue);},
+return!/^[a-z0-9]+$/i.test(viewValue);},
 
 complex:function complex(modelValue,viewValue){
 if(!modelValue)return false;
@@ -3294,15 +3332,15 @@ return numberOfUsedClasses>=policies.requiredNumberOfCharClasses;},
 
 lowercaseNotAllowed:function lowercaseNotAllowed(modelValue,viewValue){
 if(!viewValue)return true;
-return !/.*[a-z].*/.test(viewValue);},
+return!/.*[a-z].*/.test(viewValue);},
 
 uppercaseNotAllowed:function uppercaseNotAllowed(modelValue,viewValue){
 if(!viewValue)return true;
-return !/.*[A-Z].*/.test(viewValue);},
+return!/.*[A-Z].*/.test(viewValue);},
 
 numberNotAllowed:function numberNotAllowed(modelValue,viewValue){
 if(!viewValue)return true;
-return !/.*[0-9].*/.test(viewValue);},
+return!/.*[0-9].*/.test(viewValue);},
 
 specialNotAllowed:function specialNotAllowed(modelValue,viewValue){
 if(!viewValue)return true;
@@ -3353,7 +3391,7 @@ validator.complex=passwordValidators.complex;
 // if lower chars are not allowed add a check to see if there's a lowercase in the input
 if(parsedPolicies.allowLowerChars){
 validator.lowercase=passwordValidators.lowercase;
-validator.lowercaseNotAllowed=trueFunction;}else 
+validator.lowercaseNotAllowed=trueFunction;}else
 
 {
 validator.lowercase=trueFunction;
@@ -3362,7 +3400,7 @@ validator.lowercaseNotAllowed=passwordValidators.lowercaseNotAllowed;}
 
 if(parsedPolicies.allowUpperChars){
 validator.uppercase=passwordValidators.uppercase;
-validator.uppercaseNotAllowed=trueFunction;}else 
+validator.uppercaseNotAllowed=trueFunction;}else
 
 {
 validator.uppercase=trueFunction;
@@ -3371,7 +3409,7 @@ validator.uppercaseNotAllowed=passwordValidators.uppercaseNotAllowed;}
 
 if(parsedPolicies.allowNumChars){
 validator.number=passwordValidators.number;
-validator.numberNotAllowed=trueFunction;}else 
+validator.numberNotAllowed=trueFunction;}else
 
 {
 validator.number=trueFunction;
@@ -3380,7 +3418,7 @@ validator.numberNotAllowed=passwordValidators.numberNotAllowed;}
 
 if(parsedPolicies.allowSpecialChars){
 validator.special=passwordValidators.special;
-validator.specialNotAllowed=trueFunction;}else 
+validator.specialNotAllowed=trueFunction;}else
 
 {
 validator.special=trueFunction;
@@ -3402,16 +3440,16 @@ validator.length=passwordValidators.length;}
 return validator;};
 
 
-return {getValidators:getValidators};}]).
+return{getValidators:getValidators};}]).
 
 factory('CuiPasswordPolicies',['CuiPasswordValidators','CuiPasswordInfo',function(CuiPasswordValidators,CuiPasswordInfo){
 var policy={
 parse:function parse(policies){
 var newParsedPolicies={};
-if(policies.length){ // if we received an array
+if(policies.length){// if we received an array
 policies.forEach(function(policyRulesObject){
 Object.keys(policyRulesObject).forEach(function(policyKey){
-newParsedPolicies[policyKey]=policyRulesObject[policyKey];});});}else 
+newParsedPolicies[policyKey]=policyRulesObject[policyKey];});});}else
 
 
 
@@ -3422,7 +3460,7 @@ return newParsedPolicies;}};
 return policy;}]).
 
 directive('passwordValidation',['CuiPasswordPolicies','CuiPasswordValidators',function(CuiPasswordPolicies,CuiPasswordValidators){
-return {
+return{
 require:'ngModel',
 scope:{
 passwordValidation:'='},
@@ -3446,10 +3484,10 @@ ctrl.$validate();}});}};}]).
 
 
 directive('passwordPopover',['CuiPasswordInfo',function(CuiPasswordInfo){
-return {
+return{
 restrict:'A',
 link:function link(scope,elem,attrs){
-var passwordValidationKey=scope.$eval(attrs.ngMessages.replace('.$error','.passwordValidationKey')); // get the passwordValidationKey from the input it's applied to
+var passwordValidationKey=scope.$eval(attrs.ngMessages.replace('.$error','.passwordValidationKey'));// get the passwordValidationKey from the input it's applied to
 
 scope.$watchCollection(function(){return CuiPasswordInfo.info[passwordValidationKey];},function(newPasswordInfo){
 if(newPasswordInfo){
@@ -3483,7 +3521,7 @@ this.getPaginationOptions=function(){
 return paginationOptions;};
 
 
-this.setUserValue=function(value){ // sets the user value so that other pages that use that directive will have that value saved
+this.setUserValue=function(value){// sets the user value so that other pages that use that directive will have that value saved
 try{
 localStorage.setItem('cui.resultsPerPage',value);}
 
@@ -3502,7 +3540,7 @@ return userValue;};
 this.$get=function(){return _this2;};}]).
 
 directive('resultsPerPage',['$compile','$pagination',function($compile,$pagination){
-return {
+return{
 restrict:'E',
 scope:{
 selected:'=ngModel'},
@@ -3592,7 +3630,7 @@ setTagText(tag,tagText);
 
 if(tagIsValid(tag)){
 self.items.push(tag);
-events.trigger('tag-added',{$tag:tag});}else 
+events.trigger('tag-added',{$tag:tag});}else
 
 if(tagText){
 events.trigger('invalid-tag',{$tag:tag});}
@@ -3614,7 +3652,7 @@ return tag;}};
 
 self.select=function(index){
 if(index<0){
-index=self.items.length-1;}else 
+index=self.items.length-1;}else
 
 if(index>=self.items.length){
 index=0;}
@@ -3650,7 +3688,7 @@ function validateType(type){
 return SUPPORTED_INPUT_TYPES.indexOf(type)!==-1;}
 
 
-return {
+return{
 restrict:'E',
 require:'ngModel',
 scope:{
@@ -3702,7 +3740,7 @@ tiUtil.handleUndefinedResult($scope.onTagRemoving,true));
 this.registerAutocomplete=function(){
 var input=$element.find('input');
 
-return {
+return{
 addTag:function addTag(tag){
 return $scope.tagList.add(tag);},
 
@@ -3726,7 +3764,7 @@ return this;}};};
 
 
 this.registerTagItem=function(){
-return {
+return{
 getOptions:function getOptions(){
 return $scope.options;},
 
@@ -3755,14 +3793,14 @@ ngModelCtrl.$setValidity('leftoverText',scope.hasFocus||options.allowLeftoverTex
 
 
 ngModelCtrl.$isEmpty=function(value){
-return !value||!value.length;};
+return!value||!value.length;};
 
 
 scope.newTag={
 text:function text(value){
 if(angular.isDefined(value)){
 scope.text=value;
-events.trigger('input-change',value);}else 
+events.trigger('input-change',value);}else
 
 {
 return scope.text||'';}},
@@ -3778,7 +3816,7 @@ return tag[options.keyProperty||options.displayProperty];};
 scope.$watch('tags',function(value){
 if(value){
 tagList.items=tiUtil.makeObjectArray(value,options.displayProperty);
-scope.tags=tagList.items;}else 
+scope.tags=tagList.items;}else
 
 {
 tagList.items=[];}});
@@ -3902,7 +3940,7 @@ shouldEditLastTag=key===KEYS.backspace&&scope.newTag.text().length===0&&options.
 shouldSelect=(key===KEYS.backspace||key===KEYS.left||key===KEYS.right)&&scope.newTag.text().length===0&&!options.enableEditingLastTag;
 
 if(shouldAdd){
-tagList.addText(scope.newTag.text());}else 
+tagList.addText(scope.newTag.text());}else
 
 if(shouldEditLastTag){
 var tag;
@@ -3911,15 +3949,15 @@ tagList.selectPrior();
 tag=tagList.removeSelected();
 
 if(tag){
-scope.newTag.text(tag[options.displayProperty]);}}else 
+scope.newTag.text(tag[options.displayProperty]);}}else
 
 
 if(shouldRemove){
-tagList.removeSelected();}else 
+tagList.removeSelected();}else
 
 if(shouldSelect){
 if(key===KEYS.left||key===KEYS.backspace){
-tagList.selectPrior();}else 
+tagList.selectPrior();}else
 
 if(key===KEYS.right){
 tagList.selectNext();}}
@@ -3957,7 +3995,7 @@ event.preventDefault();}}});}};}])
  * Represents a tag item. Used internally by the tagsInput directive.
  */.
 directive('tiTagItem',["tiUtil",function(tiUtil){
-return {
+return{
 restrict:'E',
 require:'^tagsInput',
 template:'<ng-include src="$$template"></ng-include>',
@@ -4022,7 +4060,7 @@ return options.tagsInput.keyProperty||options.tagsInput.displayProperty;};
 
 getDifference=function getDifference(array1,array2){
 return array1.filter(function(item){
-return !tiUtil.findInObjectArray(array2,item,getTagId(),function(a,b){
+return!tiUtil.findInObjectArray(array2,item,getTagId(),function(a,b){
 if(options.tagsInput.replaceSpacesWithDashes){
 a=tiUtil.replaceSpacesWithDashes(a);
 b=tiUtil.replaceSpacesWithDashes(b);}
@@ -4043,7 +4081,7 @@ self.query=null;};
 
 self.show=function(){
 if(options.selectFirstMatch){
-self.select(0);}else 
+self.select(0);}else
 
 {
 self.selected=null;}
@@ -4066,7 +4104,7 @@ items=getDifference(items,tags);
 self.items=items.slice(0,options.maxResultsToShow);
 
 if(self.items.length>0){
-self.show();}else 
+self.show();}else
 
 {
 self.reset();}});},
@@ -4082,7 +4120,7 @@ self.select(--self.index);};
 
 self.select=function(index){
 if(index<0){
-index=self.items.length-1;}else 
+index=self.items.length-1;}else
 
 if(index>=self.items.length){
 index=0;}
@@ -4106,14 +4144,14 @@ parentHeight=parent.prop('clientHeight'),
 parentScrollTop=parent.prop('scrollTop');
 
 if(elementTop<parentScrollTop){
-parent.prop('scrollTop',elementTop);}else 
+parent.prop('scrollTop',elementTop);}else
 
 if(elementTop+elementHeight>parentHeight+parentScrollTop){
 parent.prop('scrollTop',elementTop+elementHeight-parentHeight);}}
 
 
 
-return {
+return{
 restrict:'E',
 require:'^tagsInput',
 scope:{source:'&'},
@@ -4137,7 +4175,7 @@ displayProperty:[String,'']});
 $scope.suggestionList=new SuggestionList($scope.source,$scope.options,$scope.events);
 
 this.registerAutocompleteMatch=function(){
-return {
+return{
 getOptions:function getOptions(){
 return $scope.options;},
 
@@ -4189,7 +4227,7 @@ suggestionList.reset();}).
 
 on('input-change',function(value){
 if(shouldLoadSuggestions(value)){
-suggestionList.load(value,tagsInput.getTags());}else 
+suggestionList.load(value,tagsInput.getTags());}else
 
 {
 suggestionList.reset();}}).
@@ -4213,18 +4251,18 @@ if(suggestionList.visible){
 
 if(key===KEYS.down){
 suggestionList.selectNext();
-handled=true;}else 
+handled=true;}else
 
 if(key===KEYS.up){
 suggestionList.selectPrior();
-handled=true;}else 
+handled=true;}else
 
 if(key===KEYS.escape){
 suggestionList.reset();
-handled=true;}else 
+handled=true;}else
 
 if(key===KEYS.enter||key===KEYS.tab){
-handled=scope.addSuggestion();}}else 
+handled=scope.addSuggestion();}}else
 
 
 {
@@ -4250,7 +4288,7 @@ scrollToElement(element,index);});}};}]).
 
 
 directive('tiAutocompleteMatch',["$sce","tiUtil",function($sce,tiUtil){
-return {
+return{
 restrict:'E',
 require:'^autoComplete',
 template:'<ng-include src="$$template"></ng-include>',
@@ -4284,7 +4322,7 @@ element.append(clone);});};}).
 
 
 directive('tiAutosize',["tagsInputConfig",function(tagsInputConfig){
-return {
+return{
 restrict:'A',
 require:'ngModel',
 link:function link(scope,element,attrs,ctrl){
@@ -4396,7 +4434,7 @@ converters[Number]=function(value){return parseInt(value,10);};
 converters[Boolean]=function(value){return value.toLowerCase()==='true';};
 converters[RegExp]=function(value){return new RegExp(value);};
 
-return {
+return{
 load:function load(directive,scope,attrs,options){
 var defaultValidator=function defaultValidator(){return true;};
 
@@ -4422,7 +4460,7 @@ scope.options[key]=value&&validator(value)?converter(value):getDefault();};
 if(interpolationStatus[directive]&&interpolationStatus[directive][key]){
 attrs.$observe(key,function(value){
 updateValue(value);
-scope.events.trigger('option-change',{name:key,newValue:value});});}else 
+scope.events.trigger('option-change',{name:key,newValue:value});});}else
 
 
 {
@@ -4529,7 +4567,7 @@ return event.shiftKey||event.ctrlKey||event.altKey||event.metaKey;};
 
 self.simplePubSub=function(){
 var events={};
-return {
+return{
 on:function on(names,handler){
 names.split(' ').forEach(function(name){
 if(!events[name]){
@@ -4572,12 +4610,12 @@ $templateCache.put('ngTagsInput/auto-complete-match.html',
 
 angular.module('cui-ng').
 directive('tether',['$timeout','$parse',function($timeout,$parse){
-return {
+return{
 restrict:'A',
 scope:true,
 link:function link(scope,elem,attrs){
 var tether=void 0;
-elem[0].classList.add('hide--opacity'); // this fixes the incorrect positioning when it first renders
+elem[0].classList.add('hide--opacity');// this fixes the incorrect positioning when it first renders
 $timeout(function(){
 tether=new Tether({
 element:elem,
@@ -4600,10 +4638,10 @@ elem[0].classList.remove('hide--opacity');});}};}]);
 
 angular.module('cui-ng').
 directive('uiSrefActiveFor',['$state','PubSub',function($state,PubSub){
-return {
+return{
 restrict:'A',
 compile:function compile(){
-return {
+return{
 pre:function pre(scope,elem,attrs){
 var active=void 0,
 classList=attrs.uiSrefActiveForClasses?attrs.uiSrefActiveForClasses.split(',').map(function(x){return x.trim();}):['active'];
@@ -4611,7 +4649,7 @@ classList=attrs.uiSrefActiveForClasses?attrs.uiSrefActiveForClasses.split(',').m
 var handleStateChange=function handleStateChange(e,_ref){var toState=_ref.toState;
 if(toState.name.indexOf(attrs.uiSrefActiveFor)>=0&&!active){
 classList.forEach(function(className){return elem[0].classList.add(className);});
-active=true;}else 
+active=true;}else
 
 if(toState.name.indexOf(attrs.uiSrefActiveFor)<0&&active){
 classList.forEach(function(className){return elem[0].classList.remove(className);});
@@ -4634,14 +4672,14 @@ PubSub.unsubscribe(unsub);});}};}};}]);
 
 angular.module('cui-ng').
 directive('uiSrefActiveNested',['$state','PubSub',function($state,PubSub){
-return {
+return{
 restrict:'A',
 compile:function compile(){
-return {
+return{
 pre:function pre(scope,elem,attrs){
 var parentState=void 0;
 if(!attrs.uiSref){
-throw 'ui-sref-active-nested can only be used on elements with a ui-sref attribute';
+throw'ui-sref-active-nested can only be used on elements with a ui-sref attribute';
 return;}
 
 // if this element is a link to a state that is nested
@@ -4653,10 +4691,10 @@ else parentState=attrs.uiSref;
 
 var applyActiveClassIfNestedState=function applyActiveClassIfNestedState(e,_ref2){var toState=_ref2.toState;
 if(toState.name.indexOf('.')>-1&&toState.name.split('.')[0]===parentState){
-elem[0].classList.add(attrs.uiSrefActiveNested);}else 
+elem[0].classList.add(attrs.uiSrefActiveNested);}else
 
 if(toState.name.indexOf('.')===-1&&toState.name===parentState){
-elem[0].classList.add(attrs.uiSrefActiveNested);}else 
+elem[0].classList.add(attrs.uiSrefActiveNested);}else
 
 elem[0].classList.remove(attrs.uiSrefActiveNested);};
 
@@ -4693,18 +4731,18 @@ authorized=authorize.authorize(toState.access.loginRequired,toState.access.requi
 var stateName=void 0;
 
 switch(authorized){
-case 'login required':
+case'login required':
 stateName=loginRequiredState;
-case 'not authorized':
+case'not authorized':
 stateName=nonAuthState;
 default:
 break;
-case 'authorized':
+case'authorized':
 stateName=toState.name;
 break;}
 ;
 
-goToState($state,$rootScope,stateName,toState,toParams,fromState,fromParams);}else 
+goToState($state,$rootScope,stateName,toState,toParams,fromState,fromParams);}else
 
 {
 goToState($state,$rootScope,toState.name,toState,toParams,fromState,fromParams);}};
@@ -4720,11 +4758,11 @@ hasPermission=true,
 result='not authorized';
 
 if(loginRequired===true&&userEntitlements===undefined){
-result='login required';}else 
+result='login required';}else
 
 if(loginRequired===true&&userEntitlements!==undefined&&(requiredEntitlements===undefined||requiredEntitlements.length===0)){
 // Login is required but no specific permissions are specified.
-result='authorized';}else 
+result='authorized';}else
 
 if(requiredEntitlements){
 angular.forEach(userEntitlements,function(permission){
@@ -4736,7 +4774,7 @@ var permission=requiredEntitlements[i].toLowerCase();
 if(entitlementType==='all'){
 hasPermission=hasPermission&&loweredPermissions.indexOf(permission)>-1;
 // i1f all the permissions are required and hasPermission is false there is no point carrying on
-if(hasPermission===false)break;}else 
+if(hasPermission===false)break;}else
 
 if(entitlementType==='atLeastOne'){
 hasPermission=loweredPermissions.indexOf(permission)>-1;
@@ -4749,10 +4787,10 @@ result=hasPermission?'authorized':'not authorized';}
 return result;};
 
 
-return {authorize:authorize};}]).
+return{authorize:authorize};}]).
 
 directive('cuiAccess',['cui.authorization.authorize',function(authorize){
-return {
+return{
 restrict:'A',
 scope:{
 userEntitlements:'=',
@@ -4767,14 +4805,14 @@ var initalDisplay=elem.css('display');
 
 var giveAuth=function giveAuth(){
 if(notAuthorizedClasses){
-notAuthorizedClasses.forEach(function(className){return elem[0].classList.remove(className);});}else 
+notAuthorizedClasses.forEach(function(className){return elem[0].classList.remove(className);});}else
 
 elem.css('display',initalDisplay);};
 
 
 var removeAuth=function removeAuth(){
 if(notAuthorizedClasses){
-notAuthorizedClasses.forEach(function(className){return elem[0].classList.add(className);});}else 
+notAuthorizedClasses.forEach(function(className){return elem[0].classList.add(className);});}else
 
 elem.css('display','none');};
 
@@ -4782,7 +4820,7 @@ elem.css('display','none');};
 
 scope.$watch('userEntitlements',function(){
 var authorized=authorize.authorize(true,requiredEntitlements,entitlementType,scope.userEntitlements);
-if(authorized!=='authorized')removeAuth();else 
+if(authorized!=='authorized')removeAuth();else
 giveAuth();});}};}]);})(
 
 
