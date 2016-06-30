@@ -53,6 +53,18 @@ angular.module('cui-ng')
                     languageChange: () => {
                         scope.$on('languageChange', cuiDropdown.helpers.handleLanguageChange)
                     },
+                    model: () => {
+                        scope.$watch('ngModel', (newModel, oldModel) => {
+                            if(oldModel !== undefined) {
+                                let indexInReturnValues = _.findIndex(cuiDropdown.helpers.getOptionReturnValues(), returnValue => {
+                                    return returnValue === newModel
+                                })
+                                // if the new model isn't one of the return values assign the default / first option
+                                if (indexInReturnValues === -1) indexInReturnValues = 0
+                                cuiDropdown.helpers.reassignModel(null, indexInReturnValues)
+                            }
+                        })
+                    },
                     options: () => {
                         scope.$watch(scope.options, (newOptions, oldOptions) => {
                             if (newOptions) {
