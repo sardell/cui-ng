@@ -94,18 +94,15 @@ angular.module('cui-ng')
                                     }
                                 }, 100)
                             },
-
-
                             elementHtml:() => {
                                 elementHtmlInterval=$interval(()=>{
                                     let elemHtml = elem.html()
                                     if(elemHtml !== elementHtml) { // if the element html is different than what we have cached
                                         elementHtml = elemHtml
-                                        cuiPopover.render.newHtml(elementHtml)
+                                        cuiPopover.render.newHtml()
                                     }
                                 }, 100)
                             },
-
                             targetElementPosition:() => {
                                 targetElementPositionInterval=$interval(() => {
                                     scope.targetPosition = self.selectors.$target.offset()
@@ -115,7 +112,6 @@ angular.module('cui-ng')
                                     newPosition && popoverTether[positionInUse].position()
                                 },(newPosition,oldPosition) => newPosition.top !== oldPosition.top || newPosition.left !== oldPosition.left )
                             },
-
                             scopeDestroy:() => {
                                 scope.$on('$destroy',() => {
                                     $interval.cancel(tetherAttachmentInterval)
@@ -132,6 +128,22 @@ angular.module('cui-ng')
                             $target:angular.element(document.querySelector(attrs.target))
                         },
                         render:{
+                            contentBox: (positionIndex) => {
+                                const { getPointer, getPopoverMargins, getContainerPaddings } = CuiPopoverHelpers
+                                const opts = cuiPopoverConfig
+
+                                const cloneElem = angular.element(elem).clone(true,true)
+                                cloneElem.css({opacity:'','pointer-events':'',position:'',right:''})
+                                // append the cui-popover to the container and apply the margins to make room for the pointer
+                                cloneElem.css(getPopoverMargins(opts.position, opts.pointerHeight))
+
+                                if (self.selectors[positionIndex].$contentBox) {
+                                    self.selectors[positionIndex].$contentBox.detach()
+                                }
+                                self.selectors[positionIndex].$container.append(cloneElem)
+                                const newContentBox = self.selectors[positionIndex].$container[0].childNodes[1]
+                                self.selectors[positionIndex].$contentBox = angular.element(newContentBox)
+                            },
                             popoverContainer:(positionIndex) => {
                                 const { getPointer, getPopoverMargins, getContainerPaddings } = CuiPopoverHelpers
                                 const opts = cuiPopoverConfig
@@ -147,22 +159,15 @@ angular.module('cui-ng')
                                 $container.append($pointer)
                                 self.selectors[positionIndex].$pointer = $pointer
 
-                                const cloneElem = angular.element(elem).clone(true,true)
-
-                                cloneElem.css({opacity:'','pointer-events':'',position:'',right:''})
-                                // append the cui-popover to the container and apply the margins to make room for the pointer
-                                cloneElem.css(getPopoverMargins(opts.position, opts.pointerHeight))
-                                self.selectors[positionIndex].$container.append(cloneElem)
-                                self.selectors[positionIndex].$contentBox = cloneElem
-
-
+                                // render the actual content of the popover
+                                cuiPopover.render.contentBox(positionIndex)
 
                                 angular.element(document.body).append($container)
                                 popoverTether[positionIndex] = new Tether(self.helpers.getTetherOptions($container,opts))
 
                             },
-                            newHtml:(newHtml) => {
-                                self.selectors[positionInUse].$contentBox = elem.clone(true,true)
+                            newHtml:() => {
+                                cuiPopover.render.contentBox(positionInUse)
                             }
                         },
                         newMode:(newMode) => {

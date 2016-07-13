@@ -1,6 +1,6 @@
 'use strict';var _slicedToArray=function(){function sliceIterator(arr,i){var _arr=[];var _n=true;var _d=false;var _e=undefined;try{for(var _i=arr[Symbol.iterator](),_s;!(_n=(_s=_i.next()).done);_n=true){_arr.push(_s.value);if(i&&_arr.length===i)break;}}catch(err){_d=true;_e=err;}finally{try{if(!_n&&_i["return"])_i["return"]();}finally{if(_d)throw _e;}}return _arr;}return function(arr,i){if(Array.isArray(arr)){return arr;}else if(Symbol.iterator in Object(arr)){return sliceIterator(arr,i);}else{throw new TypeError("Invalid attempt to destructure non-iterable instance");}};}();var _typeof=typeof Symbol==="function"&&typeof Symbol.iterator==="symbol"?function(obj){return typeof obj;}:function(obj){return obj&&typeof Symbol==="function"&&obj.constructor===Symbol?"symbol":typeof obj;};function _defineProperty(obj,key,value){if(key in obj){Object.defineProperty(obj,key,{value:value,enumerable:true,configurable:true,writable:true});}else{obj[key]=value;}return obj;}
 
-// cui-ng build Thu Jun 30 2016 13:04:12
+// cui-ng build Wed Jul 13 2016 11:50:07
 
 ;(function(angular){
 'use strict';
@@ -1825,17 +1825,14 @@ self.newMode('normal');}},
 
 100);},
 
-
-
 elementHtml:function elementHtml(){
 elementHtmlInterval=$interval(function(){
 var elemHtml=elem.html();
 if(elemHtml!==_elementHtml){// if the element html is different than what we have cached
 _elementHtml=elemHtml;
-cuiPopover.render.newHtml(_elementHtml);}},
+cuiPopover.render.newHtml();}},
 
 100);},
-
 
 targetElementPosition:function targetElementPosition(){
 targetElementPositionInterval=$interval(function(){
@@ -1845,7 +1842,6 @@ scope.targetPosition=self.selectors.$target.offset();},
 scope.$watch('targetPosition',function(newPosition){
 newPosition&&popoverTether[positionInUse].position();},
 function(newPosition,oldPosition){return newPosition.top!==oldPosition.top||newPosition.left!==oldPosition.left;});},
-
 
 scopeDestroy:function scopeDestroy(){
 scope.$on('$destroy',function(){
@@ -1863,6 +1859,22 @@ selectors:{
 $target:angular.element(document.querySelector(attrs.target))},
 
 render:{
+contentBox:function contentBox(positionIndex){var
+getPointer=CuiPopoverHelpers.getPointer;var getPopoverMargins=CuiPopoverHelpers.getPopoverMargins;var getContainerPaddings=CuiPopoverHelpers.getContainerPaddings;
+var opts=cuiPopoverConfig;
+
+var cloneElem=angular.element(elem).clone(true,true);
+cloneElem.css({opacity:'','pointer-events':'',position:'',right:''});
+// append the cui-popover to the container and apply the margins to make room for the pointer
+cloneElem.css(getPopoverMargins(opts.position,opts.pointerHeight));
+
+if(self.selectors[positionIndex].$contentBox){
+self.selectors[positionIndex].$contentBox.detach();}
+
+self.selectors[positionIndex].$container.append(cloneElem);
+var newContentBox=self.selectors[positionIndex].$container[0].childNodes[1];
+self.selectors[positionIndex].$contentBox=angular.element(newContentBox);},
+
 popoverContainer:function popoverContainer(positionIndex){var
 getPointer=CuiPopoverHelpers.getPointer;var getPopoverMargins=CuiPopoverHelpers.getPopoverMargins;var getContainerPaddings=CuiPopoverHelpers.getContainerPaddings;
 var opts=cuiPopoverConfig;
@@ -1878,22 +1890,15 @@ self.selectors[positionIndex].$container[0].style.opacity='0';
 $container.append($pointer);
 self.selectors[positionIndex].$pointer=$pointer;
 
-var cloneElem=angular.element(elem).clone(true,true);
-
-cloneElem.css({opacity:'','pointer-events':'',position:'',right:''});
-// append the cui-popover to the container and apply the margins to make room for the pointer
-cloneElem.css(getPopoverMargins(opts.position,opts.pointerHeight));
-self.selectors[positionIndex].$container.append(cloneElem);
-self.selectors[positionIndex].$contentBox=cloneElem;
-
-
+// render the actual content of the popover
+cuiPopover.render.contentBox(positionIndex);
 
 angular.element(document.body).append($container);
 popoverTether[positionIndex]=new Tether(self.helpers.getTetherOptions($container,opts));},
 
 
-newHtml:function newHtml(_newHtml){
-self.selectors[positionInUse].$contentBox=elem.clone(true,true);}},
+newHtml:function newHtml(){
+cuiPopover.render.contentBox(positionInUse);}},
 
 
 newMode:function newMode(_newMode){var
