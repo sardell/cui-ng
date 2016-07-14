@@ -100,6 +100,7 @@ angular.module('cui-ng')
                         else if(paginate.selectors.$paginate.width() !== paginate.config.width) {
                             paginate.config.width = paginate.selectors.$paginate.width();
                             paginate.helpers.updateConfig();
+                            paginate.scope.reRender();
                         }
                     },
                     whatEllipsesToShow:() => {
