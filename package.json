@@ -2,10 +2,19 @@
   "name": "@covisint/cui-ng",
   "description": "Library of Angular directives for use with CUI projects",
   "version": "1.9.6",
-  "homepage": "https://github.com/covisint/cui-ng",
-  "license": "LicenseRef-LICENSE",
-  "author": "Thirdwave LLC <info@thirdwavellc.com> (http://www.thirdwavellc.com/)",
+  "license": "SEE LICENSE IN LICENSE",
+  "author": {
+    "name": "Thirdwave, LLC",
+    "email": "support@thirdwavellc.com",
+    "url": "http://www.thirdwavellc.com/"
+  },
+  "contibutors": [
+    {
+      "name": "Ricardo Marques"
+    },
+  ],  
   "main": "dist/",
+  "homepage": "https://github.com/covisint/cui-ng",
   "repository": {
     "type": "git",
     "url": "https://github.com/covisint/cui-ng"
