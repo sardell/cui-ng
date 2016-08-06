@@ -8,7 +8,7 @@ angular.module('app')
         setUser: function(user) {
             $rootScope.appUser = user;
         }
-   };
+    };
 }])
 
 .factory('fakeApi',['$q','$timeout',function($q,$timeout) {
@@ -33,55 +33,55 @@ angular.module('app')
 }])
 
 .controller('directivesCtrl',['$rootScope','$state','$stateParams','user','$timeout','localStorageService','$scope','$translate','fakeApi','$interval','words','$q','$compile',
-function($rootScope,$state,$stateParams,user,$timeout,localStorageService,$scope,$translate,fakeApi,$interval,words,$q,$compile) {
+    function($rootScope,$state,$stateParams,user,$timeout,localStorageService,$scope,$translate,fakeApi,$interval,words,$q,$compile) {
 
-    var directives = this;
-    var timer;
+        var directives = this;
+        var timer;
 
-    directives.appUser = {
-        names: ['Bill','Murray'],
-        email: 'orin.fink@thirdwavellc.com'
-    };
-
-    $timeout(function() {
-        directives.appUser.avatar = 'https://www.fillmurray.com/140/100';
-    }, 1500);
-
-    directives.hits = 0;
-
-    directives.addPoints = function() {
-        if (directives.notPlaying !== true) {
-            directives.missed = false;
-            directives.hits = ((directives.hits || 0)+1);
-        }
-    };
-
-    directives.passwordPolicies = {};
-    directives.passwordPolicies.disallowedWords = 'admin,password';
-    directives.passwordPolicies.disallowedChars = '^%';
-    directives.passwordPolicies.allowUpperChars = true;
-    directives.passwordPolicies.allowLowerChars = true;
-    directives.passwordPolicies.allowNumChars = true;
-    directives.passwordPolicies.allowSpecialChars = true;
-    directives.passwordPolicies.requiredNumberOfCharClasses = 2;
-    directives.passwordPolicies.min = 6,
-    directives.passwordPolicies.max = 8,
-
-    $scope.$watch('directives.passwordPolicies', function(newPolicies, oldPolicies) {
-        if(newPolicies) directives.passwordPolicyObject = {
-            allowUpperChars:newPolicies.allowUpperChars,
-            allowLowerChars:newPolicies.allowLowerChars,
-            allowNumChars:newPolicies.allowNumChars,
-            allowSpecialChars:newPolicies.allowSpecialChars,
-            requiredNumberOfCharClasses:newPolicies.requiredNumberOfCharClasses,
-            disallowedChars:newPolicies.disallowedChars,
-            min:newPolicies.min,
-            max:newPolicies.max,
-            disallowedWords:newPolicies.disallowedWords.split(',')
+        directives.appUser = {
+            names: ['Bill','Murray'],
+            email: 'orin.fink@thirdwavellc.com'
         };
-    }, true);
 
-    directives.customErrors ={
+        $timeout(function() {
+            directives.appUser.avatar = 'https://www.fillmurray.com/140/100';
+        }, 1500);
+
+        directives.hits = 0;
+
+        directives.addPoints = function() {
+            if (directives.notPlaying !== true) {
+                directives.missed = false;
+                directives.hits = ((directives.hits || 0)+1);
+            }
+        };
+
+        directives.passwordPolicies = {};
+        directives.passwordPolicies.disallowedWords = 'admin,password';
+        directives.passwordPolicies.disallowedChars = '^%';
+        directives.passwordPolicies.allowUpperChars = true;
+        directives.passwordPolicies.allowLowerChars = true;
+        directives.passwordPolicies.allowNumChars = true;
+        directives.passwordPolicies.allowSpecialChars = true;
+        directives.passwordPolicies.requiredNumberOfCharClasses = 2;
+        directives.passwordPolicies.min = 6,
+        directives.passwordPolicies.max = 8,
+
+        $scope.$watch('directives.passwordPolicies', function(newPolicies, oldPolicies) {
+            if(newPolicies) directives.passwordPolicyObject = {
+                allowUpperChars:newPolicies.allowUpperChars,
+                allowLowerChars:newPolicies.allowLowerChars,
+                allowNumChars:newPolicies.allowNumChars,
+                allowSpecialChars:newPolicies.allowSpecialChars,
+                requiredNumberOfCharClasses:newPolicies.requiredNumberOfCharClasses,
+                disallowedChars:newPolicies.disallowedChars,
+                min:newPolicies.min,
+                max:newPolicies.max,
+                disallowedWords:newPolicies.disallowedWords.split(',')
+            };
+        }, true);
+
+        directives.customErrors ={
             'usernameTaken':function(value) {
                 return {
                     'promise':fakeApi.checkIfUsernameAvailable(value),
@@ -93,38 +93,38 @@ function($rootScope,$state,$stateParams,user,$timeout,localStorageService,$scope
             'notAdmin':function(value) {
                 return value !== 'admin' && value !== 'Admin';
             }
-    };
+        };
 
-    directives.startGame = function() {
-        if (angular.isDefined(timer)) $interval.cancel(timer);
-        directives.userInput = '';
-        directives.counter = 0;
-        words.get()
-        .then(function(res) {
-            directives.random = res.data;
-            directives.gameStarted = true;
-            timer = $interval(function() {
-                directives.counter += 0.01;
-            }, 10);
-        });
-    };
+        directives.startGame = function() {
+            if (angular.isDefined(timer)) $interval.cancel(timer);
+            directives.userInput = '';
+            directives.counter = 0;
+            words.get()
+            .then(function(res) {
+                directives.random = res.data;
+                directives.gameStarted = true;
+                timer = $interval(function() {
+                    directives.counter += 0.01;
+                }, 10);
+            });
+        };
 
-    directives.stopGame = function() {
-        $interval.cancel(timer);
-        timer = undefined;
-    };
+        directives.stopGame = function() {
+            $interval.cancel(timer);
+            timer = undefined;
+        };
 
-    directives.restartGame = function() {
-        directives.gameStarted = false;
-        directives.startGame();
-    };
+        directives.restartGame = function() {
+            directives.gameStarted = false;
+            directives.startGame();
+        };
 
-    directives.getRandomWord = function() {
-        words.get()
-        .then(function(res) {
-            directives.random2 = res.data;
-        });
-    };
+        directives.getRandomWord = function() {
+            words.get()
+            .then(function(res) {
+                directives.random2 = res.data;
+            });
+        };
 
 
     // Paginate Start -----------------------------------------------------------
@@ -218,6 +218,19 @@ function($rootScope,$state,$stateParams,user,$timeout,localStorageService,$scope
         }
     };
 
+    directives.removeLeaf = function(id, tree) {
+        var indexOfNode = _.findIndex(tree,function(leaf){ return leaf.id === parseInt(id) });
+        if(indexOfNode >= 0) {
+            tree.splice(indexOfNode, 1)
+        }
+        else {
+            tree.forEach(function(leaf) {
+                if(leaf.children && leaf.children.length>0){
+                    directives.removeLeaf(id, leaf.children);
+                }
+            })
+        }
+    }
 
     var previousActive;
     directives.leafClickCallback = function(object,leaf,e){

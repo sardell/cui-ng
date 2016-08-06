@@ -1,7 +1,7 @@
 {
   "name": "@covisint/cui-ng",
   "description": "Library of Angular directives for use with CUI projects",
-  "version": "1.9.6",
+  "version": "1.9.13",
   "license": "SEE LICENSE IN LICENSE",
   "author": {
     "name": "Thirdwave, LLC",
@@ -26,10 +26,17 @@
     "dist/"
   ],
   "devDependencies": {
+    "@covisint/cui-i18n": "*",
+    "@covisint/cui-icons": "*",
+    "@covisint/cui-styleguide": "*",
+    "angular-local-storage": "^0.2.3",
+    "angular-messages": "^1.4.7",
     "angular-mocks": "^1.4.8",
+    "angular-snap": "^1.8.4",
     "babel-preset-es2015": "^6.6.0",
     "browser-sync": "^2.9.3",
     "grunt": "^0.4.5",
+    "grunt-angular-templates": "^1.0.3",
     "grunt-babel": "^6.0.0",
     "grunt-browser-sync": "^2.1.3",
     "grunt-contrib-clean": "^0.6.0",
@@ -41,6 +48,7 @@
     "grunt-contrib-uglify": "^0.10.0",
     "grunt-contrib-watch": "^0.6.1",
     "grunt-filerev": "^2.3.1",
+    "grunt-ng-annotate": "^2.0.2",
     "grunt-sass": "^1.0.0",
     "grunt-usemin": "^3.1.1",
     "gulp": "^3.9.0",
@@ -50,7 +58,12 @@
   },
   "dependencies": {
     "blueimp-md5": "^2.3.0",
-    "grunt-angular-templates": "^1.0.3",
-    "babel-polyfill": "^6.7.4"
+    "babel-polyfill": "^6.7.4",
+    "tether": "^1.3.2",
+    "lodash": "^4",
+    "jquery": "^2.1.4",
+    "angular-ui-router": "^0.2.15",
+    "angular": "^1.4.7",
+    "snapjs": "^1.2.1"
   }
 }

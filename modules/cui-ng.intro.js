@@ -1,3 +1,3 @@
-(function(angular){'use strict'
-
-	angular.module('cui-ng',[]);
+;(function(angular){
+    'use strict'
+    angular.module('cui-ng',[])
