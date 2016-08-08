@@ -11,7 +11,7 @@
   "contibutors": [
     {
       "name": "Ricardo Marques"
-    },
+    }
   ],  
   "main": "dist/",
   "homepage": "https://github.com/covisint/cui-ng",
