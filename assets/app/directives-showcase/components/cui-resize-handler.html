@@ -1,0 +1,35 @@
+<style>
+.murrayImage {
+	height: 75px;
+	width: 75px;
+	border-radius: 50px;
+}
+</style>
+
+<p>Cui-Resize-Handler shows elements based on screen size, otherwise it completely removes that element from the DOM. This is helpful when you need to prevent a controller from firing twice for a desktop and mobile version of a screen. <a class="cui-link" href="https://github.com/covisint/cui-ng/tree/master/assets/app/directives-showcase/components/cui-resize-handler.html" target="blank">Click here for the code on this page.</a></p>
+
+<h6>Config Set Breakpoint</h6>
+
+<cui-resize-handler style="border: 5px black" mobile show-if="directive.mobileElement">
+	<p>Mobile Murray</p>
+	<img class="murrayImage" src="http://www.fillmurray.com/100/100">
+</cui-resize-handler>
+
+<cui-resize-handler desktop show-if="directive.desktopElement">
+	<p>Desktop Murray</p>
+	<img class="murrayImage" src="http://www.fillmurray.com/200/200">
+</cui-resize-handler>
+
+<br/><h6>Custom Set Breakpoint</h6>
+
+<cui-resize-handler mobile breakpoint="1000" show-if="directive.customMobile">
+	<p>Custom Mobile Murray</p>
+	<img class="murrayImage" src="http://www.fillmurray.com/300/300">
+</cui-resize-handler>
+
+<cui-resize-handler desktop breakpoint="1000" show-if="directive.customDesktop">
+	<p>Custom Desktop Murray</p>
+	<img class="murrayImage" src="http://www.fillmurray.com/400/400">
+</cui-resize-handler>
+
+<br/><br/><a class="cui-link" href="https://github.com/covisint/cui-ng/tree/master/directives/cui-resize-handler" target="blank">Click here for the extended documentation.</a>
