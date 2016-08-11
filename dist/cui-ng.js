@@ -1,6 +1,6 @@
 'use strict';var _slicedToArray=function(){function sliceIterator(arr,i){var _arr=[];var _n=true;var _d=false;var _e=undefined;try{for(var _i=arr[Symbol.iterator](),_s;!(_n=(_s=_i.next()).done);_n=true){_arr.push(_s.value);if(i&&_arr.length===i)break;}}catch(err){_d=true;_e=err;}finally{try{if(!_n&&_i["return"])_i["return"]();}finally{if(_d)throw _e;}}return _arr;}return function(arr,i){if(Array.isArray(arr)){return arr;}else if(Symbol.iterator in Object(arr)){return sliceIterator(arr,i);}else{throw new TypeError("Invalid attempt to destructure non-iterable instance");}};}();var _typeof=typeof Symbol==="function"&&typeof Symbol.iterator==="symbol"?function(obj){return typeof obj;}:function(obj){return obj&&typeof Symbol==="function"&&obj.constructor===Symbol?"symbol":typeof obj;};function _defineProperty(obj,key,value){if(key in obj){Object.defineProperty(obj,key,{value:value,enumerable:true,configurable:true,writable:true});}else{obj[key]=value;}return obj;}
 
-// cui-ng build Mon Aug 08 2016 15:41:06
+// cui-ng build Thu Aug 11 2016 16:27:09
 
 ;(function(angular){
 'use strict';
@@ -1971,6 +1971,107 @@ cuiPopover.init();
 
 }]);
 
+angular.module('cui-ng').
+directive('cuiResizeHandler',['$cuiResizeHandler', '$window', function($cuiResizeHandler,$window){
+return{
+restrict:'E',
+transclude:true,
+scope:{
+showIf:'=',
+breakpoint:'='},
+
+link:function link(scope,elem,attrs){
+var elementHandler=function elementHandler(breakpoint){
+if(scope.breakpoint){
+if(attrs.hasOwnProperty('mobile')&&$window.innerWidth<scope.breakpoint)scope.showIf=true;else
+if(attrs.hasOwnProperty('desktop')&&$window.innerWidth>=scope.breakpoint)scope.showIf=true;else
+scope.showIf=false;
+}else
+{
+if(attrs.hasOwnProperty('mobile')&&$window.innerWidth<breakpoint)scope.showIf=true;else
+if(attrs.hasOwnProperty('desktop')&&$window.innerWidth>=breakpoint)scope.showIf=true;else
+scope.showIf=false;
+}
+};
+
+var getScreenState=function getScreenState(customBreakpoint){
+if(customBreakpoint){
+if($window.innerWidth<customBreakpoint)return'mobile';else
+return'desktop';
+}else
+{
+if($window.innerWidth<$cuiResizeHandler.breakpoint)return'mobile';else
+return'desktop';
+}
+};
+
+var getBreakpoint=function getBreakpoint(){
+if(scope.breakpoint)return scope.breakpoint;else
+return $cuiResizeHandler.breakpoint;
+};
+
+var resizeHandler=_.throttle(function(){
+$cuiResizeHandler.callHandlers();
+},300);
+
+$cuiResizeHandler.setHandler(scope.$id,elementHandler,getBreakpoint());
+$cuiResizeHandler.callHandlers();
+$window.onresize=resizeHandler;
+
+scope.$on('$destroy',function(){
+$cuiResizeHandler.destroyElement(scope.$id);
+});
+},
+template:'\n\t\t\t<div ng-if="showIf"><ng-transclude></ng-transclude></div>\n\t\t'};
+
+
+
+}]);
+
+
+angular.module('cui-ng').
+provider('$cuiResizeHandler',function(){var _this2=this;
+
+var resizeProvider={};
+var resizeHandlerFunctions={};
+
+this.breakpoint=700;
+
+this.setHandler=function(scopeId,handlerFunction,breakpoint){
+resizeHandlerFunctions[scopeId]={
+handler:handlerFunction,
+breakpoint:breakpoint};
+
+};
+
+this.getHandler=function(scopeId){
+return resizeHandlerFunctions[scopeId];
+};
+
+this.callHandlers=function(){
+for(var key in resizeHandlerFunctions){
+resizeHandlerFunctions[key].handler(resizeHandlerFunctions[key].breakpoint);
+}
+};
+
+this.destroyElement=function(scopeId){
+delete resizeHandlerFunctions[scopeId];
+};
+
+this.setBreakpoint=function(breakpoint){
+_this2.breakpoint=breakpoint;
+};
+
+this.getBreakpoint=function(){
+return _this2.breakpoint;
+};
+
+this.$get=function(){
+return _this2;
+};
+});
+
+
 var defaults={
 cuiTreeNest0Class:'cui-tree--nesting-0',
 cuiTreeNestXClass:'cui-tree--nested',
@@ -3531,7 +3632,7 @@ if(newErrorObject)scope.errors=Object.assign({},newErrorObject);
 }]);
 
 angular.module('cui-ng').
-provider('$pagination',[function(){var _this2=this;
+provider('$pagination',[function(){var _this3=this;
 var paginationOptions=void 0;
 var userValue=void 0;
 
@@ -3559,7 +3660,7 @@ catch(e){}
 return userValue;
 };
 
-this.$get=function(){return _this2;};
+this.$get=function(){return _this3;};
 }]).
 directive('resultsPerPage',['$compile','$pagination',function($compile,$pagination){
 return{
