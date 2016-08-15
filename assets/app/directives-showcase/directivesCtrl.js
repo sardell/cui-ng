@@ -37,6 +37,7 @@ angular.module('app')
 
         var directives = this;
         var timer;
+        let booleanSwitch = false
 
         directives.appUser = {
             names: ['Bill','Murray'],
@@ -244,6 +245,28 @@ angular.module('app')
 
     // cui-tree end -------------------------------------------------------------
 
+    // cui-button start ---------------------------------------------------------
+
+    directives.cuiButtonClick = () => {
+        directives.cuiButtonLoading = true
+        directives.cuiButtonSuccess = false
+        directives.cuiButtonError = false
+
+        $timeout(() => {
+            directives.cuiButtonLoading = false
+            if (booleanSwitch) directives.cuiButtonSuccess = true
+            else directives.cuiButtonError = true
+            booleanSwitch =! booleanSwitch
+        }, 1000)
+        .then(() => {
+            $timeout(() => {
+                directives.cuiButtonSuccess = false
+                directives.cuiButtonError = false
+            }, 2000)
+        })
+    }
+
+    // cui-button end -----------------------------------------------------------
 
     directives.log=function(message){
         console.log(message);
