@@ -1,6 +1,6 @@
 'use strict';var _slicedToArray=function(){function sliceIterator(arr,i){var _arr=[];var _n=true;var _d=false;var _e=undefined;try{for(var _i=arr[Symbol.iterator](),_s;!(_n=(_s=_i.next()).done);_n=true){_arr.push(_s.value);if(i&&_arr.length===i)break;}}catch(err){_d=true;_e=err;}finally{try{if(!_n&&_i["return"])_i["return"]();}finally{if(_d)throw _e;}}return _arr;}return function(arr,i){if(Array.isArray(arr)){return arr;}else if(Symbol.iterator in Object(arr)){return sliceIterator(arr,i);}else{throw new TypeError("Invalid attempt to destructure non-iterable instance");}};}();var _typeof=typeof Symbol==="function"&&typeof Symbol.iterator==="symbol"?function(obj){return typeof obj;}:function(obj){return obj&&typeof Symbol==="function"&&obj.constructor===Symbol?"symbol":typeof obj;};function _defineProperty(obj,key,value){if(key in obj){Object.defineProperty(obj,key,{value:value,enumerable:true,configurable:true,writable:true});}else{obj[key]=value;}return obj;}
 
-// cui-ng build Thu Aug 11 2016 16:27:09
+// cui-ng build Mon Aug 15 2016 15:59:57
 
 ;(function(angular){
 'use strict';
@@ -1142,6 +1142,50 @@ cuiAvatar.watchers();
 }};
 
 }]);
+
+angular.module('cui-ng').
+directive('cuiButton',function(){return{
+restrict:'E',
+transclude:true,
+scope:{
+errorIf:'=',
+loadingIf:'=',
+successIf:'=',
+disableIf:'=',
+errorMessage:'@',
+loadingMessage:'@',
+successMessage:'@',
+buttonClick:'&'},
+
+link:function link(scope,elem,attrs){
+attrs.hasOwnProperty('errorMessage')?scope.errorMessage=attrs['errorMessage']:scope.errorMessage='Error';
+attrs.hasOwnProperty('loadingMessage')?scope.loadingMessage=attrs['loadingMessage']:scope.loadingMessage='Loading';
+attrs.hasOwnProperty('successMessage')?scope.successMessage=attrs['successMessage']:scope.successMessage='Success';
+},
+template:'\n        <button class="cui-button cui-button--error-alt" ng-if="errorIf" ng-click="buttonClick()" ng-disabled="disableIf">\n          {{errorMessage}}\n        </button>\n        <button class="cui-button cui-button--loading-alt" ng-if="loadingIf" ng-disabled="disableIf">\n          <span>{{loadingMessage}}</span>\n          <div class="cui-button__ellipses"></div>\n          <div class="cui-button__ellipses"></div>\n          <div class="cui-button__ellipses"></div>\n        </button>\n        <button class="cui-button cui-button--success" ng-if="successIf" ng-disabled="disableIf">\n          {{successMessage}}\n          <svg class="cui-button__check" width="21px" height="16px" viewBox="0 0 21 16" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">\n              <title>check</title>\n              <g id="check" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">\n                  <path d="M0.824056194,14.5726523 C1.60584855,15.3483885 2.86333934,15.3420834 3.63455864,14.5567179 L11.8587648,6.18165837 C12.62917,5.39712184 13.9014742,5.37922301 14.6979727,6.13923477 L17.3615817,8.68082663 C18.1592277,9.44193325 19.4283055,9.41819274 20.1974828,8.62642494 L19.932337,8.89935798 C20.700916,8.10820614 20.673432,6.84262122 19.8821394,6.08333201 L14.6486407,1.06149931 C13.8523384,0.297402956 12.5724404,0.323089801 11.8099641,1.09847731 L1.07504371,12.0151757 C0.303588289,12.7996944 0.31135936,14.063927 1.09376039,14.8402672 L0.824056194,14.5726523 Z" fill="currentColor" transform="translate(10.500000, 7.826229) rotate(-180.000000) translate(-10.500000, -7.826229) "></path>\n              </g>\n          </svg>\n        </button>\n        <ng-transclude ng-if="!loadingIf && !errorIf && !successIf" ng-click="buttonClick()" ng-disabled="disableIf">\n        </ng-translude>\n    '};});
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 angular.module('cui-ng').
 directive('cuiDropdown',['$compile', function($compile){
