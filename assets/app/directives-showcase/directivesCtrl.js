@@ -262,7 +262,7 @@ angular.module('app')
             $timeout(() => {
                 directives.cuiButtonSuccess = false
                 directives.cuiButtonError = false
-            }, 2000)
+            }, 1500)
         })
     }
 

@@ -1,5 +1,5 @@
 angular.module('cui-ng')
-.directive('cuiButton', ($filter) => ({
+.directive('cuiButton', () => ({
     restrict: 'E',
     transclude: true,
     scope: {
@@ -7,27 +7,27 @@ angular.module('cui-ng')
         loadingIf: '=',
         successIf: '=',
         disableIf: '=',
-        errorMessage: '=',
-        loadingMessage: '=',
-        successMessage: '=',
+        errorMessage: '@',
+        loadingMessage: '@',
+        successMessage: '@',
         buttonClick: '&'
     },
     link: (scope, elem, attrs) => {
-        attrs.errorMessage ? scope.errorMessage = attrs['errorMessage'] : scope.errorMessage = 'Error'
-        attrs.loadingMessage ? scope.loadingMessage = attrs['loadingMessage'] : scope.loadingMessage = 'Loading'
-        attrs.successMessage ? scope.successMessage = attrs['successMessage'] : scope.successMessage = 'Success'
+      attrs.hasOwnProperty('errorMessage') ? scope.errorMessage = attrs['errorMessage'] : scope.errorMessage = 'Error'
+      attrs.hasOwnProperty('loadingMessage') ? scope.loadingMessage = attrs['loadingMessage'] : scope.loadingMessage = 'Loading'
+      attrs.hasOwnProperty('successMessage') ? scope.successMessage = attrs['successMessage'] : scope.successMessage = 'Success'
     },
     template: `
         <button class="cui-button cui-button--error-alt" ng-if="errorIf" ng-click="buttonClick()" ng-disabled="disableIf">
           {{errorMessage}}
         </button>
-        <button class="cui-button cui-button--loading-alt" ng-if="loadingIf">
+        <button class="cui-button cui-button--loading-alt" ng-if="loadingIf" ng-disabled="disableIf">
           <span>{{loadingMessage}}</span>
           <div class="cui-button__ellipses"></div>
           <div class="cui-button__ellipses"></div>
           <div class="cui-button__ellipses"></div>
         </button>
-        <button class="cui-button cui-button--success" ng-if="successIf">
+        <button class="cui-button cui-button--success" ng-if="successIf" ng-disabled="disableIf">
           {{successMessage}}
           <svg class="cui-button__check" width="21px" height="16px" viewBox="0 0 21 16" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
               <title>check</title>
@@ -36,7 +36,7 @@ angular.module('cui-ng')
               </g>
           </svg>
         </button>
-        <ng-transclude ng-if="!loadingIf && !errorIf && !successIf" ng-click="buttonClick()">
+        <ng-transclude ng-if="!loadingIf && !errorIf && !successIf" ng-click="buttonClick()" ng-disabled="disableIf">
         </ng-translude>
     `
 }))
