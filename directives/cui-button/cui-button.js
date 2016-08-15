@@ -1,5 +1,5 @@
 angular.module('cui-ng')
-.directive('cuiButton', () => ({
+.directive('cuiButton', ($filter) => ({
     restrict: 'E',
     transclude: true,
     scope: {
@@ -7,23 +7,28 @@ angular.module('cui-ng')
         loadingIf: '=',
         successIf: '=',
         disableIf: '=',
-        buttonClick: '&',
-        errorMessage: '@',
-        loadingMessage: '@',
-        successMessage: '@'
+        errorMessage: '=',
+        loadingMessage: '=',
+        successMessage: '=',
+        buttonClick: '&'
+    },
+    link: (scope, elem, attrs) => {
+        attrs.errorMessage ? scope.errorMessage = attrs['errorMessage'] : scope.errorMessage = 'Error'
+        attrs.loadingMessage ? scope.loadingMessage = attrs['loadingMessage'] : scope.loadingMessage = 'Loading'
+        attrs.successMessage ? scope.successMessage = attrs['successMessage'] : scope.successMessage = 'Success'
     },
     template: `
         <button class="cui-button cui-button--error-alt" ng-if="errorIf" ng-click="buttonClick()" ng-disabled="disableIf">
-          {{ _errorMessage }}
+          {{errorMessage}}
         </button>
         <button class="cui-button cui-button--loading-alt" ng-if="loadingIf">
-          <span>{{ _loadingMessage }}</span>
+          <span>{{loadingMessage}}</span>
           <div class="cui-button__ellipses"></div>
           <div class="cui-button__ellipses"></div>
           <div class="cui-button__ellipses"></div>
         </button>
         <button class="cui-button cui-button--success" ng-if="successIf">
-          {{ _successMessage }}
+          {{successMessage}}
           <svg class="cui-button__check" width="21px" height="16px" viewBox="0 0 21 16" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
               <title>check</title>
               <g id="check" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
@@ -33,23 +38,5 @@ angular.module('cui-ng')
         </button>
         <ng-transclude ng-if="!loadingIf && !errorIf && !successIf" ng-click="buttonClick()">
         </ng-translude>
-    `,
-    link: (scope, elem, attrs) => {
-        const attrsToObserve = {
-            errorMessage: 'Error, try again please',
-            loadingMessage: 'Loading',
-            successMessage: 'Success!'
-        }
-
-        angular.forEach(attrsToObserve, (defaultMessage, attr) => {
-            if (scope[attr]) {
-                scope['_' + attr] = scope[attr]
-                attrs.$observe('attr', (newVal) => {
-                    scope['_' + attr] = newVal
-                })
-            } else {
-                scope['_' + attr] = defaultMessage
-            }
-        })
-    }
+    `
 }))
