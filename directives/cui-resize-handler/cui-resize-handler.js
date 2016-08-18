@@ -19,6 +19,7 @@ angular.module('cui-ng')
 					else if (attrs.hasOwnProperty('desktop') && $window.innerWidth >= breakpoint) scope.showIf = true
 					else scope.showIf = false
 				}
+				scope.$evalAsync(scope)
 			}
 
 			const getScreenState = (customBreakpoint) => {
