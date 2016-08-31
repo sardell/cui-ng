@@ -10,6 +10,7 @@ Create an inline edit component for any variable.
 
 This will compile to
 
+{% raw %}
 ```html
     <p class="cui-expandable__review-item">
         {{"cui-org"| translate}}: <span ng-if="!edit">{{app.organization.name}}</span>
@@ -19,6 +20,7 @@ This will compile to
         <span class="cui-expandable__review-button" ng-if="edit" ng-click="toggleEdit()"> Cancel</span>
     </p>
 ```
+{% endraw %}
 
 Note that whatever is put into the `label` attribute will compile using the cui-i18n filter `translate`. If instead you just want to use a static text label, change the attribute to `name` instead of `label`.
 
