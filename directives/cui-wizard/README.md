@@ -22,10 +22,10 @@ Cui-wizard is an angular directive that, following a few syntax rules, allows th
 {% endraw %}
 
 #### Variables
-1. `{{beggining Step}}` -> the step the wizard will start on.
-2. `{{stepXTitle}}` -> the titles that will populate the indicator-container.
-3. `{{stateName}}` -> the name of the state that the user is redirected to when he clicks that indicator, assuming he defined `clickable-indicators`.
-4. `{{iconRef/Link}}` -> reference to the icon that will appear under the for the step. (look below for more info on how this works)
+1. `{{beggining Step}}` this the step the wizard will start on.
+2. `{{stepXTitle}}` the titles that will populate the indicator-container.
+3. `{{stateName}}` the name of the state that the user is redirected to when he clicks that indicator, assuming he defined `clickable-indicators`.
+4. `{{iconRef/Link}}` reference to the icon that will appear under the for the step. (look below for more info on how this works)
 
 
 ### How it works / features
