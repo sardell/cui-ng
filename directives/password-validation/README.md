@@ -11,6 +11,8 @@ NOTE: If you need more customized password validation rules use [`custom-error`]
 
 * You must have the `cui-ng` module injected as a dependency into your angular app
 * Use it in a password input field
+
+{% raw %}
 ```html
 <input type="password" name="password" ng-model="app.password" ng-required="true"
 ng-class="{'error-class': signOn.password.$touched && signOn.password.$invalid}"
@@ -20,6 +22,8 @@ password-validation="app.passwordRules"></input>
    <div ng-messages-include="assets/angular-templates/password-messages.html"></div>
 </div>
 ```
+{% endraw %}
+
 Notice how we are passing an attribute of `password-popover` to the ng-messages element. This makes a few helpful scope variables available in that element (more on that below).
 
 (Note: this assumes that you have your input wrapped in a form with `name="signOn"`, however you can name it differentely, just replace every occurence of `signOn` with your new name.)
@@ -71,6 +75,7 @@ This file will contain the markup shown for each error message. Use this to buil
 * `disallowedWords` - a string with the disallowed words the user has put into the input that currently has the password-validation
 * `disallowedChars` - a string with disallowed chars the user has put into the input that currently has the password-validation
 
+{% raw %}
 ```html
 <div password-popover ng-messages="formName.passwordFieldName.$error" class="cui-error__password" ng-messages-multiple ng-if="formName.passwordFieldName.$invalid">
   <!--
@@ -125,8 +130,8 @@ This file will contain the markup shown for each error message. Use this to buil
       </div>
   </div>
 </div>
-
 ```
+{% endraw %}
 
 ## Change Log 1/15/2016
 
