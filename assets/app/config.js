@@ -1,5 +1,5 @@
 angular.module('app')
-.config(function ($translateProvider, $locationProvider, $cuiIconProvider, $cuiI18nProvider, $stateProvider, $urlRouterProvider, $injector, localStorageServiceProvider, $paginationProvider) {
+.config(function ($translateProvider, $locationProvider, $cuiIconProvider, $cuiI18nProvider, $stateProvider, $urlRouterProvider, $injector, localStorageServiceProvider, $paginationProvider, $cuiResizeHandlerProvider) {
 
     // This is the prefix to be used by the local storage module. Set this to whatever you'd like.
     localStorageServiceProvider.setPrefix('cui')
@@ -83,6 +83,10 @@ angular.module('app')
         $paginationProvider.setPaginationOptions(appConfig.paginationOptions)
     }
     else throw new Error('You don\'t have any paginationOptions set in appConfig.json')
+
+    // cui-resize-handler
+    if (appConfig.breakpointOption) $cuiResizeHandlerProvider.setBreakpoint(appConfig.breakpointOption)
+    else throw new Error('You don\'t have any breakpointOptions set in appConfig.json')
 })
 
 angular.module('app')

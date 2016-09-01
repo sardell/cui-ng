@@ -8,6 +8,7 @@ angular.module('cui-ng')
             let viewBox
             let preserveaspectratio
             let svgClass
+            let useClass
             let path
 
             attrs.preserveaspectratio
@@ -19,6 +20,9 @@ angular.module('cui-ng')
             attrs.viewbox
                 ? viewBox=`viewBox="${attrs.viewbox}"`
                 : viewBox = ''
+            attrs.useClass
+                ? useClass = `class="${attrs.useClass}"`
+                : useClass = ''
 
             if (icon && icon.indexOf('.svg') >- 1) { // if the path is directly specified
                 path = icon
@@ -32,7 +36,7 @@ angular.module('cui-ng')
 
             const newSvg = $(
                 `<svg xmlns="http://www.w3.org/2000/svg" ${preserveaspectratio} ${svgClass} ${viewBox}>
-                    <use xlink:href="${path}"></use>
+                    <use xlink:href="${path}" ${useClass}></use>
                 </svg>`
             )
 
