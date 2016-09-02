@@ -18,10 +18,12 @@ Class toggle allows you to easily toggle a class on an element from any user int
 Everytime `toggleClass()` gets fired from an element inside of the directive the `toggled-class` class will toggle. You also get a scope variable called `toggled` that you can use to manipulate other elements within the expandable (if toggled is true, it means that the element has the toggled-class).
 You can also use `toggleOn()` or `toggleOff()` to only add or remove the class from the element, respectively.
 
-## Change Log 3/7/2016
+## Change Log 
+
+### 2016-03-07
 
 * Now also takes class-toggle as an attribute.
 
-## Change Log 5/5/2016
+### 2016-05-05
 
 * No longer requires the 'toggled-class' attribute (if the purpose it to only access the toggled scope var).
