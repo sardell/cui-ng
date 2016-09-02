@@ -1,0 +1,6 @@
+applications:
+- name: cui-ng
+  memory: 64M
+  instances: 1
+  host: cui-ng
+  path: ./build/

@@ -1,5 +1,7 @@
 # Auto-complete
 
+[Demo](http://cui-ng.run.covisintrnd.com/#/) | [More docs](http://ghiden.github.io/angucomplete-alt/) 
+
 Auto-complete is a directive that enables type-ahead for any type of data. Extracted from [here.](http://ghiden.github.io/angucomplete-alt/)
 
 ## Usage Example
@@ -37,5 +39,3 @@ In your markup
 ```html
     <div auto-complete input-name="country" pause="100" selected-object="app.organization.country" local-data="app.countries" search-fields="name" title-field="name" minlength="1" input-class="cui-input" match-class="highlight" auto-match="true" field-required="app.organization.country" input-changed="app.organization.country"></div>
 ```
-
-[More docs can be found here.](http://ghiden.github.io/angucomplete-alt/)
