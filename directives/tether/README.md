@@ -8,7 +8,7 @@ This directive wraps the Tether API into a simple to use markup tool to "tether"
 ## How to use
 
 * Make sure you include Tether in your dependencies
-`<script src="bower_components/tether/dist/js/tether.js"></script>`
+`<script src="node_modules/@covisint/tether/dist/js/tether.js"></script>`
 
 * In your markup attach any element to another element, and pass in options that match the ones in the [Tether API](http://github.hubspot.com/tether/).
 

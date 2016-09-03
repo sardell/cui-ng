@@ -9,7 +9,7 @@ First, if you want to set a namespace for the icons so that later in your templa
 ```javascript
     angular.module('myApp')
     .config(['$cuiIconProvider',function($cuiIconProvider){
-        $cuiIconProvider.iconSet('cui','bower_components/cui-icons/dist/icons/icons-out.svg','0 0 48 48');
+        $cuiIconProvider.iconSet('cui','node_modules/@covisint/cui-icons/dist/icons/icons-out.svg','0 0 48 48');
     }]);
 ```
 
@@ -40,7 +40,7 @@ This will compile to the following markup, given our previous configuration
 ```html
     <cui-icon cui-svg-icon="cui:user"></cui-icon>
         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48">
-            <use xlink:href="bower_components/cui-icons/dist/icons/icons-out.svg#user"></use>
+            <use xlink:href="node_modules/@covisint/cui-icons/dist/icons/icons-out.svg#user"></use>
         </svg>
     </cui-icon>
 ```
@@ -48,7 +48,7 @@ This will compile to the following markup, given our previous configuration
 You can also just set your path directly in cui-icon, if you're not using sprites or just don't want to set your config
 
 ```html
-    <cui-icon cui-svg-icon="bower_components/cui-icons/dist/icons/icons-out.svg#user"></cui-icon>
+    <cui-icon cui-svg-icon="node_modules/@covisint/cui-icons/dist/icons/icons-out.svg#user"></cui-icon>
 ```
 
 ### Optional attributes

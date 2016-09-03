@@ -39,7 +39,7 @@ angular.module('app')
 
     if (appConfig.languages) {
         // This should not be altered, unless you want to get language files from a different location
-        // than bower_components/cui-i18n/dist/cui-i18n/angular-translate/
+        // than node_modules/@covisint/cui-i18n/dist/cui-i18n/angular-translate/
         if (!$cuiI18nProvider) {
             throw new Error('You have languages configured in your appConfig.json file, but you don\'t have cui-i18n installed and/or injected into your config block.')
             return
@@ -95,7 +95,7 @@ angular.module('app')
 
     if (appConfig.languages) {
         // This should not be altered, unless you want to get language files from
-        // a different location than bower_components/cui-i18n/dist/cui-i18n/angular-translate/
+        // a different location than node_modules/@covisint/cui-i18n/dist/cui-i18n/angular-translate/
         if (!$cuiI18n) {
             throw new Error('You have languages configured in your appConfig.json file, but you don\'t have cui-i18n installed and/or injected into your config block.')
             return
