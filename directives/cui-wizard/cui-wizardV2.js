@@ -10,12 +10,13 @@ angular.module('cui-ng')
                         scope[property]=cuiWizard.scope[property];
                     });
                 },
-                config:{
-                    mobileStack:attrs.mobileStack!==undefined,
-                    mobileStackBreakingPoint:parseInt(attrs.mobileStack),
-                    clickableIndicators:attrs.clickableIndicators!==undefined,
-                    minimumPadding:attrs.minimumPadding || 0,
-                    bar:attrs.bar!==undefined
+                config: {
+                    bar: attrs.bar !== undefined,
+                    clickableIndicators: attrs.clickableIndicators !== undefined,
+                    dirtyValidation: attrs.dirtyValidation !== undefined,
+                    minimumPadding: attrs.minimumPadding || 0,
+                    mobileStack: attrs.mobileStack !== undefined,
+                    mobileStackBreakingPoint: parseInt(attrs.mobileStack)
                 },
                 selectors:{
                     $wizard:angular.element(elem[0]),
@@ -24,13 +25,26 @@ angular.module('cui-ng')
                     $window:angular.element($window),
                     $body:angular.element('body')
                 },
-                helpers:{
-                    isFormValid:(form) => {
-                        if(!form.$valid){
+                helpers: {
+                    isFormValid: (form) => {
+                        // Custom dirty-validation behavior
+                        if (cuiWizard.config.dirtyValidation && !form.$valid) {
+                            cuiWizard.helpers.setErrorFieldsToDirty(form);
+                            return false;
+                        }
+                        // Default behavior
+                        else if (!form.$valid) {
                             cuiWizard.helpers.setErrorFieldsToTouched(form);
                             return false;
                         }
                         return true;
+                    },
+                    setErrorFieldsToDirty: (form) => {
+                        angular.forEach(form.$error, (field) => {
+                            angular.forEach(field, (errorField) => {
+                                errorField.$setDirty();
+                            });
+                        });
                     },
                     setErrorFieldsToTouched:(form)=>{
                         angular.forEach(form.$error, (field) => {
