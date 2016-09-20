@@ -1,6 +1,6 @@
 'use strict';var _slicedToArray=function(){function sliceIterator(arr,i){var _arr=[];var _n=true;var _d=false;var _e=undefined;try{for(var _i=arr[Symbol.iterator](),_s;!(_n=(_s=_i.next()).done);_n=true){_arr.push(_s.value);if(i&&_arr.length===i)break;}}catch(err){_d=true;_e=err;}finally{try{if(!_n&&_i["return"])_i["return"]();}finally{if(_d)throw _e;}}return _arr;}return function(arr,i){if(Array.isArray(arr)){return arr;}else if(Symbol.iterator in Object(arr)){return sliceIterator(arr,i);}else{throw new TypeError("Invalid attempt to destructure non-iterable instance");}};}();var _typeof=typeof Symbol==="function"&&typeof Symbol.iterator==="symbol"?function(obj){return typeof obj;}:function(obj){return obj&&typeof Symbol==="function"&&obj.constructor===Symbol?"symbol":typeof obj;};function _defineProperty(obj,key,value){if(key in obj){Object.defineProperty(obj,key,{value:value,enumerable:true,configurable:true,writable:true});}else{obj[key]=value;}return obj;}
 
-// cui-ng build Thu Aug 18 2016 16:38:13
+// cui-ng build Tue Sep 20 2016 15:13:45
 
 ;(function(angular){
 'use strict';
@@ -2531,11 +2531,12 @@ scope[property]=cuiWizard.scope[property];
 });
 },
 config:{
-mobileStack:attrs.mobileStack!==undefined,
-mobileStackBreakingPoint:parseInt(attrs.mobileStack),
+bar:attrs.bar!==undefined,
 clickableIndicators:attrs.clickableIndicators!==undefined,
+dirtyValidation:attrs.dirtyValidation!==undefined,
 minimumPadding:attrs.minimumPadding||0,
-bar:attrs.bar!==undefined},
+mobileStack:attrs.mobileStack!==undefined,
+mobileStackBreakingPoint:parseInt(attrs.mobileStack)},
 
 selectors:{
 $wizard:angular.element(elem[0]),
@@ -2546,11 +2547,24 @@ $body:angular.element('body')},
 
 helpers:{
 isFormValid:function isFormValid(form){
-if(!form.$valid){
+// Custom dirty-validation behavior
+if(cuiWizard.config.dirtyValidation&&!form.$valid){
+cuiWizard.helpers.setErrorFieldsToDirty(form);
+return false;
+}
+// Default behavior
+else if(!form.$valid){
 cuiWizard.helpers.setErrorFieldsToTouched(form);
 return false;
 }
 return true;
+},
+setErrorFieldsToDirty:function setErrorFieldsToDirty(form){
+angular.forEach(form.$error,function(field){
+angular.forEach(field,function(errorField){
+errorField.$setDirty();
+});
+});
 },
 setErrorFieldsToTouched:function setErrorFieldsToTouched(form){
 angular.forEach(form.$error,function(field){
@@ -3234,8 +3248,8 @@ previousClass:attrs.previousNextClass||'cui-paginate__previous',
 nextClass:attrs.previousNextClass||'cui-paginate__next',
 pageContainerClass:attrs.pageContainerClass||'cui-paginate__page-container',
 ellipsesButton:attrs.ellipses||'...',
-previousButton:attrs.previousButton||'<',
-nextButton:attrs.nextButton||'>'},
+previousButton:attrs.previousButton||'',
+nextButton:attrs.nextButton||''},
 
 watchers:{
 resultsPerPage:function resultsPerPage(){
