@@ -34,8 +34,8 @@ angular.module('cui-ng')
                     nextClass: attrs.previousNextClass || 'cui-paginate__next',
                     pageContainerClass: attrs.pageContainerClass || 'cui-paginate__page-container',
                     ellipsesButton: attrs.ellipses || '...',
-                    previousButton: attrs.previousButton || '<',
-                    nextButton: attrs.nextButton || '>'
+                    previousButton: attrs.previousButton || '',
+                    nextButton: attrs.nextButton || ''
                 },
                 watchers:{
                     resultsPerPage:() => {
