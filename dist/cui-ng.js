@@ -1,6 +1,6 @@
 
 
-// cui-ng build Tue Oct 04 2016 15:24:55
+// cui-ng build Tue Oct 04 2016 16:18:06
 
 ;(function(angular){
     'use strict'
@@ -3751,7 +3751,8 @@ angular.module('cui-ng')
                 },
                 render: () => {
                     const element = $compile(`<cui-dropdown class="${resultsPerPage.config.selectClass}" ng-model="selected" options="intervals"></cui-dropdown>`)(scope);
-                    if(scope.count > scope.options.intervals[0] && scope.options.hidePaginationUnderMin === true) angular.element(elem).replaceWith(element);
+                    // render element even without count attribute in case of being used with other pagination models
+                    if(isNaN(scope.count) || scope.count > scope.options.intervals[0] && scope.options.hidePaginationUnderMin === true) angular.element(elem).replaceWith(element);
                 }
             };
             resultsPerPage.initScope();
