@@ -1,5 +1,13 @@
 # CUI-NG Changelog
 
+## Unreleased
+
+### Added
+* CUI-Paginate: By default, pagination will not display if results are below the first value in the interval array in app-config.json.
+
+### Changed
+* CUI-Paginate: paginationOptions now takes an object instead of an array.
+
 ## [1.9.20] - 2016-09-20
 
 ### Changed
