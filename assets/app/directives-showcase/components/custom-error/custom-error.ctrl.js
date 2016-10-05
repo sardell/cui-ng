@@ -1,5 +1,5 @@
 angular.module('app')
-.controller('customErrorCtrl', function(fakeApi) {
+.controller('customErrorCtrl', function(FakeAPI) {
 
     const customError = this
 
@@ -8,7 +8,7 @@ angular.module('app')
     customError.customErrors = {
         usernameTaken: function(value) {
             return {
-                promise: fakeApi.checkIfUsernameAvailable(value), valid: function(res) {
+                promise: FakeAPI.checkIfUsernameAvailable(value), valid: function(res) {
                     return res
                 }
             }
