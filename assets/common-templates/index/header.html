@@ -1,0 +1,13 @@
+<div class="cui-nav__content-wrapper" ng-class="{'cui-desktop-menu--collapse' : base.menu.desktop.state==='closed' || !base.menu.desktop.enabled}">
+  <div class="cui-menu__toggle-button--desktop cui-menu__toggle-button-container active" ng-click="base.menu.desktop.toggle()" ng-class="{'active' : base.menu.desktop.state==='open'}" ng-if="base.menu.desktop.enabled" style="margin-right:20px">
+    <div class="cui-menu__toggle-button"></div>
+  </div>
+  <header class="cui-header">
+    <div class="cui-header__top">
+      <div class="menu-toggle menu-toggle--mobile" snap-toggle="left" ng-click="base.menu.mobile.toggle()"  ng-if="base.menu.mobile.enabled" style="margin-right:20px">
+        <div class="menu-toggle--button"></div>
+      </div>
+    </div>
+  </header>
+  <div ui-view ng-cloak></div>
+</div>

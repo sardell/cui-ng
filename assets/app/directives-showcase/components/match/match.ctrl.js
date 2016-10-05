@@ -1,5 +1,5 @@
 angular.module('app')
-.controller('matchCtrl', function(words) {
+.controller('matchCtrl', function(Words) {
 
     const match = this
 
@@ -10,7 +10,7 @@ angular.module('app')
             match.userInput = ''
             match.counter = 0
 
-            words.get()
+            Words.get()
             .then(function(res) {
                 match.random = res.data
                 match.gameStarted = true
