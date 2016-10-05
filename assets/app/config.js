@@ -22,12 +22,12 @@ angular.module('app')
         url: '/',
         template: '<div ui-view></div>',
     })
-    .state('auto-complete', {
+    .state('autoComplete', {
         url: '/auto-complete',
         templateUrl: templateBase + 'auto-complete/auto-complete.html',
         controller: returnCtrlAs('autoComplete')
     })
-    .state('class-toggle', {
+    .state('classToggle', {
         url: '/class-toggle',
         templateUrl: templateBase + 'class-toggle/class-toggle.html',
     })
@@ -139,7 +139,7 @@ angular.module('app')
       var $state = $injector.get("$state");
       // this will be the state a user is directed to when angular can't find a match for the URL it receives.
       // You can use this to redirect to a 404 page
-      $state.go('auto-complete')
+      $state.go('autoComplete')
     })
 
     if (appConfig.languages) {
