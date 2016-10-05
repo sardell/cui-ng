@@ -1,6 +1,6 @@
 <style>
-  .cui-tree {
-    display:inline-block;
+	.cui-tree {
+		display:inline-block;
     position: relative;
     margin-top:20px;
   }
@@ -79,24 +79,36 @@
     top: -28px;
     bottom: 0;
   }
-
-
 </style>
 
+<div class="cui-tile">
+  <div class="cui-tile__title">Cui-Tree</div>
+  <div class="cui-tile__body">
 
+		<div class="cui-tree" cui-tree="cuiTree.tree" ng-init="cuiTree.tree= [{id:1,text:'Parent'}]" 
+			cui-tree-leaf-display="object.id + '. ' + object.text"
+			cui-tree-branch-wrapper="<div class='cui-tree__branch'></div>" 
+			cui-tree-leaf-wrapper="<div class='cui-tree__leaf'></div>" 
+			cui-tree-nest-prefix="cui-tree--nesting-" 
+			cui-tree-nest-x-class="cui-tree--nested" 
+			cui-tree-nest-0-class="cui-tree--nesting-0" 
+			cui-tree-last-leaf-class="cui-tree__leaf--last" 
+			cui-tree-last-branch-class="cui-tree__branch--last" 
+			cui-tree-leaf-click-callback="cuiTree.leafClickCallback">
+		</div>
 
-<div class="cui-tree" cui-tree="directives.tree" cui-tree-leaf-display="object.id + '. ' + object.text" cui-tree-branch-wrapper="<div class='cui-tree__branch'></div>" cui-tree-leaf-wrapper="<div class='cui-tree__leaf'></div>" cui-tree-nest-prefix="cui-tree--nesting-" cui-tree-nest-x-class="cui-tree--nested" cui-tree-nest-0-class="cui-tree--nesting-0" cui-tree-last-leaf-class="cui-tree__leaf--last" cui-tree-last-branch-class="cui-tree__branch--last" ng-init="directives.tree= [{id:1,text:'Parent'}]" cui-tree-leaf-click-callback="directives.leafClickCallback"></div>
+		<br/><br/>
 
-<br/><br/>
+		<div>
+  		Selected leaf object: <pre>{{cuiTree.leafBeingHandled | json:2}}</pre>
 
-<div ng-if="directives.leafBeingHandled">
-  Selected leaf object: <pre>{{directives.leafBeingHandled | json:2}}</pre>
+  		<input ng-model="cuiTree.leafText" placeholder="Name of leaf to add"/>
+  		<button ng-click="cuiTree.addSibling(cuiTree.leafBeingHandled.id,cuiTree.leafText,cuiTree.tree)">Add sibling</button>
+  		<button ng-click="cuiTree.addChild(cuiTree.leafBeingHandled.id,cuiTree.leafText,cuiTree.tree)">Add child</button>
+  		<button ng-click="cuiTree.removeLeaf(cuiTree.leafBeingHandled.id,cuiTree.tree)">Remove leaf</button>
+		</div>
 
-  <input ng-model="directives.leafText" placeholder="Name of leaf to add"/>
-  <button ng-click="directives.addSibling(directives.leafBeingHandled.id,directives.leafText,directives.tree)">Add sibling</button>
-  <button ng-click="directives.addChild(directives.leafBeingHandled.id,directives.leafText,directives.tree)">Add child</button>
-  <button ng-click="directives.removeLeaf(directives.leafBeingHandled.id,directives.tree)">Remove leaf</button>
+		<p><a class="cui-link" href="https://github.com/covisint/cui-ng/tree/master/directives/cui-tree" target="blank">Click here for the extended documentation.</a></p>
+
+  </div>
 </div>
-
-<a class="cui-link" href="https://github.com/covisint/cui-ng/tree/master/directives/cui-tree" target="blank">Click here for the extended documentation.</a>
-

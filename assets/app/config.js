@@ -70,9 +70,64 @@ angular.module('app')
         templateUrl: templateBase + 'cui-resize-handler/cui-resize-handler.html',
         controller: returnCtrlAs('cuiResizeHandler')
     })
+    .state('cuiTree', {
+        url: '/cui-tree',
+        templateUrl: templateBase + 'cui-tree/cui-tree.html',
+        controller: returnCtrlAs('cuiTree')
+    })
     .state('cuiWizard', {
         url: '/cui-wizard',
         templateUrl: templateBase + 'cui-wizard/cui-wizard.html'
+    })
+    .state('customError', {
+        url: '/custom-error',
+        templateUrl: templateBase + 'custom-error/custom-error.html',
+        controller: returnCtrlAs('customError')
+    })
+    .state('focusIf', {
+        url: '/focus-if',
+        templateUrl: templateBase + 'focus-if/focus-if.html',
+        controller: returnCtrlAs('focusIf')
+    })
+    .state('inlineEdit', {
+        url: '/inline-edit',
+        templateUrl: templateBase + 'inline-edit/inline-edit.html',
+        controller: returnCtrlAs('inlineEdit')
+    })
+    .state('match', {
+        url: '/match',
+        templateUrl: templateBase + 'match/match.html',
+        controller: returnCtrlAs('match')
+    })
+    .state('offClick', {
+        url: '/off-click',
+        templateUrl: templateBase + 'off-click/off-click.html',
+        controller: returnCtrlAs('offClick')
+    })
+    .state('onEnter', {
+        url: '/on-enter',
+        templateUrl: templateBase + 'on-enter/on-enter.html',
+        controller: returnCtrlAs('onEnter')
+    })
+    .state('paginate', {
+        url: '/paginate',
+        templateUrl: templateBase + 'paginate/paginate.html',
+        controller: returnCtrlAs('paginate')
+    })
+    .state('passwordValidation', {
+        url: '/password-validation',
+        templateUrl: templateBase + 'password-validation/password-validation.html',
+        controller: returnCtrlAs('passwordValidation')
+    })
+    .state('resultsPerPage', {
+        url: '/results-per-page',
+        templateUrl: templateBase + 'results-per-page/results-per-page.html',
+        controller: returnCtrlAs('resultsPerPage')
+    })
+    .state('tagsInput', {
+        url: '/tags-input',
+        templateUrl: templateBase + 'tags-input/tags-input.html',
+        controller: returnCtrlAs('tagsInput')
     })
 
     // This is used to remove the # from the URLs in an angular app. To be able to use this,

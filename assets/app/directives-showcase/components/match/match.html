@@ -1,0 +1,23 @@
+<div class="cui-tile">
+  <div class="cui-tile__title">Match</div>
+  <div class="cui-tile__body">
+
+    <span>Match is a quick way of checking if a field matches another.</span><br/>
+
+    <span>Hit Start! and be ready to type what you see popping up on the first input. No need to click on the input to start typing, we're doing it for you with <a ui-sref="focus-if" class="cui-link">focus-if</a>.<br/><br/>
+
+    <form name="formName">
+      <input name="input1" ng-model="match.random" class="cui-input--half cui-input"/>
+      <input name="input2" ng-model="match.userInput" match="match.random" class="cui-input--half cui-input" focus-if="match.gameStarted"/>
+    </form>
+
+    <button class="cui-button" ng-if="!match.gameStarted" ng-click="match.startGame()">Start!</button>
+    <button class="cui-button" ng-if="match.gameStarted" ng-click="match.restartGame()">Start over!</button>
+
+    <span ng-if="formName.input2.$error.match && match.gameStarted" class="ellapsed">{{ match.counter | number:2 }} seconds!</span>
+    <span ng-if="match.gameStarted && !formName.input2.$error.match" class="ellapsed" ng-init="match.stopGame()">You finished in {{ match.counter | number:2}} seconds!</span><br/><br/>
+
+    <a class="cui-link" href="https://github.com/covisint/cui-ng/tree/master/directives/match" target="blank">Click here for the extended documentation.</a>
+
+  </div>
+</div>

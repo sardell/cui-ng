@@ -1,0 +1,24 @@
+<div class="cui-tile crosshair">
+  <div class="cui-tile__title">Off-click</div>
+  <div class="cui-tile__body">
+
+  <span>Off-click is a directive to simulate something like onClick but for when you click outside of the element. With the help of off-click-if and off-click-filter directives you can create a highly customizable user experience, such as this one.</span>
+
+  <div id="off-click-test" class="box" off-click="offClick.missed=true;offClick.misses=(offClick.misses+1)" ng-click="offClick.addPoints()" off-click-if="!offClick.notPlaying">
+    <span class="center" ng-if="offClick.missed==undefined && !offClick.notPlaying">Click anywhere inside this box</span>
+    <span class="center" ng-if="offClick.missed===true && !offClick.notPlaying">Wow, you missed <b>{{offClick.misses}} time<span ng-if="offClick.misses!==1">s</span>!</b></span>
+    <span class="center" ng-if="offClick.missed===false && !offClick.notPlaying"><b>Wow!</b> Nice Shot! You've hit the target <b>{{offClick.hits}} time<span ng-if="offClick.hits!==1">s</span>!</b></span>
+    <span class="center" ng-if="offClick.notPlaying">You final score is {{offClick.hits-offClick.misses}}. <b>Wow!</b></span>
+  </div>
+
+  <div class="center--double">
+    <button class="cui-button finish-button" ng-click="offClick.notPlaying=true" off-click-filter="'#off-click-test'">Give me my score!</button>
+    <button class="cui-button restart-button" ng-click="offClick.notPlaying=false;offClick.hits=0;offClick.misses=0;offClick.missed=undefined" off-click-filter="'#off-click-test'">Restart!</button>
+  </div>
+
+  <br/><br/>
+
+  <a class="cui-link" href="https://github.com/covisint/cui-ng/tree/master/directives/off-click" target="blank">Click here for the extended documentation.</a>
+
+  </div>
+</div>
