@@ -1,10 +1,10 @@
 angular.module('app')
-.controller('inlineEditCtrl', function(words) {
+.controller('inlineEditCtrl', function(Words) {
 
     const inlineEdit = this
 
     inlineEdit.getRandomWord = function() {
-        words.get()
+        Words.get()
         .then(function(res) {
             inlineEdit.random2 = res.data
         })
