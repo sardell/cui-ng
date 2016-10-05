@@ -5,7 +5,7 @@ angular.module('app')
     localStorageServiceProvider.setPrefix('cui')
 
     // Base directory of your partials. Used to concatenate with the template name in the state definitions
-    var templateBase = 'assets/app/'
+    var templateBase = 'assets/app/directives-showcase/components/'
 
     var returnCtrlAs = function (name, asPrefix) {
         // Help function to build controller as syntax
@@ -18,10 +18,115 @@ angular.module('app')
     // the biggest of them being the ability to set nested states with multiple views per state.
     // See more here https://github.com/angular-ui/ui-router
     $stateProvider
-   .state('index', {
+    .state('index', {
         url: '/',
-        templateUrl: templateBase + 'directives-showcase/directives-showcase.html',
-        controller: returnCtrlAs('directives')
+        template: '<div ui-view></div>',
+    })
+    .state('autoComplete', {
+        url: '/auto-complete',
+        templateUrl: templateBase + 'auto-complete/auto-complete.html',
+        controller: returnCtrlAs('autoComplete')
+    })
+    .state('classToggle', {
+        url: '/class-toggle',
+        templateUrl: templateBase + 'class-toggle/class-toggle.html',
+    })
+    .state('cuiAuthorization', {
+        url: '/cui-authorization',
+        templateUrl: templateBase + 'cui-authorization/cui-authorization.html',
+        controller: returnCtrlAs('cuiAuthorization')
+    })
+    .state('cuiAvatar', {
+        url: '/cui-avatar',
+        templateUrl: templateBase + 'cui-avatar/cui-avatar.html',
+        controller: returnCtrlAs('cuiAvatar')
+    })
+    .state('cuiButton', {
+        url: '/cui-button',
+        templateUrl: templateBase + 'cui-button/cui-button.html',
+        controller: returnCtrlAs('cuiButton')
+    })
+    .state('cuiDropdown', {
+        url: '/cui-dropdown',
+        templateUrl: templateBase + 'cui-dropdown/cui-dropdown.html',
+        controller: returnCtrlAs('cuiDropdown')
+    })
+    .state('cuiExpandable', {
+        url: '/cui-expandable',
+        templateUrl: templateBase + 'cui-expandable/cui-expandable.html'
+    })
+    .state('cuiIcon', {
+        url: '/cui-icon',
+        templateUrl: templateBase + 'cui-icon/cui-icon.html'
+    })
+    .state('cuiPopover', {
+        url: '/cui-popover',
+        templateUrl: templateBase + 'cui-popover/cui-popover.html',
+        controller: returnCtrlAs('cuiPopover')
+    })
+    .state('cuiResizeHandler', {
+        url: '/cui-resize-handler',
+        templateUrl: templateBase + 'cui-resize-handler/cui-resize-handler.html',
+        controller: returnCtrlAs('cuiResizeHandler')
+    })
+    .state('cuiTree', {
+        url: '/cui-tree',
+        templateUrl: templateBase + 'cui-tree/cui-tree.html',
+        controller: returnCtrlAs('cuiTree')
+    })
+    .state('cuiWizard', {
+        url: '/cui-wizard',
+        templateUrl: templateBase + 'cui-wizard/cui-wizard.html'
+    })
+    .state('customError', {
+        url: '/custom-error',
+        templateUrl: templateBase + 'custom-error/custom-error.html',
+        controller: returnCtrlAs('customError')
+    })
+    .state('focusIf', {
+        url: '/focus-if',
+        templateUrl: templateBase + 'focus-if/focus-if.html',
+        controller: returnCtrlAs('focusIf')
+    })
+    .state('inlineEdit', {
+        url: '/inline-edit',
+        templateUrl: templateBase + 'inline-edit/inline-edit.html',
+        controller: returnCtrlAs('inlineEdit')
+    })
+    .state('match', {
+        url: '/match',
+        templateUrl: templateBase + 'match/match.html',
+        controller: returnCtrlAs('match')
+    })
+    .state('offClick', {
+        url: '/off-click',
+        templateUrl: templateBase + 'off-click/off-click.html',
+        controller: returnCtrlAs('offClick')
+    })
+    .state('onEnter', {
+        url: '/on-enter',
+        templateUrl: templateBase + 'on-enter/on-enter.html',
+        controller: returnCtrlAs('onEnter')
+    })
+    .state('paginate', {
+        url: '/paginate',
+        templateUrl: templateBase + 'paginate/paginate.html',
+        controller: returnCtrlAs('paginate')
+    })
+    .state('passwordValidation', {
+        url: '/password-validation',
+        templateUrl: templateBase + 'password-validation/password-validation.html',
+        controller: returnCtrlAs('passwordValidation')
+    })
+    .state('resultsPerPage', {
+        url: '/results-per-page',
+        templateUrl: templateBase + 'results-per-page/results-per-page.html',
+        controller: returnCtrlAs('resultsPerPage')
+    })
+    .state('tagsInput', {
+        url: '/tags-input',
+        templateUrl: templateBase + 'tags-input/tags-input.html',
+        controller: returnCtrlAs('tagsInput')
     })
 
     // This is used to remove the # from the URLs in an angular app. To be able to use this,
@@ -34,7 +139,7 @@ angular.module('app')
       var $state = $injector.get("$state");
       // this will be the state a user is directed to when angular can't find a match for the URL it receives.
       // You can use this to redirect to a 404 page
-      $state.go('index')
+      $state.go('autoComplete')
     })
 
     if (appConfig.languages) {

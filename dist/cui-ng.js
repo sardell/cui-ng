@@ -1,6 +1,6 @@
 'use strict';var _slicedToArray=function(){function sliceIterator(arr,i){var _arr=[];var _n=true;var _d=false;var _e=undefined;try{for(var _i=arr[Symbol.iterator](),_s;!(_n=(_s=_i.next()).done);_n=true){_arr.push(_s.value);if(i&&_arr.length===i)break;}}catch(err){_d=true;_e=err;}finally{try{if(!_n&&_i["return"])_i["return"]();}finally{if(_d)throw _e;}}return _arr;}return function(arr,i){if(Array.isArray(arr)){return arr;}else if(Symbol.iterator in Object(arr)){return sliceIterator(arr,i);}else{throw new TypeError("Invalid attempt to destructure non-iterable instance");}};}();var _typeof=typeof Symbol==="function"&&typeof Symbol.iterator==="symbol"?function(obj){return typeof obj;}:function(obj){return obj&&typeof Symbol==="function"&&obj.constructor===Symbol?"symbol":typeof obj;};function _defineProperty(obj,key,value){if(key in obj){Object.defineProperty(obj,key,{value:value,enumerable:true,configurable:true,writable:true});}else{obj[key]=value;}return obj;}
 
-// cui-ng build Tue Sep 20 2016 15:13:45
+// cui-ng build Wed Oct 05 2016 15:53:02
 
 ;(function(angular){
 'use strict';
@@ -1848,7 +1848,7 @@ _this.attachment=CuiPopoverHelpers.getAttachmentFromPosition(_this.position);
 _this.targetAttachment=CuiPopoverHelpers.getAttachmentFromPosition(CuiPopoverHelpers.invertAttachmentPartial(_this.position));
 },
 helpers:{
-getTetherOptions:function getTetherOptions(){var element=arguments.length<=0||arguments[0]===undefined?self.selectors.$container[0]:arguments[0];var opts=arguments[1];var
+getTetherOptions:function getTetherOptions(){var element=arguments.length>0&&arguments[0]!==undefined?arguments[0]:self.selectors.$container[0];var opts=arguments[1];var
 target=opts.target;var position=opts.position;var offset=opts.offset;var targetOffset=opts.targetOffset;var targetModifier=opts.targetModifier;var attachment=opts.attachment;var targetAttachment=opts.targetAttachment;
 return{
 target:target,
@@ -2147,7 +2147,7 @@ classList.push(cuiTreeNestXClass||defaults.cuiTreeNestXClass);}
 ;
 return classList;
 },
-getElements:function getElements(scope,opts,objects,leafClickCallback){var nesting=arguments.length<=4||arguments[4]===undefined?0:arguments[4];var
+getElements:function getElements(scope,opts,objects,leafClickCallback){var nesting=arguments.length>4&&arguments[4]!==undefined?arguments[4]:0;var
 getElements=cuiTreeHelpers.getElements;var getDisplayValue=cuiTreeHelpers.getDisplayValue;var getClassListForNestingLevel=cuiTreeHelpers.getClassListForNestingLevel;var
 cuiTreeBranchWrapper=opts.cuiTreeBranchWrapper;var cuiTreeLeafWrapper=opts.cuiTreeLeafWrapper;var cuiTreeLastLeafClass=opts.cuiTreeLastLeafClass;var cuiTreeLastBranchClass=opts.cuiTreeLastBranchClass;
 var $node=$('<div></div>');
@@ -4903,7 +4903,7 @@ $rootScope.$broadcast('$stateChangeSuccess',{toState:toState,toParams:toParams,f
 
 angular.module('cui.authorization',[]).
 factory('cui.authorization.routing',['cui.authorization.authorize','$timeout','$rootScope','$state',function(authorize,$timeout,$rootScope,$state){
-var routing=function routing(toState,toParams,fromState,fromParams,userEntitlements){var loginRequiredState=arguments.length<=5||arguments[5]===undefined?'loginRequired':arguments[5];var nonAuthState=arguments.length<=6||arguments[6]===undefined?'notAuthorized':arguments[6];
+var routing=function routing(toState,toParams,fromState,fromParams,userEntitlements){var loginRequiredState=arguments.length>5&&arguments[5]!==undefined?arguments[5]:'loginRequired';var nonAuthState=arguments.length>6&&arguments[6]!==undefined?arguments[6]:'notAuthorized';
 
 var authorized=void 0;
 
@@ -4934,7 +4934,7 @@ goToState($state,$rootScope,toState.name,toState,toParams,fromState,fromParams);
 return routing;
 }]).
 factory('cui.authorization.authorize',[function(){
-var authorize=function authorize(loginRequired,requiredEntitlements){var entitlementType=arguments.length<=2||arguments[2]===undefined?'atLeastOne':arguments[2];var userEntitlements=arguments[3];
+var authorize=function authorize(loginRequired,requiredEntitlements){var entitlementType=arguments.length>2&&arguments[2]!==undefined?arguments[2]:'atLeastOne';var userEntitlements=arguments[3];
 var loweredPermissions=[],
 hasPermission=true,
 result='not authorized';

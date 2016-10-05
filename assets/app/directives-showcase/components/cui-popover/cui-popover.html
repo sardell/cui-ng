@@ -1,0 +1,24 @@
+<div class="cui-tile">
+  <div class="cui-tile__title">Cui-Popover</div>
+  <div class="cui-tile__body">
+
+    <span id="test-target" style="cursor:pointer" ng-click="cuiPopover.popoverOpen=!cuiPopover.popoverOpen" off-click-filter="'#test-tether'">Click me!!</span>
+
+		<div cui-popover
+  		target="#test-target" pointer-height="13" pointer-width="10"
+  		popover-positions="[{position:'top', popoverOffset:'10px 0', contentOffset:'0'},'invert','any','hide']"
+  		ng-if="cuiPopover.popoverOpen" 
+  		style="width:200px;display:inline-block;background:#333;padding:30px;color:#EEE;border-radius:3px"
+  	>
+
+  	<div off-click="cuiPopover.popoverOpen=false" id="test-tether">
+    	<span ng-repeat='thing in cuiPopover.arrayOfThings'>{{thing}}<br/></span>
+  	</div>
+	</div>
+
+	<br/><br/>
+	
+	<a class="cui-link" href="https://github.com/covisint/cui-ng/tree/master/directives/cui-popover" target="blank">Click here for the extended documentation.</a>
+
+  </div>
+</div>

@@ -1,0 +1,34 @@
+<style>
+	.bold {
+ 		font-weight: bold;
+  	font-size: 20px;
+  	color: #555;
+	}
+
+	.pointer{
+  	cursor: pointer;
+	}
+
+	.normal{
+  	font-size: initial;
+  	color: #929292;
+  	font-weight: initial;
+	}
+</style>
+
+<div class="cui-tile">
+  <div class="cui-tile__title">Class-Toggle</div>
+  <div class="cui-tile__body">
+
+		<!-- Class-Toggle -->
+		<div class="class-toggle pointer" toggled-class="bold" ng-click="toggleClass()">
+			<span ng-if="!toggled">I'm small because my parent doesn't have the bold class. Click me, that will surely help.</span>
+  		<span ng-if="toggled">IT WORKED!<br/><br/><span class="normal">You can see that using the toggled scope variable we can not only toggle classes with this directive, but we can also dynamically assign content to the div with ng-if.</span></span>
+		</div>
+
+		<br/><br/>
+
+		<a class="cui-link" href="https://github.com/covisint/cui-ng/tree/master/directives/class-toggle" target="blank">Click here for the extended documentation.</a>
+
+  </div>
+</div>
