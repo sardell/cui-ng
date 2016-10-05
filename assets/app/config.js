@@ -5,7 +5,7 @@ angular.module('app')
     localStorageServiceProvider.setPrefix('cui')
 
     // Base directory of your partials. Used to concatenate with the template name in the state definitions
-    var templateBase = 'assets/app/'
+    var templateBase = 'assets/app/directives-showcase/components/'
 
     var returnCtrlAs = function (name, asPrefix) {
         // Help function to build controller as syntax
@@ -18,10 +18,61 @@ angular.module('app')
     // the biggest of them being the ability to set nested states with multiple views per state.
     // See more here https://github.com/angular-ui/ui-router
     $stateProvider
-   .state('index', {
+    .state('index', {
         url: '/',
-        templateUrl: templateBase + 'directives-showcase/directives-showcase.html',
+        template: '<div ui-view></div>',
         controller: returnCtrlAs('directives')
+    })
+    .state('auto-complete', {
+        url: '/auto-complete',
+        templateUrl: templateBase + 'auto-complete/auto-complete.html',
+        controller: returnCtrlAs('autoComplete')
+    })
+    .state('class-toggle', {
+        url: '/class-toggle',
+        templateUrl: templateBase + 'class-toggle/class-toggle.html',
+    })
+    .state('cuiAuthorization', {
+        url: '/cui-authorization',
+        templateUrl: templateBase + 'cui-authorization/cui-authorization.html',
+        controller: returnCtrlAs('cuiAuthorization')
+    })
+    .state('cuiAvatar', {
+        url: '/cui-avatar',
+        templateUrl: templateBase + 'cui-avatar/cui-avatar.html',
+        controller: returnCtrlAs('cuiAvatar')
+    })
+    .state('cuiButton', {
+        url: '/cui-button',
+        templateUrl: templateBase + 'cui-button/cui-button.html',
+        controller: returnCtrlAs('cuiButton')
+    })
+    .state('cuiDropdown', {
+        url: '/cui-dropdown',
+        templateUrl: templateBase + 'cui-dropdown/cui-dropdown.html',
+        controller: returnCtrlAs('cuiDropdown')
+    })
+    .state('cuiExpandable', {
+        url: '/cui-expandable',
+        templateUrl: templateBase + 'cui-expandable/cui-expandable.html'
+    })
+    .state('cuiIcon', {
+        url: '/cui-icon',
+        templateUrl: templateBase + 'cui-icon/cui-icon.html'
+    })
+    .state('cuiPopover', {
+        url: '/cui-popover',
+        templateUrl: templateBase + 'cui-popover/cui-popover.html',
+        controller: returnCtrlAs('cuiPopover')
+    })
+    .state('cuiResizeHandler', {
+        url: '/cui-resize-handler',
+        templateUrl: templateBase + 'cui-resize-handler/cui-resize-handler.html',
+        controller: returnCtrlAs('cuiResizeHandler')
+    })
+    .state('cuiWizard', {
+        url: '/cui-wizard',
+        templateUrl: templateBase + 'cui-wizard/cui-wizard.html'
     })
 
     // This is used to remove the # from the URLs in an angular app. To be able to use this,

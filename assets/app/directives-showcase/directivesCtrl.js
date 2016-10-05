@@ -37,16 +37,16 @@ angular.module('app')
 
         var directives = this;
         var timer;
-        let booleanSwitch = false
+        // let booleanSwitch = false
 
-        directives.appUser = {
-            names: ['Bill','Murray'],
-            email: 'orin.fink@thirdwavellc.com'
-        };
+        // directives.appUser = {
+        //     names: ['Bill','Murray'],
+        //     email: 'orin.fink@thirdwavellc.com'
+        // };
 
-        $timeout(function() {
-            directives.appUser.avatar = 'https://www.fillmurray.com/140/100';
-        }, 1500);
+        // $timeout(function() {
+        //     directives.appUser.avatar = 'https://www.fillmurray.com/140/100';
+        // }, 1500);
 
         directives.hits = 0;
 
@@ -146,36 +146,6 @@ angular.module('app')
     };
     // Paginate End -------------------------------------------------------------
 
-    // Auto-Complete & Language Change Start ------------------------------------
-
-    directives.defaultCountry = {
-        name: 'United States',
-        code: 'US'
-    };
-
-    // Auto-Complete & Language Change End --------------------------------------
-
-    // CUI-Authorization Start --------------------------------------------------
-    directives.buildEntitlements = function() {
-        if (Object.keys(directives.entitlements || {}).length === 0) {
-            directives.userEntitlements = [];
-        }
-        else {
-            var entitlements = [], i = 0;
-            angular.forEach(directives.entitlements, function(value, key) {
-                if(value) {
-                    entitlements[i] = key;
-                    i++;
-                }
-            });
-            directives.userEntitlements = entitlements;
-        }
-    };
-
-    directives.buildEntitlements();
-    // CUI-Authorization End ----------------------------------------------------
-
-
     // On-enter start -----------------------------------------------------------
 
     directives.onEnterResults=[];
@@ -244,29 +214,6 @@ angular.module('app')
     };
 
     // cui-tree end -------------------------------------------------------------
-
-    // cui-button start ---------------------------------------------------------
-
-    directives.cuiButtonClick = () => {
-        directives.cuiButtonLoading = true
-        directives.cuiButtonSuccess = false
-        directives.cuiButtonError = false
-
-        $timeout(() => {
-            directives.cuiButtonLoading = false
-            if (booleanSwitch) directives.cuiButtonSuccess = true
-            else directives.cuiButtonError = true
-            booleanSwitch =! booleanSwitch
-        }, 1000)
-        .then(() => {
-            $timeout(() => {
-                directives.cuiButtonSuccess = false
-                directives.cuiButtonError = false
-            }, 1500)
-        })
-    }
-
-    // cui-button end -----------------------------------------------------------
 
     directives.log=function(message){
         console.log(message);
