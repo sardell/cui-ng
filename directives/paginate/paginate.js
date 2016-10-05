@@ -156,7 +156,7 @@ angular.module('cui-ng')
                 render:{
                     init:() => {
                         scope.options = $pagination.getPaginationOptions();
-                        if(scope.count() <= scope.options.intervals[0] && scope.options.hidePaginationUnderMin === true) paginate.selectors.$paginate.addClass("hide");
+                        if(scope.count() <= scope.options.intervals[0] && scope.options.hidePaginationUnderMin === true) paginate.selectors.$paginate.parent('.cui-paginate__container').css({'display': 'none'});
                         paginate.selectors.$paginate.append(paginate.render.previousButton());
                         paginate.selectors.$paginate.append(paginate.render.pageContainer());
                         paginate.selectors.$paginate.append(paginate.render.nextButton());

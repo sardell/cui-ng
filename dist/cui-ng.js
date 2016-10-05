@@ -1,6 +1,6 @@
 
 
-// cui-ng build Tue Oct 04 2016 16:18:06
+// cui-ng build Wed Oct 05 2016 13:18:14
 
 ;(function(angular){
     'use strict'
@@ -3403,7 +3403,7 @@ angular.module('cui-ng')
                 render:{
                     init:() => {
                         scope.options = $pagination.getPaginationOptions();
-                        if(scope.count() <= scope.options.intervals[0] && scope.options.hidePaginationUnderMin === true) paginate.selectors.$paginate.addClass("hide");
+                        if(scope.count() <= scope.options.intervals[0] && scope.options.hidePaginationUnderMin === true) paginate.selectors.$paginate.parent('.cui-paginate__container').css({'display': 'none'});
                         paginate.selectors.$paginate.append(paginate.render.previousButton());
                         paginate.selectors.$paginate.append(paginate.render.pageContainer());
                         paginate.selectors.$paginate.append(paginate.render.nextButton());
@@ -3731,8 +3731,7 @@ angular.module('cui-ng')
     return {
         restrict: 'E',
         scope: {
-            selected: '=ngModel',
-            count: '=',
+            selected: '=ngModel'
         },
         link: (scope, elem, attrs) => {
             const resultsPerPage = {
@@ -3751,8 +3750,7 @@ angular.module('cui-ng')
                 },
                 render: () => {
                     const element = $compile(`<cui-dropdown class="${resultsPerPage.config.selectClass}" ng-model="selected" options="intervals"></cui-dropdown>`)(scope);
-                    // render element even without count attribute in case of being used with other pagination models
-                    if(isNaN(scope.count) || scope.count > scope.options.intervals[0] && scope.options.hidePaginationUnderMin === true) angular.element(elem).replaceWith(element);
+                    angular.element(elem).replaceWith(element);
                 }
             };
             resultsPerPage.initScope();
