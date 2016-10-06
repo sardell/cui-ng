@@ -26,6 +26,8 @@
         "demoTemplateCache": "./assets/templateCache.js"
     },
     "html": {
+        "index": "./index.html",
+        "commonTemplates": "./assets/common-templates/**/*.html",
         "demoSrc": "assets/app/directives-showcase/**/*.html"
     },
     "thingsToCopyToBuild": {
