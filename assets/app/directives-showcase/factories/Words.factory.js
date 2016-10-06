@@ -3,7 +3,7 @@ angular.module('app')
     
     return {
         get: () => {
-            return $http.get('http://randomword.setgetgo.com/get.php')
+            return $http.jsonp('http://randomword.setgetgo.com/get.php?callback=JSON_CALLBACK')
         }
     }
 

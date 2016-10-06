@@ -1,5 +1,5 @@
 angular.module('app')
-.controller('matchCtrl', function(Words) {
+.controller('matchCtrl', function(Words, $interval) {
 
     const match = this
 
@@ -12,7 +12,7 @@ angular.module('app')
 
             Words.get()
             .then(function(res) {
-                match.random = res.data
+                match.random = res.data.Word
                 match.gameStarted = true
 
                 timer = $interval(function() {

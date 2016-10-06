@@ -19,6 +19,7 @@
 
 ### Fixed
 * Fixes browserSync grunt task to reload on all important markup files.
+* Fixes match directive game not working properly.
 
 
 ## [1.9.20] - 2016-09-20
