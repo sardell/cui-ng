@@ -2,26 +2,31 @@
   <div class="cui-tile__title">Cui-Authorization</div>
   <div class="cui-tile__body">
 
-	<span>Cui-authorization is a utility / directive combo to hide features that the user should not have access to.</span>
-	<br/><br/>
+		<span>Cui-authorization is a utility / directive combo to hide features that the user should not have access to.</span>
+		<br/><br/>
 
-	<span style="display:block;">Select your entitlements:</span><br/>
+		<span style="display:block;">Select your entitlements:</span><br/>
 
-	<!-- Set Entitlements -->
-	<input type="checkbox" ng-model="cuiAuthorization.entitlements.regUser" id="reg-user" ng-change="cuiAuthorization.buildEntitlements()" style="margin-bottom:10px;"/><label for="reg-user"> Regular User</label><br/>
+		<!-- Set Entitlements -->
+		<input type="checkbox" ng-model="cuiAuthorization.entitlements.regUser" id="reg-user" ng-change="cuiAuthorization.buildEntitlements()" style="margin-bottom:10px;"/><label for="reg-user"> Regular User</label><br/>
 
-	<input type="checkbox" ng-model="cuiAuthorization.entitlements.moderator" id="mod" ng-change="cuiAuthorization.buildEntitlements()" style="margin-bottom:10px;"/><label for="mod"> Moderator</label><br/>
-	
-	<input type="checkbox" ng-model="cuiAuthorization.entitlements.admin" id="admin" ng-change="cuiAuthorization.buildEntitlements()" style="margin-bottom:10px;"/><label for="admin"> Admin</label><br/><br/>
+		<input type="checkbox" ng-model="cuiAuthorization.entitlements.moderator" id="mod" ng-change="cuiAuthorization.buildEntitlements()" style="margin-bottom:10px;"/><label for="mod"> Moderator</label><br/>
+		
+		<input type="checkbox" ng-model="cuiAuthorization.entitlements.admin" id="admin" ng-change="cuiAuthorization.buildEntitlements()" style="margin-bottom:10px;"/><label for="admin"> Admin</label><br/><br/>
 
-	<!-- Display based on entitlements -->
-	<span cui-access="{requiredEntitlements:['admin']}" user-entitlements="cuiAuthorization.userEntitlements">You'll only be able to see this if you're an admin.<br/></span>
+		<!-- Display based on entitlements -->
+		<span cui-access="{requiredEntitlements:['admin']}" user-entitlements="cuiAuthorization.userEntitlements">You'll only be able to see this if you're an admin.<br/></span>
 
-	<span cui-access="{requiredEntitlements:['admin','moderator']}" user-entitlements="cuiAuthorization.userEntitlements">You'll only be able to see this if you're a moderator or admin.<br/></span>
-	
-	<span cui-access="{requiredEntitlements:['regUser','admin','moderator']}" user-entitlements="cuiAuthorization.userEntitlements">You'll only be able to see this if you're a user, moderator or admin.<br/></span><br/>
+		<span cui-access="{requiredEntitlements:['admin','moderator']}" user-entitlements="cuiAuthorization.userEntitlements">You'll only be able to see this if you're a moderator or admin.<br/></span>
+		
+		<span cui-access="{requiredEntitlements:['regUser','admin','moderator']}" user-entitlements="cuiAuthorization.userEntitlements">You'll only be able to see this if you're a user, moderator or admin.<br/></span><br/>
 
-	<a class="cui-link" href="https://github.com/covisint/cui-ng/tree/master/utilities/cui-authorization" target="blank">Click here for the extended documentation.</a>
+		<!-- Documentation Links -->
+   	<a class="cui-link" href="https://github.com/covisint/cui-ng/tree/master/assets/app/directives-showcase/components/cui-authorization" target="blank">Click here to see the code used on this page.</a><br/><br/>
+		<a class="cui-link" href="https://github.com/covisint/cui-ng/tree/master/utilities/cui-authorization" target="blank">Click here for the extended documentation.</a><br/>
+
+		<!-- Home Button -->
+    <button class="cui-button" style="float:right" ui-sref="index">Table of Contents</button>
 
   </div>
 </div>

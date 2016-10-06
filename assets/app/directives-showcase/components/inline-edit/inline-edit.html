@@ -4,13 +4,20 @@
 
 		<span>Inline-edit is a directive created to help develop inline edit components for any variable.</span><br/><br/>
 
+		<!-- Random Word Input -->
 		<input class="cui-input" ng-model="inlineEdit.random2" ng-init="inlineEdit.getRandomWord()" disabled>
 
+		<!-- Inline Edit -->
 		<inline-edit name="Random word" model="inlineEdit.random2"></inline-edit>
 
 		<br/><span>Clicking edit will auto-focus the editable field (with <a ui-sref="focus-if" class="cui-link">focus-if</a>) and pressing enter when in edit mode will save the changes.</span><br/><br/>
 
-		<a class="cui-link" href="https://github.com/covisint/cui-ng/tree/master/directives/inline-edit" target="blank">Click here for the extended documentation.</a>    
+		<!-- Documentation Links -->
+    <a class="cui-link" href="https://github.com/covisint/cui-ng/tree/master/assets/app/directives-showcase/components/inline-edit" target="blank">Click here to see the code used on this page.</a><br/><br/>
+    <a class="cui-link" href="https://github.com/covisint/cui-ng/tree/master/directives/inline-edit" target="blank">Click here for the extended documentation.</a><br/><br/>
+
+    <!-- Home Button -->
+    <button class="cui-button" style="float:right" ui-sref="index">Table of Contents</button> 
 
   </div>
 </div>

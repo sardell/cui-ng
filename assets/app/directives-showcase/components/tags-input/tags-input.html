@@ -2,10 +2,12 @@
   <div class="cui-tile__title">Tags-input</div>
   <div class="cui-tile__body">
 
-    <span>Tags-input creates a tag style input field.</span><br/>
-		<span>Start typing in the field bellow. Hit comma or enter to start entering a new value.</span><br/><br/>
+    <p>Tags-input creates a tag style input field.</p>
+		<p>Start typing in the field bellow. Hit comma or enter to start entering a new value.</p>
 
+    <!-- Tags-Input -->
 		<tags-input class="cui-tags-input" ng-model="tagsInput.tags" type="email"></tags-input>
+
 		<span ng-if="tagsInput.tags && tagsInput.tags.length>0">
   		Tags:
   		<span ng-repeat="tag in tagsInput.tags">
@@ -15,7 +17,12 @@
 
 		<br/><br/>
 
-		<a class="cui-link" href="https://github.com/covisint/cui-ng/tree/master/directives/tags-input" target="blank">Click here for the extended documentation.</a>
+    <!-- Documentation Links -->
+    <a class="cui-link" href="https://github.com/covisint/cui-ng/tree/master/assets/app/directives-showcase/components/tags-input" target="blank">Click here to see the code used on this page.</a><br/><br/>
+    <a class="cui-link" href="https://github.com/covisint/cui-ng/tree/master/directives/tags-input" target="blank">Click here for the extended documentation.</a><br/><br/>
+
+    <!-- Home Button -->
+    <button class="cui-button" style="float:right" ui-sref="index">Table of Contents</button>
 
   </div>
 </div>

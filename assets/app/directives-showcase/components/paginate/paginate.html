@@ -4,20 +4,28 @@
 
     <span>Responsive paginiation directive (best when used with results-per-page)<span><br/><br/>
 
-    <!-- Results Per Page -->
+    <!-- Count -->
     Count: <input ng-model="paginate.count" type="number" ng-init="paginate.count=200"/><br/><br/>
 
+    <!-- Results-Per-Page -->
     Results Per Page: <results-per-page ng-model="paginate.perPage"></results-per-page><br/><br/>
 
+    <!-- Page -->
     Page: <input ng-model="paginate.page" placeholder="page" type="number"/><br/><br/>
 
     Current page, updated by on-page-change callback: {{paginate.currentPage}}<br/><br/>
 
+    <!-- Paginate -->
     <paginate class="cui-paginate" results-per-page="paginate.perPage" count="paginate.count" on-page-change="paginate.handlePageChange" attach-rerender-to="paginate.rerenderPaginate" ng-model="paginate.page"></paginate>
 
-    <br/>
+    <br/><br/>
 
-    <a class="cui-link" href="https://github.com/covisint/cui-ng/tree/master/directives/paginate" target="blank">Click here for the extended documentation.</a>
+    <!-- Documentation Links -->
+    <a class="cui-link" href="https://github.com/covisint/cui-ng/tree/master/assets/app/directives-showcase/components/paginate" target="blank">Click here to see the code used on this page.</a><br/><br/>
+    <a class="cui-link" href="https://github.com/covisint/cui-ng/tree/master/directives/paginate" target="blank">Click here for the extended documentation.</a><br/><br/>
+
+    <!-- Home Button -->
+    <button class="cui-button" style="float:right" ui-sref="index">Table of Contents</button>
 
   </div>
 </div>

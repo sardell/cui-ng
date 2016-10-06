@@ -58,6 +58,4 @@ angular.module('app')
         cuiTree.leafBeingHandled = object
     }
 
-    // cui-tree end -------------------------------------------------------------
-
 })

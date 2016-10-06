@@ -4,15 +4,24 @@
 
     <span>On-enter fires a certain function when the element it's applied on receive an 'enter' keypress.</span>
 
+    <br/><br/>
+
+    <!-- On-Enter -->
     <input class="cui-input" ng-model="onEnter.onEnterInput" on-enter="onEnter.onEnter" placeholder="Type something here and press enter!" />
 
+    <!-- Input List -->
     <ul>
       <li ng-repeat="thing in onEnter.onEnterResults track by thing.id">{{thing.text}}</li>
     </ul>
     
-    <br/>
+    <br/><br/>
 
-    <a class="cui-link" href="https://github.com/covisint/cui-ng/tree/master/directives/on-enter" target="blank">Click here for the extended documentation.</a>
+    <!-- Documentation Links -->
+    <a class="cui-link" href="https://github.com/covisint/cui-ng/tree/master/assets/app/directives-showcase/components/on-enter" target="blank">Click here to see the code used on this page.</a><br/><br/>
+    <a class="cui-link" href="https://github.com/covisint/cui-ng/tree/master/directives/on-enter" target="blank">Click here for the extended documentation.</a><br/><br/>
+
+    <!-- Home Button -->
+    <button class="cui-button" style="float:right" ui-sref="index">Table of Contents</button>
 
   </div>
 </div>

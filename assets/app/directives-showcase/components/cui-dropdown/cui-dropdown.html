@@ -1,9 +1,3 @@
-<style>
-	.cui-dropdown {
-  	width:50%;
-  }
-</style>
-
 <div class="cui-tile">
   <div class="cui-tile__title">Cui-Dropdown</div>
   <div class="cui-tile__body">
@@ -13,9 +7,16 @@
 		<!-- CUI-Dropdown -->
 		<cui-dropdown name="test" ng-model="cuiDropdown.dropdownTest" options="cuiDropdown.options.split(',')" default-option="'Select one'" ng-required="true"></cui-dropdown>
 
-		<span ng-if="cuiDropdown.dropdownTest">Currently selected: {{cuiDropdown.dropdownTest}}<br/><br/></span>
+		<span ng-if="cuiDropdown.dropdownTest">Currently selected: {{cuiDropdown.dropdownTest}}</span>
 
-		<a class="cui-link" href="https://github.com/covisint/cui-ng/tree/master/directives/cui-dropdown" target="blank">Click here for the extended documentation.</a>
+		<br/><br/>
+
+		<!-- Documentation Links -->
+    <a class="cui-link" href="https://github.com/covisint/cui-ng/tree/master/assets/app/directives-showcase/components/cui-dropdown" target="blank">Click here to see the code used on this page.</a><br/><br/>
+		<a class="cui-link" href="https://github.com/covisint/cui-ng/tree/master/directives/cui-dropdown" target="blank">Click here for the extended documentation.</a><br/><br/>
+
+    <!-- Home Button -->
+    <button class="cui-button" style="float:right" ui-sref="index">Table of Contents</button>
 
   </div>
 </div>

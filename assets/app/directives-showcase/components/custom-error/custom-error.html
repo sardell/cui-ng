@@ -6,6 +6,7 @@
 
 		This field will check a faked API to see if the username is taken. Try making your username Steven.Seagal (simulated server side checking, loading time added for demo purposes) or admin/Admin for client side checking.</span><br/><br/>
 
+		<!-- Custom-Error -->
 		<form name="formName">
 		  <div style="position:relative;display:inline-block;width:50%;">
 		    <input class="cui-input" name="inputName" custom-error="customError.customErrors" custom-error-loading="customError.checkingUsername" ng-model="customError.username" placeholder="Choose your username" ng-class="{'cui-input--error' : formName.inputName.$error.usernameTaken}" ng-model-options='{ debounce: 200 }'/>
@@ -17,7 +18,12 @@
 
 		<br/><br/>
 
-		<a class="cui-link" href="https://github.com/covisint/cui-ng/tree/master/directives/custom-error" target="blank">Click here for the extended documentation.</a>
+		<!-- Documentation Links -->
+    <a class="cui-link" href="https://github.com/covisint/cui-ng/tree/master/assets/app/directives-showcase/components/custom-error" target="blank">Click here to see the code used on this page.</a><br/><br/>
+    <a class="cui-link" href="https://github.com/covisint/cui-ng/tree/master/directives/custom-error" target="blank">Click here for the extended documentation.</a><br/><br/>
+
+    <!-- Home Button -->
+    <button class="cui-button" style="float:right" ui-sref="index">Table of Contents</button>
 
   </div>
 </div>

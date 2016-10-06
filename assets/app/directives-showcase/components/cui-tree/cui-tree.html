@@ -1,90 +1,8 @@
-<style>
-	.cui-tree {
-		display:inline-block;
-    position: relative;
-    margin-top:20px;
-  }
-
-  .cui-tree__leaf {
-    width:150px;
-    height:40px;
-    border:1px solid rgb(106,152,160);
-    margin-bottom:10px;
-    margin-left:20px;
-    display:flex;
-    align-items: center;
-    justify-content: center;
-    color: rgb(0,108,119);
-    font-size:15px;
-    font-weight: bold;
-    cursor:pointer;
-  }
-
-
-  /* Vertical lines */
-  .cui-tree__leaf--last::before {
-    content:'';
-    position:absolute;
-    width:2px;
-    left:0;
-    top:-10px;
-    bottom:18px;
-    background-color:rgb(106,152,160);
-  }
-
-  /*0 margin for first level, 50px margin left for each level after that*/
-  .cui-tree--nesting-0 {
-    display:block;
-    position: relative
-  }
-
-  .cui-tree--nested {
-    display:block;
-    position: relative;
-    margin-left:50px;
-  }
-
-  .cui-tree__leaf>span {
-    width:100%;
-    height:100%;
-    display:flex;
-    align-items: center;
-    justify-content: center;
-    position:relative;
-  }
-
-  .cui-tree__leaf.active{
-    background-color:rgb(106,152,160);
-    color:white;
-  }
-
-  /*Draw out the horizontal line before each leaf*/
-  .cui-tree__leaf>span::before {
-    content:'';
-    width:20px;
-    background-color:rgb(106,152,160);
-    height:2px;
-    position:absolute;
-    top:50%;
-    left:-20px;
-  }
-
-  /*This removes the horizontal line unwanted trail*/
-  .cui-tree__branch--last > .cui-tree--nested::before {
-    content: '';
-    position: absolute;
-    width: 3px;
-    background-color: white;
-    left: -50px;
-    top: -28px;
-    bottom: 0;
-  }
-</style>
-
 <div class="cui-tile">
   <div class="cui-tile__title">Cui-Tree</div>
   <div class="cui-tile__body">
 
+    <!-- Cui-Tree -->
 		<div class="cui-tree" cui-tree="cuiTree.tree" ng-init="cuiTree.tree= [{id:1,text:'Parent'}]" 
 			cui-tree-leaf-display="object.id + '. ' + object.text"
 			cui-tree-branch-wrapper="<div class='cui-tree__branch'></div>" 
@@ -99,6 +17,7 @@
 
 		<br/><br/>
 
+    <!-- Tree Controls -->
 		<div>
   		Selected leaf object: <pre>{{cuiTree.leafBeingHandled | json:2}}</pre>
 
@@ -108,7 +27,14 @@
   		<button ng-click="cuiTree.removeLeaf(cuiTree.leafBeingHandled.id,cuiTree.tree)">Remove leaf</button>
 		</div>
 
-		<p><a class="cui-link" href="https://github.com/covisint/cui-ng/tree/master/directives/cui-tree" target="blank">Click here for the extended documentation.</a></p>
+    <br/><br/>
+
+    <!-- Documentation Links -->
+    <a class="cui-link" href="https://github.com/covisint/cui-ng/tree/master/assets/app/directives-showcase/components/cui-tree" target="blank">Click here to see the code used on this page.</a><br/><br/>
+    <a class="cui-link" href="https://github.com/covisint/cui-ng/tree/master/directives/cui-tree" target="blank">Click here for the extended documentation.</a><br/><br/>
+
+    <!-- Home Button -->
+    <button class="cui-button" style="float:right" ui-sref="index">Table of Contents</button>
 
   </div>
 </div>

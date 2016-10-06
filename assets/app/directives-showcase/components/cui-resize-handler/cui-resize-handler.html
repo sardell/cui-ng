@@ -1,11 +1,3 @@
-<style>
-.murrayImage {
-	height: 75px;
-	width: 75px;
-	border-radius: 50px;
-}
-</style>
-
 <div class="cui-tile">
   <div class="cui-tile__title">Cui-Resize-Handler</div>
   <div class="cui-tile__body">
@@ -18,7 +10,7 @@
 
   	<p>Try it out: resize the screen to show a mobile or desktop Murray. The first Murrays are set through the <strong>appConfig</strong>, the second on the element themselves.</p>
 
-		
+		<!-- Config Examples -->
 		<h6>Config Set Breakpoint</h6>
 
 		<cui-resize-handler style="border: 5px black" mobile show-if="cuiResizeHandler.mobileElement">
@@ -33,6 +25,7 @@
 
 		<br/>
 
+		<!-- Custom Examples -->
 		<h6>Custom Set Breakpoint</h6>
 
 		<cui-resize-handler mobile breakpoint="1000" show-if="cuiResizeHandler.customMobile">
@@ -45,9 +38,14 @@
 			<img class="murrayImage" src="http://www.fillmurray.com/400/400">
 		</cui-resize-handler>
 
-		<br/><p><a class="cui-link" href="https://github.com/covisint/cui-ng/tree/master/assets/app/directives-showcase/components/cui-resize-handler.html" target="blank">Click here for the code on this page.</a></p></p>
+		<br/><br/>
 
-		<a class="cui-link" href="https://github.com/covisint/cui-ng/tree/master/directives/cui-resize-handler" target="blank">Click here for the extended documentation.</a>
+		<!-- Documentation Links -->
+    <a class="cui-link" href="https://github.com/covisint/cui-ng/tree/master/assets/app/directives-showcase/components/cui-resize-handler" target="blank">Click here to see the code used on this page.</a><br/><br/>
+    <a class="cui-link" href="https://github.com/covisint/cui-ng/tree/master/directives/cui-resize-handler" target="blank">Click here for the extended documentation.</a><br/><br/>
+
+    <!-- Home Button -->
+    <button class="cui-button" style="float:right" ui-sref="index">Table of Contents</button>
 
   </div>
 </div>
