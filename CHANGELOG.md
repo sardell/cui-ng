@@ -5,6 +5,8 @@
 ### Added
 * Adds new table of contents screen to use instead of side menus.
 * Minor general styling for table of contents.
+* Covisint logo on header.
+* Added consistent documentation links to each directive demo.
 
 ### Changed
 * Directory restructure
@@ -13,6 +15,7 @@
     * Demo factories are now split into their own files in `assets/app/directives-showcase/factories`.
     * Index has been broken down into more manageable files inside `assets/common-templates/index/`.
 * Disabled side menus as they were not used anymore.
+* Extracted directive demo styling into own scss files.
 
 ### Fixed
 * Fixes browserSync grunt task to reload on all important markup files.
