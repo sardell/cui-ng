@@ -2,45 +2,29 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>CUI-NG directives/utilities</title>
+  <title>CUI-NG Library</title>
+
   <!-- build:css assets/css/main.css -->
   <link rel="stylesheet" href="assets/css/main.css">
+
   <!-- endbuild -->
   <meta name="viewport" content="width=device-width, user-scalable=yes, initial-scale=1.0, maximum-scale=2.0, minimum-scale=1.0">
   <!-- <base href="/" /> -->
+
 </head>
 <body ng-controller="baseCtrl as base" ng-cloak>
 
   <div class="cui-wrapper v2">
-
     <snap-drawer>
-      <span class="snap-menu--option" snap-close ui-sref="index">
-        <span class="snap-menu__option-name">Directive showcase</span>
-      </span>
+      <!-- Mobile Menu -->
+      <div ng-include="'assets/common-templates/index/mobile-menu.html'"></div>
     </snap-drawer>
 
     <snap-content snap-opt-disable="'right'">
-       <div class="cui-desktop-menu" ng-class="{'cui-desktop-menu--collapse' : base.menu.desktop.state==='closed'}" ng-if="base.menu.desktop.enabled">
-        <span class="cui-desktop-menu__option" ui-sref="index" ui-sref-active="active">
-          <span class="cui-desktop-menu__option-name">Directive showcase</span>
-          <svg xmlns="http://www.w3.org/2000/svg" class="snap-menu__icon" preserveAspectRatio="xMidYMid meet" viewBox="0 0 49 49">
-            <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="node_modules/@covisint/cui-icons/dist/icons/icons-out.svg#applications_v2"></use>
-          </svg>
-        </span>
-      </div>
-      <div class="cui-nav__content-wrapper" ng-class="{'cui-desktop-menu--collapse' : base.menu.desktop.state==='closed' || !base.menu.desktop.enabled}">
-        <div class="cui-menu__toggle-button--desktop cui-menu__toggle-button-container active" ng-click="base.menu.desktop.toggle()" ng-class="{'active' : base.menu.desktop.state==='open'}" ng-if="base.menu.desktop.enabled" style="margin-right:20px">
-          <div class="cui-menu__toggle-button"></div>
-        </div>
-        <header class="cui-header">
-          <div class="cui-header__top">
-            <div class="menu-toggle menu-toggle--mobile" snap-toggle="left" ng-click="base.menu.mobile.toggle()"  ng-if="base.menu.mobile.enabled" style="margin-right:20px">
-              <div class="menu-toggle--button"></div>
-            </div>
-          </div>
-        </header>
-        <div ui-view ng-cloak></div>
-      </div>
+      <!-- Desktop Menu -->
+      <div ng-include="'assets/common-templates/index/desktop-menu.html'"></div>
+      <!-- Header -->
+      <div ng-include="'assets/common-templates/index/header.html'"></div>
     </snap-content>
   </div>
 
@@ -70,12 +54,10 @@
   <script src="node_modules/@covisint/cui-i18n/translate.js"></script>
   <!-- endbuild -->
 
-
   <!-- build:js assets/js/app.js -->
   <script src="dist/cui-ng.js"></script>
   <script src="assets/concatJs/app.js"></script>
   <!-- endbuild -->
-
 
 </body>
 </html>

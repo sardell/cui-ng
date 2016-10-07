@@ -1,5 +1,5 @@
 angular.module('cui-ng')
-.directive('paginate',['$compile','$timeout','$interval',($compile,$timeout,$interval) => {
+.directive('paginate',['$compile','$timeout','$interval','$pagination',($compile,$timeout,$interval,$pagination) => {
     return {
         restrict: 'AE',
         scope: {
@@ -34,8 +34,9 @@ angular.module('cui-ng')
                     nextClass: attrs.previousNextClass || 'cui-paginate__next',
                     pageContainerClass: attrs.pageContainerClass || 'cui-paginate__page-container',
                     ellipsesButton: attrs.ellipses || '...',
-                    previousButton: attrs.previousButton || '<',
-                    nextButton: attrs.nextButton || '>'
+                    previousButton: attrs.previousButton || '',
+                    nextButton: attrs.nextButton || '',
+                    hidePagination: attrs.hidePagination || true
                 },
                 watchers:{
                     resultsPerPage:() => {
@@ -154,6 +155,8 @@ angular.module('cui-ng')
                 },
                 render:{
                     init:() => {
+                        scope.options = $pagination.getPaginationOptions();
+                        if(scope.count() <= scope.options.intervals[0] && scope.options.hidePaginationUnderMin === true) paginate.selectors.$paginate.parent('.cui-paginate__container').css({'display': 'none'});
                         paginate.selectors.$paginate.append(paginate.render.previousButton());
                         paginate.selectors.$paginate.append(paginate.render.pageContainer());
                         paginate.selectors.$paginate.append(paginate.render.nextButton());

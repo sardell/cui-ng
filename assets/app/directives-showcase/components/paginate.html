@@ -1,7 +1,7 @@
 <span>Responsive paginiation directive (best when used with results-per-page)<span><br/><br/>
 
 <!-- Results Per Page -->
-Count: <input ng-model="directives.count" type="number" ng-init="directives.count=200"/><br/><br/>
+Count: <input ng-model="directives.count" type="number" ng-init="directives.count=50" /><br/><br/>
 
 Results Per Page: <results-per-page ng-model="directives.perPage"></results-per-page><br/><br/>
 
@@ -9,7 +9,7 @@ Page: <input ng-model="directives.page" placeholder="page" type="number"/><br/><
 
 Current page, updated by on-page-change callback: {{directives.currentPage}}<br/><br/>
 
-<paginate class="cui-paginate" results-per-page="directives.perPage" count="directives.count" on-page-change="directives.handlePageChange" attach-rerender-to="directives.rerenderPaginate" ng-model="directives.page"></paginate>
+<paginate class="cui-paginate" results-per-page="directives.perPage" count="directives.count" on-page-change="directives.handlePageChange" attach-rerender-to="directives.rerenderPaginate" ng-model="directives.page" ></paginate>
 
 <br/>
 

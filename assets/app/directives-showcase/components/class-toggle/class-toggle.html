@@ -1,0 +1,21 @@
+<div class="cui-tile">
+  <div class="cui-tile__title">Class-Toggle</div>
+  <div class="cui-tile__body">
+
+		<!-- Class-Toggle -->
+		<div class="class-toggle pointer" toggled-class="bold" ng-click="toggleClass()">
+			<span ng-if="!toggled">I'm small because my parent doesn't have the bold class. Click me, that will surely help.</span>
+  		<span ng-if="toggled">IT WORKED!<br/><br/><span class="normal">You can see that using the toggled scope variable we can not only toggle classes with this directive, but we can also dynamically assign content to the div with ng-if.</span></span>
+		</div>
+
+		<br/><br/>
+
+		<!-- Documentation Links -->
+    <a class="cui-link" href="https://github.com/covisint/cui-ng/tree/master/assets/app/directives-showcase/components/class-toggle" target="blank">Click here to see the code used on this page.</a><br/><br/>
+		<a class="cui-link" href="https://github.com/covisint/cui-ng/tree/master/directives/class-toggle" target="blank">Click here for the extended documentation.</a><br/>
+
+		<!-- Home Button -->
+    <button class="cui-button" style="float:right" ui-sref="index">Table of Contents</button>
+
+  </div>
+</div>

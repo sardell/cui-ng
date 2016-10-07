@@ -1,0 +1,29 @@
+<div class="cui-tile">
+  <div class="cui-tile__title">Custom-error</div>
+  <div class="cui-tile__body">
+
+    <span>Custom-error is very lightweight directive to allow you to easily attach custom errors to an input field. These errors could be anything that you can imagine - from client side regex comparisons to server side checking.<br/><br/>
+
+		This field will check a faked API to see if the username is taken. Try making your username Steven.Seagal (simulated server side checking, loading time added for demo purposes) or admin/Admin for client side checking.</span><br/><br/>
+
+		<!-- Custom-Error -->
+		<form name="formName">
+		  <div style="position:relative;display:inline-block;width:50%;">
+		    <input class="cui-input" name="inputName" custom-error="customError.customErrors" custom-error-loading="customError.checkingUsername" ng-model="customError.username" placeholder="Choose your username" ng-class="{'cui-input--error' : formName.inputName.$error.usernameTaken}" ng-model-options='{ debounce: 200 }'/>
+		    <div ng-if="customError.checkingUsername" class="cui-loading" style="position:absolute;height:30px;width:30px;right:10px;top:19px;"></div>
+		  </div>
+		  <span ng-if="formName.inputName.$error.notAdmin" class="error-message">Can't be admin</span>
+		  <span ng-if="formName.inputName.$error.usernameTaken" class="error-message">Username is taken</span>
+		</form>
+
+		<br/><br/>
+
+		<!-- Documentation Links -->
+    <a class="cui-link" href="https://github.com/covisint/cui-ng/tree/master/assets/app/directives-showcase/components/custom-error" target="blank">Click here to see the code used on this page.</a><br/><br/>
+    <a class="cui-link" href="https://github.com/covisint/cui-ng/tree/master/directives/custom-error" target="blank">Click here for the extended documentation.</a><br/><br/>
+
+    <!-- Home Button -->
+    <button class="cui-button" style="float:right" ui-sref="index">Table of Contents</button>
+
+  </div>
+</div>

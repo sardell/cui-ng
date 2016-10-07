@@ -132,26 +132,39 @@ Setting the `mobile-stack` attribute will use the `cui-expandable` directive to 
 
 Cui-wizard will also listen for `'languageChange'` broadcasts on scope, and will fire the function that ensures there's enough room to show all of the indicators (and apply the class of `.small` to the `indicator-container` if there isn't). This is specifically built in for use with the [cui-i18n](https://github.com/thirdwavellc/cui-i18n) module.
 
-## Change Log 1/15/2016
+## Change Log 9/20/2016
 
-* Now checks for `!form.$valid` rather than `form.$invalid` on `nextWithErrorChecking`.
+* Adds new optional attribute `dirty-validation`. This revolves around showing input field errors when they are `$dirty` instead
+of the default of `$touched`. This also done not work with an `ng-messages-include=""`. This sets all input fields as `$dirty` when clicking the next button.
 
-## Change Log 1/28/2016
+## Change Log 4/20/2016
 
-* Correctly updates the step attribute on step change.
-
-## Change Log 1/29/2016
-
-* New directive scope variable added - `wizardFinished` - true if the last step has been visited.
-
-## Change Log 2/2/2016
-
-* Now only renders progress bar between steps if there's more than 1 step (you shouldn't be using this directive if you only have 1 step, but in the case that maybe you're dinamically assigning steps this might be useful)
+* Major rework that enables us to not need to replicate the markup to display the mobile stack. Instead, we just use expandables with `transition-speed="0"` when in desktop mode and those same expandables with `transition-speed="300"` in mobile-stack mode. This will allow us to use `tether`, `cui-popover` and other tether based directives much more reliably, since these usually depened on an element id to use as the target.
 
 ## Change Log 3/28/2016
 
 * Adds `.cui-steps` wrapper to the step-indicators to fix an issue where in IE and firefox the absolutely positioned bar would be taken into account for space-between.
 
-## Change Log 4/20/2016
+## Change Log 2/2/2016
 
-* Major rework that enables us to not need to replicate the markup to display the mobile stack. Instead, we just use expandables with `transition-speed="0"` when in desktop mode and those same expandables with `transition-speed="300"` in mobile-stack mode. This will allow us to use `tether`, `cui-popover` and other tether based directives much more reliably, since these usually depened on an element id to use as the target.
+* Now only renders progress bar between steps if there's more than 1 step (you shouldn't be using this directive if you only have 1 step, but in the case that maybe you're dinamically assigning steps this might be useful)
+
+## Change Log 1/29/2016
+
+* New directive scope variable added - `wizardFinished` - true if the last step has been visited.
+
+## Change Log 1/28/2016
+
+* Correctly updates the step attribute on step change.
+
+## Change Log 1/15/2016
+
+* Now checks for `!form.$valid` rather than `form.$invalid` on `nextWithErrorChecking`.
+
+
+
+
+
+
+
+

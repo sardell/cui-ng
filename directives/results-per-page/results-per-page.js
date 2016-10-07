@@ -1,45 +1,16 @@
 angular.module('cui-ng')
-.provider('$pagination', [function() {
-    let paginationOptions;
-    let userValue;
-
-    this.setPaginationOptions = (valueArray) => {
-        paginationOptions = valueArray;
-    };
-
-    this.getPaginationOptions = () => {
-        return paginationOptions;
-    };
-
-    this.setUserValue = (value) => { // sets the user value so that other pages that use that directive will have that value saved
-        try {
-            localStorage.setItem('cui.resultsPerPage',value);
-        }
-        catch (e){ }
-        userValue = value;
-    };
-
-    this.getUserValue = () => {
-        try {
-            userValue = parseInt(localStorage.getItem('cui.resultsPerPage'));
-        }
-        catch (e){ }
-        return userValue;
-    }
-
-    this.$get = () => this;
-}])
 .directive('resultsPerPage', ['$compile','$pagination', ($compile,$pagination) => {
     return {
         restrict: 'E',
         scope: {
-            selected: '=ngModel',
+            selected: '=ngModel'
         },
         link: (scope, elem, attrs) => {
             const resultsPerPage = {
                 initScope: () => {
                     scope.options = $pagination.getPaginationOptions();
-                    scope.selected = $pagination.getUserValue() || scope.options[0];
+                    scope.selected = $pagination.getUserValue() || scope.options.intervals[0];
+                    scope.intervals = scope.options.intervals
 
                     scope.$watch('selected', (selected) => {
                         $pagination.setUserValue(selected);
@@ -50,7 +21,7 @@ angular.module('cui-ng')
                     selectClass: attrs.class || 'cui-dropdown'
                 },
                 render: () => {
-                    const element = $compile(`<cui-dropdown class="${resultsPerPage.config.selectClass}" ng-model="selected" options="options"></cui-dropdown>`)(scope);
+                    const element = $compile(`<cui-dropdown class="${resultsPerPage.config.selectClass}" ng-model="selected" options="intervals"></cui-dropdown>`)(scope);
                     angular.element(elem).replaceWith(element);
                 }
             };

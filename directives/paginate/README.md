@@ -22,6 +22,22 @@ Responsive pagination made easy.
 * `previous-button`: (default '<') - Markup to apply to the previous button
 * `next-button`: (default '>') - Markup to apply to the next button
 
+## Change Log 9/20/2016
+
+* Removes the default unicode characters (`<` and `>`) in favor of background images.
+
 ## Change Log 5/6/2016
 
 * Listening to the count was raising issues because most of the time the count changes it's a side effect from re-doing some API call, which in turn would potentially cause the page change callback to fire. This directive will no longer listen to count changes after first rendering. You will have to use the `attach-rerender-to` attribute and call that function every time the count changes.
+
+## Change Log 10/4/2016
+
+* adds ability to hide pagination when results are less than the first number in the paginationOptions.interval array located in app-config.json.
+* paginationOptions now requires that you pass the following object:
+
+```
+"paginationOptions": {
+        "intervals": [10, 25, 50, 100, 200], // An array to specify results-per-page display choices
+        "hidePaginationUnderMin": true // When set to true, pagination is hidden when results are below the first value in the interval array
+    },
+```

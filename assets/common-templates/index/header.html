@@ -1,0 +1,20 @@
+<div class="cui-nav__content-wrapper" ng-class="{'cui-desktop-menu--collapse' : base.menu.desktop.state==='closed' || !base.menu.desktop.enabled}" style="margin-left:0">
+  <div class="cui-menu__toggle-button--desktop cui-menu__toggle-button-container active" ng-click="base.menu.desktop.toggle()" ng-class="{'active' : base.menu.desktop.state==='open'}" ng-if="base.menu.desktop.enabled" style="margin-right:20px">
+    <div class="cui-menu__toggle-button"></div>
+  </div>
+  <header class="cui-header">
+    <div class="cui-header__top">
+      <!-- Side-Nav Toggle -->
+      <div class="menu-toggle menu-toggle--mobile" snap-toggle="left" ng-click="base.menu.mobile.toggle()"  ng-if="base.menu.mobile.enabled" style="margin-right:20px">
+        <div class="menu-toggle--button"></div>
+      </div>
+      <!-- Header Logo -->
+      <div class="cui-header__svg-logo-container" ui-sref="index">
+        <svg class="cui-header__svg-logo" viewBox="0 0 640 124"><use xlink:href="node_modules/@covisint/cui-icons/dist/logos/logos-out.svg#covisint-logo"></use></svg>
+      </div>
+    </div>
+  </header>
+
+  <!-- Main Content UI-View -->
+  <div ui-view ng-cloak></div>
+</div>

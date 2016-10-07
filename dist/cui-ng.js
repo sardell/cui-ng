@@ -1,6 +1,6 @@
 'use strict';var _slicedToArray=function(){function sliceIterator(arr,i){var _arr=[];var _n=true;var _d=false;var _e=undefined;try{for(var _i=arr[Symbol.iterator](),_s;!(_n=(_s=_i.next()).done);_n=true){_arr.push(_s.value);if(i&&_arr.length===i)break;}}catch(err){_d=true;_e=err;}finally{try{if(!_n&&_i["return"])_i["return"]();}finally{if(_d)throw _e;}}return _arr;}return function(arr,i){if(Array.isArray(arr)){return arr;}else if(Symbol.iterator in Object(arr)){return sliceIterator(arr,i);}else{throw new TypeError("Invalid attempt to destructure non-iterable instance");}};}();var _typeof=typeof Symbol==="function"&&typeof Symbol.iterator==="symbol"?function(obj){return typeof obj;}:function(obj){return obj&&typeof Symbol==="function"&&obj.constructor===Symbol?"symbol":typeof obj;};function _defineProperty(obj,key,value){if(key in obj){Object.defineProperty(obj,key,{value:value,enumerable:true,configurable:true,writable:true});}else{obj[key]=value;}return obj;}
 
-// cui-ng build Thu Aug 18 2016 16:38:13
+// cui-ng build Fri Oct 07 2016 15:25:31
 
 ;(function(angular){
 'use strict';
@@ -46,6 +46,39 @@ this.$get=function(){
 return this;
 };
 }]);
+
+angular.module('cui-ng').
+provider('$pagination',[function(){var _this2=this;
+var paginationOptions=void 0;
+var userValue=void 0;
+
+this.setPaginationOptions=function(valueArray){
+paginationOptions=valueArray;
+};
+
+this.getPaginationOptions=function(){
+return paginationOptions;
+};
+
+this.setUserValue=function(value){// sets the user value so that other pages that use that directive will have that value saved
+try{
+localStorage.setItem('cui.resultsPerPage',value);
+}
+catch(e){}
+userValue=value;
+};
+
+this.getUserValue=function(){
+try{
+userValue=parseInt(localStorage.getItem('cui.resultsPerPage'));
+}
+catch(e){}
+return userValue;
+};
+
+this.$get=function(){return _this2;};
+}]);
+
 
 angular.module('cui-ng').
 factory('PubSub',['$timeout',function($timeout){
@@ -2075,7 +2108,7 @@ template:'\n\t\t\t<div ng-if="showIf"><ng-transclude></ng-transclude></div>\n\t\
 
 
 angular.module('cui-ng').
-provider('$cuiResizeHandler',function(){var _this2=this;
+provider('$cuiResizeHandler',function(){var _this3=this;
 
 var resizeProvider={};
 var resizeHandlerFunctions={};
@@ -2104,15 +2137,15 @@ delete resizeHandlerFunctions[scopeId];
 };
 
 this.setBreakpoint=function(breakpoint){
-_this2.breakpoint=breakpoint;
+_this3.breakpoint=breakpoint;
 };
 
 this.getBreakpoint=function(){
-return _this2.breakpoint;
+return _this3.breakpoint;
 };
 
 this.$get=function(){
-return _this2;
+return _this3;
 };
 });
 
@@ -2531,11 +2564,12 @@ scope[property]=cuiWizard.scope[property];
 });
 },
 config:{
-mobileStack:attrs.mobileStack!==undefined,
-mobileStackBreakingPoint:parseInt(attrs.mobileStack),
+bar:attrs.bar!==undefined,
 clickableIndicators:attrs.clickableIndicators!==undefined,
+dirtyValidation:attrs.dirtyValidation!==undefined,
 minimumPadding:attrs.minimumPadding||0,
-bar:attrs.bar!==undefined},
+mobileStack:attrs.mobileStack!==undefined,
+mobileStackBreakingPoint:parseInt(attrs.mobileStack)},
 
 selectors:{
 $wizard:angular.element(elem[0]),
@@ -2546,11 +2580,24 @@ $body:angular.element('body')},
 
 helpers:{
 isFormValid:function isFormValid(form){
-if(!form.$valid){
+// Custom dirty-validation behavior
+if(cuiWizard.config.dirtyValidation&&!form.$valid){
+cuiWizard.helpers.setErrorFieldsToDirty(form);
+return false;
+}
+// Default behavior
+else if(!form.$valid){
 cuiWizard.helpers.setErrorFieldsToTouched(form);
 return false;
 }
 return true;
+},
+setErrorFieldsToDirty:function setErrorFieldsToDirty(form){
+angular.forEach(form.$error,function(field){
+angular.forEach(field,function(errorField){
+errorField.$setDirty();
+});
+});
 },
 setErrorFieldsToTouched:function setErrorFieldsToTouched(form){
 angular.forEach(form.$error,function(field){
@@ -3199,7 +3246,7 @@ element.unbind();
 }]);
 
 angular.module('cui-ng').
-directive('paginate',['$compile','$timeout','$interval',function($compile,$timeout,$interval){
+directive('paginate',['$compile','$timeout','$interval','$pagination',function($compile,$timeout,$interval,$pagination){
 return{
 restrict:'AE',
 scope:{
@@ -3234,8 +3281,9 @@ previousClass:attrs.previousNextClass||'cui-paginate__previous',
 nextClass:attrs.previousNextClass||'cui-paginate__next',
 pageContainerClass:attrs.pageContainerClass||'cui-paginate__page-container',
 ellipsesButton:attrs.ellipses||'...',
-previousButton:attrs.previousButton||'<',
-nextButton:attrs.nextButton||'>'},
+previousButton:attrs.previousButton||'',
+nextButton:attrs.nextButton||'',
+hidePagination:attrs.hidePagination||true},
 
 watchers:{
 resultsPerPage:function resultsPerPage(){
@@ -3354,6 +3402,8 @@ paginate.scope.reRender();
 
 render:{
 init:function init(){
+scope.options=$pagination.getPaginationOptions();
+if(scope.count()<=scope.options.intervals[0]&&scope.options.hidePaginationUnderMin===true)paginate.selectors.$paginate.parent('.cui-paginate__container').css({'display':'none'});
 paginate.selectors.$paginate.append(paginate.render.previousButton());
 paginate.selectors.$paginate.append(paginate.render.pageContainer());
 paginate.selectors.$paginate.append(paginate.render.nextButton());
@@ -3677,36 +3727,6 @@ if(newErrorObject)scope.errors=Object.assign({},newErrorObject);
 }]);
 
 angular.module('cui-ng').
-provider('$pagination',[function(){var _this3=this;
-var paginationOptions=void 0;
-var userValue=void 0;
-
-this.setPaginationOptions=function(valueArray){
-paginationOptions=valueArray;
-};
-
-this.getPaginationOptions=function(){
-return paginationOptions;
-};
-
-this.setUserValue=function(value){// sets the user value so that other pages that use that directive will have that value saved
-try{
-localStorage.setItem('cui.resultsPerPage',value);
-}
-catch(e){}
-userValue=value;
-};
-
-this.getUserValue=function(){
-try{
-userValue=parseInt(localStorage.getItem('cui.resultsPerPage'));
-}
-catch(e){}
-return userValue;
-};
-
-this.$get=function(){return _this3;};
-}]).
 directive('resultsPerPage',['$compile','$pagination',function($compile,$pagination){
 return{
 restrict:'E',
@@ -3717,7 +3737,8 @@ link:function link(scope,elem,attrs){
 var resultsPerPage={
 initScope:function initScope(){
 scope.options=$pagination.getPaginationOptions();
-scope.selected=$pagination.getUserValue()||scope.options[0];
+scope.selected=$pagination.getUserValue()||scope.options.intervals[0];
+scope.intervals=scope.options.intervals;
 
 scope.$watch('selected',function(selected){
 $pagination.setUserValue(selected);
@@ -3728,7 +3749,7 @@ config:{
 selectClass:attrs.class||'cui-dropdown'},
 
 render:function render(){
-var element=$compile('<cui-dropdown class="'+resultsPerPage.config.selectClass+'" ng-model="selected" options="options"></cui-dropdown>')(scope);
+var element=$compile('<cui-dropdown class="'+resultsPerPage.config.selectClass+'" ng-model="selected" options="intervals"></cui-dropdown>')(scope);
 angular.element(elem).replaceWith(element);
 }};
 
