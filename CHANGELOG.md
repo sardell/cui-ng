@@ -24,6 +24,7 @@
 ### Fixed
 * Fixes browserSync grunt task to reload on all important markup files.
 * Fixes match directive game not working properly.
+* Fixes custom-error directive showcase error by removing the loader functionality for now.
 
 ## [1.9.20] - 2016-09-20
 

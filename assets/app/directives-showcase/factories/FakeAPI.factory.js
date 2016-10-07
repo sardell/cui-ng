@@ -5,9 +5,11 @@ angular.module('app')
         checkIfUsernameAvailable: (username) => {
             const deferred = $q.defer()
             const delay = (Math.random() * 1000) // Simulate API random delay
+            let _username = ''
 
-            $timeout(function(){
-                deferred.resolve(username !== 'Steven.Seagal')
+            $timeout(function() {
+                if (username) _username = username.toLowerCase()
+                deferred.resolve(_username !== 'steven.seagal')
             }, delay)
 
             return deferred.promise
