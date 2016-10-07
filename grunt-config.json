@@ -37,7 +37,8 @@
         "./node_modules/@covisint/cui-i18n/dist/cui-i18n/angular-translate/*.json": "./build/",
         "./node_modules/angular-i18n/*.js": "./build/",
         "./node_modules/@covisint/cui-i18n/dist/cui-i18n/angular-translate/**/*.json": "./build/",
-        "./node_modules/lato/font/lato-regular/*.*": "./build/"
+        "./node_modules/lato-font/fonts/lato-normal/lato-normal.woff": "./build/",
+        "./node_modules/lato-font/fonts/lato-black/lato-black.woff": "./build/"
     },
     "tests": "test/**/*.spec.js",
     "testHelpers": [
