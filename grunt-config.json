@@ -28,7 +28,7 @@
     "html": {
         "index": "./index.html",
         "commonTemplates": "./assets/common-templates/**/*.html",
-        "demoSrc": "assets/app/directives-showcase/**/*.html"
+        "demoSrc": "assets/**/*.html"
     },
     "thingsToCopyToBuild": {
         "./index.html": "./build/index.html",
