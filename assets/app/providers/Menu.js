@@ -3,7 +3,7 @@ angular.module('app')
     return {
         desktop:{
             'state':'open', // default state for desktop menu
-            'enabled':true,
+            'enabled': false,
             'open':function(){
                 this.state='open';
             },
@@ -23,7 +23,7 @@ angular.module('app')
 
         mobile:{
             'state':'closed', // default state for mobile menu
-            'enabled':true,
+            'enabled': false,
             'open':function(){
                 this.state='open';
             },

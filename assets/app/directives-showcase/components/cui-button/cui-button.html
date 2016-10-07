@@ -1,0 +1,30 @@
+<div class="cui-tile">
+  <div class="cui-tile__title">Cui-Button</div>
+  <div class="cui-tile__body">
+
+		<p>Cui-button is a directive that allows you to attach customizations to a button for a loading, success, and error states.</p><br/>
+		
+		<!-- Cui-Button -->
+		<cui-button
+  		button-click="cuiButton.cuiButtonClick()"
+		  loading-if="cuiButton.cuiButtonLoading"
+		  success-if="cuiButton.cuiButtonSuccess"
+		  error-if="cuiButton.cuiButtonError"
+		  success-message="Success"
+		  error-message="Error"
+		  loading-message="Loading..."
+		>
+  		<button class="cui-button">Submit</button>
+		</cui-button>
+
+		<br/><br/>
+
+		<!-- Documentation Links -->
+   	<a class="cui-link" href="https://github.com/covisint/cui-ng/tree/master/assets/app/directives-showcase/components/cui-button" target="blank">Click here to see the code used on this page.</a><br/><br/>
+		<a class="cui-link" href="https://github.com/covisint/cui-ng/tree/master/directives/cui-button/README.md" target="blank">Click here for the extended documentation.</a><br/>
+
+		<!-- Home Button -->
+    <button class="cui-button" style="float:right" ui-sref="index">Table of Contents</button>
+
+  </div>
+</div>

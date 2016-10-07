@@ -2,10 +2,14 @@ module.exports = config => {
     return {
         dev: {
             bsFiles: {
-                src : [config.html.demoSrc].concat(
+                src : 
+                    [config.html.demoSrc].concat(
                     [config.js.moduleOut].concat(
                     [config.js.demoOut].concat(
-                    [config.scss.demoOut] )))
+                    [config.scss.demoOut].concat(
+                    [config.html.index].concat(
+                    [config.html.commonTemplates]
+                )))))
             },
             options: {
                 ghostMode: false,

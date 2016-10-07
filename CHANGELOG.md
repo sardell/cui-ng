@@ -7,6 +7,23 @@
 
 ### Changed
 * CUI-Paginate: paginationOptions now takes an object instead of an array.
+* Adds new table of contents screen to use instead of side menus.
+* Minor general styling for table of contents.
+* Covisint logo on header.
+* Added consistent documentation links to each directive demo.
+
+### Changed
+* Directory restructure
+    * Moved all directive showcase files into their own folders in `assets/app/directives-showcase/components`.
+    * Each directive demo has their own state and controller instead of utilizing one master controller.
+    * Demo factories are now split into their own files in `assets/app/directives-showcase/factories`.
+    * Index has been broken down into more manageable files inside `assets/common-templates/index/`.
+* Disabled side menus as they were not used anymore.
+* Extracted directive demo styling into own scss files.
+
+### Fixed
+* Fixes browserSync grunt task to reload on all important markup files.
+* Fixes match directive game not working properly.
 
 ## [1.9.20] - 2016-09-20
 

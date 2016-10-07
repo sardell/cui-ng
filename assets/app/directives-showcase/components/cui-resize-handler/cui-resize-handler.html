@@ -1,0 +1,51 @@
+<div class="cui-tile">
+  <div class="cui-tile__title">Cui-Resize-Handler</div>
+  <div class="cui-tile__body">
+
+  	<p>Cui-Resize-Handler allows you to only show certain elements in either a desktop or mobile view.</p>
+
+  	<p>The caveat is that elements that are not supposed to be show are completely removed from the DOM. This prevents situations where you have a desktop and mobile view tied to the same controller which would end up firing the controller twice (once for each view).</p>
+
+  	<p>The "breakpoint" (or screensize where something is considered mobile/desktop) can be set specifically on the element, or it can be configured in your project <strong>appConfig</strong>.</p>
+
+  	<p>Try it out: resize the screen to show a mobile or desktop Murray. The first Murrays are set through the <strong>appConfig</strong>, the second on the element themselves.</p>
+
+		<!-- Config Examples -->
+		<h6>Config Set Breakpoint</h6>
+
+		<cui-resize-handler style="border: 5px black" mobile show-if="cuiResizeHandler.mobileElement">
+			<p>Mobile Murray</p>
+			<img class="murrayImage" src="http://www.fillmurray.com/100/100">
+		</cui-resize-handler>
+
+		<cui-resize-handler desktop show-if="cuiResizeHandler.desktopElement">
+			<p>Desktop Murray</p>
+			<img class="murrayImage" src="http://www.fillmurray.com/200/200">
+		</cui-resize-handler>
+
+		<br/>
+
+		<!-- Custom Examples -->
+		<h6>Custom Set Breakpoint</h6>
+
+		<cui-resize-handler mobile breakpoint="1000" show-if="cuiResizeHandler.customMobile">
+			<p>Custom Mobile Murray</p>
+			<img class="murrayImage" src="http://www.fillmurray.com/300/300">
+		</cui-resize-handler>
+
+		<cui-resize-handler desktop breakpoint="1000" show-if="cuiResizeHandler.customDesktop">
+			<p>Custom Desktop Murray</p>
+			<img class="murrayImage" src="http://www.fillmurray.com/400/400">
+		</cui-resize-handler>
+
+		<br/><br/>
+
+		<!-- Documentation Links -->
+    <a class="cui-link" href="https://github.com/covisint/cui-ng/tree/master/assets/app/directives-showcase/components/cui-resize-handler" target="blank">Click here to see the code used on this page.</a><br/><br/>
+    <a class="cui-link" href="https://github.com/covisint/cui-ng/tree/master/directives/cui-resize-handler" target="blank">Click here for the extended documentation.</a><br/><br/>
+
+    <!-- Home Button -->
+    <button class="cui-button" style="float:right" ui-sref="index">Table of Contents</button>
+
+  </div>
+</div>
