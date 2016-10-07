@@ -3,6 +3,10 @@
 ## Unreleased
 
 ### Added
+* CUI-Paginate: By default, pagination will not display if results are below the first value in the interval array in app-config.json.
+
+### Changed
+* CUI-Paginate: paginationOptions now takes an object instead of an array.
 * Adds new table of contents screen to use instead of side menus.
 * Minor general styling for table of contents.
 * Covisint logo on header.
@@ -20,7 +24,6 @@
 ### Fixed
 * Fixes browserSync grunt task to reload on all important markup files.
 * Fixes match directive game not working properly.
-
 
 ## [1.9.20] - 2016-09-20
 

@@ -1,6 +1,6 @@
-'use strict';var _slicedToArray=function(){function sliceIterator(arr,i){var _arr=[];var _n=true;var _d=false;var _e=undefined;try{for(var _i=arr[Symbol.iterator](),_s;!(_n=(_s=_i.next()).done);_n=true){_arr.push(_s.value);if(i&&_arr.length===i)break;}}catch(err){_d=true;_e=err;}finally{try{if(!_n&&_i["return"])_i["return"]();}finally{if(_d)throw _e;}}return _arr;}return function(arr,i){if(Array.isArray(arr)){return arr;}else if(Symbol.iterator in Object(arr)){return sliceIterator(arr,i);}else{throw new TypeError("Invalid attempt to destructure non-iterable instance");}};}();var _typeof=typeof Symbol==="function"&&typeof Symbol.iterator==="symbol"?function(obj){return typeof obj;}:function(obj){return obj&&typeof Symbol==="function"&&obj.constructor===Symbol&&obj!==Symbol.prototype?"symbol":typeof obj;};function _defineProperty(obj,key,value){if(key in obj){Object.defineProperty(obj,key,{value:value,enumerable:true,configurable:true,writable:true});}else{obj[key]=value;}return obj;}
+'use strict';var _slicedToArray=function(){function sliceIterator(arr,i){var _arr=[];var _n=true;var _d=false;var _e=undefined;try{for(var _i=arr[Symbol.iterator](),_s;!(_n=(_s=_i.next()).done);_n=true){_arr.push(_s.value);if(i&&_arr.length===i)break;}}catch(err){_d=true;_e=err;}finally{try{if(!_n&&_i["return"])_i["return"]();}finally{if(_d)throw _e;}}return _arr;}return function(arr,i){if(Array.isArray(arr)){return arr;}else if(Symbol.iterator in Object(arr)){return sliceIterator(arr,i);}else{throw new TypeError("Invalid attempt to destructure non-iterable instance");}};}();var _typeof=typeof Symbol==="function"&&typeof Symbol.iterator==="symbol"?function(obj){return typeof obj;}:function(obj){return obj&&typeof Symbol==="function"&&obj.constructor===Symbol?"symbol":typeof obj;};function _defineProperty(obj,key,value){if(key in obj){Object.defineProperty(obj,key,{value:value,enumerable:true,configurable:true,writable:true});}else{obj[key]=value;}return obj;}
 
-// cui-ng build Thu Oct 06 2016 16:05:24
+// cui-ng build Fri Oct 07 2016 15:25:31
 
 ;(function(angular){
 'use strict';
@@ -46,6 +46,39 @@ this.$get=function(){
 return this;
 };
 }]);
+
+angular.module('cui-ng').
+provider('$pagination',[function(){var _this2=this;
+var paginationOptions=void 0;
+var userValue=void 0;
+
+this.setPaginationOptions=function(valueArray){
+paginationOptions=valueArray;
+};
+
+this.getPaginationOptions=function(){
+return paginationOptions;
+};
+
+this.setUserValue=function(value){// sets the user value so that other pages that use that directive will have that value saved
+try{
+localStorage.setItem('cui.resultsPerPage',value);
+}
+catch(e){}
+userValue=value;
+};
+
+this.getUserValue=function(){
+try{
+userValue=parseInt(localStorage.getItem('cui.resultsPerPage'));
+}
+catch(e){}
+return userValue;
+};
+
+this.$get=function(){return _this2;};
+}]);
+
 
 angular.module('cui-ng').
 factory('PubSub',['$timeout',function($timeout){
@@ -1848,7 +1881,7 @@ _this.attachment=CuiPopoverHelpers.getAttachmentFromPosition(_this.position);
 _this.targetAttachment=CuiPopoverHelpers.getAttachmentFromPosition(CuiPopoverHelpers.invertAttachmentPartial(_this.position));
 },
 helpers:{
-getTetherOptions:function getTetherOptions(){var element=arguments.length>0&&arguments[0]!==undefined?arguments[0]:self.selectors.$container[0];var opts=arguments[1];var
+getTetherOptions:function getTetherOptions(){var element=arguments.length<=0||arguments[0]===undefined?self.selectors.$container[0]:arguments[0];var opts=arguments[1];var
 target=opts.target;var position=opts.position;var offset=opts.offset;var targetOffset=opts.targetOffset;var targetModifier=opts.targetModifier;var attachment=opts.attachment;var targetAttachment=opts.targetAttachment;
 return{
 target:target,
@@ -2075,7 +2108,7 @@ template:'\n\t\t\t<div ng-if="showIf"><ng-transclude></ng-transclude></div>\n\t\
 
 
 angular.module('cui-ng').
-provider('$cuiResizeHandler',function(){var _this2=this;
+provider('$cuiResizeHandler',function(){var _this3=this;
 
 var resizeProvider={};
 var resizeHandlerFunctions={};
@@ -2104,15 +2137,15 @@ delete resizeHandlerFunctions[scopeId];
 };
 
 this.setBreakpoint=function(breakpoint){
-_this2.breakpoint=breakpoint;
+_this3.breakpoint=breakpoint;
 };
 
 this.getBreakpoint=function(){
-return _this2.breakpoint;
+return _this3.breakpoint;
 };
 
 this.$get=function(){
-return _this2;
+return _this3;
 };
 });
 
@@ -2147,7 +2180,7 @@ classList.push(cuiTreeNestXClass||defaults.cuiTreeNestXClass);}
 ;
 return classList;
 },
-getElements:function getElements(scope,opts,objects,leafClickCallback){var nesting=arguments.length>4&&arguments[4]!==undefined?arguments[4]:0;var
+getElements:function getElements(scope,opts,objects,leafClickCallback){var nesting=arguments.length<=4||arguments[4]===undefined?0:arguments[4];var
 getElements=cuiTreeHelpers.getElements;var getDisplayValue=cuiTreeHelpers.getDisplayValue;var getClassListForNestingLevel=cuiTreeHelpers.getClassListForNestingLevel;var
 cuiTreeBranchWrapper=opts.cuiTreeBranchWrapper;var cuiTreeLeafWrapper=opts.cuiTreeLeafWrapper;var cuiTreeLastLeafClass=opts.cuiTreeLastLeafClass;var cuiTreeLastBranchClass=opts.cuiTreeLastBranchClass;
 var $node=$('<div></div>');
@@ -3213,7 +3246,7 @@ element.unbind();
 }]);
 
 angular.module('cui-ng').
-directive('paginate',['$compile','$timeout','$interval',function($compile,$timeout,$interval){
+directive('paginate',['$compile','$timeout','$interval','$pagination',function($compile,$timeout,$interval,$pagination){
 return{
 restrict:'AE',
 scope:{
@@ -3249,7 +3282,8 @@ nextClass:attrs.previousNextClass||'cui-paginate__next',
 pageContainerClass:attrs.pageContainerClass||'cui-paginate__page-container',
 ellipsesButton:attrs.ellipses||'...',
 previousButton:attrs.previousButton||'',
-nextButton:attrs.nextButton||''},
+nextButton:attrs.nextButton||'',
+hidePagination:attrs.hidePagination||true},
 
 watchers:{
 resultsPerPage:function resultsPerPage(){
@@ -3368,6 +3402,8 @@ paginate.scope.reRender();
 
 render:{
 init:function init(){
+scope.options=$pagination.getPaginationOptions();
+if(scope.count()<=scope.options.intervals[0]&&scope.options.hidePaginationUnderMin===true)paginate.selectors.$paginate.parent('.cui-paginate__container').css({'display':'none'});
 paginate.selectors.$paginate.append(paginate.render.previousButton());
 paginate.selectors.$paginate.append(paginate.render.pageContainer());
 paginate.selectors.$paginate.append(paginate.render.nextButton());
@@ -3691,36 +3727,6 @@ if(newErrorObject)scope.errors=Object.assign({},newErrorObject);
 }]);
 
 angular.module('cui-ng').
-provider('$pagination',[function(){var _this3=this;
-var paginationOptions=void 0;
-var userValue=void 0;
-
-this.setPaginationOptions=function(valueArray){
-paginationOptions=valueArray;
-};
-
-this.getPaginationOptions=function(){
-return paginationOptions;
-};
-
-this.setUserValue=function(value){// sets the user value so that other pages that use that directive will have that value saved
-try{
-localStorage.setItem('cui.resultsPerPage',value);
-}
-catch(e){}
-userValue=value;
-};
-
-this.getUserValue=function(){
-try{
-userValue=parseInt(localStorage.getItem('cui.resultsPerPage'));
-}
-catch(e){}
-return userValue;
-};
-
-this.$get=function(){return _this3;};
-}]).
 directive('resultsPerPage',['$compile','$pagination',function($compile,$pagination){
 return{
 restrict:'E',
@@ -3731,7 +3737,8 @@ link:function link(scope,elem,attrs){
 var resultsPerPage={
 initScope:function initScope(){
 scope.options=$pagination.getPaginationOptions();
-scope.selected=$pagination.getUserValue()||scope.options[0];
+scope.selected=$pagination.getUserValue()||scope.options.intervals[0];
+scope.intervals=scope.options.intervals;
 
 scope.$watch('selected',function(selected){
 $pagination.setUserValue(selected);
@@ -3742,7 +3749,7 @@ config:{
 selectClass:attrs.class||'cui-dropdown'},
 
 render:function render(){
-var element=$compile('<cui-dropdown class="'+resultsPerPage.config.selectClass+'" ng-model="selected" options="options"></cui-dropdown>')(scope);
+var element=$compile('<cui-dropdown class="'+resultsPerPage.config.selectClass+'" ng-model="selected" options="intervals"></cui-dropdown>')(scope);
 angular.element(elem).replaceWith(element);
 }};
 
@@ -4903,7 +4910,7 @@ $rootScope.$broadcast('$stateChangeSuccess',{toState:toState,toParams:toParams,f
 
 angular.module('cui.authorization',[]).
 factory('cui.authorization.routing',['cui.authorization.authorize','$timeout','$rootScope','$state',function(authorize,$timeout,$rootScope,$state){
-var routing=function routing(toState,toParams,fromState,fromParams,userEntitlements){var loginRequiredState=arguments.length>5&&arguments[5]!==undefined?arguments[5]:'loginRequired';var nonAuthState=arguments.length>6&&arguments[6]!==undefined?arguments[6]:'notAuthorized';
+var routing=function routing(toState,toParams,fromState,fromParams,userEntitlements){var loginRequiredState=arguments.length<=5||arguments[5]===undefined?'loginRequired':arguments[5];var nonAuthState=arguments.length<=6||arguments[6]===undefined?'notAuthorized':arguments[6];
 
 var authorized=void 0;
 
@@ -4934,7 +4941,7 @@ goToState($state,$rootScope,toState.name,toState,toParams,fromState,fromParams);
 return routing;
 }]).
 factory('cui.authorization.authorize',[function(){
-var authorize=function authorize(loginRequired,requiredEntitlements){var entitlementType=arguments.length>2&&arguments[2]!==undefined?arguments[2]:'atLeastOne';var userEntitlements=arguments[3];
+var authorize=function authorize(loginRequired,requiredEntitlements){var entitlementType=arguments.length<=2||arguments[2]===undefined?'atLeastOne':arguments[2];var userEntitlements=arguments[3];
 var loweredPermissions=[],
 hasPermission=true,
 result='not authorized';
