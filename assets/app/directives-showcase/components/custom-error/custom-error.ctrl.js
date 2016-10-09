@@ -3,8 +3,6 @@ angular.module('app')
 
     const customError = this
 
-    customError.checkingUsername = false
-
     customError.customErrors = {
         usernameTaken: function(value) {
             return {
@@ -14,7 +12,9 @@ angular.module('app')
             }
         },
         notAdmin: function(value) {
-            return value !== 'admin' && value !== 'Admin'
+            let _value = ''
+            if (value) _value = value.toLowerCase()
+            return _value !== 'admin'
         }
     }
 

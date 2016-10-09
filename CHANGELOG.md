@@ -20,10 +20,12 @@
     * Index has been broken down into more manageable files inside `assets/common-templates/index/`.
 * Disabled side menus as they were not used anymore.
 * Extracted directive demo styling into own scss files.
+* Disables snap menu mouse dragging.
 
 ### Fixed
 * Fixes browserSync grunt task to reload on all important markup files.
 * Fixes match directive game not working properly.
+* Fixes custom-error directive showcase error by removing the loader functionality for now.
 
 ## [1.9.20] - 2016-09-20
 
