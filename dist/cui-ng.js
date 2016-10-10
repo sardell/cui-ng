@@ -1,6 +1,6 @@
-'use strict';var _slicedToArray=function(){function sliceIterator(arr,i){var _arr=[];var _n=true;var _d=false;var _e=undefined;try{for(var _i=arr[Symbol.iterator](),_s;!(_n=(_s=_i.next()).done);_n=true){_arr.push(_s.value);if(i&&_arr.length===i)break;}}catch(err){_d=true;_e=err;}finally {try{if(!_n&&_i["return"])_i["return"]();}finally {if(_d)throw _e;}}return _arr;}return function(arr,i){if(Array.isArray(arr)){return arr;}else if(Symbol.iterator in Object(arr)){return sliceIterator(arr,i);}else {throw new TypeError("Invalid attempt to destructure non-iterable instance");}};}();var _typeof=typeof Symbol==="function"&&typeof Symbol.iterator==="symbol"?function(obj){return typeof obj;}:function(obj){return obj&&typeof Symbol==="function"&&obj.constructor===Symbol?"symbol":typeof obj;};function _defineProperty(obj,key,value){if(key in obj){Object.defineProperty(obj,key,{value:value,enumerable:true,configurable:true,writable:true});}else {obj[key]=value;}return obj;}
+'use strict';var _slicedToArray=function(){function sliceIterator(arr,i){var _arr=[];var _n=true;var _d=false;var _e=undefined;try{for(var _i=arr[Symbol.iterator](),_s;!(_n=(_s=_i.next()).done);_n=true){_arr.push(_s.value);if(i&&_arr.length===i)break;}}catch(err){_d=true;_e=err;}finally{try{if(!_n&&_i["return"])_i["return"]();}finally{if(_d)throw _e;}}return _arr;}return function(arr,i){if(Array.isArray(arr)){return arr;}else if(Symbol.iterator in Object(arr)){return sliceIterator(arr,i);}else{throw new TypeError("Invalid attempt to destructure non-iterable instance");}};}();var _typeof=typeof Symbol==="function"&&typeof Symbol.iterator==="symbol"?function(obj){return typeof obj;}:function(obj){return obj&&typeof Symbol==="function"&&obj.constructor===Symbol&&obj!==Symbol.prototype?"symbol":typeof obj;};function _defineProperty(obj,key,value){if(key in obj){Object.defineProperty(obj,key,{value:value,enumerable:true,configurable:true,writable:true});}else{obj[key]=value;}return obj;}
 
-// cui-ng build Sun Oct 09 2016 11:40:43
+// cui-ng build Mon Oct 10 2016 10:56:01
 
 ;(function(angular){
 'use strict';
@@ -11,41 +11,41 @@ provider('$cuiI18n',[function(){
 var preferenceArray,listOfLocaleCodesAndNames;
 
 this.setLocalePreference=function(newPreferenceArray){
-preferenceArray=newPreferenceArray;};
-
+preferenceArray=newPreferenceArray;
+};
 
 this.setLocaleCodesAndNames=function(newPreferenceObject){
-listOfLocaleCodesAndNames=newPreferenceObject;};
-
+listOfLocaleCodesAndNames=newPreferenceObject;
+};
 
 this.getLocaleCodesAndNames=function(){
-return listOfLocaleCodesAndNames;};
-
+return listOfLocaleCodesAndNames;
+};
 
 this.getInternationalizedName=function(preferedLanguage,languageObjectArray){
 var languageObjectToUse;
 languageObjectToUse=_.find(languageObjectArray,function(languageObject){
-return languageObject.lang===preferedLanguage;});
-
-if(languageObjectToUse!=undefined)return languageObjectToUse.text||languageObjectToUse.value; // if the language being used by the user has a translation
-else {
-if(!preferenceArray){ // if a preference array hasn't been set
+return languageObject.lang===preferedLanguage;
+});
+if(languageObjectToUse!=undefined)return languageObjectToUse.text||languageObjectToUse.value;// if the language being used by the user has a translation
+else{
+if(!preferenceArray){// if a preference array hasn't been set
 console.log('You need to configure you prefered language array with cuiI18n.setLocalePreference');
-return;}
-
+return;
+}
 for(var i=0;i<=preferenceArray.length;i++){
 languageObjectToUse=_.find(languageObjectArray,function(languageObject){
-return languageObject.lang===preferenceArray[i];});
-
-if(languageObjectToUse!=undefined)return languageObjectToUse.text||languageObjectToUse.value;}}};
-
-
-
+return languageObject.lang===preferenceArray[i];
+});
+if(languageObjectToUse!=undefined)return languageObjectToUse.text||languageObjectToUse.value;
+}
+}
+};
 
 this.$get=function(){
-return this;};}]);
-
-
+return this;
+};
+}]);
 
 angular.module('cui-ng').
 provider('$pagination',[function(){var _this2=this;
@@ -53,31 +53,31 @@ var paginationOptions=void 0;
 var userValue=void 0;
 
 this.setPaginationOptions=function(valueArray){
-paginationOptions=valueArray;};
-
+paginationOptions=valueArray;
+};
 
 this.getPaginationOptions=function(){
-return paginationOptions;};
+return paginationOptions;
+};
 
-
-this.setUserValue=function(value){ // sets the user value so that other pages that use that directive will have that value saved
+this.setUserValue=function(value){// sets the user value so that other pages that use that directive will have that value saved
 try{
-localStorage.setItem('cui.resultsPerPage',value);}
-
+localStorage.setItem('cui.resultsPerPage',value);
+}
 catch(e){}
-userValue=value;};
-
+userValue=value;
+};
 
 this.getUserValue=function(){
 try{
-userValue=parseInt(localStorage.getItem('cui.resultsPerPage'));}
-
+userValue=parseInt(localStorage.getItem('cui.resultsPerPage'));
+}
 catch(e){}
-return userValue;};
+return userValue;
+};
 
-
-this.$get=function(){return _this2;};}]);
-
+this.$get=function(){return _this2;};
+}]);
 
 
 angular.module('cui-ng').
@@ -91,13 +91,13 @@ factory('PubSub',['$timeout',function($timeout){
      */
 function alias(fn){
 return function closure(){
-return this[fn].apply(this,arguments);};}
-
-
+return this[fn].apply(this,arguments);
+};
+}
 
 var PubSub={
-topics:{}, // Storage for topics that can be broadcast or listened to.
-subUid:-1 // A topic identifier.
+topics:{},// Storage for topics that can be broadcast or listened to.
+subUid:-1// A topic identifier.
 };
 
 /**
@@ -114,8 +114,8 @@ var token=this.subUid+=1,
 obj={};
 
 if(!this.topics[topic]){
-this.topics[topic]=[];}
-
+this.topics[topic]=[];
+}
 
 obj.token=token;
 obj.callback=callback;
@@ -123,8 +123,8 @@ obj.once=!!once;
 
 this.topics[topic].push(obj);
 
-return token;};
-
+return token;
+};
 
 /**
      * Subscribe to events of interest setting a flag
@@ -134,8 +134,8 @@ return token;};
      * @param callback {Function} Callback function to execute on event.
      */
 PubSub.subscribeOnce=function(topic,callback){
-return this.subscribe(topic,callback,true);};
-
+return this.subscribe(topic,callback,true);
+};
 
 /**
      * Publish or broadcast events of interest with a specific
@@ -152,8 +152,8 @@ subscribers,
 len;
 
 if(!this.topics[topic]){
-return false;}
-
+return false;
+}
 
 $timeout(function(){
 subscribers=that.topics[topic];
@@ -166,13 +166,13 @@ subscribers[len].callback(topic,args);
 // Unsubscribe from event based on tokenized reference,
 // if subscriber's property once is set to true.
 if(subscribers[len].once===true){
-that.unsubscribe(subscribers[len].token);}}},
+that.unsubscribe(subscribers[len].token);
+}
+}
+},0);
 
-
-0);
-
-return true;};
-
+return true;
+};
 
 /**
      * Unsubscribe from a specific topic, based on  the topic name,
@@ -198,26 +198,26 @@ len-=1;
 // Removes one subscription from the array.
 if(this.topics[prop][len].token===t){
 this.topics[prop].splice(len,1);
-return t;}
-
+return t;
+}
 
 // If t is the event type.
 // Removes all the subscriptions that match the event type.
 if(prop===t){
 this.topics[prop].splice(len,1);
-tf=true;}}
-
-
+tf=true;
+}
+}
 
 if(tf===true){
-return t;}}}}
+return t;
+}
+}
+}
+}
 
-
-
-
-
-return false;};
-
+return false;
+};
 
 /**
      * Alias for public methods.
@@ -231,15 +231,15 @@ PubSub.once=alias('subscribeOnce');
 PubSub.trigger=alias('publish');
 PubSub.off=alias('unsubscribe');
 
-return PubSub;}]);
-
+return PubSub;
+}]);
 
 angular.module('cui-ng').
 filter('cuiI18n',['LocaleService','$cuiI18n',function(LocaleService,$cuiI18n){
 return function(languageObjectArray){
-return $cuiI18n.getInternationalizedName(LocaleService.getLocaleCode(),languageObjectArray);};}]);
-
-
+return $cuiI18n.getInternationalizedName(LocaleService.getLocaleCode(),languageObjectArray);
+};
+}]);
 
 angular.module('cui-ng').
 directive('autoComplete',['$q','$parse','$http','$sce','$timeout','$templateCache','$interpolate',function($q,$parse,$http,$sce,$timeout,$templateCache,$interpolate){
@@ -253,7 +253,7 @@ var KEY_EN=13;
 var KEY_TAB=9;
 
 var MIN_LENGTH=3;
-var MAX_LENGTH=524288; // the default max length per the html maxlength attribute
+var MAX_LENGTH=524288;// the default max length per the html maxlength attribute
 var PAUSE=500;
 var BLUR_TIMEOUT=200;
 
@@ -304,13 +304,13 @@ elem.on('mousedown',function(event){
 if(event.target.id){
 mousedownOn=event.target.id;
 if(mousedownOn===scope.id+'_dropdown'){
-document.body.addEventListener('click',clickoutHandlerForDropdown);}}else 
-
-
+document.body.addEventListener('click',clickoutHandlerForDropdown);
+}
+}else
 {
-mousedownOn=event.target.className;}});
-
-
+mousedownOn=event.target.className;
+}
+});
 
 scope.currentIndex=scope.focusFirst?0:null;
 scope.searching=false;
@@ -319,95 +319,95 @@ if(newval){
 // remove scope listener
 unbindInitialValue();
 // change input
-handleInputChange(newval,true);}});
-
-
+handleInputChange(newval,true);
+}
+});
 
 if(attrs.fieldRequired!==undefined){
 scope.$watch('fieldRequired',function(newval,oldval){
 if(!newval||newval==={}){
-ctrl[scope.inputName].$setValidity('required',false);}else 
-
+ctrl[scope.inputName].$setValidity('required',false);
+}else
 if(newval&&newval!=={}){
-ctrl[scope.inputName].$setValidity('required',true);}});}
-
-
-
+ctrl[scope.inputName].$setValidity('required',true);
+}
+});
+}
 
 scope.$on('angucomplete-alt:changeInput',function(event,elementId,newval){
 if(!!elementId&&elementId===scope.id){
-handleInputChange(newval);}});
-
-
+handleInputChange(newval);
+}
+});
 
 function handleInputChange(newval,initial){
 if(newval){
 if((typeof newval==='undefined'?'undefined':_typeof(newval))==='object'){
 scope.searchStr=extractTitle(newval);
-callOrAssign({originalObject:newval});}else 
-if(typeof newval==='string'&&newval.length>0){
-scope.searchStr=newval;}else 
-{
+callOrAssign({originalObject:newval});
+}else if(typeof newval==='string'&&newval.length>0){
+scope.searchStr=newval;
+}else{
 if(console&&console.error){
-console.error('Tried to set '+(!!initial?'initial':'')+' value of angucomplete to',newval,'which is an invalid value');}}
+console.error('Tried to set '+(!!initial?'initial':'')+' value of angucomplete to',newval,'which is an invalid value');
+}
+}
 
-
-
-handleRequired(true);}}
-
-
+handleRequired(true);
+}
+}
 
 // #194 dropdown list not consistent in collapsing (bug).
 function clickoutHandlerForDropdown(event){
 mousedownOn=null;
 scope.hideResults(event);
-document.body.removeEventListener('click',clickoutHandlerForDropdown);}
-
+document.body.removeEventListener('click',clickoutHandlerForDropdown);
+}
 
 // for IE8 quirkiness about event.which
 function ie8EventNormalizer(event){
-return event.which?event.which:event.keyCode;}
-
+return event.which?event.which:event.keyCode;
+}
 
 function callOrAssign(value){
 if(typeof scope.selectedObject==='function'){
-scope.selectedObject(value);}else 
-
+scope.selectedObject(value);
+}else
 {
-scope.selectedObject=value;}
-
+scope.selectedObject=value;
+}
 
 if(value){
-handleRequired(true);}else 
-
+handleRequired(true);
+}else
 {
-handleRequired(false);}}
-
-
+handleRequired(false);
+}
+}
 
 function callFunctionOrIdentity(fn){
 return function(data){
-return scope[fn]?scope[fn](data):data;};}
-
-
+return scope[fn]?scope[fn](data):data;
+};
+}
 
 function setInputString(str){
 callOrAssign({originalObject:str});
 
 if(scope.clearSelected){
-scope.searchStr=null;}
-
-clearResults();}
-
+scope.searchStr=null;
+}
+clearResults();
+}
 
 function extractTitle(data){
 // split title fields and run extractValue for each and join with ' '
 return scope.titleField.split(',').
 map(function(field){
-return extractValue(data,field);}).
-
-join(' ');}
-
+return extractValue(data,field);
+}).
+join(' ');
+}
 
 function extractValue(obj,key){
 var keys,result;
@@ -415,14 +415,14 @@ if(key){
 keys=key.split('.');
 result=obj;
 for(var i=0;i<keys.length;i++){
-result=result[keys[i]];}}else 
-
-
+result=result[keys[i]];
+}
+}else
 {
-result=obj;}
-
-return result;}
-
+result=obj;
+}
+return result;
+}
 
 function findMatchString(target,str){
 var result,matches,re;
@@ -434,122 +434,122 @@ if(!target.match||!target.replace){target=target.toString();}
 matches=target.match(re);
 if(matches){
 result=target.replace(re,
-'<span class="'+scope.matchClass+'">'+matches[0]+'</span>');}else 
-
+'<span class="'+scope.matchClass+'">'+matches[0]+'</span>');
+}else
 {
-result=target;}
-
-return $sce.trustAsHtml(result);}
-
+result=target;
+}
+return $sce.trustAsHtml(result);
+}
 
 function handleRequired(valid){
 scope.notEmpty=valid;
-validState=scope.searchStr;}
-
+validState=scope.searchStr;
+}
 
 function keyupHandler(event){
 var which=ie8EventNormalizer(event);
 if(which===KEY_LF||which===KEY_RT){
 // do nothing
-return;}
-
+return;
+}
 
 if(which===KEY_UP||which===KEY_EN){
-event.preventDefault();}else 
-
+event.preventDefault();
+}else
 if(which===KEY_DW){
 event.preventDefault();
 if(!scope.showDropdown&&scope.searchStr&&scope.searchStr.length>=minlength){
 initResults();
 scope.searching=true;
-searchTimerComplete(scope.searchStr);}}else 
-
-
+searchTimerComplete(scope.searchStr);
+}
+}else
 if(which===KEY_ES){
 clearResults();
 scope.$apply(function(){
-inputField.val(scope.searchStr);});}else 
-
-
+inputField.val(scope.searchStr);
+});
+}else
 {
 if(minlength===0&&!scope.searchStr){
-return;}
-
+return;
+}
 
 if(!scope.searchStr||scope.searchStr===''){
-scope.showDropdown=false;}else 
-if(scope.searchStr.length>=minlength){
+scope.showDropdown=false;
+}else if(scope.searchStr.length>=minlength){
 initResults();
 
 if(searchTimer){
-$timeout.cancel(searchTimer);}
-
+$timeout.cancel(searchTimer);
+}
 
 scope.searching=true;
 
 searchTimer=$timeout(function(){
-searchTimerComplete(scope.searchStr);},
-scope.pause);}
-
+searchTimerComplete(scope.searchStr);
+},scope.pause);
+}
 
 if(validState&&validState!==scope.searchStr&&!scope.clearSelected){
 scope.$apply(function(){
-callOrAssign();});}}}
-
-
-
-
+callOrAssign();
+});
+}
+}
+}
 
 function handleOverrideSuggestions(event){
 if(scope.overrideSuggestions&&
 !(scope.selectedObject&&scope.selectedObject.originalObject===scope.searchStr)){
 if(event){
-event.preventDefault();}
-
+event.preventDefault();
+}
 
 // cancel search timer
 $timeout.cancel(searchTimer);
 // cancel http request
 cancelHttpRequest();
 
-setInputString(scope.searchStr);}}
-
-
+setInputString(scope.searchStr);
+}
+}
 
 function dropdownRowOffsetHeight(row){
 var css=getComputedStyle(row);
 return row.offsetHeight+
-parseInt(css.marginTop,10)+parseInt(css.marginBottom,10);}
-
+parseInt(css.marginTop,10)+parseInt(css.marginBottom,10);
+}
 
 function dropdownHeight(){
 return dd.getBoundingClientRect().top+
-parseInt(getComputedStyle(dd).maxHeight,10);}
-
+parseInt(getComputedStyle(dd).maxHeight,10);
+}
 
 function dropdownRow(){
-return elem[0].querySelectorAll('.angucomplete-row')[scope.currentIndex];}
-
+return elem[0].querySelectorAll('.angucomplete-row')[scope.currentIndex];
+}
 
 function dropdownRowTop(){
 return dropdownRow().getBoundingClientRect().top-(
 dd.getBoundingClientRect().top+
-parseInt(getComputedStyle(dd).paddingTop,10));}
-
+parseInt(getComputedStyle(dd).paddingTop,10));
+}
 
 function dropdownScrollTopTo(offset){
-dd.scrollTop=dd.scrollTop+offset;}
-
+dd.scrollTop=dd.scrollTop+offset;
+}
 
 function updateInputField(){
 var current=scope.results[scope.currentIndex];
 if(scope.matchClass){
-inputField.val(extractTitle(current.originalObject));}else 
-
+inputField.val(extractTitle(current.originalObject));
+}else
 {
-inputField.val(current.title);}}
-
-
+inputField.val(current.title);
+}
+}
 
 function keydownHandler(event){
 var which=ie8EventNormalizer(event);
@@ -559,90 +559,90 @@ var rowTop=null;
 if(which===KEY_EN&&scope.results){
 if(scope.currentIndex>=0&&scope.currentIndex<scope.results.length){
 event.preventDefault();
-scope.selectResult(scope.results[scope.currentIndex]);}else 
-{
+scope.selectResult(scope.results[scope.currentIndex]);
+}else{
 handleOverrideSuggestions(event);
-clearResults();}
-
-scope.$apply();}else 
-if(which===KEY_DW&&scope.results){
+clearResults();
+}
+scope.$apply();
+}else if(which===KEY_DW&&scope.results){
 event.preventDefault();
 if(scope.currentIndex+1<scope.results.length&&scope.showDropdown){
 scope.$apply(function(){
 scope.currentIndex++;
-updateInputField();});
-
+updateInputField();
+});
 
 if(isScrollOn){
 row=dropdownRow();
 if(dropdownHeight()<row.getBoundingClientRect().bottom){
-dropdownScrollTopTo(dropdownRowOffsetHeight(row));}}}}else 
-
-
-
-if(which===KEY_UP&&scope.results){
+dropdownScrollTopTo(dropdownRowOffsetHeight(row));
+}
+}
+}
+}else if(which===KEY_UP&&scope.results){
 event.preventDefault();
 if(scope.currentIndex>=1){
 scope.$apply(function(){
 scope.currentIndex--;
-updateInputField();});
-
+updateInputField();
+});
 
 if(isScrollOn){
 rowTop=dropdownRowTop();
 if(rowTop<0){
-dropdownScrollTopTo(rowTop-1);}}}else 
-
-
-
+dropdownScrollTopTo(rowTop-1);
+}
+}
+}else
 if(scope.currentIndex===0){
 scope.$apply(function(){
 scope.currentIndex=-1;
-inputField.val(scope.searchStr);});}}else 
-
-
-if(which===KEY_TAB){
+inputField.val(scope.searchStr);
+});
+}
+}else if(which===KEY_TAB){
 if(scope.results&&scope.results.length>0&&scope.showDropdown){
 if(scope.currentIndex===-1&&scope.overrideSuggestions){
 // intentionally not sending event so that it does not
 // prevent default tab behavior
-handleOverrideSuggestions();}else 
-
+handleOverrideSuggestions();
+}else
 {
 if(scope.currentIndex===-1){
-scope.currentIndex=0;}
-
+scope.currentIndex=0;
+}
 scope.selectResult(scope.results[scope.currentIndex]);
-scope.$digest();}}else 
-
-
+scope.$digest();
+}
+}else
 {
 // no results
 // intentionally not sending event so that it does not
 // prevent default tab behavior
 if(scope.searchStr&&scope.searchStr.length>0){
-handleOverrideSuggestions();}}}else 
-
-
-if(which===KEY_ES){
+handleOverrideSuggestions();
+}
+}
+}else if(which===KEY_ES){
 // This is very specific to IE10/11 #272
 // without this, IE clears the input text
-event.preventDefault();}}
-
-
+event.preventDefault();
+}
+}
 
 function httpSuccessCallbackGen(str){
 return function(responseData,status,headers,config){
 // normalize return obejct from promise
 if(!status&&!headers&&!config&&responseData.data){
-responseData=responseData.data;}
-
+responseData=responseData.data;
+}
 scope.searching=false;
 processResults(
 extractValue(responseFormatter(responseData),scope.remoteUrlDataField),
-str);};}
-
-
+str);
+};
+}
 
 function httpErrorCallback(errorRes,status,headers,config){
 // cancelled/aborted
@@ -650,41 +650,41 @@ if(status===0||status===-1){return;}
 
 // normalize return obejct from promise
 if(!status&&!headers&&!config){
-status=errorRes.status;}
-
+status=errorRes.status;
+}
 if(scope.remoteUrlErrorCallback){
-scope.remoteUrlErrorCallback(errorRes,status,headers,config);}else 
-
+scope.remoteUrlErrorCallback(errorRes,status,headers,config);
+}else
 {
 if(console&&console.error){
-console.error('http error');}}}
-
-
-
+console.error('http error');
+}
+}
+}
 
 function cancelHttpRequest(){
 if(httpCanceller){
-httpCanceller.resolve();}}
-
-
+httpCanceller.resolve();
+}
+}
 
 function getRemoteResults(str){
 var params={},
 url=scope.remoteUrl+encodeURIComponent(str);
 if(scope.remoteUrlRequestFormatter){
 params={params:scope.remoteUrlRequestFormatter(str)};
-url=scope.remoteUrl;}
-
+url=scope.remoteUrl;
+}
 if(!!scope.remoteUrlRequestWithCredentials){
-params.withCredentials=true;}
-
+params.withCredentials=true;
+}
 cancelHttpRequest();
 httpCanceller=$q.defer();
 params.timeout=httpCanceller.promise;
 $http.get(url,params).
 success(httpSuccessCallbackGen(str)).
-error(httpErrorCallback);}
-
+error(httpErrorCallback);
+}
 
 function getRemoteResultsWithCustomHandler(str){
 cancelHttpRequest();
@@ -699,74 +699,74 @@ catch(httpErrorCallback);
         scope.remoteApiHandler(str, httpCanceller.promise)
           ['then'](httpSuccessCallbackGen(str))
           ['catch'](httpErrorCallback);
-        */}
-
+        */
+}
 
 function clearResults(){
 scope.showDropdown=false;
 scope.results=[];
 if(dd){
-dd.scrollTop=0;}}
-
-
+dd.scrollTop=0;
+}
+}
 
 function initResults(){
 scope.showDropdown=displaySearching;
 scope.currentIndex=scope.focusFirst?0:-1;
-scope.results=[];}
-
+scope.results=[];
+}
 
 function getLocalResults(str){
 var i,match,s,value,
 searchFields=scope.searchFields.split(','),
 matches=[];
 if(typeof scope.parseInput()!=='undefined'){
-str=scope.parseInput()(str);}
-
+str=scope.parseInput()(str);
+}
 for(i=0;i<scope.localData.length;i++){
 match=false;
 
 for(s=0;s<searchFields.length;s++){
 value=extractValue(scope.localData[i],searchFields[s])||'';
-match=match||value.toString().toLowerCase().indexOf(str.toString().toLowerCase())>=0;}
-
+match=match||value.toString().toLowerCase().indexOf(str.toString().toLowerCase())>=0;
+}
 
 if(match){
-matches[matches.length]=scope.localData[i];}}
-
-
+matches[matches.length]=scope.localData[i];
+}
+}
 
 scope.searching=false;
-processResults(matches,str);}
-
+processResults(matches,str);
+}
 
 function checkExactMatch(result,obj,str){
 if(!str){return false;}
 for(var key in obj){
 if(obj[key].toLowerCase()===str.toLowerCase()){
 scope.selectResult(result);
-return true;}}
-
-
-return false;}
-
+return true;
+}
+}
+return false;
+}
 
 function searchTimerComplete(str){
 // Begin the search
 if(!str||str.length<minlength){
-return;}
-
+return;
+}
 if(scope.localData){
 scope.$apply(function(){
-getLocalResults(str);});}else 
-
-
+getLocalResults(str);
+});
+}else
 if(scope.remoteApiHandler){
-getRemoteResultsWithCustomHandler(str);}else 
-{
-getRemoteResults(str);}}
-
-
+getRemoteResultsWithCustomHandler(str);
+}else{
+getRemoteResults(str);
+}
+}
 
 function processResults(responseData,str){
 var i,description,image,text,formattedText,formattedDesc;
@@ -776,177 +776,177 @@ scope.results=[];
 
 for(i=0;i<responseData.length;i++){
 if(scope.titleField&&scope.titleField!==''){
-text=formattedText=extractTitle(responseData[i]);}
-
+text=formattedText=extractTitle(responseData[i]);
+}
 
 description='';
 if(scope.descriptionField){
-description=formattedDesc=extractValue(responseData[i],scope.descriptionField);}
-
+description=formattedDesc=extractValue(responseData[i],scope.descriptionField);
+}
 
 image='';
 if(scope.imageField){
-image=extractValue(responseData[i],scope.imageField);}
-
+image=extractValue(responseData[i],scope.imageField);
+}
 
 if(scope.matchClass){
 formattedText=findMatchString(text,str);
-formattedDesc=findMatchString(description,str);}
-
+formattedDesc=findMatchString(description,str);
+}
 
 scope.results[scope.results.length]={
 title:formattedText,
 description:formattedDesc,
 image:image,
-originalObject:responseData[i]};}}else 
+originalObject:responseData[i]};
 
+}
 
-
-{
-scope.results=[];}
-
+}else{
+scope.results=[];
+}
 
 if(scope.autoMatch&&scope.results.length===1&&
 checkExactMatch(scope.results[0],
 {title:text,desc:description||''},scope.searchStr)){
-scope.showDropdown=false;}else 
-if(scope.results.length===0&&!displayNoResults){
-scope.showDropdown=false;}else 
-{
-scope.showDropdown=true;}}
-
-
+scope.showDropdown=false;
+}else if(scope.results.length===0&&!displayNoResults){
+scope.showDropdown=false;
+}else{
+scope.showDropdown=true;
+}
+}
 
 function showAll(){
 if(scope.localData){
-processResults(scope.localData,'');}else 
-
+processResults(scope.localData,'');
+}else
 if(scope.remoteApiHandler){
-getRemoteResultsWithCustomHandler('');}else 
-
+getRemoteResultsWithCustomHandler('');
+}else
 {
-getRemoteResults('');}}
-
-
+getRemoteResults('');
+}
+}
 
 scope.onFocusHandler=function(){
 if(scope.focusIn){
-scope.focusIn();}
-
+scope.focusIn();
+}
 if(minlength===0&&(!scope.searchStr||scope.searchStr.length===0)){
 scope.currentIndex=scope.focusFirst?0:scope.currentIndex;
 scope.showDropdown=true;
-showAll();}};
-
-
+showAll();
+}
+};
 
 scope.hideResults=function(){
 if(mousedownOn&&(
 mousedownOn===scope.id+'_dropdown'||
 mousedownOn.indexOf('angucomplete')>=0)){
-mousedownOn=null;}else 
-
+mousedownOn=null;
+}else
 {
 hideTimer=$timeout(function(){
 clearResults();
 scope.$apply(function(){
 if(scope.searchStr&&scope.searchStr.length>0){
-inputField.val(scope.searchStr);}});},
-
-
-BLUR_TIMEOUT);
+inputField.val(scope.searchStr);
+}
+});
+},BLUR_TIMEOUT);
 cancelHttpRequest();
 
 if(scope.focusOut){
-scope.focusOut();}
-
+scope.focusOut();
+}
 
 if(scope.overrideSuggestions){
 if(scope.searchStr&&scope.searchStr.length>0&&scope.currentIndex===-1){
-handleOverrideSuggestions();}}}};
-
-
-
-
+handleOverrideSuggestions();
+}
+}
+}
+};
 
 scope.resetHideResults=function(){
 if(hideTimer){
-$timeout.cancel(hideTimer);}};
-
-
+$timeout.cancel(hideTimer);
+}
+};
 
 scope.hoverRow=function(index){
-scope.currentIndex=index;};
-
+scope.currentIndex=index;
+};
 
 scope.selectResult=function(result){
 // Restore original values
 if(scope.matchClass){
 result.title=extractTitle(result.originalObject);
-result.description=extractValue(result.originalObject,scope.descriptionField);}
-
+result.description=extractValue(result.originalObject,scope.descriptionField);
+}
 
 if(scope.clearSelected){
-scope.searchStr=null;}else 
-
+scope.searchStr=null;
+}else
 {
-scope.searchStr=result.title;}
-
+scope.searchStr=result.title;
+}
 callOrAssign(result);
-clearResults();};
-
+clearResults();
+};
 
 scope.inputChangeHandler=function(str){
 if(str.length<minlength){
 cancelHttpRequest();
-clearResults();}else 
-
+clearResults();
+}else
 if(str.length===0&&minlength===0){
 scope.searching=false;
-showAll();}
-
+showAll();
+}
 
 if(scope.inputChanged){
-str=scope.inputChanged(str);}
-
-return str;};
-
+str=scope.inputChanged(str);
+}
+return str;
+};
 
 // check required
 if(scope.fieldRequiredClass&&scope.fieldRequiredClass!==''){
-requiredClassName=scope.fieldRequiredClass;}
-
+requiredClassName=scope.fieldRequiredClass;
+}
 
 // check min length
 if(scope.minlength&&scope.minlength!==''){
-minlength=parseInt(scope.minlength,10);}
-
+minlength=parseInt(scope.minlength,10);
+}
 
 // check pause time
 if(!scope.pause){
-scope.pause=PAUSE;}
-
+scope.pause=PAUSE;
+}
 
 // check clearSelected
 if(!scope.clearSelected){
-scope.clearSelected=false;}
-
+scope.clearSelected=false;
+}
 
 // check override suggestions
 if(!scope.overrideSuggestions){
-scope.overrideSuggestions=false;}
-
+scope.overrideSuggestions=false;
+}
 
 // check required field
 if(scope.fieldRequired&&ctrl){
 // check initial value, if given, set validitity to true
 if(scope.initialValue){
-handleRequired(true);}else 
-
+handleRequired(true);
+}else
 {
-handleRequired(false);}}
-
-
+handleRequired(false);
+}
+}
 
 scope.inputType=attrs.type?attrs.type:'text';
 
@@ -969,11 +969,11 @@ responseFormatter=callFunctionOrIdentity('remoteUrlResponseFormatter');
 // set isScrollOn
 $timeout(function(){
 var css=getComputedStyle(dd);
-isScrollOn=css.maxHeight&&css.overflowY==='auto';});}
+isScrollOn=css.maxHeight&&css.overflowY==='auto';
+});
+}
 
-
-
-return {
+return{
 restrict:'EA',
 require:'^?form',
 scope:{
@@ -1012,8 +1012,8 @@ focusFirst:'@',
 parseInput:'&'},
 
 templateUrl:function templateUrl(element,attrs){
-return attrs.templateUrl||TEMPLATE_URL;},
-
+return attrs.templateUrl||TEMPLATE_URL;
+},
 compile:function compile(tElement){
 var startSym=$interpolate.startSymbol();
 var endSym=$interpolate.endSymbol();
@@ -1021,12 +1021,12 @@ if(!(startSym==='{{'&&endSym==='}}')){
 var interpolatedHtml=tElement.html().
 replace(/\{\{/g,startSym).
 replace(/\}\}/g,endSym);
-tElement.html(interpolatedHtml);}
+tElement.html(interpolatedHtml);
+}
+return link;
+}};
 
-return link;}};}]);
-
-
-
+}]);
 
 
 
@@ -1034,7 +1034,7 @@ return link;}};}]);
 
 angular.module('cui-ng').
 directive('classToggle',function(){
-return {
+return{
 restrict:'EAC',
 scope:true,
 link:function link(scope,elem,attrs){
@@ -1042,28 +1042,28 @@ link:function link(scope,elem,attrs){
 var toggledClass=attrs.toggledClass||'class-toggle-'+scope.$id;
 var elementClass=function elementClass(){return elem.attr('class')||'';};
 var checkIfToggled=function checkIfToggled(elementClass){
-scope.toggled=elementClass.indexOf(toggledClass)>=0;};
-
+scope.toggled=elementClass.indexOf(toggledClass)>=0;
+};
 
 scope.toggleClass=function(){
-elem.toggleClass(toggledClass);};
-
+elem.toggleClass(toggledClass);
+};
 scope.toggleOn=function(){
-if(!scope.toggled)scope.toggleClass();};
-
+if(!scope.toggled)scope.toggleClass();
+};
 scope.toggleOff=function(){
-if(scope.toggled)scope.toggleClass();};
+if(scope.toggled)scope.toggleClass();
+};
 
+scope.$watch(elementClass,checkIfToggled);
+}};
 
-scope.$watch(elementClass,checkIfToggled);}};});
-
-
-
+});
 
 
 angular.module('cui-ng').
 directive('cuiAvatar',['$http', '$filter', function($http,$filter){
-return {
+return{
 restrict:'A',
 scope:{
 cuiAvatar:'=',
@@ -1071,7 +1071,7 @@ cuiAvatarNames:'=',
 cuiAvatarEmail:'='},
 
 compile:function compile(){
-return {
+return{
 pre:function pre(scope,elem,attrs){
 var cuiAvatar={
 selectors:{
@@ -1085,99 +1085,99 @@ maxNumberOfInitials:attrs.cuiAvatarMaxNumInitials||2},
 
 watchers:function watchers(){
 scope.$watch('cuiAvatar',function(newAvatar){
-if(newAvatar)cuiAvatar.update();});
-
+if(newAvatar)cuiAvatar.update();
+});
 scope.$watch('cuiAvatarNames',function(newNameArray){
-if(newNameArray)cuiAvatar.update();});
-
+if(newNameArray)cuiAvatar.update();
+});
 scope.$watch('cuiAvatarEmail',function(newEmail){
-if(newEmail)cuiAvatar.update();});},
-
-
+if(newEmail)cuiAvatar.update();
+});
+},
 helpers:{
 isColorClassApplied:function isColorClassApplied(){
-return _.find(cuiAvatar.selectors.$elem[0].classList,function(className){return className.indexOf(cuiAvatar.config.colorClassPrefix)>-1;});},
-
+return _.find(cuiAvatar.selectors.$elem[0].classList,function(className){return className.indexOf(cuiAvatar.config.colorClassPrefix)>-1;});
+},
 applyRandomColorClass:function applyRandomColorClass(){
 var classNumberToApply=Math.floor(Math.random()*cuiAvatar.config.colorCount+1);
 cuiAvatar.selectors.$elem[0].classList.add(cuiAvatar.config.colorClassPrefix+classNumberToApply);
-cuiAvatar.config.colorClassAdded=cuiAvatar.config.colorClassPrefix+classNumberToApply;},
-
+cuiAvatar.config.colorClassAdded=cuiAvatar.config.colorClassPrefix+classNumberToApply;
+},
 getInitialsToDisplay:function getInitialsToDisplay(){
 var internationalizedName=void 0;
 var nameToDisplay='';
 if(cuiAvatar.config.cuiI18nFilter){
-internationalizedName=$filter('cuiI18n')(scope.cuiAvatarNames).split(' ');}
-
+internationalizedName=$filter('cuiI18n')(scope.cuiAvatarNames).split(' ');
+}
 (internationalizedName||scope.cuiAvatarNames).forEach(function(nameSection,i){
 if(i<cuiAvatar.config.maxNumberOfInitials){
 if(!nameSection)return;
-nameToDisplay+=nameSection[0].toUpperCase();}});
-
-
-return nameToDisplay;}},
-
+nameToDisplay+=nameSection[0].toUpperCase();
+}
+});
+return nameToDisplay;
+}},
 
 render:{
 nameBackground:function nameBackground(){
 if(cuiAvatar.config.colorClassPrefix){
 if(cuiAvatar.config.colorCount===0){
-throw 'For cui-avatar if you specify color class prefix you must specify the a cui-avatar-color-count';}
+throw'For cui-avatar if you specify color class prefix you must specify the a cui-avatar-color-count';
+}
 
-
-if(cuiAvatar.helpers.isColorClassApplied())return;else 
-cuiAvatar.helpers.applyRandomColorClass();}},
-
-
+if(cuiAvatar.helpers.isColorClassApplied())return;else
+cuiAvatar.helpers.applyRandomColorClass();
+}
+},
 initials:function initials(){
 if(!scope.cuiAvatarNames)return;
 cuiAvatar.selectors.$elem[0].innerHTML='<div class="cui-avatar__initials"></div>';
 cuiAvatar.selectors.$initials=angular.element(cuiAvatar.selectors.$elem[0].childNodes[0]);
-cuiAvatar.selectors.$initials[0].innerHTML=cuiAvatar.helpers.getInitialsToDisplay();},
-
+cuiAvatar.selectors.$initials[0].innerHTML=cuiAvatar.helpers.getInitialsToDisplay();
+},
 image:function image(){
 var applyImage=function applyImage(imgSrc){
 // remove the random color class added before applying an image
 if(cuiAvatar.config.colorClassAdded)cuiAvatar.selectors.$elem[0].classList.remove(cuiAvatar.config.colorClassAdded);
 cuiAvatar.selectors.$elem[0].innerHTML='<div class="cui-avatar__image-container"></div>';
 cuiAvatar.selectors.$image=angular.element(cuiAvatar.selectors.$elem[0].childNodes[0]);
-cuiAvatar.selectors.$image[0].style.backgroundImage='url("'+imgSrc+'")';};
-
+cuiAvatar.selectors.$image[0].style.backgroundImage='url("'+imgSrc+'")';
+};
 var img=new Image();
 if(scope.cuiAvatar&&scope.cuiAvatar!==''){
 img.src=scope.cuiAvatar;
-img.onload=applyImage(img.src);}else 
-
+img.onload=applyImage(img.src);
+}else
 if(scope.cuiAvatarEmail){(function(){
 var hashedEmail=md5(scope.cuiAvatarEmail);
 // ?d=404 tells gravatar not to give me a default gravatar
 $http.get('https://www.gravatar.com/avatar/'+hashedEmail+'?d=404').
-then(function(res){ // If the user has a gravatar account and has set a picture
+then(function(res){// If the user has a gravatar account and has set a picture
 img.src='https://www.gravatar.com/avatar/'+hashedEmail;
-img.onload=applyImage(img.src);});})();}else 
-
-
-return;}},
-
+img.onload=applyImage(img.src);
+});})();
+}else
+return;
+}},
 
 update:function update(){
 cuiAvatar.render.nameBackground();
 cuiAvatar.render.initials();
-cuiAvatar.render.image();}};
-
+cuiAvatar.render.image();
+}};
 
 cuiAvatar.render.nameBackground();
 cuiAvatar.render.initials();
 cuiAvatar.render.image();
-cuiAvatar.watchers();}};}};}]);
+cuiAvatar.watchers();
+}};
 
+}};
 
-
-
-
+}]);
 
 angular.module('cui-ng').
-directive('cuiButton',function(){return {
+directive('cuiButton',function(){return{
 restrict:'E',
 transclude:true,
 scope:{
@@ -1193,8 +1193,8 @@ buttonClick:'&'},
 link:function link(scope,elem,attrs){
 attrs.hasOwnProperty('errorMessage')?scope.errorMessage=attrs['errorMessage']:scope.errorMessage='Error';
 attrs.hasOwnProperty('loadingMessage')?scope.loadingMessage=attrs['loadingMessage']:scope.loadingMessage='Loading';
-attrs.hasOwnProperty('successMessage')?scope.successMessage=attrs['successMessage']:scope.successMessage='Success';},
-
+attrs.hasOwnProperty('successMessage')?scope.successMessage=attrs['successMessage']:scope.successMessage='Success';
+},
 template:'\n        <button class="cui-button cui-button--error-alt" ng-if="errorIf" ng-click="buttonClick()" ng-disabled="disableIf">\n          {{errorMessage}}\n        </button>\n        <button class="cui-button cui-button--loading-alt" ng-if="loadingIf" ng-disabled="disableIf">\n          <span>{{loadingMessage}}</span>\n          <div class="cui-button__ellipses"></div>\n          <div class="cui-button__ellipses"></div>\n          <div class="cui-button__ellipses"></div>\n        </button>\n        <button class="cui-button cui-button--success" ng-if="successIf" ng-disabled="disableIf">\n          {{successMessage}}\n          <svg class="cui-button__check" width="21px" height="16px" viewBox="0 0 21 16" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">\n              <title>check</title>\n              <g id="check" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">\n                  <path d="M0.824056194,14.5726523 C1.60584855,15.3483885 2.86333934,15.3420834 3.63455864,14.5567179 L11.8587648,6.18165837 C12.62917,5.39712184 13.9014742,5.37922301 14.6979727,6.13923477 L17.3615817,8.68082663 C18.1592277,9.44193325 19.4283055,9.41819274 20.1974828,8.62642494 L19.932337,8.89935798 C20.700916,8.10820614 20.673432,6.84262122 19.8821394,6.08333201 L14.6486407,1.06149931 C13.8523384,0.297402956 12.5724404,0.323089801 11.8099641,1.09847731 L1.07504371,12.0151757 C0.303588289,12.7996944 0.31135936,14.063927 1.09376039,14.8402672 L0.824056194,14.5726523 Z" fill="currentColor" transform="translate(10.500000, 7.826229) rotate(-180.000000) translate(-10.500000, -7.826229) "></path>\n              </g>\n          </svg>\n        </button>\n        <ng-transclude ng-if="!loadingIf && !errorIf && !successIf" ng-click="buttonClick()" ng-disabled="disableIf">\n        </ng-translude>\n    '};});
 
 
@@ -1222,7 +1222,7 @@ template:'\n        <button class="cui-button cui-button--error-alt" ng-if="erro
 
 angular.module('cui-ng').
 directive('cuiDropdown',['$compile', function($compile){
-return {
+return{
 require:'ngModel',
 restrict:'E',
 scope:{
@@ -1240,15 +1240,15 @@ var currentIndex=void 0;
 var cuiDropdown={
 initScope:function initScope(){
 if(attrs.ngRequired||attrs.required){
-ctrl.$validators['required']=function(){return ctrl.$viewValue!==null;};}
-
+ctrl.$validators['required']=function(){return ctrl.$viewValue!==null;};
+}
 angular.forEach(cuiDropdown.watchers,function(initWatcher){
-initWatcher();});
-
+initWatcher();
+});
 angular.forEach(cuiDropdown.scope,function(value,key){
-scope[key]=value;});},
-
-
+scope[key]=value;
+});
+},
 config:{
 inputClass:attrs.class||'cui-dropdown',
 dropdownWrapperClass:attrs.dropdownClass||'cui-dropdown__wrapper',
@@ -1270,69 +1270,69 @@ $body:angular.element(document.body)},
 watchers:{
 dropdownClick:function dropdownClick(){
 // each dropdown item broadcasts the cui-dropdown scope id and passes the index of the choice
-scope.$on(id.toString(),cuiDropdown.helpers.reassignModel);},
-
+scope.$on(id.toString(),cuiDropdown.helpers.reassignModel);
+},
 languageChange:function languageChange(){
-scope.$on('languageChange',cuiDropdown.helpers.handleLanguageChange);},
-
+scope.$on('languageChange',cuiDropdown.helpers.handleLanguageChange);
+},
 model:function model(){
 scope.$watch('ngModel',function(newModel,oldModel){
 if(oldModel!==undefined){
 var indexInReturnValues=_.findIndex(cuiDropdown.helpers.getOptionReturnValues(),function(returnValue){
-return returnValue===newModel;});
-
+return returnValue===newModel;
+});
 // if the new model isn't one of the return values assign the default / first option
 if(indexInReturnValues===-1)indexInReturnValues=0;
-cuiDropdown.helpers.reassignModel(null,indexInReturnValues);}});},
-
-
-
+cuiDropdown.helpers.reassignModel(null,indexInReturnValues);
+}
+});
+},
 options:function options(){
 scope.$watch(scope.options,function(newOptions,oldOptions){
 if(newOptions){
 cuiDropdown.helpers.setInitialInputValue();
-cuiDropdown.render.currentValueBox();}},
-
-function(newOptions,oldOptions){return !angular.equals(newOptions,oldOptions);});}},
-
+cuiDropdown.render.currentValueBox();
+}
+},function(newOptions,oldOptions){return!angular.equals(newOptions,oldOptions);});
+}},
 
 scope:{
 toggleDropdown:function toggleDropdown(){
-if(!cuiDropdown.selectors.$dropdown)cuiDropdown.render.dropdown();else 
-cuiDropdown.scope.destroyDropdown();},
-
+if(!cuiDropdown.selectors.$dropdown)cuiDropdown.render.dropdown();else
+cuiDropdown.scope.destroyDropdown();
+},
 destroyDropdown:function destroyDropdown(){
 if(cuiDropdown.selectors.$dropdown){
 dropdownScope.$destroy();
 cuiDropdown.selectors.$dropdown.detach();
-cuiDropdown.selectors.$dropdown=null;}}},
-
-
+cuiDropdown.selectors.$dropdown=null;
+}
+}},
 
 helpers:{
 getOptionDisplayValues:function getOptionDisplayValues(){
 var displayValues=[];var _cuiDropdown$config=
 cuiDropdown.config;var defaultOption=_cuiDropdown$config.defaultOption;var defaultOptionValue=_cuiDropdown$config.defaultOptionValue;var displayValue=_cuiDropdown$config.displayValue;
-if(defaultOption)displayValues.push(scope.$eval(defaultOptionValue)); // push an empty return option for error handling
+if(defaultOption)displayValues.push(scope.$eval(defaultOptionValue));// push an empty return option for error handling
 angular.forEach(scope.options(),function(value,key){
-if(!displayValue)displayValues.push(value);else 
+if(!displayValue)displayValues.push(value);else
 {
 var displayScope={
 object:value,
 value:value,
 key:key};
 
-displayValues.push(scope.$eval(displayValue,displayScope));}});
-
-
-return displayValues;},
-
+displayValues.push(scope.$eval(displayValue,displayScope));
+}
+});
+return displayValues;
+},
 getOptionReturnValues:function getOptionReturnValues(){
 var returnValues=[];var _cuiDropdown$config2=
 cuiDropdown.config;var defaultOption=_cuiDropdown$config2.defaultOption;var returnValue=_cuiDropdown$config2.returnValue;
-if(defaultOption)returnValues.push(null); // if there's a default option it won't have any return value
+if(defaultOption)returnValues.push(null);// if there's a default option it won't have any return value
 angular.forEach(scope.options(),function(value,key){
-if(!returnValue)returnValues.push(value);else 
+if(!returnValue)returnValues.push(value);else
 
 {
 var returnScope={
@@ -1340,19 +1340,19 @@ object:value,
 value:value,
 key:key};
 
-returnValues.push(scope.$eval(returnValue,returnScope));}});
-
-
-return returnValues;},
-
+returnValues.push(scope.$eval(returnValue,returnScope));
+}
+});
+return returnValues;
+},
 getDropdownItem:function getDropdownItem(index,displayValue){
 var ngClick='$root.$broadcast(\''+id+'\', '+index+')';
 return $compile('<div class="'+
 cuiDropdown.config.dropdownItemClass+'" ng-click="'+ngClick+'">\n                                '+
 displayValue+'\n                            </div>')(
 
-scope);},
-
+scope);
+},
 setInitialInputValue:function setInitialInputValue(){
 var displayValues=cuiDropdown.helpers.getOptionDisplayValues();
 var returnValues=cuiDropdown.helpers.getOptionReturnValues();
@@ -1360,37 +1360,37 @@ if(!scope.ngModel){
 scope.displayValue=displayValues[0];
 scope.ngModel=returnValues[0];
 currentIndex=0;
-return;}
-
+return;
+}
 var index=_.findIndex(returnValues,function(value){return angular.equals(value,scope.ngModel);});
 if(index>-1){
 scope.displayValue=displayValues[index];
-currentIndex=index;}else 
-{
+currentIndex=index;
+}else{
 scope.displayValue=displayValues[0];
 scope.ngModel=returnValues[0];
-currentIndex=0;}},
-
-
+currentIndex=0;
+}
+},
 reassignModel:function reassignModel(e,index){
 if(typeof index==='number'){
-currentIndex=index;}else 
-{
-index=currentIndex;}
-
+currentIndex=index;
+}else{
+index=currentIndex;
+}
 var displayValues=cuiDropdown.helpers.getOptionDisplayValues();
 var returnValues=cuiDropdown.helpers.getOptionReturnValues();
 scope.displayValue=displayValues[index];
 scope.ngModel=returnValues[index];
-cuiDropdown.scope.destroyDropdown();},
-
+cuiDropdown.scope.destroyDropdown();
+},
 handleLanguageChange:function handleLanguageChange(){
-cuiDropdown.helpers.reassignModel();}},
-
+cuiDropdown.helpers.reassignModel();
+}},
 
 render:{
 currentValueBox:function currentValueBox(){
-if(newScope)newScope.$destroy(); // this makes sure that if the input has been rendered once the off click handler is removed
+if(newScope)newScope.$destroy();// this makes sure that if the input has been rendered once the off click handler is removed
 newScope=scope.$new();
 var element=$compile('<div class="'+
 cuiDropdown.config.inputClass+'" ng-click="toggleDropdown()" off-click="destroyDropdown()" id="cui-dropdown-'+id+'">\n                                {{displayValue}}\n                            </div>')(
@@ -1398,8 +1398,8 @@ cuiDropdown.config.inputClass+'" ng-click="toggleDropdown()" off-click="destroyD
 
 newScope);
 cuiDropdown.selectors.$cuiDropdown.replaceWith(element);
-cuiDropdown.selectors.$cuiDropdown=element;},
-
+cuiDropdown.selectors.$cuiDropdown=element;
+},
 dropdown:function dropdown(){
 if(dropdownScope)dropdownScope.$destroy();
 dropdownScope=scope.$new();
@@ -1408,8 +1408,8 @@ cuiDropdown.config.dropdownWrapperClass+'" off-click-filter="\'#cui-dropdown-'+i
 dropdownScope);
 var displayValues=cuiDropdown.helpers.getOptionDisplayValues();
 displayValues.forEach(function(value,i){
-dropdown.append(cuiDropdown.helpers.getDropdownItem(i,value));});
-
+dropdown.append(cuiDropdown.helpers.getDropdownItem(i,value));
+});
 dropdown.width(cuiDropdown.selectors.$cuiDropdown.outerWidth()*0.9);
 cuiDropdown.selectors.$dropdown=dropdown;
 cuiDropdown.selectors.$body.append(dropdown);
@@ -1418,19 +1418,19 @@ element:cuiDropdown.selectors.$dropdown[0],
 target:cuiDropdown.selectors.$cuiDropdown[0],
 attachment:cuiDropdown.config.attachment,
 targetAttachment:cuiDropdown.config.targetAttachment,
-constraints:scope.constraints()||cuiDropdown.config.defaultConstraints});}}};
+constraints:scope.constraints()||cuiDropdown.config.defaultConstraints});
+
+}}};
 
 
+cuiDropdown.initScope();
+}};
 
-
-cuiDropdown.initScope();}};}]);
-
-
-
+}]);
 
 angular.module('cui-ng').
 directive('cuiExpandable',['$compile', function($compile){
-return {
+return{
 restrict:'E',
 transclude:true,
 link:function link(scope,elem,attrs,ctrl,transclude){
@@ -1438,73 +1438,73 @@ var newScope=scope.$new();
 scope.$on('$destroy',function(){return newScope.$destroy();});
 
 transclude(newScope,function(clone,innerScope){
-elem.append(clone);});
-
+elem.append(clone);
+});
 
 var expandableBody=angular.element(elem[0].querySelector('cui-expandable-body'));
-expandableBody.hide(); // hide the body by default
+expandableBody.hide();// hide the body by default
 
 var toggleClass=function toggleClass(){
-elem.toggleClass('expanded');};
-
+elem.toggleClass('expanded');
+};
 var toggleBody=function toggleBody(){
-expandableBody.animate({'height':'toggle'},parseInt(elem.attr('transition-speed')||300),'linear');};
-
+expandableBody.animate({'height':'toggle'},parseInt(elem.attr('transition-speed')||300),'linear');
+};
 
 newScope.toggleExpand=function(event){
 // this way labels won't toggle expand twice
 if(event&&event.target.tagName==='INPUT'&&event.target.labels&&event.target.labels.length>0)return;
-toggleClass();};
-
+toggleClass();
+};
 newScope.expand=function(){
-if(!newScope.expanded)toggleClass();};
-
+if(!newScope.expanded)toggleClass();
+};
 newScope.collapse=function(){
-if(newScope.expanded)toggleClass();};
-
+if(newScope.expanded)toggleClass();
+};
 newScope.$watch(function(){return elem.attr('class')||'';},function(newValue,oldValue){
-if(oldValue===newValue&&newValue.indexOf('expanded')>-1){ // if the element the expanded class put in by default
+if(oldValue===newValue&&newValue.indexOf('expanded')>-1){// if the element the expanded class put in by default
 newScope.expanded=true;
-toggleBody();}else 
-
+toggleBody();
+}else
 if(newValue.indexOf('expanded')===-1){
 if(newScope.expanded===true)toggleBody();
-newScope.expanded=false;}else 
-
+newScope.expanded=false;
+}else
 {
 if(newScope.expanded===false)toggleBody();
-newScope.expanded=true;}});}};}]);
+newScope.expanded=true;
+}
+});
+}};
 
-
-
-
-
+}]);
 
 angular.module('cui-ng').
 provider('$cuiIcon',function(){
 var iconSets={};
 
 this.iconSet=function(namespace,path,viewBox){
-iconSets[namespace]={path:path,viewBox:viewBox};};
-
+iconSets[namespace]={path:path,viewBox:viewBox};
+};
 
 this.getIconSets=function(){return iconSets;};
 
 this.getIconSet=function(namespace){
 if(!iconSets[namespace]){
-throw new Error('The icon collection with the namespace '+namespace+' is not yet defined in the $cuiIcon provider.');}
-
-return iconSets[namespace];};
-
+throw new Error('The icon collection with the namespace '+namespace+' is not yet defined in the $cuiIcon provider.');
+}
+return iconSets[namespace];
+};
 
 this.$get=function(){
-return this;};});
-
-
+return this;
+};
+});
 
 angular.module('cui-ng').
 directive('cuiIcon',['$cuiIcon', function($cuiIcon){
-return {
+return{
 restrict:'E',
 scope:{},
 link:function link(scope,elem,attrs){
@@ -1528,15 +1528,15 @@ attrs.useClass?
 useClass='class="'+attrs.useClass+'"':
 useClass='';
 
-if(icon&&icon.indexOf('.svg')>-1){ // if the path is directly specified
-path=icon;}else 
-if(icon){ // if the icon is pointing at a namespace put into the provider
+if(icon&&icon.indexOf('.svg')>-1){// if the path is directly specified
+path=icon;
+}else if(icon){// if the icon is pointing at a namespace put into the provider
 var _icon$split=icon.split(':');var _icon$split2=_slicedToArray(_icon$split,2);var iconNamespace=_icon$split2[0];var iconId=_icon$split2[1];
 path=$cuiIcon.getIconSet(iconNamespace).path+'#'+iconId;
 if(viewBox===''&&$cuiIcon.getIconSet(iconNamespace).viewBox){
-viewBox='viewBox="'+$cuiIcon.getIconSet(iconNamespace).viewBox+'"';}}else 
-
-throw new Error('You need to define a cui-svg-icon attribute for cui-icon');
+viewBox='viewBox="'+$cuiIcon.getIconSet(iconNamespace).viewBox+'"';
+}
+}else throw new Error('You need to define a cui-svg-icon attribute for cui-icon');
 
 var newSvg=$('<svg xmlns="http://www.w3.org/2000/svg" '+
 preserveaspectratio+' '+svgClass+' '+viewBox+'>\n                    <use xlink:href="'+
@@ -1544,16 +1544,16 @@ path+'" '+useClass+'></use>\n                </svg>');
 
 
 
-angular.element(elem).replaceWith(newSvg);}};}]);
+angular.element(elem).replaceWith(newSvg);
+}};
 
-
-
+}]);
 
 angular.module('cui-ng').
 factory('CuiPopoverHelpers',function(){
 var cuiPopoverHelpers={
 getResetStyles:function getResetStyles(){
-return {
+return{
 'margin-right':'',
 'margin-left':'',
 'margin-bottom':'',
@@ -1561,33 +1561,33 @@ return {
 'left':'',
 'top':'',
 'bottom':'',
-'right':''};},
+'right':''};
 
-
+},
 getAttachmentFromPosition:function getAttachmentFromPosition(position){
 switch(position){
-case 'top':
-return 'bottom center';
-case 'bottom':
-return 'top center';
-case 'right':
-return 'middle left';
-case 'left':
-return 'middle right';}},
+case'top':
+return'bottom center';
+case'bottom':
+return'top center';
+case'right':
+return'middle left';
+case'left':
+return'middle right';}
 
-
+},
 invertAttachmentPartial:function invertAttachmentPartial(partial){
 switch(partial){
-case 'top':
-return 'bottom';
-case 'bottom':
-return 'top';
-case 'left':
-return 'right';
-case 'right':
-return 'left';}},
+case'top':
+return'bottom';
+case'bottom':
+return'top';
+case'left':
+return'right';
+case'right':
+return'left';}
 
-
+},
 parsePositionArray:function parsePositionArray(positionArray){
 var genericPositions=[
 {position:'bottom'},
@@ -1597,15 +1597,15 @@ var genericPositions=[
 // these are objects to facilitate the reposition function
 var positions=[];
 if(typeof positionArray==='undefined'){
-positions.push.apply(positions,genericPositions);}else 
-
+positions.push.apply(positions,genericPositions);
+}else
 {
 positionArray.forEach(function(position,i){
 switch(position){
-case 'any':
+case'any':
 positions.push.apply(positions,genericPositions);
 break;
-case 'invert':
+case'invert':
 positions.push(
 Object.assign({},positionArray[i-1],{
 position:cuiPopoverHelpers.invertAttachmentPartial(positionArray[i-1].position)}));
@@ -1613,42 +1613,42 @@ position:cuiPopoverHelpers.invertAttachmentPartial(positionArray[i-1].position)}
 
 break;
 default:
-positions.push(position);}});}
+positions.push(position);}
 
-
-
-return positions;},
-
+});
+}
+return positions;
+},
 parseOffset:function parseOffset(offset){
 var splitOffset=offset.split(' ');
 var verticalOffset=cuiPopoverHelpers.getOffsetAndUnitsOfOffset(splitOffset[0]);
 var horizontalOffset=cuiPopoverHelpers.getOffsetAndUnitsOfOffset(splitOffset[1]);
-return {verticalOffset:verticalOffset,horizontalOffset:horizontalOffset};},
-
+return{verticalOffset:verticalOffset,horizontalOffset:horizontalOffset};
+},
 parseAttachment:function parseAttachment(attachment){var _attachment$split=
 attachment.split(' ');var _attachment$split2=_slicedToArray(_attachment$split,2);var verticalAttachment=_attachment$split2[0];var horizontalAttachment=_attachment$split2[1];
-return {verticalAttachment:verticalAttachment,horizontalAttachment:horizontalAttachment};},
-
+return{verticalAttachment:verticalAttachment,horizontalAttachment:horizontalAttachment};
+},
 getTetherOffset:function getTetherOffset(position,offset){var _cuiPopoverHelpers$pa=
 cuiPopoverHelpers.parseOffset(offset);var verticalOffset=_cuiPopoverHelpers$pa.verticalOffset;var horizontalOffset=_cuiPopoverHelpers$pa.horizontalOffset;
 
 switch(position){
-case 'top':
-case 'bottom':
-return '0 '+horizontalOffset.amount*-1+horizontalOffset.units;
+case'top':
+case'bottom':
+return'0 '+horizontalOffset.amount*-1+horizontalOffset.units;
 default:
-return verticalOffset.amount*-1+verticalOffset.units+' 0';}},
+return verticalOffset.amount*-1+verticalOffset.units+' 0';}
 
-
+},
 invertAttachment:function invertAttachment(attachment){var _cuiPopoverHelpers$pa2=
 cuiPopoverHelpers.parseAttachment(attachment);var verticalAttachment=_cuiPopoverHelpers$pa2.verticalAttachment;var horizontalAttachment=_cuiPopoverHelpers$pa2.horizontalAttachment;
-return invertAttachmentPartial(verticalAttachment)+' '+invertAttachmentPartial(horizontalAttachment);},
-
+return invertAttachmentPartial(verticalAttachment)+' '+invertAttachmentPartial(horizontalAttachment);
+},
 getOffsetAndUnitsOfOffset:function getOffsetAndUnitsOfOffset(offsetPartial){
 var amount=void 0;
 var units=void 0;
 switch(offsetPartial.indexOf('%')){
-case -1:
+case-1:
 amount=window.parseInt(offsetPartial.split('px')[0]);
 units='px';
 break;
@@ -1656,24 +1656,24 @@ default:
 amount=window.parseInt(offsetPartial.split('%')[0]);
 units='%';}
 
-return {amount:amount,units:units};},
-
-getPointerOffset:function getPointerOffset(opts){var 
+return{amount:amount,units:units};
+},
+getPointerOffset:function getPointerOffset(opts){var
 position=opts.position;var offsetBetweenPointerAndContent=opts.offsetBetweenPointerAndContent;var popoverHeight=opts.popoverHeight;var popoverWidth=opts.popoverWidth;var pointerHeight=opts.pointerHeight;var pointerWidth=opts.pointerWidth;var containerHeight=opts.containerHeight;var containerWidth=opts.containerWidth;var distanceBetweenTargetAndPopover=opts.distanceBetweenTargetAndPopover;
 var contentOffset=cuiPopoverHelpers.getOffsetAndUnitsOfOffset(offsetBetweenPointerAndContent);
 var contentOffsetCompensation=function contentOffsetCompensation(){
 switch(position){
-case 'top':
-case 'bottom':
-return {
+case'top':
+case'bottom':
+return{
 'margin-left':'50%',
 'left':contentOffset.amount*-1+contentOffset.units};
 
-case 'left':
-case 'right':
+case'left':
+case'right':
 switch(contentOffset.amount){
 case 0:
-return {
+return{
 'top':'50%'};
 
 default:
@@ -1681,61 +1681,61 @@ var topMargin=void 0;
 contentOffset.units==='%'?
 topMargin=containerHeight*(contentOffset.amount*-1/100):
 topMargin=contentOffset.amount+contentOffset.units;
-return {
+return{
 'top':'50%',
-'margin-top':topMargin};}}};
+'margin-top':topMargin};}}
 
 
 
-
+};
 
 var containerPadding=cuiPopoverHelpers.getContainerPaddings(opts);
 var pointerOffset=function pointerOffset(){
 switch(position){
-case 'top':
-return {
+case'top':
+return{
 bottom:'1px',
 transform:'translate(-50%,'+(-Math.ceil(parseFloat(containerPadding['padding-bottom']))+pointerHeight)+'px)'};
 
-case 'bottom':
-return {
+case'bottom':
+return{
 top:'1px',
 transform:'translate(-50%,'+(Math.ceil(parseFloat(containerPadding['padding-top']))-pointerHeight)+'px)'};
 
-case 'left':
-return {
+case'left':
+return{
 right:parseFloat(containerPadding['padding-right'])-pointerHeight+'px',
 transform:'translate(-1px,-50%)'};
 
-case 'right':
-return {
+case'right':
+return{
 left:parseFloat(containerPadding['padding-left'])-pointerHeight+'px',
-transform:'translate(1px,-50%)'};}};
+transform:'translate(1px,-50%)'};}
 
 
+};
 
-
-return Object.assign({},cuiPopoverHelpers.getResetStyles(),pointerOffset(),contentOffsetCompensation());},
-
-getPointerBorderStyles:function getPointerBorderStyles(opts){var 
+return Object.assign({},cuiPopoverHelpers.getResetStyles(),pointerOffset(),contentOffsetCompensation());
+},
+getPointerBorderStyles:function getPointerBorderStyles(opts){var
 position=opts.position;var pointerHeight=opts.pointerHeight;var pointerWidth=opts.pointerWidth;
 var transparentHorizontalBorder=pointerWidth+'px solid transparent';
 var transparentVerticalBorder=pointerHeight+'px solid transparent';
 if(position==='top'||position==='bottom'){
-return {
+return{
 'border-right':transparentHorizontalBorder,
 'border-left':transparentHorizontalBorder,
 'border-bottom':transparentVerticalBorder,
-'border-top':transparentVerticalBorder};}else 
+'border-top':transparentVerticalBorder};
 
-return {
+}else return{
 'border-right':transparentVerticalBorder,
 'border-left':transparentVerticalBorder,
 'border-bottom':transparentHorizontalBorder,
-'border-top':transparentHorizontalBorder};},
+'border-top':transparentHorizontalBorder};
 
-
-getPointerStyles:function getPointerStyles(opts){var 
+},
+getPointerStyles:function getPointerStyles(opts){var
 element=opts.element;var position=opts.position;var offsetBetweenPointerAndContent=opts.offsetBetweenPointerAndContent;var popoverHeight=opts.popoverHeight;var popoverWidth=opts.popoverWidth;var pointerHeight=opts.pointerHeight;var pointerWidth=opts.pointerWidth;var containerHeight=opts.containerHeight;var containerWidth=opts.containerWidth;var distanceBetweenTargetAndPopover=opts.distanceBetweenTargetAndPopover;
 var colorOfPopoverBackground=element.css('backgroundColor'),
 stylesOfVisibleBorder=pointerHeight+'px solid '+colorOfPopoverBackground;
@@ -1744,88 +1744,88 @@ return Object.assign({position:'absolute'},
 cuiPopoverHelpers.getPointerOffset(opts),
 cuiPopoverHelpers.getPointerBorderStyles(opts),_defineProperty({},
 
-'border-'+position,stylesOfVisibleBorder));},
+'border-'+position,stylesOfVisibleBorder));
 
 
-
+},
 getPointer:function getPointer(opts){
 var $pointer=$('<span class="cui-popover__pointer"></span>');
 $pointer.css(cuiPopoverHelpers.getPointerStyles(opts));
-return $pointer;},
-
+return $pointer;
+},
 getPopoverMargins:function getPopoverMargins(position,pointerHeight){
 var margin=pointerHeight+'px';
-return {
+return{
 'margin-top':position==='bottom'?margin:'',
 'margin-right':position==='left'?margin:'',
 'margin-bottom':position==='top'?margin:'',
-'margin-left':position==='right'?margin:''};},
+'margin-left':position==='right'?margin:''};
 
-
-getContainerPaddings:function getContainerPaddings(opts){var 
+},
+getContainerPaddings:function getContainerPaddings(opts){var
 position=opts.position;var offsetBetweenPointerAndContent=opts.offsetBetweenPointerAndContent;var popoverHeight=opts.popoverHeight;var popoverWidth=opts.popoverWidth;var pointerHeight=opts.pointerHeight;var distanceBetweenTargetAndPopover=opts.distanceBetweenTargetAndPopover;
-var padding=cuiPopoverHelpers.getOffsetAndUnitsOfOffset(distanceBetweenTargetAndPopover);var 
+var padding=cuiPopoverHelpers.getOffsetAndUnitsOfOffset(distanceBetweenTargetAndPopover);var
 
 paddingTop='';var paddingBottom='';var paddingRight='';var paddingLeft='';
 
 if(position==='top'||position==='bottom'){
 var verticalPadding=void 0;
 switch(padding.units){
-default: // 'px' or ''
+default:// 'px' or ''
 verticalPadding=padding.amount+padding.units;
 break;
-case '%':
+case'%':
 var heightOfContainer=popoverHeight+pointerHeight;
 verticalPadding=heightOfContainer*(padding.amount/100)+'px';}
 
 position==='top'?
 paddingBottom=verticalPadding:
-paddingTop=verticalPadding;}else 
-{
+paddingTop=verticalPadding;
+}else{
 var horizontalPadding=void 0;
 switch(padding.units){
-default: // 'px' or ''
+default:// 'px' or ''
 horizontalPadding=padding.amount+padding.units;
 break;
-case '%':
+case'%':
 var widthOfContainer=popoverWidth+pointerHeight;
 horizontalPadding=widthOfContainer*(padding.amount/100)+'px';}
 
 position==='left'?
 paddingRight=horizontalPadding:
-paddingLeft=horizontalPadding;}
+paddingLeft=horizontalPadding;
+}
 
-
-return {
+return{
 'padding-top':paddingTop||'',
 'padding-right':paddingRight||'',
 'padding-bottom':paddingBottom||'',
-'padding-left':paddingLeft||''};}};
+'padding-left':paddingLeft||''};
+
+}};
 
 
+return cuiPopoverHelpers;
 
-
-return cuiPopoverHelpers;});
-
-
+});
 
 
 angular.module('cui-ng').
 directive('cuiPopover',['CuiPopoverHelpers', '$compile', '$timeout', '$interval', function(CuiPopoverHelpers,$compile,$timeout,$interval){
-return {
+return{
 restrict:'EA',
 compile:function compile(){
-return {
+return{
 pre:function pre(scope,elem,attrs){
 var self=void 0;
 var popoverTether=[],repositionedTether=void 0,tetherAttachmentInterval=void 0,targetElementPositionInterval=void 0,elementHtmlInterval=void 0,_elementHtml=void 0,cuiPopoverConfig={},positions=void 0,positionInUse=void 0,trialPosition=void 0;
 
 var cuiPopover={
 init:function init(){
-elem.css({opacity:'0','pointer-events':'none',position:'fixed',right:'0'}); // hide the original element.
+elem.css({opacity:'0','pointer-events':'none',position:'fixed',right:'0'});// hide the original element.
 
 self=this;
-positionInUse=0; // using the default position when we init
+positionInUse=0;// using the default position when we init
 if(!attrs.popoverPositions)throw new Error('You must define popover-positions for the cui-popover directive.');
 positions=scope.$eval(attrs.popoverPositions);
 positions=CuiPopoverHelpers.parsePositionArray(positions);
@@ -1834,9 +1834,9 @@ self.selectors[positionInUse]={};
 $timeout(function(){return self.render.popoverContainer(positionInUse);});
 
 angular.forEach(self.watchers,function(initWatcher){
-initWatcher();});},
-
-
+initWatcher();
+});
+},
 config:function config(opts){
 var _this=cuiPopoverConfig;
 _this.element=elem;
@@ -1860,15 +1860,15 @@ popoverOffsetAttribute,2);targetAndPopoverOffset=_popoverOffsetAttribu[0];pointe
 offset=['0',offsetBetweenPointerAndContent].join(' ');
 targetOffset=['0',pointerOffset].join(' ');
 containerWidth=_this.popoverWidth;
-containerHeight=_this.popoverHeight+_this.pointerHeight;}else 
-
+containerHeight=_this.popoverHeight+_this.pointerHeight;
+}else
 {var _popoverOffsetAttribu2=_slicedToArray(
 popoverOffsetAttribute,2);pointerOffset=_popoverOffsetAttribu2[0];targetAndPopoverOffset=_popoverOffsetAttribu2[1];
 offset=[offsetBetweenPointerAndContent,'0'].join(' ');
 targetOffset=[pointerOffset,'0'].join(' ');
 containerWidth=_this.popoverWidth+_this.pointerHeight;
-containerHeight=_this.popoverHeight;}
-
+containerHeight=_this.popoverHeight;
+}
 
 _this.distanceBetweenTargetAndPopover=targetAndPopoverOffset;
 _this.offsetBetweenPointerAndContent=offsetBetweenPointerAndContent;
@@ -1878,12 +1878,12 @@ _this.containerHeight=containerHeight;
 _this.containerWidth=containerWidth;
 
 _this.attachment=CuiPopoverHelpers.getAttachmentFromPosition(_this.position);
-_this.targetAttachment=CuiPopoverHelpers.getAttachmentFromPosition(CuiPopoverHelpers.invertAttachmentPartial(_this.position));},
-
+_this.targetAttachment=CuiPopoverHelpers.getAttachmentFromPosition(CuiPopoverHelpers.invertAttachmentPartial(_this.position));
+},
 helpers:{
-getTetherOptions:function getTetherOptions(){var element=arguments.length<=0||arguments[0]===undefined?self.selectors.$container[0]:arguments[0];var opts=arguments[1];var 
+getTetherOptions:function getTetherOptions(){var element=arguments.length>0&&arguments[0]!==undefined?arguments[0]:self.selectors.$container[0];var opts=arguments[1];var
 target=opts.target;var position=opts.position;var offset=opts.offset;var targetOffset=opts.targetOffset;var targetModifier=opts.targetModifier;var attachment=opts.attachment;var targetAttachment=opts.targetAttachment;
-return {
+return{
 target:target,
 targetModifier:targetModifier,
 attachment:attachment,
@@ -1891,39 +1891,39 @@ targetAttachment:targetAttachment,
 targetOffset:targetOffset,
 offset:CuiPopoverHelpers.getTetherOffset(position,offset),
 element:element,
-constraints:[{to:'window',attachment:'none none'}]};}},
+constraints:[{to:'window',attachment:'none none'}]};
 
-
+}},
 
 watchers:{
 position:function position(){
 tetherAttachmentInterval=$interval(function(){
 if(!popoverTether[positionInUse]||!popoverTether[positionInUse].element)return;
-if(positions.length===1)self.newMode('normal');else 
+if(positions.length===1)self.newMode('normal');else
 {
-if(popoverTether[positionInUse].element.classList.contains('tether-out-of-bounds'))self.newMode('try-another');else 
-self.newMode('normal');}},
-
-100);},
-
+if(popoverTether[positionInUse].element.classList.contains('tether-out-of-bounds'))self.newMode('try-another');else
+self.newMode('normal');
+}
+},100);
+},
 elementHtml:function elementHtml(){
 elementHtmlInterval=$interval(function(){
 var elemHtml=elem.html();
-if(elemHtml!==_elementHtml){ // if the element html is different than what we have cached
+if(elemHtml!==_elementHtml){// if the element html is different than what we have cached
 _elementHtml=elemHtml;
-cuiPopover.render.newHtml();}},
-
-100);},
-
+cuiPopover.render.newHtml();
+}
+},100);
+},
 targetElementPosition:function targetElementPosition(){
 targetElementPositionInterval=$interval(function(){
-scope.targetPosition=self.selectors.$target.offset();},
-50);
+scope.targetPosition=self.selectors.$target.offset();
+},50);
 
 scope.$watch('targetPosition',function(newPosition){
-newPosition&&popoverTether[positionInUse].position();},
-function(newPosition,oldPosition){return newPosition.top!==oldPosition.top||newPosition.left!==oldPosition.left;});},
-
+newPosition&&popoverTether[positionInUse].position();
+},function(newPosition,oldPosition){return newPosition.top!==oldPosition.top||newPosition.left!==oldPosition.left;});
+},
 scopeDestroy:function scopeDestroy(){
 scope.$on('$destroy',function(){
 $interval.cancel(tetherAttachmentInterval);
@@ -1932,15 +1932,15 @@ $interval.cancel(elementHtmlInterval);
 popoverTether[positionInUse].destroy();
 self.selectors[positionInUse].$contentBox&&self.selectors[positionInUse].$contentBox.detach();
 self.selectors[positionInUse].$container&&self.selectors[positionInUse].$container.detach();
-self.selectors[positionInUse].$pointer&&self.selectors[positionInUse].$pointer.detach();});}},
-
-
+self.selectors[positionInUse].$pointer&&self.selectors[positionInUse].$pointer.detach();
+});
+}},
 
 selectors:{
 $target:angular.element(document.querySelector(attrs.target))},
 
 render:{
-contentBox:function contentBox(positionIndex){var 
+contentBox:function contentBox(positionIndex){var
 getPointer=CuiPopoverHelpers.getPointer;var getPopoverMargins=CuiPopoverHelpers.getPopoverMargins;var getContainerPaddings=CuiPopoverHelpers.getContainerPaddings;
 var opts=cuiPopoverConfig;
 
@@ -1950,13 +1950,13 @@ cloneElem.css({opacity:'','pointer-events':'',position:'',right:''});
 cloneElem.css(getPopoverMargins(opts.position,opts.pointerHeight));
 
 if(self.selectors[positionIndex].$contentBox){
-self.selectors[positionIndex].$contentBox.detach();}
-
+self.selectors[positionIndex].$contentBox.detach();
+}
 self.selectors[positionIndex].$container.append(cloneElem);
 var newContentBox=self.selectors[positionIndex].$container[0].childNodes[1];
-self.selectors[positionIndex].$contentBox=angular.element(newContentBox);},
-
-popoverContainer:function popoverContainer(positionIndex){var 
+self.selectors[positionIndex].$contentBox=angular.element(newContentBox);
+},
+popoverContainer:function popoverContainer(positionIndex){var
 getPointer=CuiPopoverHelpers.getPointer;var getPopoverMargins=CuiPopoverHelpers.getPopoverMargins;var getContainerPaddings=CuiPopoverHelpers.getContainerPaddings;
 var opts=cuiPopoverConfig;
 var $container=$('<div class="cui-popover__container"></div>');
@@ -1975,48 +1975,48 @@ self.selectors[positionIndex].$pointer=$pointer;
 cuiPopover.render.contentBox(positionIndex);
 
 angular.element(document.body).append($container);
-popoverTether[positionIndex]=new Tether(self.helpers.getTetherOptions($container,opts));},
+popoverTether[positionIndex]=new Tether(self.helpers.getTetherOptions($container,opts));
 
-
+},
 newHtml:function newHtml(){
-cuiPopover.render.contentBox(positionInUse);}},
+cuiPopover.render.contentBox(positionInUse);
+}},
 
-
-newMode:function newMode(_newMode){var 
+newMode:function newMode(_newMode){var
 getPointer=CuiPopoverHelpers.getPointer;var getPopoverMargins=CuiPopoverHelpers.getPopoverMargins;var getContainerPaddings=CuiPopoverHelpers.getContainerPaddings;
 var opts=cuiPopoverConfig;
 switch(_newMode){
-case 'normal': // if we can show the popover in the current position
+case'normal':// if we can show the popover in the current position
 if(self.selectors[positionInUse].$container[0].style.opacity==='0'){
 $timeout(function(){
 popoverTether[positionInUse].position();
-self.selectors[positionInUse].$container[0].style.opacity='1';});}
-
-
+self.selectors[positionInUse].$container[0].style.opacity='1';
+});
+}
 break;
-case 'try-another':
+case'try-another':
 self.tryAnotherPosition();
-break;}},
+break;}
 
-
+},
 tryAnotherPosition:function tryAnotherPosition(){
-if(typeof trialPosition==='undefined'&&positionInUse===0)trialPosition=1;else 
-if(typeof trialPosition==='undefined')trialPosition=0;else 
+if(typeof trialPosition==='undefined'&&positionInUse===0)trialPosition=1;else
+if(typeof trialPosition==='undefined')trialPosition=0;else
 trialPosition++;
 
 if(trialPosition===positionInUse)return;
 if(trialPosition===positions.length){
-trialPosition=undefined; // next tryAnotherPosition will try the first position in the array of positions provided
-return;}
+trialPosition=undefined;// next tryAnotherPosition will try the first position in the array of positions provided
+return;
+}
 
-
-if(trialPosition===positions.length-1){ // if we reached the last position
-if(positions[trialPosition]==='hide'){ // and none of them were able to show and 'hide' was passed as last fallback, hide element.
+if(trialPosition===positions.length-1){// if we reached the last position
+if(positions[trialPosition]==='hide'){// and none of them were able to show and 'hide' was passed as last fallback, hide element.
 if(self.selectors[positionInUse].$container[0].style.opacity==='0')self.selectors[positionInUse].$container[0].style.opacity='1';
 trialPosition=undefined;
-return;}}
-
-
+return;
+}
+}
 
 if(typeof self.selectors[trialPosition]!=='undefined')delete self.selectors[trialPosition];
 self.selectors[trialPosition]={};
@@ -2025,32 +2025,32 @@ self.config(opts);
 self.render.popoverContainer(trialPosition);
 
 
-if(!popoverTether[trialPosition].element.classList.contains('tether-out-of-bounds')){ // if the new element isn't OOB then use it.
+if(!popoverTether[trialPosition].element.classList.contains('tether-out-of-bounds')){// if the new element isn't OOB then use it.
 self.selectors[positionInUse].$container.detach();
 popoverTether[positionInUse].destroy();
 delete self.selectors[positionInUse];
 positionInUse=trialPosition;
 trialPosition=undefined;
-if(self.selectors[positionInUse].$container[0].style.opacity==='0')self.selectors[positionInUse].$container[0].style.opacity='1';}else 
-
-{ // else just remove all references to it and this function will run again by itself
+if(self.selectors[positionInUse].$container[0].style.opacity==='0')self.selectors[positionInUse].$container[0].style.opacity='1';
+}else
+{// else just remove all references to it and this function will run again by itself
 self.selectors[trialPosition].$container.detach();
 popoverTether[trialPosition].destroy();
-delete self.selectors[trialPosition];}}};
+delete self.selectors[trialPosition];
+}
 
+}};
 
+cuiPopover.init();
+}};
 
+}};
 
-cuiPopover.init();}};}};}]);
-
-
-
-
-
+}]);
 
 angular.module('cui-ng').
 directive('cuiResizeHandler',['$cuiResizeHandler', '$window', function($cuiResizeHandler,$window){
-return {
+return{
 restrict:'E',
 transclude:true,
 scope:{
@@ -2060,51 +2060,51 @@ breakpoint:'='},
 link:function link(scope,elem,attrs){
 var elementHandler=function elementHandler(breakpoint){
 if(scope.breakpoint){
-if(attrs.hasOwnProperty('mobile')&&$window.innerWidth<scope.breakpoint)scope.showIf=true;else 
-if(attrs.hasOwnProperty('desktop')&&$window.innerWidth>=scope.breakpoint)scope.showIf=true;else 
-scope.showIf=false;}else 
-
+if(attrs.hasOwnProperty('mobile')&&$window.innerWidth<scope.breakpoint)scope.showIf=true;else
+if(attrs.hasOwnProperty('desktop')&&$window.innerWidth>=scope.breakpoint)scope.showIf=true;else
+scope.showIf=false;
+}else
 {
-if(attrs.hasOwnProperty('mobile')&&$window.innerWidth<breakpoint)scope.showIf=true;else 
-if(attrs.hasOwnProperty('desktop')&&$window.innerWidth>=breakpoint)scope.showIf=true;else 
-scope.showIf=false;}
-
-scope.$evalAsync(scope);};
-
+if(attrs.hasOwnProperty('mobile')&&$window.innerWidth<breakpoint)scope.showIf=true;else
+if(attrs.hasOwnProperty('desktop')&&$window.innerWidth>=breakpoint)scope.showIf=true;else
+scope.showIf=false;
+}
+scope.$evalAsync(scope);
+};
 
 var getScreenState=function getScreenState(customBreakpoint){
 if(customBreakpoint){
-if($window.innerWidth<customBreakpoint)return 'mobile';else 
-return 'desktop';}else 
-
+if($window.innerWidth<customBreakpoint)return'mobile';else
+return'desktop';
+}else
 {
-if($window.innerWidth<$cuiResizeHandler.breakpoint)return 'mobile';else 
-return 'desktop';}};
-
-
+if($window.innerWidth<$cuiResizeHandler.breakpoint)return'mobile';else
+return'desktop';
+}
+};
 
 var getBreakpoint=function getBreakpoint(){
-if(scope.breakpoint)return scope.breakpoint;else 
-return $cuiResizeHandler.breakpoint;};
-
+if(scope.breakpoint)return scope.breakpoint;else
+return $cuiResizeHandler.breakpoint;
+};
 
 var resizeHandler=_.throttle(function(){
-$cuiResizeHandler.callHandlers();},
-300);
+$cuiResizeHandler.callHandlers();
+},300);
 
 $cuiResizeHandler.setHandler(scope.$id,elementHandler,getBreakpoint());
 $cuiResizeHandler.callHandlers();
 $window.onresize=resizeHandler;
 
 scope.$on('$destroy',function(){
-$cuiResizeHandler.destroyElement(scope.$id);});},
+$cuiResizeHandler.destroyElement(scope.$id);
+});
+},
+template:'\n\t\t\t<div ng-if="showIf"><ng-transclude></ng-transclude></div>\n\t\t'};
 
 
-template:'\n\t\t\t<div ng-if="showIf"><ng-transclude></ng-transclude></div>\n\t\t'};}]);
 
-
-
-
+}]);
 
 
 angular.module('cui-ng').
@@ -2118,36 +2118,36 @@ this.breakpoint=700;
 this.setHandler=function(scopeId,handlerFunction,breakpoint){
 resizeHandlerFunctions[scopeId]={
 handler:handlerFunction,
-breakpoint:breakpoint};};
+breakpoint:breakpoint};
 
-
+};
 
 this.getHandler=function(scopeId){
-return resizeHandlerFunctions[scopeId];};
-
+return resizeHandlerFunctions[scopeId];
+};
 
 this.callHandlers=function(){
 for(var key in resizeHandlerFunctions){
-resizeHandlerFunctions[key].handler(resizeHandlerFunctions[key].breakpoint);}};
-
-
+resizeHandlerFunctions[key].handler(resizeHandlerFunctions[key].breakpoint);
+}
+};
 
 this.destroyElement=function(scopeId){
-delete resizeHandlerFunctions[scopeId];};
-
+delete resizeHandlerFunctions[scopeId];
+};
 
 this.setBreakpoint=function(breakpoint){
-_this3.breakpoint=breakpoint;};
-
+_this3.breakpoint=breakpoint;
+};
 
 this.getBreakpoint=function(){
-return _this3.breakpoint;};
-
+return _this3.breakpoint;
+};
 
 this.$get=function(){
-return _this3;};});
-
-
+return _this3;
+};
+});
 
 
 var defaults={
@@ -2161,13 +2161,13 @@ cuiTreeNestPrefix:'cui-tree--nesting-'};
 
 
 var cuiTreeHelpers={
-getDisplayValue:function getDisplayValue(scope,opts,object){var 
+getDisplayValue:function getDisplayValue(scope,opts,object){var
 cuiTreeLeafDisplay=opts.cuiTreeLeafDisplay;
 var propertiesToDisplay=cuiTreeLeafDisplay.split('+');
 
-return scope.$eval(cuiTreeLeafDisplay,{object:object});},
-
-getClassListForNestingLevel:function getClassListForNestingLevel(opts,nesting){var 
+return scope.$eval(cuiTreeLeafDisplay,{object:object});
+},
+getClassListForNestingLevel:function getClassListForNestingLevel(opts,nesting){var
 cuiTreeNestPrefix=opts.cuiTreeNestPrefix;var cuiTreeNest0Class=opts.cuiTreeNest0Class;var cuiTreeNestXClass=opts.cuiTreeNestXClass;
 var classList=[];
 switch(nesting){
@@ -2178,10 +2178,10 @@ default:
 classList.push((cuiTreeNestPrefix||defaults.cuiTreeNestPrefix)+nesting);
 classList.push(cuiTreeNestXClass||defaults.cuiTreeNestXClass);}
 ;
-return classList;},
-
-getElements:function getElements(scope,opts,objects,leafClickCallback){var nesting=arguments.length<=4||arguments[4]===undefined?0:arguments[4];var 
-getElements=cuiTreeHelpers.getElements;var getDisplayValue=cuiTreeHelpers.getDisplayValue;var getClassListForNestingLevel=cuiTreeHelpers.getClassListForNestingLevel;var 
+return classList;
+},
+getElements:function getElements(scope,opts,objects,leafClickCallback){var nesting=arguments.length>4&&arguments[4]!==undefined?arguments[4]:0;var
+getElements=cuiTreeHelpers.getElements;var getDisplayValue=cuiTreeHelpers.getDisplayValue;var getClassListForNestingLevel=cuiTreeHelpers.getClassListForNestingLevel;var
 cuiTreeBranchWrapper=opts.cuiTreeBranchWrapper;var cuiTreeLeafWrapper=opts.cuiTreeLeafWrapper;var cuiTreeLastLeafClass=opts.cuiTreeLastLeafClass;var cuiTreeLastBranchClass=opts.cuiTreeLastBranchClass;
 var $node=$('<div></div>');
 getClassListForNestingLevel(opts,nesting).forEach(function(className){return $node[0].classList.add(className);});
@@ -2190,19 +2190,19 @@ var $leafInner=$('<span>'+getDisplayValue(scope,opts,object)+'</span>');
 var $leafWrapper=$(cuiTreeLeafWrapper||defaults.cuiTreeLeafWrapper);
 if(leafClickCallback)$leafWrapper[0].addEventListener("click",function(e){leafClickCallback(object,this,e);},true);
 $leafWrapper.append($leafInner);
-if(i===objects.length-1)$leafWrapper[0].classList.add(cuiTreeLastLeafClass||defaults.cuiTreeLastLeafClass); // add class to last leaf of each indent level.
-if(object.children){ // if it has children creat a new branch for the leaf and it's children
+if(i===objects.length-1)$leafWrapper[0].classList.add(cuiTreeLastLeafClass||defaults.cuiTreeLastLeafClass);// add class to last leaf of each indent level.
+if(object.children){// if it has children creat a new branch for the leaf and it's children
 var $branchWrapper=$(cuiTreeBranchWrapper||defaults.cuiTreeBranchWrapper).append($leafWrapper);
 if(i===objects.length-1)$branchWrapper[0].classList.add(cuiTreeLastBranchClass||defaults.cuiTreeLastBranchClass);
-$branchWrapper.append(getElements(scope,opts,object.children,leafClickCallback,nesting+1)); // recursively gets the child nodes
-$node.append($branchWrapper);}else 
-
+$branchWrapper.append(getElements(scope,opts,object.children,leafClickCallback,nesting+1));// recursively gets the child nodes
+$node.append($branchWrapper);
+}else
 {
-$node.append($leafWrapper);}});
-
-
-return $node;}};
-
+$node.append($leafWrapper);
+}
+});
+return $node;
+}};
 
 
 var cuiTree={
@@ -2213,37 +2213,37 @@ var leafClickCallback=scope.$eval(attrs.cuiTreeLeafClickCallback);
 var renderTree=function renderTree(tree){
 if($tree){
 $tree.detach();
-$tree.children().unbind();}
-
+$tree.children().unbind();
+}
 $tree=cuiTreeHelpers.getElements(scope,attrs,tree,leafClickCallback);
-elem.append($tree);};
-
+elem.append($tree);
+};
 
 scope.$watch(function(){return scope.$eval(attrs.cuiTree);},function(newTree){
-if(newTree)renderTree(newTree);},
-true);
+if(newTree)renderTree(newTree);
+},true);
 
 scope.$on('$destroy',function(){
-$tree.children().unbind();});}};
-
-
+$tree.children().unbind();
+});
+}};
 
 
 angular.module('cui-ng').
 directive('cuiTree',[function(){
-return {
+return{
 restrict:'A',
 scope:true,
 compile:function compile(){
-return cuiTree;}};}]);
+return cuiTree;
+}};
 
-
-
+}]);
 
 angular.module('cui-ng').
 directive('cuiWizardProto',['$timeout','$compile','$window','$rootScope','$document',
 function($timeout,$compile,$window,$rootScope,$document){
-return {
+return{
 restrict:'E',
 scope:true,
 link:function link(scope,elem,attrs){
@@ -2267,28 +2267,28 @@ snap=angular.element(document.querySelector('snap-content'));
 $body=angular.element('body');
 scope.wizardFinished=false;
 scope.next=function(state){
-if(state)scope.goToState(state);else 
+if(state)scope.goToState(state);else
 {
 scope.currentStep++;
 updateIndicators();
 updateBar();
-updateStep();}
-
+updateStep();
+}
 if(!scope.wizardFinished&&scope.currentStep===numberOfSteps)scope.wizardFinished=true;
-calculateWhereToScroll();};
-
+calculateWhereToScroll();
+};
 scope.previous=function(state){
 if(state){
-scope.goToState(state);}else 
-
+scope.goToState(state);
+}else
 {
 scope.currentStep--;
 updateIndicators();
 updateBar();
-updateStep();}
-
-calculateWhereToScroll();};
-
+updateStep();
+}
+calculateWhereToScroll();
+};
 scope.goToStep=function(step){
 if(step===scope.currentStep)return;
 scope.currentStep=step;
@@ -2296,32 +2296,32 @@ updateIndicators();
 updateBar();
 updateStep();
 calculateWhereToScroll();
-if(!scope.wizardFinished&&scope.currentStep===numberOfSteps)scope.wizardFinished=true;};
-
+if(!scope.wizardFinished&&scope.currentStep===numberOfSteps)scope.wizardFinished=true;
+};
 scope.goToState=function(state){
 if(state==='default')return;
-$rootScope.$broadcast('stepChange',{state:state});};
-
+$rootScope.$broadcast('stepChange',{state:state});
+};
 scope.nextWithErrorChecking=function(form,nextState){
 if(!form.$valid){
 angular.forEach(form.$error,function(field){
 angular.forEach(field,function(errorField){
-errorField.$setTouched();});});
-
-
-invalidForm[scope.currentStep]=true;}else 
-
+errorField.$setTouched();
+});
+});
+invalidForm[scope.currentStep]=true;
+}else
 {
 invalidForm[scope.currentStep]=false;
 calculateWhereToScroll();
 if(nextState){
-scope.goToState(nextState);}else 
-
-{scope.next();}}};
-
-
-if(isNaN(scope.currentStep))scope.currentStep=1; // check if step is not a number, only runs once
-else if(scope.currentStep>numberOfSteps)scope.currentStep=numberOfSteps;else 
+scope.goToState(nextState);
+}else
+{scope.next();}
+}
+};
+if(isNaN(scope.currentStep))scope.currentStep=1;// check if step is not a number, only runs once
+else if(scope.currentStep>numberOfSteps)scope.currentStep=numberOfSteps;else
 if(scope.currentStep<1)scope.currentStep=1;
 createIndicators();
 createBar();
@@ -2331,8 +2331,8 @@ updateIndicators();
 makeSureTheresRoom();
 watchForWindowResize();
 listenForLanguageChange();
-observeStepAttr();},
-
+observeStepAttr();
+},
 // creates indicators inside of <indicator-container>
 createIndicators=function createIndicators(){
 var stepTitles=[],
@@ -2342,54 +2342,54 @@ scope.stepStates=[];
 for(var i=0;i<numberOfSteps;i++){
 stepTitles[i]=$steps[i].attributes.title.value;
 if($steps[i].attributes.state){
-scope.stepStates[i]=''+$steps[i].attributes.state.value+'';}
-
+scope.stepStates[i]=''+$steps[i].attributes.state.value+'';
+}
 if($steps[i].attributes.icon){
-stepIcons[i]=''+$steps[i].attributes.icon.value+'';}}
-
-
+stepIcons[i]=''+$steps[i].attributes.icon.value+'';
+}
+}
 scope.icons=[];
 stepTitles.forEach(function(e,i){
 var div;
 if(stepIcons[i]!==undefined){
 if(stepIcons[i].indexOf('.')>-1){
-scope.icons[i]='<div class="icon-container"><div class="icon"><img src="'+stepIcons[i]+'" class="cui-icon-rotate"/></div></div>';}else 
-
+scope.icons[i]='<div class="icon-container"><div class="icon"><img src="'+stepIcons[i]+'" class="cui-icon-rotate"/></div></div>';
+}else
 {
-scope.icons[i]='<div class="icon-container"><div class="icon"><cui-icon cui-svg-icon="'+stepIcons[i]+'" svg-class="cui-icon-rotate"></cui-icon></div></div>'; // adding svg-class for now until new wizard is out.
-}}
-
+scope.icons[i]='<div class="icon-container"><div class="icon"><cui-icon cui-svg-icon="'+stepIcons[i]+'" svg-class="cui-icon-rotate"></cui-icon></div></div>';// adding svg-class for now until new wizard is out.
+}
+}
 if(clickableIndicators!==undefined&&scope.icons[i]!==undefined){
 div=angular.element('<span class="step-indicator" id="cui-wizard-ref-pointer-'+i+'" ng-click="goToStep('+(
 i+1)+');goToState(\''+(scope.stepStates[i]||scope.defaultString)+'\')">'+
 stepTitles[i]+scope.icons[i]+'</span>');
-div[0].style.cursor='pointer';}else 
-
+div[0].style.cursor='pointer';
+}else
 if(clickableIndicators!==undefined&&!scope.icons[i]){
 div=angular.element('<span class="step-indicator" id="cui-wizard-ref-pointer-'+i+'" ng-click="goToStep('+(
 i+1)+');goToState(\''+(scope.stepStates[i]||scope.defaultString)+'\')">'+
 stepTitles[i]+'</span>');
-div[0].style.cursor='pointer';}else 
-
+div[0].style.cursor='pointer';
+}else
 {
 div=angular.element('<span class="step-indicator" id="cui-wizard-ref-pointer-'+i+'">'+stepTitles[i]+(
 scope.icons[i]?scope.icons[i]:'')+
-'</span>');}
-
+'</span>');
+}
 var compiled=$compile(div)(scope);
-$stepIndicatorContainer.append(compiled);});
-
-scope.$indicators=angular.element(elem[0].querySelectorAll('.step-indicator'));},
-
+$stepIndicatorContainer.append(compiled);
+});
+scope.$indicators=angular.element(elem[0].querySelectorAll('.step-indicator'));
+},
 createBar=function createBar(){
 //create a bar
 if(bar){
 angular.element($indicatorContainer).append('<div class="steps-bar"></div>');
 scope.$bar=$('.steps-bar');
 scope.$bar[0].innerHTML='<div class="steps-bar-fill"></div>';
-scope.$barFill=$('.steps-bar-fill');}},
-
-
+scope.$barFill=$('.steps-bar-fill');
+}
+},
 // updates the current active indicator. Removes active class from other elements.
 updateIndicators=function updateIndicators(){
 $timeout(function(){
@@ -2399,38 +2399,38 @@ scope.$indicators[i].classList.remove('active');
 if(mobileStack){$mobileSteps[i].classList.remove('expanded');}
 if(i<scope.currentStep-1){
 scope.$indicators[i].classList.add('visited');
-if(mobileStack){$mobileSteps[i].classList.add('visited');}}else 
-
+if(mobileStack){$mobileSteps[i].classList.add('visited');}
+}else
 {
 scope.$indicators[i].classList.remove('visited');
-if(mobileStack){$mobileSteps[i].classList.remove('visited');}}}
-
-
+if(mobileStack){$mobileSteps[i].classList.remove('visited');}
+}
+}
 $steps[scope.currentStep-1].classList.add('active');
 scope.$indicators[scope.currentStep-1].classList.add('active');
-if(mobileStack){$mobileSteps[scope.currentStep-1].classList.add('expanded');}});},
-
-
+if(mobileStack){$mobileSteps[scope.currentStep-1].classList.add('expanded');}
+});
+},
 updateBar=function updateBar(){
 if(!bar)return;
 $timeout(function(){
 scope.$bar[0].style.left=scope.$indicators[0].scrollWidth/2+'px';
 scope.$bar[0].style.right=scope.$indicators[scope.$indicators.length-1].scrollWidth/2+'px';
 if(scope.currentStep==1){
-scope.$barFill[0].style.width='0px';}else 
-
+scope.$barFill[0].style.width='0px';
+}else
 {
 scope.$barFill[0].style.width=scope.$indicators[scope.currentStep-1].offsetLeft-scope.$indicators[0].scrollWidth/2+
-scope.$indicators[scope.currentStep-1].scrollWidth/2+'px';}});},
-
-
-
+scope.$indicators[scope.currentStep-1].scrollWidth/2+'px';
+}
+});
+},
 createMobileStack=function createMobileStack(){
 angular.forEach($steps,function(step,i){
 var ngIncludeSrc;
 if(step.innerHTML.indexOf('<!-- ngInclude:')>-1){
-ngIncludeSrc=step.innerHTML.split('<!-- ngInclude:')[1].split(' -->')[0];}
-
+ngIncludeSrc=step.innerHTML.split('<!-- ngInclude:')[1].split(' -->')[0];
+}
 step.classList.add('desktop-element');
 var newElement=$compile(
 '<cui-expandable class="cui-expandable mobile-element">'+
@@ -2441,43 +2441,43 @@ scope.icons[i]?scope.icons[i]:'')+'<span>'+step.title+'</span></cui-expandable-t
 '<cui-expandable-body class="cui-expandable__body">'+(
 ngIncludeSrc?'<div ng-include="'+ngIncludeSrc+'"></div>':step.innerHTML)+'</cui-expandable-body>'+
 '</cui-expandable>')(scope);
-angular.element(elem[0]).append(newElement);});
-
-$mobileSteps=angular.element(elem[0].querySelectorAll('cui-expandable.mobile-element'));},
-
+angular.element(elem[0]).append(newElement);
+});
+$mobileSteps=angular.element(elem[0].querySelectorAll('cui-expandable.mobile-element'));
+},
 debounce=function debounce(func,wait,immediate){
 var timeout;
 return function(){
 var context=this,args=arguments;
 var later=function later(){
 timeout=null;
-if(!immediate){func.apply(context,args);}};
-
+if(!immediate){func.apply(context,args);}
+};
 var callNow=immediate&&!timeout;
 clearTimeout(timeout);
 timeout=setTimeout(later,wait);
-if(callNow)func.apply(context,args);};},
-
-
+if(callNow)func.apply(context,args);
+};
+},
 getIndicatorsWidth=function getIndicatorsWidth(){
 var totalWidth=0;
 for(var i=0;i<numberOfSteps;i++){
-totalWidth+=scope.$indicators[i].scrollWidth;}
-
+totalWidth+=scope.$indicators[i].scrollWidth;
+}
 //adds the minimum padding between the steps.
-return totalWidth+(Number(minimumPadding)||0)*(numberOfSteps-1);},
-
+return totalWidth+(Number(minimumPadding)||0)*(numberOfSteps-1);
+},
 getIndicatorContainerWidth=function getIndicatorContainerWidth(){
-return $indicatorContainer[0].clientWidth;},
-
+return $indicatorContainer[0].clientWidth;
+},
 onlyShowCurrentIndicator=function onlyShowCurrentIndicator(){
 $indicatorContainer[0].classList.add('small');
-updateBar();},
-
+updateBar();
+},
 showAllIndicators=function showAllIndicators(){
 $indicatorContainer[0].classList.remove('small');
-updateBar();},
-
+updateBar();
+},
 //makes sure there's still room for the step indicators, has a debounce on it so it
 //doesn't fire too often.
 makeSureTheresRoom=debounce(function(){
@@ -2487,82 +2487,82 @@ var indicatorContainerWidth=getIndicatorContainerWidth();
 if(indicatorContainerWidth<indicatorsWidth&&
 indicatorContainerWidth<Math.max(scope.indicatorsWidth||0,indicatorsWidth)){
 scope.indicatorsWidth=indicatorsWidth;
-onlyShowCurrentIndicator();}else 
-
+onlyShowCurrentIndicator();
+}else
 if(indicatorContainerWidth>scope.indicatorsWidth){
-showAllIndicators();}},
-
-40),
+showAllIndicators();
+}
+},40),
 watchForWindowResize=function watchForWindowResize(){
 $window.bind('resize',function(){
-makeSureTheresRoom();});},
-
-
+makeSureTheresRoom();
+});
+},
 listenForLanguageChange=function listenForLanguageChange(){
 scope.$on('languageChange',function(){
 showAllIndicators();
-makeSureTheresRoom();});},
-
-
+makeSureTheresRoom();
+});
+},
 calculateWhereToScroll=function calculateWhereToScroll(){
 var wizardOffset;
 $cuiExpandableTitle=angular.element(elem[0].querySelector('cui-expandable.mobile-element>cui-expandable-title'));
 if($cuiExpandableTitle.length!==0){
-var titleHeight=$cuiExpandableTitle[0].clientHeight;}else 
-
+var titleHeight=$cuiExpandableTitle[0].clientHeight;
+}else
 var titleHeight=0;
 if(snap.length!==0){
 var snapOffset=snap.scrollTop();
 wizardOffset=elem[0].getBoundingClientRect().top;
-scrollTo(snapOffset+wizardOffset+titleHeight*(scope.currentStep-1));}else 
-
+scrollTo(snapOffset+wizardOffset+titleHeight*(scope.currentStep-1));
+}else
 {
 var bodyOffset=$body.scrollTop();
 wizardOffset=elem[0].getBoundingClientRect().top;
-scrollTo(bodyOffset+wizardOffset+titleHeight*(scope.currentStep-1));}},
-
-
+scrollTo(bodyOffset+wizardOffset+titleHeight*(scope.currentStep-1));
+}
+},
 scrollTo=function scrollTo(position){
-if(snap.length!==0)snap.animate({scrollTop:position},300,'linear');else 
-$body.animate({scrollTop:position},300,'linear');},
-
+if(snap.length!==0)snap.animate({scrollTop:position},300,'linear');else
+$body.animate({scrollTop:position},300,'linear');
+},
 updateStep=function updateStep(){
-attrs.$set('step',scope.currentStep);},
-
+attrs.$set('step',scope.currentStep);
+},
 observeStepAttr=function observeStepAttr(){
 attrs.$observe('step',function(newStep){
 if(isNaN(newStep)){
-scope.currentStep=1;}else 
-
+scope.currentStep=1;
+}else
 if(newStep>numberOfSteps){
-scope.currentStep=numberOfSteps;}else 
-
+scope.currentStep=numberOfSteps;
+}else
 if(newStep<1){
-scope.currentStep=1;}else 
-
+scope.currentStep=1;
+}else
 {
-scope.currentStep=newStep;}
+scope.currentStep=newStep;
+}
+updateIndicators();
+});
+};
+init();
+}};
 
-updateIndicators();});};
-
-
-init();}};}]);
-
-
-
+}]);
 
 angular.module('cui-ng').
 directive('cuiWizard',['$timeout','$compile','$window','$rootScope',function($timeout,$compile,$window,$rootScope){
-return {
+return{
 restrict:'E',
 scope:true,
 link:function link(scope,elem,attrs){
 var cuiWizard={
 initScope:function initScope(){
 Object.keys(cuiWizard.scope).forEach(function(property){
-scope[property]=cuiWizard.scope[property];});},
-
-
+scope[property]=cuiWizard.scope[property];
+});
+},
 config:{
 bar:attrs.bar!==undefined,
 clickableIndicators:attrs.clickableIndicators!==undefined,
@@ -2583,170 +2583,170 @@ isFormValid:function isFormValid(form){
 // Custom dirty-validation behavior
 if(cuiWizard.config.dirtyValidation&&!form.$valid){
 cuiWizard.helpers.setErrorFieldsToDirty(form);
-return false;}
-
+return false;
+}
 // Default behavior
 else if(!form.$valid){
 cuiWizard.helpers.setErrorFieldsToTouched(form);
-return false;}
-
-return true;},
-
+return false;
+}
+return true;
+},
 setErrorFieldsToDirty:function setErrorFieldsToDirty(form){
 angular.forEach(form.$error,function(field){
 angular.forEach(field,function(errorField){
-errorField.$setDirty();});});},
-
-
-
+errorField.$setDirty();
+});
+});
+},
 setErrorFieldsToTouched:function setErrorFieldsToTouched(form){
 angular.forEach(form.$error,function(field){
 angular.forEach(field,function(errorField){
-errorField.$setTouched();});});},
-
-
-
-getStepInfo:function getStepInfo(step){ // step goes from 0 to numberOfSteps
+errorField.$setTouched();
+});
+});
+},
+getStepInfo:function getStepInfo(step){// step goes from 0 to numberOfSteps
 var $step=cuiWizard.selectors.$steps[step];
-return {
+return{
 stepTitle:$step.attributes['step-title'].value,
 icon:$step.attributes.icon?$step.attributes.icon.value:false,
-state:$step.attributes.state?$step.attributes.state.value:false};},
+state:$step.attributes.state?$step.attributes.state.value:false};
 
-
+},
 getIconMarkup:function getIconMarkup(icon){
-if(!icon)return '';
+if(!icon)return'';
 var iconMarkup=void 0;
 switch(icon.indexOf('.')){
-case -1:
+case-1:
 iconMarkup='<cui-icon cui-svg-icon="'+icon+'" svg-class="icon-svg"></cui-icon>';
 break;
 default:
 iconMarkup='<img src="'+icon+'" class="cui-icon-rotate"/>';}
 ;
 
-return '<div class="icon-container">\n                                    <div class="icon">\n                                        '+
+return'<div class="icon-container">\n                                    <div class="icon">\n                                        '+
 
-iconMarkup+'\n                                    </div>\n                                </div>';},
+iconMarkup+'\n                                    </div>\n                                </div>';
 
 
-
-getNgClickForIndicator:function getNgClickForIndicator(stepNumber,stepState){ // stepNUmber from 0 to numberOfSteps
-if(!cuiWizard.config.clickableIndicators)return '';else 
-return 'ng-click="goToStep('+(stepNumber+1)+(','+stepState||'')+')"';},
-
-getIndicatorMarkup:function getIndicatorMarkup(stepNumber){ // stepNUmber from 0 to numberOfSteps
+},
+getNgClickForIndicator:function getNgClickForIndicator(stepNumber,stepState){// stepNUmber from 0 to numberOfSteps
+if(!cuiWizard.config.clickableIndicators)return'';else
+return'ng-click="goToStep('+(stepNumber+1)+(','+stepState||'')+')"';
+},
+getIndicatorMarkup:function getIndicatorMarkup(stepNumber){// stepNUmber from 0 to numberOfSteps
 var step=cuiWizard.helpers.getStepInfo(stepNumber);
 var indicatorClass=void 0;
 stepNumber+1===cuiWizard.scope.currentStep?indicatorClass='active':stepNumber+1<cuiWizard.scope.currentStep?indicatorClass='visited':indicatorClass='';
-return '<span class="step-indicator '+indicatorClass+'" '+cuiWizard.helpers.getNgClickForIndicator(stepNumber,step.state)+'>\n                                    <span class="step-indicator__title">'+
-step.stepTitle+'</span> '+cuiWizard.helpers.getIconMarkup(step.icon)+'\n                                </span>';},
+return'<span class="step-indicator '+indicatorClass+'" '+cuiWizard.helpers.getNgClickForIndicator(stepNumber,step.state)+'>\n                                    <span class="step-indicator__title">'+
+step.stepTitle+'</span> '+cuiWizard.helpers.getIconMarkup(step.icon)+'\n                                </span>';
 
-
+},
 getIndicatorsWidth:function getIndicatorsWidth(){
 var totalWidth=0;
 cuiWizard.selectors.$indicators.each(function(i,indicator){
-totalWidth+=$(indicator).width();});
-
-return totalWidth;},
-
+totalWidth+=$(indicator).width();
+});
+return totalWidth;
+},
 thereIsRoomForIndicators:function thereIsRoomForIndicators(){
 if(cuiWizard.helpers.getIndicatorsWidth()+cuiWizard.config.minimumPadding*(cuiWizard.config.numberOfSteps-1)<
 cuiWizard.selectors.$indicatorContainer.width())return true;
-return false;},
-
+return false;
+},
 debounce:function debounce(func,wait,immediate){
 var timeout=void 0;
 return function(){
 var context=this,args=arguments;
 var later=function later(){
 timeout=null;
-if(!immediate){func.apply(context,args);}};
-
+if(!immediate){func.apply(context,args);}
+};
 var callNow=immediate&&!timeout;
 clearTimeout(timeout);
 timeout=setTimeout(later,wait);
-if(callNow)func.apply(context,args);};},
-
-
+if(callNow)func.apply(context,args);
+};
+},
 resizeHandler:function resizeHandler(){
 cuiWizard.helpers.debounce(function(){
 if(cuiWizard.config.bar)cuiWizard.reRender.bar(cuiWizard.scope.currentStep);
 if(cuiWizard.helpers.thereIsRoomForIndicators()&&cuiWizard.config.stepsCollapsed){
 cuiWizard.config.stepsCollapsed=false;
-cuiWizard.selectors.$indicatorContainer.removeClass('small');}else 
-
+cuiWizard.selectors.$indicatorContainer.removeClass('small');
+}else
 if(!cuiWizard.helpers.thereIsRoomForIndicators()&&!cuiWizard.config.stepsCollapsed){
 cuiWizard.config.stepsCollapsed=true;
-cuiWizard.selectors.$indicatorContainer.addClass('small');}
-
+cuiWizard.selectors.$indicatorContainer.addClass('small');
+}
 if(cuiWizard.config.mobileStack&&cuiWizard.selectors.$window.width()<=cuiWizard.config.mobileStackBreakingPoint&&!cuiWizard.config.mobileMode){
 cuiWizard.selectors.$expandables.forEach(function(expandable,e){
 expandable.attr('transition-speed',300);
-expandable.addClass('mobile-element');});
-
-cuiWizard.config.mobileMode=true;}else 
-
+expandable.addClass('mobile-element');
+});
+cuiWizard.config.mobileMode=true;
+}else
 if(cuiWizard.config.mobileStack&&cuiWizard.selectors.$window.width()>cuiWizard.config.mobileStackBreakingPoint&&cuiWizard.config.mobileMode){
 cuiWizard.selectors.$expandables.forEach(function(expandable,e){
 expandable.attr('transition-speed',0);
-expandable.removeClass('mobile-element');});
-
-cuiWizard.config.mobileMode=false;}},
-
-200)();},
-
+expandable.removeClass('mobile-element');
+});
+cuiWizard.config.mobileMode=false;
+}
+},200)();
+},
 scrollToStep:function scrollToStep(newStep){
 var firstExpandableTitle=angular.element(cuiWizard.selectors.$expandables[0].children()[0]);
 var firstExpandableOffset=firstExpandableTitle.offset();
 var titleHeight=firstExpandableTitle[0].scrollHeight;
-cuiWizard.selectors.$body.animate({scrollTop:firstExpandableOffset.top+titleHeight*(newStep-1)},300,'linear');}},
-
+cuiWizard.selectors.$body.animate({scrollTop:firstExpandableOffset.top+titleHeight*(newStep-1)},300,'linear');
+}},
 
 scope:{
 currentStep:Number(elem[0].attributes.step.value),
 wizardFinished:false,
-next:function next(state){ // state is optional
-if(state)cuiWizard.scope.goToState(state);else 
-cuiWizard.update(cuiWizard.scope.currentStep+1);},
-
+next:function next(state){// state is optional
+if(state)cuiWizard.scope.goToState(state);else
+cuiWizard.update(cuiWizard.scope.currentStep+1);
+},
 nextWithErrorChecking:function nextWithErrorChecking(form,state){
-if(cuiWizard.helpers.isFormValid(form))cuiWizard.scope.next(state);},
-
+if(cuiWizard.helpers.isFormValid(form))cuiWizard.scope.next(state);
+},
 previous:function previous(state){
-if(state)cuiWizard.scope.goToSate(state);else 
-cuiWizard.update(cuiWizard.scope.currentStep-1);},
-
+if(state)cuiWizard.scope.goToSate(state);else
+cuiWizard.update(cuiWizard.scope.currentStep-1);
+},
 goToStep:function goToStep(newStep,state){
 if(newStep===cuiWizard.scope.currentStep)return;
 if(state)cuiWizard.scope.goToState(state);
-cuiWizard.update(newStep);},
-
+cuiWizard.update(newStep);
+},
 goToState:function goToState(state){
-$rootScope.$broadcast('stepChange',{state:state,element:elem});}},
-
+$rootScope.$broadcast('stepChange',{state:state,element:elem});
+}},
 
 watchers:{
 init:function init(){
 cuiWizard.watchers.windowResize();
-cuiWizard.watchers.languageChange();},
-
+cuiWizard.watchers.languageChange();
+},
 windowResize:function windowResize(){
-cuiWizard.selectors.$window.bind('resize',cuiWizard.helpers.resizeHandler);},
-
+cuiWizard.selectors.$window.bind('resize',cuiWizard.helpers.resizeHandler);
+},
 languageChange:function languageChange(){
 scope.$on('languageChange',function(){
 if(cuiWizard.helpers.thereIsRoomForIndicators()&&cuiWizard.config.stepsCollapsed){
 cuiWizard.config.stepsCollapsed=false;
-cuiWizard.selectors.$indicatorContainer.removeClass('small');}else 
-
+cuiWizard.selectors.$indicatorContainer.removeClass('small');
+}else
 if(!cuiWizard.helpers.thereIsRoomForIndicators()&&!cuiWizard.config.stepsCollapsed){
 cuiWizard.config.stepsCollapsed=true;
-cuiWizard.selectors.$indicatorContainer.addClass('small');}
-
-if(cuiWizard.config.bar)cuiWizard.reRender.bar(cuiWizard.scope.currentStep);});}},
-
-
+cuiWizard.selectors.$indicatorContainer.addClass('small');
+}
+if(cuiWizard.config.bar)cuiWizard.reRender.bar(cuiWizard.scope.currentStep);
+});
+}},
 
 render:{
 indicators:function indicators(){
@@ -2755,24 +2755,24 @@ cuiWizard.selectors.$stepIndicatorContainer=angular.element(cuiWizard.selectors.
 cuiWizard.selectors.$steps.each(function(i,step){
 var indicator=angular.element(cuiWizard.helpers.getIndicatorMarkup(i)),
 compiledIndicator=$compile(indicator)(scope);
-cuiWizard.selectors.$stepIndicatorContainer.append(compiledIndicator);});
-
+cuiWizard.selectors.$stepIndicatorContainer.append(compiledIndicator);
+});
 cuiWizard.selectors.$indicators=angular.element(cuiWizard.selectors.$stepIndicatorContainer[0].querySelectorAll('.step-indicator'));
-cuiWizard.config.numberOfSteps=cuiWizard.selectors.$indicators.length;},
-
+cuiWizard.config.numberOfSteps=cuiWizard.selectors.$indicators.length;
+},
 bar:function bar(){
 $timeout(function(){
 cuiWizard.selectors.$indicatorContainer.append('<div class="steps-bar"><div class="steps-bar-fill"></div></div>');
 cuiWizard.selectors.$bar=angular.element(cuiWizard.selectors.$indicatorContainer[0].querySelector('.steps-bar'));
 cuiWizard.selectors.$barFill=angular.element(cuiWizard.selectors.$indicatorContainer[0].querySelector('.steps-bar-fill'));
-cuiWizard.selectors.$bar[0].style.left=cuiWizard.selectors.$indicators[0].scrollWidth/2+'px'; // bar starts at the center point of the 1st inicator
-cuiWizard.selectors.$bar[0].style.right=cuiWizard.selectors.$indicators[cuiWizard.config.numberOfSteps-1].scrollWidth/2+'px'; // ends at center of last indicator
-if(cuiWizard.scope.currentStep===1)cuiWizard.selectors.$barFill[0].style.width='0px';else 
+cuiWizard.selectors.$bar[0].style.left=cuiWizard.selectors.$indicators[0].scrollWidth/2+'px';// bar starts at the center point of the 1st inicator
+cuiWizard.selectors.$bar[0].style.right=cuiWizard.selectors.$indicators[cuiWizard.config.numberOfSteps-1].scrollWidth/2+'px';// ends at center of last indicator
+if(cuiWizard.scope.currentStep===1)cuiWizard.selectors.$barFill[0].style.width='0px';else
 {
-cuiWizard.selectors.$barFill[0].style.width=cuiWizard.selectors.$indicators[cuiWizard.scope.currentStep-1].offsetLeft-cuiWizard.selectors.$indicators[0].scrollWidth/2+cuiWizard.selectors.$indicators[cuiWizard.scope.currentStep-1].scrollWidth/2+'px';}});},
-
-
-
+cuiWizard.selectors.$barFill[0].style.width=cuiWizard.selectors.$indicators[cuiWizard.scope.currentStep-1].offsetLeft-cuiWizard.selectors.$indicators[0].scrollWidth/2+cuiWizard.selectors.$indicators[cuiWizard.scope.currentStep-1].scrollWidth/2+'px';
+}
+});
+},
 steps:function steps(){
 if(!cuiWizard.config.mobileStack)return;
 cuiWizard.selectors.$expandables=[];
@@ -2781,9 +2781,9 @@ var stepInfo=cuiWizard.helpers.getStepInfo(i);
 var expandableClass='';
 if(cuiWizard.scope.currentStep===i+1){
 $(step).addClass('active');
-expandableClass='expanded';}
-
-var expandable=$($compile( // compile a new expandable
+expandableClass='expanded';
+}
+var expandable=$($compile(// compile a new expandable
 '<cui-expandable class="cui-expandable cui-expandable--wizard '+expandableClass+'" transition-speed="0">\n                                    <cui-expandable-title class="cui-expandable__title cui-expandable__title--wizard">\n                                        '+
 
 cuiWizard.helpers.getIndicatorMarkup(i)+'\n                                    </cui-expandable-title>\n                                    <cui-expandable-body class="cui-expandable__body cui-expandable__body--wizard"></cui-expandable-body>\n                                </cui-expandable>')(
@@ -2793,47 +2793,47 @@ cuiWizard.helpers.getIndicatorMarkup(i)+'\n                                    <
 scope));
 expandable.insertBefore(step);
 $(step).detach().appendTo(expandable.children()[1]);
-cuiWizard.selectors.$expandables.push($(step).parent().parent());});}},
-
-
+cuiWizard.selectors.$expandables.push($(step).parent().parent());
+});
+}},
 
 reRender:{
-indicators:function indicators(newStep,oldStep){ // newStep goes from 1 to numberOfSteps+1
+indicators:function indicators(newStep,oldStep){// newStep goes from 1 to numberOfSteps+1
 cuiWizard.selectors.$indicators.each(function(i,indicator){
-if(i+1<newStep)$(indicator).addClass('visited');else 
-$(indicator).removeClass('visited');});
-
+if(i+1<newStep)$(indicator).addClass('visited');else
+$(indicator).removeClass('visited');
+});
 cuiWizard.selectors.$indicators[oldStep-1].classList.remove('active');
-cuiWizard.selectors.$indicators[newStep-1].classList.add('active');},
-
+cuiWizard.selectors.$indicators[newStep-1].classList.add('active');
+},
 steps:function steps(newStep,oldStep){
 cuiWizard.selectors.$expandables.forEach(function(expandable,i){
-if(i+1<newStep)expandable.addClass('visited');else 
-expandable.removeClass('visited');});
-
+if(i+1<newStep)expandable.addClass('visited');else
+expandable.removeClass('visited');
+});
 cuiWizard.selectors.$steps[oldStep-1].classList.remove('active');
 cuiWizard.selectors.$steps[newStep-1].classList.add('active');
 cuiWizard.selectors.$expandables[oldStep-1].removeClass('expanded');
 cuiWizard.selectors.$expandables[newStep-1].addClass('expanded');
 cuiWizard.selectors.$expandables[oldStep-1][0].querySelector('.step-indicator').classList.remove('active');
-cuiWizard.selectors.$expandables[newStep-1][0].querySelector('.step-indicator').classList.add('active');},
-
+cuiWizard.selectors.$expandables[newStep-1][0].querySelector('.step-indicator').classList.add('active');
+},
 indicatorContainer:function indicatorContainer(){
 if(cuiWizard.helpers.thereIsRoomForIndicators()&&cuiWizard.config.stepsCollapsed){
 cuiWizard.config.stepsCollapsed=false;
-cuiWizard.selectors.$indicatorContainer.removeClass('small');}else 
-
+cuiWizard.selectors.$indicatorContainer.removeClass('small');
+}else
 if(!cuiWizard.helpers.thereIsRoomForIndicators()&&!cuiWizard.config.stepsCollapsed){
 cuiWizard.config.stepsCollapsed=true;
-cuiWizard.selectors.$indicatorContainer.addClass('small');}},
-
-
+cuiWizard.selectors.$indicatorContainer.addClass('small');
+}
+},
 bar:function bar(newStep){
-if(newStep===1)cuiWizard.selectors.$barFill[0].style.width='0px';else 
+if(newStep===1)cuiWizard.selectors.$barFill[0].style.width='0px';else
 {
-cuiWizard.selectors.$barFill[0].style.width=cuiWizard.selectors.$indicators[newStep-1].offsetLeft-cuiWizard.selectors.$indicators[0].scrollWidth/2+cuiWizard.selectors.$indicators[newStep-1].scrollWidth/2+'px';}}},
-
-
+cuiWizard.selectors.$barFill[0].style.width=cuiWizard.selectors.$indicators[newStep-1].offsetLeft-cuiWizard.selectors.$indicators[0].scrollWidth/2+cuiWizard.selectors.$indicators[newStep-1].scrollWidth/2+'px';
+}
+}},
 
 update:function update(newStep,oldStep){
 if(cuiWizard.config.mobileMode)cuiWizard.helpers.scrollToStep(newStep);
@@ -2842,75 +2842,63 @@ if(cuiWizard.config.mobileStack)cuiWizard.reRender.steps(newStep,cuiWizard.scope
 if(cuiWizard.config.bar)cuiWizard.reRender.bar(newStep);
 scope.currentStep=cuiWizard.scope.currentStep=newStep;
 if(newStep===cuiWizard.config.numberOfSteps)scope.wizardFinished=cuiWizard.scope.wizardFinished=true;
-attrs.$set('step',newStep);}};
-
+attrs.$set('step',newStep);
+}};
 
 cuiWizard.initScope();
 cuiWizard.render.indicators();
 if(cuiWizard.config.bar)cuiWizard.render.bar();
 cuiWizard.render.steps();
 cuiWizard.watchers.init();
-cuiWizard.selectors.$window.resize();}};}]);
+cuiWizard.selectors.$window.resize();
+}};
 
-
-
+}]);
 
 angular.module('cui-ng').
-directive('customError',['$q',function($q){
-return {
+directive('customError',['$q', function($q){
+return{
 restrict:'A',
 require:'ngModel',
-link:function link(scope,ele,attrs,ctrl){
-var promises={},isLoading=false,amountOfRequestSent=0;
+scope:{
+customError:'=',
+customErrorLoading:'=?'},
 
-var assignValueFromString=function assignValueFromString(startingObject,string,value){ // gets nested scope variable from parent , used because we can't have isolate scope on this directive
-var arrayOfProperties=string.split('.');
-arrayOfProperties.forEach(function(property,i){
-if(i<arrayOfProperties.length-1)startingObject=startingObject[property];else 
-startingObject[property]=value;});};
-
-
-
-var startLoading=function startLoading(){
-isLoading=true;
-amountOfRequestSent++;
-if(attrs.customErrorLoading)assignValueFromString(scope.$parent,attrs.customErrorLoading,true);};
-
-
-var finishLoading=function finishLoading(){
-isLoading=false;
-if(attrs.customErrorLoading)assignValueFromString(scope.$parent,attrs.customErrorLoading,false);};
-
-
+link:function link(scope,attrs,ele,ctrl){
+var promises={};
 
 scope.$watch(function(){return ctrl.$modelValue;},function(newValue,oldValue){
-angular.forEach(scope.$eval(attrs.customError),function(checkFunction,errorName){
+angular.forEach(scope.customError,function(checkFunction,errorName){
 var checkFunctionReturn=checkFunction(newValue);
 
-if(typeof checkFunctionReturn==="boolean"){
-ctrl.$setValidity(errorName,checkFunctionReturn);}else 
-
+if(typeof checkFunctionReturn==='boolean'){
+ctrl.$setValidity(errorName,checkFunctionReturn);
+}else
 {
-startLoading();
-if(!promises[errorName])promises[errorName]=[checkFunctionReturn.promise];else 
+scope.customErrorLoading=true;
+
+if(!promises[errorName])promises[errorName]=[checkFunctionReturn.promise];else
 promises[errorName].push(checkFunctionReturn.promise);
+
 $q.all(promises[errorName]).then(function(res){
 ctrl.$setValidity(errorName,checkFunctionReturn.valid(res[promises[errorName].length-1]));
-finishLoading();},
+scope.customErrorLoading=false;
+},
 function(err){
 checkFunctionReturn.catch&&checkFunctionReturn.catch(err);
-finishLoading();});}});},
+scope.customErrorLoading=false;
+});
+}
+});
+},function(newValue,oldValue){return newValue!==oldValue;});
+}};
 
-
-
-function(newValue,oldValue){return newValue!==oldValue;});}};}]);
-
-
+}]);
 
 
 angular.module('cui-ng').
 directive('focusIf',['$timeout',function($timeout){
-return {
+return{
 restrict:'A',
 link:function link(scope,elem,attrs){
 var element=elem[0];
@@ -2918,23 +2906,23 @@ var element=elem[0];
 var focus=function focus(condition){
 if(condition){
 $timeout(function(){
-element.focus();},
-scope.$eval(attrs.focusDelay)||0);}};
-
-
+element.focus();
+},scope.$eval(attrs.focusDelay)||0);
+}
+};
 
 if(attrs.focusIf){
-scope.$watch(attrs.focusIf,focus);}else 
-{
-focus(true);}}};}]);
+scope.$watch(attrs.focusIf,focus);
+}else{
+focus(true);
+}
+}};
 
-
-
-
+}]);
 
 angular.module('cui-ng').
 directive('inlineEdit',['$compile','$timeout','$filter',function($compile,$timeout,$filter){
-return {
+return{
 restrict:'E',
 scope:{
 model:'=',
@@ -2950,9 +2938,9 @@ link:function link(scope,ele,attrs){
 var inlineEdit={
 init:function init(){
 angular.forEach(inlineEdit.scope,function(initScope){
-initScope();});},
-
-
+initScope();
+});
+},
 config:{
 valueClass:attrs.valueClass||"cui-field-val__val",
 inputClass:attrs.inputClass||"cui-field-val__val",
@@ -2962,25 +2950,25 @@ wrapperClass:attrs.wrapperClass||"cui-field-val"},
 scope:{
 init:function init(){
 scope.edit=false;
-scope.focus=false;},
-
+scope.focus=false;
+},
 functions:function functions(){
 scope.toggleEdit=function(){
 scope.focus=scope.edit=!scope.edit;
-if(scope.tempEditCallback)scope.editChangeCallback(scope.edit);};
-
+if(scope.tempEditCallback)scope.editChangeCallback(scope.edit);
+};
 scope.matchModels=function(){
-scope.editInput=scope.model;};
-
+scope.editInput=scope.model;
+};
 scope.saveInput=function(){
 scope.model=scope.editInput;
 if(scope.saveCallback()){
 $timeout(function(){
-scope.saveCallback()();});}
-
-
-inlineEdit.helpers.setDisplayValue();};
-
+scope.saveCallback()();
+});
+}
+inlineEdit.helpers.setDisplayValue();
+};
 scope.parseKeyCode=function(e){
 switch(event.which){
 case 13:
@@ -2989,52 +2977,52 @@ scope.toggleEdit();
 break;
 case 27:
 scope.toggleEdit();
-break;}};
+break;}
 
-
+};
 scope.editChangeCallback=function(editMode){
 if(editMode===false){
 scope.tempEditCallback()&&scope.tempEditCallback()(undefined);
-return;}
-
-scope.tempEditCallback()&&scope.tempEditCallback()(scope.editInput);};},
-
-
+return;
+}
+scope.tempEditCallback()&&scope.tempEditCallback()(scope.editInput);
+};
+},
 watchers:function watchers(){
 scope.$watch('display',inlineEdit.helpers.setDisplayValue);
-scope.$watch('model',inlineEdit.helpers.setDisplayValue);}},
-
+scope.$watch('model',inlineEdit.helpers.setDisplayValue);
+}},
 
 
 helpers:{
 getLabel:function getLabel(){
 var label=void 0;
-if(attrs.label!==undefined)return '{{\''+attrs.label+'\'| translate}}';else 
-if(attrs.name!==undefined)return attrs.name;else 
-throw new Error('Inline-edit needs 1 of the following attributes: label or name.');},
-
+if(attrs.label!==undefined)return'{{\''+attrs.label+'\'| translate}}';else
+if(attrs.name!==undefined)return attrs.name;else
+throw new Error('Inline-edit needs 1 of the following attributes: label or name.');
+},
 getInput:function getInput(){
 attrs.type=attrs.type||'text';
 switch(attrs.type){
-case 'dropdown':
-return '<select ng-model="$parent.editInput" class="'+inlineEdit.config.inputClass+'" ng-init="matchModels()" ng-options="'+attrs.optionsExpression+'"\n                  ng-if="edit" ng-change="editChangeCallback()"></select>';
+case'dropdown':
+return'<select ng-model="$parent.editInput" class="'+inlineEdit.config.inputClass+'" ng-init="matchModels()" ng-options="'+attrs.optionsExpression+'"\n                  ng-if="edit" ng-change="editChangeCallback()"></select>';
 
-case 'auto-complete':
-return '<div auto-complete selected-object="$parent.editInput" local-data="localData" search-fields="'+attrs.searchFields+'"\n                  title-field="'+
+case'auto-complete':
+return'<div auto-complete selected-object="$parent.editInput" local-data="localData" search-fields="'+attrs.searchFields+'"\n                  title-field="'+
 attrs.titleField+'" input-class="'+inlineEdit.config.inputClass+'" match-class="highlight" ng-init="matchModels()" auto-match="true"\n                  ng-if="edit" ng-keypress="parseKeyCode($event)" initial-value="$parent.editInput.title" input-changed="editChangeCallback()"></div>';
 
 default:
-return '<input type="'+attrs.type+'" ng-model="$parent.editInput" class="'+inlineEdit.config.inputClass+'"\n                  ng-init="matchModels()" ng-if="edit" ng-keyup="parseKeyCode($event)" focus-if="focus" ng-change="editChangeCallback()"/>';}},
+return'<input type="'+attrs.type+'" ng-model="$parent.editInput" class="'+inlineEdit.config.inputClass+'"\n                  ng-init="matchModels()" ng-if="edit" ng-keyup="parseKeyCode($event)" focus-if="focus" ng-change="editChangeCallback()"/>';}
 
 
 
-
+},
 setDisplayValue:function setDisplayValue(){
 if(attrs.type==="password"){
-scope.displayValue=Array(scope.model?scope.model.length+1:0).join('•');}else 
-
-scope.displayValue=scope.display||scope.model;}},
-
+scope.displayValue=Array(scope.model?scope.model.length+1:0).join('•');
+}else
+scope.displayValue=scope.display||scope.model;
+}},
 
 render:function render(){
 var element=$compile('<div class="'+
@@ -3046,62 +3034,62 @@ inlineEdit.config.valueClass+'">{{displayValue}}</span>'+inlineEdit.helpers.getI
 
 
 scope);
-angular.element(ele[0]).html(element);}};
-
+angular.element(ele[0]).html(element);
+}};
 
 inlineEdit.init();
-inlineEdit.render();}};}]);
+inlineEdit.render();
+}};
 
-
-
+}]);
 
 
 
 angular.module('cui-ng').
 directive('match',['$parse',function($parse){
-return {
+return{
 restrict:'A',
 require:'ngModel',
 link:function link(scope,element,attrs,ctrl){
 var checkIfMatch=function checkIfMatch(values){
-ctrl.$setValidity('match',values[0]===(values[1]||''));};
+ctrl.$setValidity('match',values[0]===(values[1]||''));
+};
 
+scope.$watch(function(){return[scope.$eval(attrs.match),ctrl.$viewValue];},checkIfMatch,function(newValues,oldValues){return!angular.equals(newValues,oldValues);});
+}};
 
-scope.$watch(function(){return [scope.$eval(attrs.match),ctrl.$viewValue];},checkIfMatch,function(newValues,oldValues){return !angular.equals(newValues,oldValues);});}};}]);
-
-
-
+}]);
 
 angular.module('cui-ng').
 directive('offClickFilter',['OffClickFilterCache', '$parse', function(OffClickFilterCache,$parse){
 var filters=void 0;
 
-return {
+return{
 restrict:'A',
 compile:function compile(elem,attrs){
 return function(scope,element){
 filters=$parse(attrs.offClickFilter)(scope).split(',').map(function(x){return x.trim();});
 
 filters.forEach(function(filter){
-OffClickFilterCache[filter]?OffClickFilterCache[filter].push(element[0]):OffClickFilterCache[filter]=[element[0]];});
-
+OffClickFilterCache[filter]?OffClickFilterCache[filter].push(element[0]):OffClickFilterCache[filter]=[element[0]];
+});
 
 scope.$on('$destroy',function(){
 filters.forEach(function(filter){
 if(OffClickFilterCache[filter].length>1){
-OffClickFilterCache[filter].splice(OffClickFilterCache[filter].indexOf(element[0]),1);}else 
-
+OffClickFilterCache[filter].splice(OffClickFilterCache[filter].indexOf(element[0]),1);
+}else
 {
 OffClickFilterCache[filter]=null;
-delete OffClickFilterCache[filter];}});
+delete OffClickFilterCache[filter];
+}
+});
+element=null;
+});
+};
+}};
 
-
-element=null;});};}};}]);
-
-
-
-
-
+}]);
 
 angular.module('cui-ng').
 directive('offClick',['$rootScope', '$parse', 'OffClickFilterCache', function($rootScope,$parse,OffClickFilterCache){
@@ -3117,57 +3105,57 @@ for(var i=0;i<elmsLen;++i){
 var currentElem=elms[i];
 var containsTarget=false;
 try{
-containsTarget=currentElem.contains(target);}
-catch(e){
+containsTarget=currentElem.contains(target);
+}catch(e){
 // If the node is not an Element (e.g., an SVGElement) node.contains() throws Exception in IE,
 // see https://connect.microsoft.com/IE/feedback/details/780874/node-contains-is-incorrect
 // In this case we use compareDocumentPosition() instead.
 if(typeof currentElem.compareDocumentPosition!=='undefined'){
-containsTarget=currentElem===target||Boolean(currentElem.compareDocumentPosition(target)&16);}}
-
-
+containsTarget=currentElem===target||Boolean(currentElem.compareDocumentPosition(target)&16);
+}
+}
 
 if(containsTarget){
-return true;}}
-
-
-return false;};
-
+return true;
+}
+}
+return false;
+};
 
 var offClickEventHandler=function offClickEventHandler(event){
 // If event is a touchmove adjust touchMove state
 if(event.type==='touchmove'){
 touchMove=true;
 // And end function
-return false;}
-
+return false;
+}
 // This will always fire on the touchend after the touchmove runs...
 if(touchMove){
 // Reset touchmove to false
 touchMove=false;
 // And end function
-return false;}
-
+return false;
+}
 var target=event.target||event.srcElement;
 angular.forEach(listeners,function(listener,i){
 var filters=OffClickFilterCache['*']||[];
 if(listener.elm.id&&listener.elm.id!==''){
-if(OffClickFilterCache['#'+listener.elm.id])filters=filters.concat(OffClickFilterCache['#'+listener.elm.id]);}
-
+if(OffClickFilterCache['#'+listener.elm.id])filters=filters.concat(OffClickFilterCache['#'+listener.elm.id]);
+}
 // classList is an object in IE10 and 11 iirc, using angular.forEach to iterate both over an array or object values
 angular.forEach(listener.elm.classList,function(className){
-if(OffClickFilterCache['.'+className])filters=filters.concat(OffClickFilterCache['.'+className]);});
-
+if(OffClickFilterCache['.'+className])filters=filters.concat(OffClickFilterCache['.'+className]);
+});
 if(!(listener.elm.contains(target)||targetInFilter(target,filters))){
 $rootScope.$evalAsync(function(){
 listener.cb(listener.scope,{
-$event:event});});}});};
+$event:event});
 
+});
+}
 
-
-
-
-
+});
+};
 
 
 // Add event listeners to handle various events. Destop will ignore touch events
@@ -3176,7 +3164,7 @@ document.addEventListener("touchend",offClickEventHandler,true);
 document.addEventListener('click',offClickEventHandler,true);
 
 
-return {
+return{
 restrict:'A',
 compile:function compile(elem,attrs){
 var fn=$parse(attrs.offClick);
@@ -3189,42 +3177,42 @@ var on=function on(){
 listeners[elmId]={
 elm:element[0],
 cb:fn,
-scope:scope};};
+scope:scope};
 
-
+};
 
 var off=function off(){
 listeners[elmId]=null;
-delete listeners[elmId];};
-
+delete listeners[elmId];
+};
 
 if(attrs.offClickIf){
 removeWatcher=$rootScope.$watch(function(){return $parse(attrs.offClickIf)(scope);},function(newVal){
-newVal&&on()||!newVal&&off();});}else 
-
-on();
+newVal&&on()||!newVal&&off();
+});
+}else on();
 
 scope.$on('$destroy',function(){
 off();
 if(removeWatcher){
-removeWatcher();}
+removeWatcher();
+}
+element=null;
+});
+};
+}};
 
-element=null;});};}};}]);
-
-
-
-
-
+}]);
 
 angular.module('cui-ng').
 factory('OffClickFilterCache',function(){
 var filterCache={};
-return filterCache;});
-
+return filterCache;
+});
 
 angular.module('cui-ng').
 directive('onEnter',['$timeout',function($timeout){
-return {
+return{
 restrict:'A',
 require:'ngModel',
 link:function link(scope,element,attrs,ctrl){
@@ -3233,21 +3221,21 @@ if(event.which===13){(function(){
 event.preventDefault();
 var callback=scope.$eval(attrs.onEnter);
 $timeout(function(){
-callback(ctrl.$viewValue);});})();}});
-
-
-
+callback(ctrl.$viewValue);
+});})();
+}
+});
 
 scope.$on('destroy',function(){
-element.unbind();});}};}]);
+element.unbind();
+});
+}};
 
-
-
-
+}]);
 
 angular.module('cui-ng').
 directive('paginate',['$compile','$timeout','$interval','$pagination',function($compile,$timeout,$interval,$pagination){
-return {
+return{
 restrict:'AE',
 scope:{
 resultsPerPage:'&',
@@ -3267,9 +3255,9 @@ paginate.helpers.updateConfig();
 paginate.render.pageContainer();
 if(attrs.attachRerenderTo)scope.attachRerenderTo=paginate.scope.updateConfigAndReRender;
 angular.forEach(paginate.scope,function(func,key){
-scope.paginate[key]=func;});},
-
-
+scope.paginate[key]=func;
+});
+},
 selectors:{
 $paginate:angular.element(elem[0])},
 
@@ -3293,112 +3281,112 @@ scope.page=scope.paginate.currentPage=1;
 paginate.helpers.updateConfig();
 paginate.scope.reRender();
 $timeout(function(){
-if(scope.onPageChange())scope.onPageChange()(scope.paginate.currentPage);});}});},
-
-
-
-
+if(scope.onPageChange())scope.onPageChange()(scope.paginate.currentPage);
+});
+}
+});
+},
 page:function page(){
 scope.$watch('page',function(newPage,oldPage){
 if(newPage&&newPage!==scope.paginate.currentPage){
 scope.page=scope.paginate.currentPage=paginate.helpers.normalizePage(newPage);
 paginate.helpers.updateConfig();
-paginate.scope.reRender();}});},
-
-
-
+paginate.scope.reRender();
+}
+});
+},
 paginateResize:function paginateResize(){
-resizeInterval=$interval(paginate.helpers.resizeHandler,50);},
-
+resizeInterval=$interval(paginate.helpers.resizeHandler,50);
+},
 scopeDestroy:function scopeDestroy(){
 scope.$on('$destroy',function(){
-$interval.cancel(resizeInterval); // unbinds the resize interval
-});}},
-
+$interval.cancel(resizeInterval);// unbinds the resize interval
+});
+}},
 
 helpers:{
 updateConfig:function updateConfig(){
 paginate.config.numberOfPages=paginate.helpers.getNumberOfPages();
-paginate.config.howManyPagesWeCanShow=paginate.helpers.howManyPagesWeCanShow();},
-
+paginate.config.howManyPagesWeCanShow=paginate.helpers.howManyPagesWeCanShow();
+},
 getNumberOfPages:function getNumberOfPages(){return Math.ceil(scope.count()/scope.resultsPerPage());},
 getWidthOfAPage:function getWidthOfAPage(){return paginate.helpers.getWidthOfElement($(paginate.render.pageNumber(1)));},
 getAvailableSpaceForPages:function getAvailableSpaceForPages(){
 var paginateWidth=paginate.config.width||paginate.selectors.$paginate.width();
 var previousWidth=paginate.helpers.getWidthOfElement(paginate.render.previousButton());
 var nextWidth=paginate.helpers.getWidthOfElement(paginate.render.nextButton());
-return paginateWidth-(previousWidth+nextWidth)-1; // - 1 because at certain widths the width() method was off by a pixel
+return paginateWidth-(previousWidth+nextWidth)-1;// - 1 because at certain widths the width() method was off by a pixel
 },
-getWidthOfElement:function getWidthOfElement(element){ // this appends the element to the body, get its width, and removes it. Used for measuring.
+getWidthOfElement:function getWidthOfElement(element){// this appends the element to the body, get its width, and removes it. Used for measuring.
 element.appendTo(document.body);
 var width=element.outerWidth(true);
 element.remove();
-return width;},
-
+return width;
+},
 howManyPagesWeCanShow:function howManyPagesWeCanShow(){return Math.floor(paginate.helpers.getAvailableSpaceForPages()/paginate.helpers.getWidthOfAPage());},
 handleStepChange:function handleStepChange(){
 scope.page=scope.paginate.currentPage=paginate.helpers.normalizePage(scope.paginate.currentPage);
 $timeout(function(){
 if(scope.onPageChange())scope.onPageChange()(scope.paginate.currentPage);
-paginate.scope.reRender();});},
-
-
+paginate.scope.reRender();
+});
+},
 resizeHandler:function resizeHandler(){
-if(!paginate.config.width)paginate.config.width=paginate.selectors.$paginate.width();else 
+if(!paginate.config.width)paginate.config.width=paginate.selectors.$paginate.width();else
 if(paginate.selectors.$paginate.width()!==paginate.config.width){
 paginate.config.width=paginate.selectors.$paginate.width();
 paginate.helpers.updateConfig();
-paginate.scope.reRender();}},
-
-
+paginate.scope.reRender();
+}
+},
 whatEllipsesToShow:function whatEllipsesToShow(){
-if(paginate.config.numberOfPages<=paginate.config.howManyPagesWeCanShow)return 'none';else 
-if(scope.paginate.currentPage<paginate.config.howManyPagesWeCanShow/2+1)return 'right';else 
-if(scope.paginate.currentPage<paginate.config.numberOfPages-paginate.config.howManyPagesWeCanShow/2)return 'both';else 
-return 'left';},
-
+if(paginate.config.numberOfPages<=paginate.config.howManyPagesWeCanShow)return'none';else
+if(scope.paginate.currentPage<paginate.config.howManyPagesWeCanShow/2+1)return'right';else
+if(scope.paginate.currentPage<paginate.config.numberOfPages-paginate.config.howManyPagesWeCanShow/2)return'both';else
+return'left';
+},
 normalizePage:function normalizePage(pageNumber){
 var page=parseInt(pageNumber);
 if(page<=paginate.config.numberOfPages&&page>=1){
-return page;}else 
-
+return page;
+}else
 if(page<1){
-return 1;}else 
-
-return paginate.config.numberOfPages;}},
-
+return 1;
+}else
+return paginate.config.numberOfPages;
+}},
 
 scope:{
 previous:function previous(){
 if(scope.paginate.currentPage>1){
 scope.paginate.currentPage--;
-paginate.helpers.handleStepChange();}},
-
-
+paginate.helpers.handleStepChange();
+}
+},
 next:function next(){
 if(scope.paginate.currentPage+1<=paginate.config.numberOfPages){
 scope.paginate.currentPage++;
-paginate.helpers.handleStepChange();}},
-
-
+paginate.helpers.handleStepChange();
+}
+},
 goToPage:function goToPage(page){
 if(page===scope.paginate.currentPage)return;
 scope.paginate.currentPage=paginate.helpers.normalizePage(page);
-paginate.helpers.handleStepChange();},
-
+paginate.helpers.handleStepChange();
+},
 reRender:function reRender(){
-paginate.selectors.$pageContainer.replaceWith(paginate.render.pageContainer());},
-
+paginate.selectors.$pageContainer.replaceWith(paginate.render.pageContainer());
+},
 updateConfigAndReRender:function updateConfigAndReRender(){
 paginate.helpers.updateConfig();
 if(scope.paginate.currentPage>paginate.config.numberOfPages){
 scope.page=scope.paginate.currentPage=paginate.helpers.normalizePage(scope.paginate.currentPage);
-paginate.scope.reRender();}else 
-
+paginate.scope.reRender();
+}else
 {
-paginate.scope.reRender();}}},
-
-
+paginate.scope.reRender();
+}
+}},
 
 render:{
 init:function init(){
@@ -3406,66 +3394,66 @@ scope.options=$pagination.getPaginationOptions();
 if(scope.count()<=scope.options.intervals[0]&&scope.options.hidePaginationUnderMin===true)paginate.selectors.$paginate.parent('.cui-paginate__container').css({'display':'none'});
 paginate.selectors.$paginate.append(paginate.render.previousButton());
 paginate.selectors.$paginate.append(paginate.render.pageContainer());
-paginate.selectors.$paginate.append(paginate.render.nextButton());},
-
+paginate.selectors.$paginate.append(paginate.render.nextButton());
+},
 previousButton:function previousButton(){
 var previousButton=$compile('<span ng-click="paginate.previous()" class="'+
 paginate.config.previousClass+'">\n                                '+
 paginate.config.previousButton+'\n                            </span>')(
 
 scope);
-return previousButton;},
-
+return previousButton;
+},
 nextButton:function nextButton(){
 var nextButton=$compile('<span ng-click="paginate.next()" class="'+
 paginate.config.nextClass+'">\n                                '+
 paginate.config.nextButton+'\n                            </span>')(
 
 scope);
-return nextButton;},
-
+return nextButton;
+},
 ellipses:function ellipses(page){
 var ngClick='ng-click="paginate.goToPage('+page+')"';
 var ellipses=$compile('<span '+ngClick+' class="'+paginate.config.ellipsesClass+'">'+paginate.config.ellipsesButton+'</span>')(scope);
-return ellipses;},
-
+return ellipses;
+},
 pageNumber:function pageNumber(page,active){
 var activeClass=void 0,ngClick=void 0;
 ngClick='ng-click="paginate.goToPage('+page+')"';
 active?activeClass=''+paginate.config.activePageClass:activeClass='';
 var button=$compile('<span '+ngClick+' class="'+paginate.config.pageClass+' '+activeClass+'">'+page+'</span>')(scope);
-return button;},
-
+return button;
+},
 pagesXToY:function pagesXToY(x,y){
 var pages=[];
-do {
+do{
 var page=paginate.render.pageNumber(x,x===(scope.paginate.currentPage||scope.page));
 pages.push(page);
-x++;}while(
-
+x++;
+}while(
 x<=y);
-return pages;},
-
+return pages;
+},
 pageNumbers:function pageNumbers(){
 var whatEllipsesToShow=paginate.helpers.whatEllipsesToShow();
 var pages=[];
 switch(whatEllipsesToShow){
-case 'none':
+case'none':
 pages.push(paginate.render.pagesXToY(1,paginate.config.numberOfPages));
 break;
-case 'right':
+case'right':
 var ellipsesPoint=paginate.config.howManyPagesWeCanShow-1;
 pages.push(paginate.render.pagesXToY(1,ellipsesPoint-1));
 pages.push(paginate.render.ellipses(ellipsesPoint));
 pages.push(paginate.render.pageNumber(paginate.config.numberOfPages));
 break;
-case 'left':
+case'left':
 var ellipsesPointLeft=paginate.config.numberOfPages-(paginate.config.howManyPagesWeCanShow-2);
 pages.push(paginate.render.pageNumber(1));
 pages.push(paginate.render.ellipses(ellipsesPointLeft));
 pages.push(paginate.render.pagesXToY(ellipsesPointLeft+1,paginate.config.numberOfPages));
 break;
-case 'both':
+case'both':
 var firstEllipsesPoint=scope.paginate.currentPage-(Math.ceil(paginate.config.howManyPagesWeCanShow/2)-2);
 var secondEllipsesPoint=scope.paginate.currentPage+(Math.floor(paginate.config.howManyPagesWeCanShow/2)-1);
 pages.push(paginate.render.pageNumber(1));
@@ -3475,16 +3463,16 @@ pages.push(paginate.render.ellipses(secondEllipsesPoint));
 pages.push(paginate.render.pageNumber(paginate.config.numberOfPages));
 break;}
 ;
-return pages;},
-
+return pages;
+},
 pageContainer:function pageContainer(){
 var pageContainer=$('<span class="'+paginate.config.pageContainerClass+'"></span>');
 paginate.selectors.$pageContainer=pageContainer;
 paginate.render.pageNumbers().forEach(function(page){
-pageContainer.append(page);});
-
-return pageContainer;}}};
-
+pageContainer.append(page);
+});
+return pageContainer;
+}}};
 
 
 
@@ -3492,78 +3480,78 @@ $timeout(function(){
 paginate.initScope();
 paginate.render.init();
 angular.forEach(paginate.watchers,function(initWatcher){
-initWatcher();});});}};}]);
+initWatcher();
+});
+});
+}};
 
-
-
-
-
+}]);
 
 angular.module('cui-ng').
 factory('CuiPasswordInfo',[function(){
 var policies={};
 var info={};
-return {info:info,policies:policies};}]).
-
+return{info:info,policies:policies};
+}]).
 factory('CuiPasswordValidators',['CuiPasswordInfo',function(CuiPasswordInfo){
 RegExp.escape=function(text){return text.replace(/[-[\]{}()*+?.,\\^$|#\s]/g,"\\$&");};
 
 var validators=function validators(policies,id){
-CuiPasswordInfo.info[id]={}; // Initialize the object that holds the info for this password validation (disallowedWords, disallowedChars)
-return {
+CuiPasswordInfo.info[id]={};// Initialize the object that holds the info for this password validation (disallowedWords, disallowedChars)
+return{
 lowercase:function lowercase(modelValue,viewValue){
 if(!modelValue)return false;
 if(getValidators(policies,id).complex(modelValue,viewValue))return true;
-return (/.*[a-z].*/.test(viewValue));},
-
+return /.*[a-z].*/.test(viewValue);
+},
 uppercase:function uppercase(modelValue,viewValue){
 if(!modelValue)return false;
 if(getValidators(policies,id).complex(modelValue,viewValue))return true;
-return (/.*[A-Z].*/.test(viewValue));},
-
+return /.*[A-Z].*/.test(viewValue);
+},
 number:function number(modelValue,viewValue){
 if(!modelValue)return false;
 if(getValidators(policies,id).complex(modelValue,viewValue))return true;
-return (/.*[0-9].*/.test(viewValue));},
-
+return /.*[0-9].*/.test(viewValue);
+},
 special:function special(modelValue,viewValue){
 if(!modelValue)return false;
 if(getValidators(policies,id).complex(modelValue,viewValue))return true;
-return !/^[a-z0-9]+$/i.test(viewValue);},
-
+return!/^[a-z0-9]+$/i.test(viewValue);
+},
 complex:function complex(modelValue,viewValue){
 if(!modelValue)return false;
 var numberOfUsedClasses=0;
 if(policies.allowLowerChars){
-if(/.*[a-z].*/.test(viewValue))numberOfUsedClasses++;}
-
+if(/.*[a-z].*/.test(viewValue))numberOfUsedClasses++;
+}
 if(policies.allowUpperChars){
-if(/.*[A-Z].*/.test(viewValue))numberOfUsedClasses++;}
-
+if(/.*[A-Z].*/.test(viewValue))numberOfUsedClasses++;
+}
 if(policies.allowSpecialChars){
-if(!/^[a-z0-9]+$/i.test(viewValue))numberOfUsedClasses++;}
-
+if(!/^[a-z0-9]+$/i.test(viewValue))numberOfUsedClasses++;
+}
 if(policies.allowNumChars){
-if(/.*[0-9].*/.test(viewValue))numberOfUsedClasses++;}
-
-return numberOfUsedClasses>=policies.requiredNumberOfCharClasses;},
-
+if(/.*[0-9].*/.test(viewValue))numberOfUsedClasses++;
+}
+return numberOfUsedClasses>=policies.requiredNumberOfCharClasses;
+},
 lowercaseNotAllowed:function lowercaseNotAllowed(modelValue,viewValue){
 if(!viewValue)return true;
-return !/.*[a-z].*/.test(viewValue);},
-
+return!/.*[a-z].*/.test(viewValue);
+},
 uppercaseNotAllowed:function uppercaseNotAllowed(modelValue,viewValue){
 if(!viewValue)return true;
-return !/.*[A-Z].*/.test(viewValue);},
-
+return!/.*[A-Z].*/.test(viewValue);
+},
 numberNotAllowed:function numberNotAllowed(modelValue,viewValue){
 if(!viewValue)return true;
-return !/.*[0-9].*/.test(viewValue);},
-
+return!/.*[0-9].*/.test(viewValue);
+},
 specialNotAllowed:function specialNotAllowed(modelValue,viewValue){
 if(!viewValue)return true;
-return (/^[a-z0-9]+$/i.test(viewValue));},
-
+return /^[a-z0-9]+$/i.test(viewValue);
+},
 disallowedChars:function disallowedChars(modelValue,viewValue){
 if(!viewValue)return true;
 var valid=true;
@@ -3571,12 +3559,12 @@ var disallowedChars=[];
 policies.disallowedChars.split('').forEach(function(disallowedChar){
 if(viewValue.indexOf(disallowedChar)>-1){
 valid=false;
-disallowedChars.push(disallowedChar);}});
-
-
+disallowedChars.push(disallowedChar);
+}
+});
 CuiPasswordInfo.info[id].disallowedChars=disallowedChars.join(', ');
-return valid;},
-
+return valid;
+},
 disallowedWords:function disallowedWords(modelValue,viewValue){
 if(!viewValue)return true;
 var valid=true;
@@ -3584,18 +3572,18 @@ var disallowedWords=[];
 policies.disallowedWords.forEach(function(word){
 if(viewValue.toUpperCase().indexOf(word.toUpperCase())>-1){
 valid=false;
-disallowedWords.push(word);}});
-
-
+disallowedWords.push(word);
+}
+});
 CuiPasswordInfo.info[id].disallowedWords=disallowedWords.join(', ');
-return valid;},
-
+return valid;
+},
 length:function length(modelValue,viewValue){
 if(!modelValue)return false;
-return viewValue.length<=policies.max&&viewValue.length>=policies.min;}};};
+return viewValue.length<=policies.max&&viewValue.length>=policies.min;
+}};
 
-
-
+};
 
 var getValidators=function getValidators(parsedPolicies,id){
 var validator={};
@@ -3609,76 +3597,76 @@ validator.complex=passwordValidators.complex;
 // if lower chars are not allowed add a check to see if there's a lowercase in the input
 if(parsedPolicies.allowLowerChars){
 validator.lowercase=passwordValidators.lowercase;
-validator.lowercaseNotAllowed=trueFunction;}else 
-
+validator.lowercaseNotAllowed=trueFunction;
+}else
 {
 validator.lowercase=trueFunction;
-validator.lowercaseNotAllowed=passwordValidators.lowercaseNotAllowed;}
-
+validator.lowercaseNotAllowed=passwordValidators.lowercaseNotAllowed;
+}
 
 if(parsedPolicies.allowUpperChars){
 validator.uppercase=passwordValidators.uppercase;
-validator.uppercaseNotAllowed=trueFunction;}else 
-
+validator.uppercaseNotAllowed=trueFunction;
+}else
 {
 validator.uppercase=trueFunction;
-validator.uppercaseNotAllowed=passwordValidators.uppercaseNotAllowed;}
-
+validator.uppercaseNotAllowed=passwordValidators.uppercaseNotAllowed;
+}
 
 if(parsedPolicies.allowNumChars){
 validator.number=passwordValidators.number;
-validator.numberNotAllowed=trueFunction;}else 
-
+validator.numberNotAllowed=trueFunction;
+}else
 {
 validator.number=trueFunction;
-validator.numberNotAllowed=passwordValidators.numberNotAllowed;}
-
+validator.numberNotAllowed=passwordValidators.numberNotAllowed;
+}
 
 if(parsedPolicies.allowSpecialChars){
 validator.special=passwordValidators.special;
-validator.specialNotAllowed=trueFunction;}else 
-
+validator.specialNotAllowed=trueFunction;
+}else
 {
 validator.special=trueFunction;
-validator.specialNotAllowed=passwordValidators.specialNotAllowed;}
-
+validator.specialNotAllowed=passwordValidators.specialNotAllowed;
+}
 
 if(parsedPolicies.disallowedChars){
-validator.disallowedChars=passwordValidators.disallowedChars;}
-
+validator.disallowedChars=passwordValidators.disallowedChars;
+}
 
 if(parsedPolicies.disallowedWords){
-validator.disallowedWords=passwordValidators.disallowedWords;}
-
+validator.disallowedWords=passwordValidators.disallowedWords;
+}
 
 if(parsedPolicies.min||parsedPolicies.max){
-validator.length=passwordValidators.length;}
+validator.length=passwordValidators.length;
+}
 
+return validator;
+};
 
-return validator;};
-
-
-return {getValidators:getValidators};}]).
-
+return{getValidators:getValidators};
+}]).
 factory('CuiPasswordPolicies',['CuiPasswordValidators','CuiPasswordInfo',function(CuiPasswordValidators,CuiPasswordInfo){
 var policy={
 parse:function parse(policies){
 var newParsedPolicies={};
-if(policies.length){ // if we received an array
+if(policies.length){// if we received an array
 policies.forEach(function(policyRulesObject){
 Object.keys(policyRulesObject).forEach(function(policyKey){
-newParsedPolicies[policyKey]=policyRulesObject[policyKey];});});}else 
-
-
-
+newParsedPolicies[policyKey]=policyRulesObject[policyKey];
+});
+});
+}else
 newParsedPolicies=Object.assign({},policies);
-return newParsedPolicies;}};
+return newParsedPolicies;
+}};
 
-
-return policy;}]).
-
+return policy;
+}]).
 directive('passwordValidation',['CuiPasswordPolicies','CuiPasswordValidators',function(CuiPasswordPolicies,CuiPasswordValidators){
-return {
+return{
 require:'ngModel',
 scope:{
 passwordValidation:'='},
@@ -3693,42 +3681,42 @@ if(newPasswordValidationRules){
 var parsedPolicies=CuiPasswordPolicies.parse(newPasswordValidationRules);
 var validators=CuiPasswordValidators.getValidators(parsedPolicies,passwordValidationKey);
 angular.forEach(validators,function(checkFunction,validationName){
-ctrl.$validators[validationName]=checkFunction;});
+ctrl.$validators[validationName]=checkFunction;
+});
+ctrl.$validate();
+}
+});
+}};
 
-ctrl.$validate();}});}};}]).
-
-
-
-
-
+}]).
 directive('passwordPopover',['CuiPasswordInfo',function(CuiPasswordInfo){
-return {
+return{
 restrict:'A',
 link:function link(scope,elem,attrs){
-var passwordValidationKey=scope.$eval(attrs.ngMessages.replace('.$error','.passwordValidationKey')); // get the passwordValidationKey from the input it's applied to
+var passwordValidationKey=scope.$eval(attrs.ngMessages.replace('.$error','.passwordValidationKey'));// get the passwordValidationKey from the input it's applied to
 
 scope.$watchCollection(function(){return CuiPasswordInfo.info[passwordValidationKey];},function(newPasswordInfo){
 if(newPasswordInfo){
 Object.keys(newPasswordInfo).forEach(function(key){
-scope[key]=newPasswordInfo[key];});}});
-
-
-
+scope[key]=newPasswordInfo[key];
+});
+}
+});
 
 scope.$watchCollection(function(){return CuiPasswordInfo.policies[passwordValidationKey];},function(newPasswordPolicies){
-if(newPasswordPolicies)scope.policies=Object.assign({},newPasswordPolicies);});
-
+if(newPasswordPolicies)scope.policies=Object.assign({},newPasswordPolicies);
+});
 
 scope.$watchCollection(function(){return scope.$eval(attrs.ngMessages);},function(newErrorObject){
-if(newErrorObject)scope.errors=Object.assign({},newErrorObject);});}};}]);
+if(newErrorObject)scope.errors=Object.assign({},newErrorObject);
+});
+}};
 
-
-
-
+}]);
 
 angular.module('cui-ng').
 directive('resultsPerPage',['$compile','$pagination',function($compile,$pagination){
-return {
+return{
 restrict:'E',
 scope:{
 selected:'=ngModel'},
@@ -3742,22 +3730,22 @@ scope.intervals=scope.options.intervals;
 
 scope.$watch('selected',function(selected){
 $pagination.setUserValue(selected);
-scope.selected=selected;});},
-
-
+scope.selected=selected;
+});
+},
 config:{
 selectClass:attrs.class||'cui-dropdown'},
 
 render:function render(){
 var element=$compile('<cui-dropdown class="'+resultsPerPage.config.selectClass+'" ng-model="selected" options="intervals"></cui-dropdown>')(scope);
-angular.element(elem).replaceWith(element);}};
-
+angular.element(elem).replaceWith(element);
+}};
 
 resultsPerPage.initScope();
-resultsPerPage.render();}};}]);
+resultsPerPage.render();
+}};
 
-
-
+}]);
 
 var KEYS={
 backspace:8,
@@ -3782,12 +3770,12 @@ function TagList(options,events,onTagAdding,onTagRemoving){
 var self={},getTagText,setTagText,tagIsValid;
 
 getTagText=function getTagText(tag){
-return tiUtil.safeToString(tag[options.displayProperty]);};
-
+return tiUtil.safeToString(tag[options.displayProperty]);
+};
 
 setTagText=function setTagText(tag,text){
-tag[options.displayProperty]=text;};
-
+tag[options.displayProperty]=text;
+};
 
 tagIsValid=function tagIsValid(tag){
 var tagText=getTagText(tag);
@@ -3797,36 +3785,36 @@ tagText.length>=options.minLength&&
 tagText.length<=options.maxLength&&
 options.allowedTagsPattern.test(tagText)&&
 !tiUtil.findInObjectArray(self.items,tag,options.keyProperty||options.displayProperty)&&
-onTagAdding({$tag:tag});};
-
+onTagAdding({$tag:tag});
+};
 
 self.items=[];
 
 self.addText=function(text){
 var tag={};
 setTagText(tag,text);
-return self.add(tag);};
-
+return self.add(tag);
+};
 
 self.add=function(tag){
 var tagText=getTagText(tag);
 
 if(options.replaceSpacesWithDashes){
-tagText=tiUtil.replaceSpacesWithDashes(tagText);}
-
+tagText=tiUtil.replaceSpacesWithDashes(tagText);
+}
 
 setTagText(tag,tagText);
 
 if(tagIsValid(tag)){
 self.items.push(tag);
-events.trigger('tag-added',{$tag:tag});}else 
-
+events.trigger('tag-added',{$tag:tag});
+}else
 if(tagText){
-events.trigger('invalid-tag',{$tag:tag});}
+events.trigger('invalid-tag',{$tag:tag});
+}
 
-
-return tag;};
-
+return tag;
+};
 
 self.remove=function(index){
 var tag=self.items[index];
@@ -3835,49 +3823,49 @@ if(onTagRemoving({$tag:tag})){
 self.items.splice(index,1);
 self.clearSelection();
 events.trigger('tag-removed',{$tag:tag});
-return tag;}};
-
-
+return tag;
+}
+};
 
 self.select=function(index){
 if(index<0){
-index=self.items.length-1;}else 
-
+index=self.items.length-1;
+}else
 if(index>=self.items.length){
-index=0;}
-
+index=0;
+}
 
 self.index=index;
-self.selected=self.items[index];};
-
+self.selected=self.items[index];
+};
 
 self.selectPrior=function(){
-self.select(--self.index);};
-
+self.select(--self.index);
+};
 
 self.selectNext=function(){
-self.select(++self.index);};
-
+self.select(++self.index);
+};
 
 self.removeSelected=function(){
-return self.remove(self.index);};
-
+return self.remove(self.index);
+};
 
 self.clearSelection=function(){
 self.selected=null;
-self.index=-1;};
-
+self.index=-1;
+};
 
 self.clearSelection();
 
-return self;}
-
+return self;
+}
 
 function validateType(type){
-return SUPPORTED_INPUT_TYPES.indexOf(type)!==-1;}
+return SUPPORTED_INPUT_TYPES.indexOf(type)!==-1;
+}
 
-
-return {
+return{
 restrict:'E',
 require:'ngModel',
 scope:{
@@ -3929,43 +3917,43 @@ tiUtil.handleUndefinedResult($scope.onTagRemoving,true));
 this.registerAutocomplete=function(){
 var input=$element.find('input');
 
-return {
+return{
 addTag:function addTag(tag){
-return $scope.tagList.add(tag);},
-
+return $scope.tagList.add(tag);
+},
 focusInput:function focusInput(){
-input[0].focus();},
-
+input[0].focus();
+},
 getTags:function getTags(){
-return $scope.tagList.items;},
-
+return $scope.tagList.items;
+},
 getCurrentTagText:function getCurrentTagText(){
-return $scope.newTag.text();},
-
+return $scope.newTag.text();
+},
 getOptions:function getOptions(){
-return $scope.options;},
-
+return $scope.options;
+},
 on:function on(name,handler){
 $scope.events.on(name,handler);
-return this;}};};
+return this;
+}};
 
-
-
+};
 
 this.registerTagItem=function(){
-return {
+return{
 getOptions:function getOptions(){
-return $scope.options;},
-
+return $scope.options;
+},
 removeTag:function removeTag(index){
 if($scope.disabled){
-return;}
+return;
+}
+$scope.tagList.remove(index);
+}};
 
-$scope.tagList.remove(index);}};};}],
-
-
-
-
+};
+}],
 link:function link(scope,element,attrs,ngModelCtrl){
 var hotkeys=[KEYS.enter,KEYS.comma,KEYS.space,KEYS.backspace,KEYS.delete,KEYS.left,KEYS.right],
 tagList=scope.tagList,
@@ -3978,65 +3966,65 @@ setElementValidity;
 setElementValidity=function setElementValidity(){
 ngModelCtrl.$setValidity('maxTags',tagList.items.length<=options.maxTags);
 ngModelCtrl.$setValidity('minTags',tagList.items.length>=options.minTags);
-ngModelCtrl.$setValidity('leftoverText',scope.hasFocus||options.allowLeftoverText?true:!scope.newTag.text());};
-
+ngModelCtrl.$setValidity('leftoverText',scope.hasFocus||options.allowLeftoverText?true:!scope.newTag.text());
+};
 
 ngModelCtrl.$isEmpty=function(value){
-return !value||!value.length;};
-
+return!value||!value.length;
+};
 
 scope.newTag={
 text:function text(value){
 if(angular.isDefined(value)){
 scope.text=value;
-events.trigger('input-change',value);}else 
-
+events.trigger('input-change',value);
+}else
 {
-return scope.text||'';}},
-
-
+return scope.text||'';
+}
+},
 invalid:null};
 
 
 scope.track=function(tag){
-return tag[options.keyProperty||options.displayProperty];};
-
+return tag[options.keyProperty||options.displayProperty];
+};
 
 scope.$watch('tags',function(value){
 if(value){
 tagList.items=tiUtil.makeObjectArray(value,options.displayProperty);
-scope.tags=tagList.items;}else 
-
+scope.tags=tagList.items;
+}else
 {
-tagList.items=[];}});
-
-
+tagList.items=[];
+}
+});
 
 scope.$watch('tags.length',function(){
 setElementValidity();
 
 // ngModelController won't trigger validators when the model changes (because it's an array),
 // so we need to do it ourselves. Unfortunately this won't trigger any registered formatter.
-ngModelCtrl.$validate();});
-
+ngModelCtrl.$validate();
+});
 
 attrs.$observe('disabled',function(value){
-scope.disabled=value;});
-
+scope.disabled=value;
+});
 
 scope.eventHandlers={
 input:{
 keydown:function keydown($event){
-events.trigger('input-keydown',$event);},
-
+events.trigger('input-keydown',$event);
+},
 focus:function focus(){
 if(scope.hasFocus){
-return;}
-
+return;
+}
 
 scope.hasFocus=true;
-events.trigger('input-focus');},
-
+events.trigger('input-focus');
+},
 blur:function blur(){
 $timeout(function(){
 var activeElement=$document.prop('activeElement'),
@@ -4045,30 +4033,30 @@ lostFocusToChildElement=element[0].contains(activeElement);
 
 if(lostFocusToBrowserWindow||!lostFocusToChildElement){
 scope.hasFocus=false;
-events.trigger('input-blur');}});},
-
-
-
+events.trigger('input-blur');
+}
+});
+},
 paste:function paste($event){
 $event.getTextData=function(){
 var clipboardData=$event.clipboardData||$event.originalEvent&&$event.originalEvent.clipboardData;
-return clipboardData?clipboardData.getData('text/plain'):$window.clipboardData.getData('Text');};
-
-events.trigger('input-paste',$event);}},
-
+return clipboardData?clipboardData.getData('text/plain'):$window.clipboardData.getData('Text');
+};
+events.trigger('input-paste',$event);
+}},
 
 host:{
 click:function click(){
 if(scope.disabled){
-return;}
-
-input[0].focus();}},
-
+return;
+}
+input[0].focus();
+}},
 
 tag:{
 click:function click(tag){
-events.trigger('tag-clicked',{$tag:tag});}}};
-
+events.trigger('tag-clicked',{$tag:tag});
+}}};
 
 
 
@@ -4078,46 +4066,46 @@ on('invalid-tag',scope.onInvalidTag).
 on('tag-removed',scope.onTagRemoved).
 on('tag-clicked',scope.onTagClicked).
 on('tag-added',function(){
-scope.newTag.text('');}).
-
+scope.newTag.text('');
+}).
 on('tag-added tag-removed',function(){
 scope.tags=tagList.items;
 // Ideally we should be able call $setViewValue here and let it in turn call $setDirty and $validate
 // automatically, but since the model is an array, $setViewValue does nothing and it's up to us to do it.
 // Unfortunately this won't trigger any registered $parser and there's no safe way to do it.
-ngModelCtrl.$setDirty();}).
-
+ngModelCtrl.$setDirty();
+}).
 on('invalid-tag',function(){
-scope.newTag.invalid=true;}).
-
+scope.newTag.invalid=true;
+}).
 on('option-change',function(e){
 if(validationOptions.indexOf(e.name)!==-1){
-setElementValidity();}}).
-
-
+setElementValidity();
+}
+}).
 on('input-change',function(){
 tagList.clearSelection();
-scope.newTag.invalid=null;}).
-
+scope.newTag.invalid=null;
+}).
 on('input-focus',function(){
 element.triggerHandler('focus');
-ngModelCtrl.$setValidity('leftoverText',true);}).
-
+ngModelCtrl.$setValidity('leftoverText',true);
+}).
 on('input-blur',function(){
 if(options.addOnBlur&&!options.addFromAutocompleteOnly){
-tagList.addText(scope.newTag.text());}
-
+tagList.addText(scope.newTag.text());
+}
 element.triggerHandler('blur');
-setElementValidity();}).
-
+setElementValidity();
+}).
 on('input-keydown',function(event){
 var key=event.keyCode,
 addKeys={},
 shouldAdd,shouldRemove,shouldSelect,shouldEditLastTag;
 
 if(tiUtil.isModifierOn(event)||hotkeys.indexOf(key)===-1){
-return;}
-
+return;
+}
 
 addKeys[KEYS.enter]=options.addOnEnter;
 addKeys[KEYS.comma]=options.addOnComma;
@@ -4129,8 +4117,8 @@ shouldEditLastTag=key===KEYS.backspace&&scope.newTag.text().length===0&&options.
 shouldSelect=(key===KEYS.backspace||key===KEYS.left||key===KEYS.right)&&scope.newTag.text().length===0&&!options.enableEditingLastTag;
 
 if(shouldAdd){
-tagList.addText(scope.newTag.text());}else 
-
+tagList.addText(scope.newTag.text());
+}else
 if(shouldEditLastTag){
 var tag;
 
@@ -4138,25 +4126,25 @@ tagList.selectPrior();
 tag=tagList.removeSelected();
 
 if(tag){
-scope.newTag.text(tag[options.displayProperty]);}}else 
-
-
+scope.newTag.text(tag[options.displayProperty]);
+}
+}else
 if(shouldRemove){
-tagList.removeSelected();}else 
-
+tagList.removeSelected();
+}else
 if(shouldSelect){
 if(key===KEYS.left||key===KEYS.backspace){
-tagList.selectPrior();}else 
-
+tagList.selectPrior();
+}else
 if(key===KEYS.right){
-tagList.selectNext();}}
-
-
+tagList.selectNext();
+}
+}
 
 if(shouldAdd||shouldSelect||shouldRemove||shouldEditLastTag){
-event.preventDefault();}}).
-
-
+event.preventDefault();
+}
+}).
 on('input-paste',function(event){
 if(options.addOnPaste){
 var data=event.getTextData();
@@ -4164,15 +4152,15 @@ var tags=data.split(options.pasteSplitPattern);
 
 if(tags.length>1){
 tags.forEach(function(tag){
-tagList.addText(tag);});
+tagList.addText(tag);
+});
+event.preventDefault();
+}
+}
+});
+}};
 
-event.preventDefault();}}});}};}])
-
-
-
-
-
-
+}])
 
 
 /**
@@ -4184,7 +4172,7 @@ event.preventDefault();}}});}};}])
  * Represents a tag item. Used internally by the tagsInput directive.
  */.
 directive('tiTagItem',["tiUtil",function(tiUtil){
-return {
+return{
 restrict:'E',
 require:'^tagsInput',
 template:'<ng-include src="$$template"></ng-include>',
@@ -4197,18 +4185,18 @@ scope.$$template=options.template;
 scope.$$removeTagSymbol=options.removeTagSymbol;
 
 scope.$getDisplayText=function(){
-return tiUtil.safeToString(scope.data[options.displayProperty]);};
-
+return tiUtil.safeToString(scope.data[options.displayProperty]);
+};
 scope.$removeTag=function(){
-tagsInput.removeTag(scope.$index);};
-
+tagsInput.removeTag(scope.$index);
+};
 
 scope.$watch('$parent.$index',function(value){
-scope.$index=value;});}};}])
+scope.$index=value;
+});
+}};
 
-
-
-
+}])
 
 
 /**
@@ -4244,20 +4232,20 @@ function SuggestionList(loadFn,options,events){
 var self={},getDifference,lastPromise,getTagId;
 
 getTagId=function getTagId(){
-return options.tagsInput.keyProperty||options.tagsInput.displayProperty;};
-
+return options.tagsInput.keyProperty||options.tagsInput.displayProperty;
+};
 
 getDifference=function getDifference(array1,array2){
 return array1.filter(function(item){
-return !tiUtil.findInObjectArray(array2,item,getTagId(),function(a,b){
+return!tiUtil.findInObjectArray(array2,item,getTagId(),function(a,b){
 if(options.tagsInput.replaceSpacesWithDashes){
 a=tiUtil.replaceSpacesWithDashes(a);
-b=tiUtil.replaceSpacesWithDashes(b);}
-
-return tiUtil.defaultComparer(a,b);});});};
-
-
-
+b=tiUtil.replaceSpacesWithDashes(b);
+}
+return tiUtil.defaultComparer(a,b);
+});
+});
+};
 
 self.reset=function(){
 lastPromise=null;
@@ -4266,17 +4254,17 @@ self.items=[];
 self.visible=false;
 self.index=-1;
 self.selected=null;
-self.query=null;};
-
+self.query=null;
+};
 self.show=function(){
 if(options.selectFirstMatch){
-self.select(0);}else 
-
+self.select(0);
+}else
 {
-self.selected=null;}
-
-self.visible=true;};
-
+self.selected=null;
+}
+self.visible=true;
+};
 self.load=tiUtil.debounce(function(query,tags){
 self.query=query;
 
@@ -4285,44 +4273,44 @@ lastPromise=promise;
 
 promise.then(function(items){
 if(promise!==lastPromise){
-return;}
-
+return;
+}
 
 items=tiUtil.makeObjectArray(items.data||items,getTagId());
 items=getDifference(items,tags);
 self.items=items.slice(0,options.maxResultsToShow);
 
 if(self.items.length>0){
-self.show();}else 
-
+self.show();
+}else
 {
-self.reset();}});},
-
-
-options.debounceDelay);
+self.reset();
+}
+});
+},options.debounceDelay);
 
 self.selectNext=function(){
-self.select(++self.index);};
-
+self.select(++self.index);
+};
 self.selectPrior=function(){
-self.select(--self.index);};
-
+self.select(--self.index);
+};
 self.select=function(index){
 if(index<0){
-index=self.items.length-1;}else 
-
+index=self.items.length-1;
+}else
 if(index>=self.items.length){
-index=0;}
-
+index=0;
+}
 self.index=index;
 self.selected=self.items[index];
-events.trigger('suggestion-selected',index);};
-
+events.trigger('suggestion-selected',index);
+};
 
 self.reset();
 
-return self;}
-
+return self;
+}
 
 function scrollToElement(root,index){
 var element=root.find('li').eq(index),
@@ -4333,14 +4321,14 @@ parentHeight=parent.prop('clientHeight'),
 parentScrollTop=parent.prop('scrollTop');
 
 if(elementTop<parentScrollTop){
-parent.prop('scrollTop',elementTop);}else 
-
+parent.prop('scrollTop',elementTop);
+}else
 if(elementTop+elementHeight>parentHeight+parentScrollTop){
-parent.prop('scrollTop',elementTop+elementHeight-parentHeight);}}
+parent.prop('scrollTop',elementTop+elementHeight-parentHeight);
+}
+}
 
-
-
-return {
+return{
 restrict:'E',
 require:'^tagsInput',
 scope:{source:'&'},
@@ -4364,16 +4352,16 @@ displayProperty:[String,'']});
 $scope.suggestionList=new SuggestionList($scope.source,$scope.options,$scope.events);
 
 this.registerAutocompleteMatch=function(){
-return {
+return{
 getOptions:function getOptions(){
-return $scope.options;},
-
+return $scope.options;
+},
 getQuery:function getQuery(){
-return $scope.suggestionList.query;}};};}],
+return $scope.suggestionList.query;
+}};
 
-
-
-
+};
+}],
 link:function link(scope,element,attrs,tagsInputCtrl){
 var hotkeys=[KEYS.enter,KEYS.tab,KEYS.escape,KEYS.up,KEYS.down],
 suggestionList=scope.suggestionList,
@@ -4385,13 +4373,13 @@ shouldLoadSuggestions;
 options.tagsInput=tagsInput.getOptions();
 
 shouldLoadSuggestions=function shouldLoadSuggestions(value){
-return value&&value.length>=options.minLength||!value&&options.loadOnEmpty;};
-
+return value&&value.length>=options.minLength||!value&&options.loadOnEmpty;
+};
 
 scope.addSuggestionByIndex=function(index){
 suggestionList.select(index);
-scope.addSuggestion();};
-
+scope.addSuggestion();
+};
 
 scope.addSuggestion=function(){
 var added=false;
@@ -4401,83 +4389,83 @@ tagsInput.addTag(angular.copy(suggestionList.selected));
 suggestionList.reset();
 tagsInput.focusInput();
 
-added=true;}
-
-return added;};
-
+added=true;
+}
+return added;
+};
 
 scope.track=function(item){
-return item[options.tagsInput.keyProperty||options.tagsInput.displayProperty];};
-
+return item[options.tagsInput.keyProperty||options.tagsInput.displayProperty];
+};
 
 tagsInput.
 on('tag-added tag-removed invalid-tag input-blur',function(){
-suggestionList.reset();}).
-
+suggestionList.reset();
+}).
 on('input-change',function(value){
 if(shouldLoadSuggestions(value)){
-suggestionList.load(value,tagsInput.getTags());}else 
-
+suggestionList.load(value,tagsInput.getTags());
+}else
 {
-suggestionList.reset();}}).
-
-
+suggestionList.reset();
+}
+}).
 on('input-focus',function(){
 var value=tagsInput.getCurrentTagText();
 if(options.loadOnFocus&&shouldLoadSuggestions(value)){
-suggestionList.load(value,tagsInput.getTags());}}).
-
-
+suggestionList.load(value,tagsInput.getTags());
+}
+}).
 on('input-keydown',function(event){
 var key=event.keyCode,
 handled=false;
 
 if(tiUtil.isModifierOn(event)||hotkeys.indexOf(key)===-1){
-return;}
-
+return;
+}
 
 if(suggestionList.visible){
 
 if(key===KEYS.down){
 suggestionList.selectNext();
-handled=true;}else 
-
+handled=true;
+}else
 if(key===KEYS.up){
 suggestionList.selectPrior();
-handled=true;}else 
-
+handled=true;
+}else
 if(key===KEYS.escape){
 suggestionList.reset();
-handled=true;}else 
-
+handled=true;
+}else
 if(key===KEYS.enter||key===KEYS.tab){
-handled=scope.addSuggestion();}}else 
-
-
+handled=scope.addSuggestion();
+}
+}else
 {
 if(key===KEYS.down&&scope.options.loadOnDownArrow){
 suggestionList.load(tagsInput.getCurrentTagText(),tagsInput.getTags());
-handled=true;}}
-
-
+handled=true;
+}
+}
 
 if(handled){
 event.preventDefault();
 event.stopImmediatePropagation();
-return false;}});
-
-
+return false;
+}
+});
 
 events.on('suggestion-selected',function(index){
-scrollToElement(element,index);});}};}]).
+scrollToElement(element,index);
+});
+}};
 
-
-
-
+}]).
 
 
 directive('tiAutocompleteMatch',["$sce","tiUtil",function($sce,tiUtil){
-return {
+return{
 restrict:'E',
 require:'^autoComplete',
 template:'<ng-include src="$$template"></ng-include>',
@@ -4491,27 +4479,27 @@ scope.$index=scope.$parent.$index;
 
 scope.$highlight=function(text){
 if(options.highlightMatchedText){
-text=tiUtil.safeHighlight(text,autoComplete.getQuery());}
-
-return $sce.trustAsHtml(text);};
-
+text=tiUtil.safeHighlight(text,autoComplete.getQuery());
+}
+return $sce.trustAsHtml(text);
+};
 scope.$getDisplayText=function(){
-return tiUtil.safeToString(scope.data[options.displayProperty||options.tagsInput.displayProperty]);};}};}]).
+return tiUtil.safeToString(scope.data[options.displayProperty||options.tagsInput.displayProperty]);
+};
+}};
 
-
-
-
+}]).
 
 directive('tiTranscludeAppend',function(){
 return function(scope,element,attrs,ctrl,transcludeFn){
 transcludeFn(function(clone){
-element.append(clone);});};}).
-
-
-
+element.append(clone);
+});
+};
+}).
 
 directive('tiAutosize',["tagsInputConfig",function(tagsInputConfig){
-return {
+return{
 restrict:'A',
 require:'ngModel',
 link:function link(scope,element,attrs,ctrl){
@@ -4530,42 +4518,42 @@ resize=function resize(originalValue){
 var value=originalValue,width;
 
 if(angular.isString(value)&&value.length===0){
-value=attrs.placeholder;}
-
+value=attrs.placeholder;
+}
 
 if(value){
 span.text(value);
 span.css('display','');
 width=span.prop('offsetWidth');
-span.css('display','none');}
-
+span.css('display','none');
+}
 
 element.css('width',width?width+threshold+'px':'');
 
-return originalValue;};
-
+return originalValue;
+};
 
 ctrl.$parsers.unshift(resize);
 ctrl.$formatters.unshift(resize);
 
 attrs.$observe('placeholder',function(value){
 if(!ctrl.$modelValue){
-resize(value);}});}};}]).
+resize(value);
+}
+});
+}};
 
-
-
-
-
+}]).
 
 directive('tiBindAttrs',function(){
 return function(scope,element,attrs){
 scope.$watch(attrs.tiBindAttrs,function(value){
 angular.forEach(value,function(value,key){
-attrs.$set(key,value);});},
-
-true);};}).
-
-
+attrs.$set(key,value);
+});
+},true);
+};
+}).
 
 provider('tagsInputConfig',function(){
 var globalDefaults={},
@@ -4584,8 +4572,8 @@ autosizeThreshold=3;
      */
 this.setDefaults=function(directive,defaults){
 globalDefaults[directive]=defaults;
-return this;};
-
+return this;
+};
 
 /**
      * @ngdoc method
@@ -4599,8 +4587,8 @@ return this;};
      */
 this.setActiveInterpolation=function(directive,options){
 interpolationStatus[directive]=options;
-return this;};
-
+return this;
+};
 
 /**
      * @ngdoc method
@@ -4613,8 +4601,8 @@ return this;};
      */
 this.setTextAutosizeThreshold=function(threshold){
 autosizeThreshold=threshold;
-return this;};
-
+return this;
+};
 
 this.$get=["$interpolate",function($interpolate){
 var converters={};
@@ -4623,7 +4611,7 @@ converters[Number]=function(value){return parseInt(value,10);};
 converters[Boolean]=function(value){return value.toLowerCase()==='true';};
 converters[RegExp]=function(value){return new RegExp(value);};
 
-return {
+return{
 load:function load(directive,scope,attrs,options){
 var defaultValidator=function defaultValidator(){return true;};
 
@@ -4639,30 +4627,30 @@ converter=converters[type];
 
 getDefault=function getDefault(){
 var globalValue=globalDefaults[directive]&&globalDefaults[directive][key];
-return angular.isDefined(globalValue)?globalValue:localDefault;};
-
+return angular.isDefined(globalValue)?globalValue:localDefault;
+};
 
 updateValue=function updateValue(value){
-scope.options[key]=value&&validator(value)?converter(value):getDefault();};
-
+scope.options[key]=value&&validator(value)?converter(value):getDefault();
+};
 
 if(interpolationStatus[directive]&&interpolationStatus[directive][key]){
 attrs.$observe(key,function(value){
 updateValue(value);
-scope.events.trigger('option-change',{name:key,newValue:value});});}else 
-
-
+scope.events.trigger('option-change',{name:key,newValue:value});
+});
+}else
 {
-updateValue(attrs[key]&&$interpolate(attrs[key])(scope.$parent));}});},
-
-
-
+updateValue(attrs[key]&&$interpolate(attrs[key])(scope.$parent));
+}
+});
+},
 getTextAutosizeThreshold:function getTextAutosizeThreshold(){
-return autosizeThreshold;}};}];}).
+return autosizeThreshold;
+}};
 
-
-
-
+}];
+}).
 
 factory('tiUtil',["$timeout",function($timeout){
 var self={};
@@ -4672,23 +4660,23 @@ var timeoutId;
 return function(){
 var args=arguments;
 $timeout.cancel(timeoutId);
-timeoutId=$timeout(function(){fn.apply(null,args);},delay);};};
-
-
+timeoutId=$timeout(function(){fn.apply(null,args);},delay);
+};
+};
 
 self.makeObjectArray=function(array,key){
 if(!angular.isArray(array)||array.length===0||angular.isObject(array[0])){
-return array;}
-
+return array;
+}
 
 var newArray=[];
 array.forEach(function(item){
 var obj={};
 obj[key]=item;
-newArray.push(obj);});
-
-return newArray;};
-
+newArray.push(obj);
+});
+return newArray;
+};
 
 self.findInObjectArray=function(array,obj,key,comparer){
 var item=null;
@@ -4697,87 +4685,87 @@ comparer=comparer||self.defaultComparer;
 array.some(function(element){
 if(comparer(element[key],obj[key])){
 item=element;
-return true;}});
+return true;
+}
+});
 
-
-
-return item;};
-
+return item;
+};
 
 self.defaultComparer=function(a,b){
 // I'm aware of the internationalization issues regarding toLowerCase()
 // but I couldn't come up with a better solution right now
-return self.safeToString(a).toLowerCase()===self.safeToString(b).toLowerCase();};
-
+return self.safeToString(a).toLowerCase()===self.safeToString(b).toLowerCase();
+};
 
 self.safeHighlight=function(str,value){
 if(!value){
-return str;}
-
+return str;
+}
 
 function escapeRegexChars(str){
-return str.replace(/([.?*+^$[\]\\(){}|-])/g,'\\$1');}
-
+return str.replace(/([.?*+^$[\]\\(){}|-])/g,'\\$1');
+}
 
 str=self.encodeHTML(str);
 value=self.encodeHTML(value);
 
 var expression=new RegExp('&[^;]+;|'+escapeRegexChars(value),'gi');
 return str.replace(expression,function(match){
-return match.toLowerCase()===value.toLowerCase()?'<em>'+match+'</em>':match;});};
-
-
+return match.toLowerCase()===value.toLowerCase()?'<em>'+match+'</em>':match;
+});
+};
 
 self.safeToString=function(value){
-return angular.isUndefined(value)||value===null?'':value.toString().trim();};
-
+return angular.isUndefined(value)||value===null?'':value.toString().trim();
+};
 
 self.encodeHTML=function(value){
 return self.safeToString(value).
 replace(/&/g,'&amp;').
 replace(/</g,'&lt;').
-replace(/>/g,'&gt;');};
-
+replace(/>/g,'&gt;');
+};
 
 self.handleUndefinedResult=function(fn,valueIfUndefined){
 return function(){
 var result=fn.apply(null,arguments);
-return angular.isUndefined(result)?valueIfUndefined:result;};};
-
-
+return angular.isUndefined(result)?valueIfUndefined:result;
+};
+};
 
 self.replaceSpacesWithDashes=function(str){
-return self.safeToString(str).replace(/\s/g,'-');};
-
+return self.safeToString(str).replace(/\s/g,'-');
+};
 
 self.isModifierOn=function(event){
-return event.shiftKey||event.ctrlKey||event.altKey||event.metaKey;};
-
+return event.shiftKey||event.ctrlKey||event.altKey||event.metaKey;
+};
 
 self.simplePubSub=function(){
 var events={};
-return {
+return{
 on:function on(names,handler){
 names.split(' ').forEach(function(name){
 if(!events[name]){
-events[name]=[];}
-
-events[name].push(handler);});
-
-return this;},
-
+events[name]=[];
+}
+events[name].push(handler);
+});
+return this;
+},
 trigger:function trigger(name,args){
 var handlers=events[name]||[];
 handlers.every(function(handler){
-return self.handleUndefinedResult(handler,true)(args);});
+return self.handleUndefinedResult(handler,true)(args);
+});
+return this;
+}};
 
-return this;}};};
+};
 
-
-
-
-return self;}]).
-
+return self;
+}]).
 
 run(["$templateCache",function($templateCache){
 $templateCache.put('ngTagsInput/tags-input.html',
@@ -4793,18 +4781,18 @@ $templateCache.put('ngTagsInput/auto-complete.html',
 
 
 $templateCache.put('ngTagsInput/auto-complete-match.html',
-"<span ng-bind-html=\"$highlight($getDisplayText())\"></span>");}]);
+"<span ng-bind-html=\"$highlight($getDisplayText())\"></span>");
 
-
+}]);
 
 angular.module('cui-ng').
 directive('tether',['$timeout','$parse',function($timeout,$parse){
-return {
+return{
 restrict:'A',
 scope:true,
 link:function link(scope,elem,attrs){
 var tether=void 0;
-elem[0].classList.add('hide--opacity'); // this fixes the incorrect positioning when it first renders
+elem[0].classList.add('hide--opacity');// this fixes the incorrect positioning when it first renders
 $timeout(function(){
 tether=new Tether({
 element:elem,
@@ -4814,23 +4802,23 @@ targetAttachment:attrs.targetAttachment||'bottom center',
 offset:attrs.offset||'0 0',
 targetOffset:attrs.targetOffset||'0 0',
 targetModifier:attrs.targetModifier||undefined,
-constraints:scope.$eval(attrs.constraints)||undefined});}).
+constraints:scope.$eval(attrs.constraints)||undefined});
 
-
+}).
 then(function(){
 tether.position();
-elem[0].classList.remove('hide--opacity');});}};}]);
+elem[0].classList.remove('hide--opacity');
+});
+}};
 
-
-
-
+}]);
 
 angular.module('cui-ng').
 directive('uiSrefActiveFor',['$state','PubSub',function($state,PubSub){
-return {
+return{
 restrict:'A',
 compile:function compile(){
-return {
+return{
 pre:function pre(scope,elem,attrs){
 var active=void 0,
 classList=attrs.uiSrefActiveForClasses?attrs.uiSrefActiveForClasses.split(',').map(function(x){return x.trim();}):['active'];
@@ -4838,79 +4826,79 @@ classList=attrs.uiSrefActiveForClasses?attrs.uiSrefActiveForClasses.split(',').m
 var handleStateChange=function handleStateChange(e,_ref){var toState=_ref.toState;
 if(toState.name.indexOf(attrs.uiSrefActiveFor)>=0&&!active){
 classList.forEach(function(className){return elem[0].classList.add(className);});
-active=true;}else 
-
+active=true;
+}else
 if(toState.name.indexOf(attrs.uiSrefActiveFor)<0&&active){
 classList.forEach(function(className){return elem[0].classList.remove(className);});
-active=false;}};
-
-
+active=false;
+}
+};
 
 var unsub=PubSub.subscribe('stateChange',handleStateChange);
 
 handleStateChange(null,{toState:$state.current});
 
 scope.$on('$destroy',function(){
-PubSub.unsubscribe(unsub);});}};}};}]);
+PubSub.unsubscribe(unsub);
+});
+}};
 
+}};
 
-
-
-
-
+}]);
 
 angular.module('cui-ng').
 directive('uiSrefActiveNested',['$state','PubSub',function($state,PubSub){
-return {
+return{
 restrict:'A',
 compile:function compile(){
-return {
+return{
 pre:function pre(scope,elem,attrs){
 var parentState=void 0;
 if(!attrs.uiSref){
-throw 'ui-sref-active-nested can only be used on elements with a ui-sref attribute';
-return;}
-
+throw'ui-sref-active-nested can only be used on elements with a ui-sref attribute';
+return;
+}
 // if this element is a link to a state that is nested
 if(attrs.uiSref.indexOf('.')>-1){
-parentState=attrs.uiSref.split('.')[0];}
-
+parentState=attrs.uiSref.split('.')[0];
+}
 // else if it's a parent state
 else parentState=attrs.uiSref;
 
 var applyActiveClassIfNestedState=function applyActiveClassIfNestedState(e,_ref2){var toState=_ref2.toState;
 if(toState.name.indexOf('.')>-1&&toState.name.split('.')[0]===parentState){
-elem[0].classList.add(attrs.uiSrefActiveNested);}else 
-
+elem[0].classList.add(attrs.uiSrefActiveNested);
+}else
 if(toState.name.indexOf('.')===-1&&toState.name===parentState){
-elem[0].classList.add(attrs.uiSrefActiveNested);}else 
-
-elem[0].classList.remove(attrs.uiSrefActiveNested);};
-
+elem[0].classList.add(attrs.uiSrefActiveNested);
+}else
+elem[0].classList.remove(attrs.uiSrefActiveNested);
+};
 
 var unsub=PubSub.subscribe('stateChange',applyActiveClassIfNestedState);
 
 applyActiveClassIfNestedState(null,{toState:$state.current});
 
 scope.$on('$destroy',function(){
-PubSub.unsubscribe(unsub);});}};}};}]);
+PubSub.unsubscribe(unsub);
+});
+}};
 
+}};
 
-
-
-
-
+}]);
 
 var goToState=function goToState($state,$rootScope,stateName,toState,toParams,fromState,fromParams){
 $state.go(stateName,toParams,{notify:false}).then(function(){
-$rootScope.$broadcast('$stateChangeSuccess',{toState:toState,toParams:toParams,fromState:fromState,fromParams:fromParams});});};
-
-
+$rootScope.$broadcast('$stateChangeSuccess',{toState:toState,toParams:toParams,fromState:fromState,fromParams:fromParams});
+});
+};
 
 
 angular.module('cui.authorization',[]).
 factory('cui.authorization.routing',['cui.authorization.authorize','$timeout','$rootScope','$state',function(authorize,$timeout,$rootScope,$state){
-var routing=function routing(toState,toParams,fromState,fromParams,userEntitlements){var loginRequiredState=arguments.length<=5||arguments[5]===undefined?'loginRequired':arguments[5];var nonAuthState=arguments.length<=6||arguments[6]===undefined?'notAuthorized':arguments[6];
+var routing=function routing(toState,toParams,fromState,fromParams,userEntitlements){var loginRequiredState=arguments.length>5&&arguments[5]!==undefined?arguments[5]:'loginRequired';var nonAuthState=arguments.length>6&&arguments[6]!==undefined?arguments[6]:'notAuthorized';
 
 var authorized=void 0;
 
@@ -4920,66 +4908,66 @@ authorized=authorize.authorize(toState.access.loginRequired,toState.access.requi
 var stateName=void 0;
 
 switch(authorized){
-case 'login required':
+case'login required':
 stateName=loginRequiredState;
-case 'not authorized':
+case'not authorized':
 stateName=nonAuthState;
 default:
 break;
-case 'authorized':
+case'authorized':
 stateName=toState.name;
 break;}
 ;
 
-goToState($state,$rootScope,stateName,toState,toParams,fromState,fromParams);}else 
-
+goToState($state,$rootScope,stateName,toState,toParams,fromState,fromParams);
+}else
 {
-goToState($state,$rootScope,toState.name,toState,toParams,fromState,fromParams);}};
+goToState($state,$rootScope,toState.name,toState,toParams,fromState,fromParams);
+}
+};
 
-
-
-return routing;}]).
-
+return routing;
+}]).
 factory('cui.authorization.authorize',[function(){
-var authorize=function authorize(loginRequired,requiredEntitlements){var entitlementType=arguments.length<=2||arguments[2]===undefined?'atLeastOne':arguments[2];var userEntitlements=arguments[3];
+var authorize=function authorize(loginRequired,requiredEntitlements){var entitlementType=arguments.length>2&&arguments[2]!==undefined?arguments[2]:'atLeastOne';var userEntitlements=arguments[3];
 var loweredPermissions=[],
 hasPermission=true,
 result='not authorized';
 
 if(loginRequired===true&&userEntitlements===undefined){
-result='login required';}else 
-
+result='login required';
+}else
 if(loginRequired===true&&userEntitlements!==undefined&&(requiredEntitlements===undefined||requiredEntitlements.length===0)){
 // Login is required but no specific permissions are specified.
-result='authorized';}else 
-
+result='authorized';
+}else
 if(requiredEntitlements){
 angular.forEach(userEntitlements,function(permission){
-loweredPermissions.push(permission.toLowerCase());});
-
+loweredPermissions.push(permission.toLowerCase());
+});
 for(var i=0;i<requiredEntitlements.length;i++){
 var permission=requiredEntitlements[i].toLowerCase();
 
 if(entitlementType==='all'){
 hasPermission=hasPermission&&loweredPermissions.indexOf(permission)>-1;
 // i1f all the permissions are required and hasPermission is false there is no point carrying on
-if(hasPermission===false)break;}else 
-
+if(hasPermission===false)break;
+}else
 if(entitlementType==='atLeastOne'){
 hasPermission=loweredPermissions.indexOf(permission)>-1;
 // if we only need one of the permissions and we have it there is no point carrying on
-if(hasPermission)break;}}
+if(hasPermission)break;
+}
+}
+result=hasPermission?'authorized':'not authorized';
+}
+return result;
+};
 
-
-result=hasPermission?'authorized':'not authorized';}
-
-return result;};
-
-
-return {authorize:authorize};}]).
-
+return{authorize:authorize};
+}]).
 directive('cuiAccess',['cui.authorization.authorize',function(authorize){
-return {
+return{
 restrict:'A',
 scope:{
 userEntitlements:'=',
@@ -4994,28 +4982,28 @@ var initalDisplay=elem.css('display');
 
 var giveAuth=function giveAuth(){
 if(notAuthorizedClasses){
-notAuthorizedClasses.forEach(function(className){return elem[0].classList.remove(className);});}else 
-
-elem.css('display',initalDisplay);};
-
+notAuthorizedClasses.forEach(function(className){return elem[0].classList.remove(className);});
+}else
+elem.css('display',initalDisplay);
+};
 
 var removeAuth=function removeAuth(){
 if(notAuthorizedClasses){
-notAuthorizedClasses.forEach(function(className){return elem[0].classList.add(className);});}else 
-
-elem.css('display','none');};
-
+notAuthorizedClasses.forEach(function(className){return elem[0].classList.add(className);});
+}else
+elem.css('display','none');
+};
 
 
 scope.$watch('userEntitlements',function(){
 var authorized=authorize.authorize(true,requiredEntitlements,entitlementType,scope.userEntitlements);
-if(authorized!=='authorized')removeAuth();else 
-giveAuth();});}};}]);})(
+if(authorized!=='authorized')removeAuth();else
+giveAuth();
+});
+}};
+
+}]);
 
 
-
-
-
-
-angular);
+})(angular);
 //# sourceMappingURL=cui-ng.js.map
