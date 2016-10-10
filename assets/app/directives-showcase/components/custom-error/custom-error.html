@@ -9,7 +9,12 @@
 		<!-- Custom-Error -->
 		<form name="formName">
 		  <div style="position:relative;display:inline-block;width:50%;">
-		    <input class="cui-input" name="inputName" custom-error="customError.customErrors" ng-model="customError.username" placeholder="Choose your username" ng-class="{'cui-input--error' : formName.inputName.$error.usernameTaken}" ng-model-options='{ debounce: 200 }'/>
+		    <input class="cui-input" name="inputName" ng-model="customError.username" placeholder="Choose your username"
+		    	custom-error="customError.customErrors"
+		    	custom-error-loading="customError.checkingUsername"
+		    	ng-class="{'cui-input--error' : formName.inputName.$error.usernameTaken}" 
+		    	ng-model-options='{ debounce: 200 }'
+		    />
 		    <div ng-if="customError.checkingUsername" class="cui-loading" style="position:absolute;height:30px;width:30px;right:10px;top:19px;"></div>
 		  </div>
 		  <span ng-if="formName.inputName.$error.notAdmin" class="error-message">Can't be admin</span>
