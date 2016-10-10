@@ -1,0 +1,42 @@
+.cui-table {
+    &--no-records {
+        padding-bottom: 20px;
+    }
+}
+
+.cui-flex-table__th {
+  .cui-flex-table__avatar-col,
+  .cui-flex-table__middle,
+  .cui-flex-table__right {
+    cursor: pointer;
+
+    & .cui-flex-table__th-container {
+      cursor: pointer;
+      position: relative;
+    }
+
+  }
+}
+
+.cui-flex-table__th-arrow {
+  bottom: 0;
+  position: absolute;
+  right: -25px;
+  transform: rotate(180deg);
+  transition: transform .15s linear;
+  width: 25px;
+
+  &--desc {
+    transform: rotate(270deg);
+  }
+
+  &--asc {
+    transform: rotate(90deg);
+  }
+}
+
+.cui-flex-table__left--stacked {
+    &.cui-flex-table__left--stacked--full-bleed {
+        width: 100%;
+    }
+}

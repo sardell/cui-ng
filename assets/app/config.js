@@ -69,6 +69,11 @@ angular.module('app')
         templateUrl: templateBase + 'cui-resize-handler/cui-resize-handler.html',
         controller: returnCtrlAs('cuiResizeHandler')
     })
+    .state('cuiTable', {
+        url: '/cui-table',
+        templateUrl: templateBase + 'cui-table/cui-table.html',
+        controller: returnCtrlAs('cuiTable')
+    })
     .state('cuiTree', {
         url: '/cui-tree',
         templateUrl: templateBase + 'cui-tree/cui-tree.html',

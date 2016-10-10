@@ -1,0 +1,25 @@
+<div class="cui-tile">
+  <div class="cui-tile__title">Cui-Table</div>
+  <div class="cui-tile__body">
+
+    <cui-table-header 
+      headers="['Name', 'Username', 'Status']" 
+      sorting="cuiTable.sortBy"
+      sorting-callbacks="cuiTable.sortingCallbacks"
+    ></cui-table-header>
+
+    <cui-table-row ng-repeat="user in cuiTable.userList">
+      <div ng-include="'assets/app/directives-showcase/components/cui-table/partials/cui-table-row.html'"></div>
+    </cui-table-row>
+
+		<br/><br/>
+
+		<!-- Documentation Links -->
+    <a class="cui-link" href="https://github.com/covisint/cui-ng/tree/master/assets/app/directives-showcase/components/cui-table" target="blank">Click here to see the code used on this page.</a><br/><br/>
+    <a class="cui-link" href="https://github.com/covisint/cui-ng/tree/master/directives/cui-table" target="blank">Click here for the extended documentation.</a><br/><br/>
+
+    <!-- Home Button -->
+    <button class="cui-button" style="float:right" ui-sref="index">Table of Contents</button>
+
+  </div>
+</div>

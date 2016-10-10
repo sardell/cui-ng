@@ -1,0 +1,25 @@
+<li class="cui-flex-table__tr cui-flex-table__tr--c">
+
+  <!-- Avatar -->
+  <div class="cui-flex-table__avatar-col">
+    <div class="cui-profile__user-avatar" aria-hidden="true" 
+      cui-avatar cui-avatar-names="[user.name.given, user.name.surname]" 
+      cui-avatar-color-class-prefix="cui-avatar__color" 
+      cui-avatar-color-count="5"
+    ></div>
+  </div>
+
+  <div class="cui-flex-table__mobile-stack">
+    <!-- Name -->
+    <div class="cui-flex-table__left"><span class="cui-flex-table__title">{{user.name.given}} {{user.name.surname}}</span></div>
+
+    <!-- Username -->
+    <div class="cui-flex-table__middle"><span class="cui-mobile-only ">Username: &nbsp;</span>{{user.username}}</div>
+
+    <!-- Status -->
+    <div class="cui-flex-table__right" >
+      <span ng-class="'cui-status--'+user.status">{{user.status}}</span>
+    </div>
+    
+  </div>
+</li>
