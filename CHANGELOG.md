@@ -1,5 +1,17 @@
 # CUI-NG Changelog
 
+## Unreleased
+
+### Added
+* Added `custom-error-loading` attribute in the `custom-error` showcase example.
+
+### Changed
+
+
+### Fixed
+* Fixed `custom-error` optional `custom-error-loading` attribute not working properly.
+
+
 ## [1.10.0] - 2016-10-10
 
 ### Added
@@ -12,8 +24,6 @@
 * Covisint logo on header.
 * Added consistent documentation links to each directive demo.
 * Paginate now hides itself if the results are less than the first item in the paginationOptions object.
-
-### Changed
 * Directory restructure
     * Moved all directive showcase files into their own folders in `assets/app/directives-showcase/components`.
     * Each directive demo has their own state and controller instead of utilizing one master controller.
@@ -27,6 +37,7 @@
 * Fixes browserSync grunt task to reload on all important markup files.
 * Fixes match directive game not working properly.
 * Fixes custom-error directive showcase error by removing the loader functionality for now.
+
 
 ## [1.9.20] - 2016-09-20
 
