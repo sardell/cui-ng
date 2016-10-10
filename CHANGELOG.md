@@ -1,6 +1,6 @@
 # CUI-NG Changelog
 
-## Unreleased
+## [1.10.0] - 2016-10-10
 
 ### Added
 * CUI-Paginate: By default, pagination will not display if results are below the first value in the interval array in app-config.json.
@@ -11,6 +11,7 @@
 * Minor general styling for table of contents.
 * Covisint logo on header.
 * Added consistent documentation links to each directive demo.
+* Paginate now hides itself if the results are less than the first item in the paginationOptions object.
 
 ### Changed
 * Directory restructure
