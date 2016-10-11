@@ -1,6 +1,6 @@
 'use strict';var _slicedToArray=function(){function sliceIterator(arr,i){var _arr=[];var _n=true;var _d=false;var _e=undefined;try{for(var _i=arr[Symbol.iterator](),_s;!(_n=(_s=_i.next()).done);_n=true){_arr.push(_s.value);if(i&&_arr.length===i)break;}}catch(err){_d=true;_e=err;}finally{try{if(!_n&&_i["return"])_i["return"]();}finally{if(_d)throw _e;}}return _arr;}return function(arr,i){if(Array.isArray(arr)){return arr;}else if(Symbol.iterator in Object(arr)){return sliceIterator(arr,i);}else{throw new TypeError("Invalid attempt to destructure non-iterable instance");}};}();var _typeof=typeof Symbol==="function"&&typeof Symbol.iterator==="symbol"?function(obj){return typeof obj;}:function(obj){return obj&&typeof Symbol==="function"&&obj.constructor===Symbol&&obj!==Symbol.prototype?"symbol":typeof obj;};function _defineProperty(obj,key,value){if(key in obj){Object.defineProperty(obj,key,{value:value,enumerable:true,configurable:true,writable:true});}else{obj[key]=value;}return obj;}
 
-// cui-ng build Mon Oct 10 2016 10:56:01
+// cui-ng build Tue Oct 11 2016 15:53:29
 
 ;(function(angular){
 'use strict';
@@ -2148,6 +2148,171 @@ this.$get=function(){
 return _this3;
 };
 });
+
+
+angular.module('cui-ng').
+directive('cuiTable',['$pagination', '$q', function($pagination,$q){return{
+restrict:'E',
+transclude:true,
+scope:{
+cuiTableConfig:'='},
+
+link:function link(scope,iElem,iAttrs){
+
+var initScope=function initScope(){
+if(!scope.cuiTableConfig)scope.cuiTableConfig={};
+
+if(scope.cuiTableConfig.paginate){
+var requiredOptions=['recordCount','pageSize','initialPage','onPageChange'];
+try{
+requiredOptions.forEach(function(requiredOption){
+if(scope.cuiTableConfig[requiredOption]==undefined){
+throw new Error('Cui-table error : if pagination is enabled then cui-table-config must have .'+requiredOption);
+}
+});
+}
+catch(e){
+throw new Error(e);
+}
+}
+};
+
+try{
+initScope();
+}
+catch(e){
+console.error(e);
+return;
+}
+
+scope.cuiTableConfig.pageChangeHandler=function(page){
+scope.cuiTableConfig.onPageChange(page,scope.cuiTableConfig.pageSize);
+};
+
+var watchers={
+pageSize:scope.$watch('cuiTableConfig.pageSize',function(newPageSize,oldPageSize){
+if(newPageSize&&oldPageSize&&newPageSize!==oldPageSize){
+scope.cuiTableConfig.pageChangeHandler(1);
+}
+}),
+count:scope.$watch('cuiTableConfig.recordCount',function(newRecordCount,oldRecordCount){
+if(newRecordCount&&oldRecordCount&&newRecordCount!==oldRecordCount){
+scope.cuiTableConfig.pageChangeHandler(1);
+scope.cuiTableConfig.reRenderPaginate();
+}
+})};
+
+scope.$on('$destroy',function(){
+angular.forEach(watchers,function(cancelWatcher){cancelWatcher();});
+});
+},
+template:'\n        <div>\n            <div class="cui-flex-table">\n                <ng-transclude></ng-transclude>\n            </div>\n            <div class="cui-paginate__container" ng-if="cuiTableConfig.paginate">\n                <span class="cui-paginate__results-label">\n                    {{\'cui-num-results-page\' | translate}}\n                </span>\n                <results-per-page class="cui-paginate__select" ng-model="cuiTableConfig.pageSize"></results-per-page>\n                <paginate class="cui-paginate"\n                    results-per-page="cuiTableConfig.pageSize"\n                    count="cuiTableConfig.recordCount"\n                    on-page-change="cuiTableConfig.pageChangeHandler"\n                    ng-model="cuiTableConfig.initalPage"\n                    attach-rerender-to="cuiTableConfig.reRenderPaginate">\n                </paginate>\n            </div>\n        </div>\n    '};}]);
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+angular.module('cui-ng').
+directive('cuiTableHeader',['$filter', function($filter){return{
+restrict:'E',
+scope:{
+headers:'=',
+sorting:'=?',
+sortingCallbacks:'=?'},
+
+link:function link(scope){
+if(scope.sortingCallbacks){
+scope.cuiTableHeader={};
+scope.headers.forEach(function(header){
+var translatedHeader=$filter('translate')(header).toLowerCase();
+scope.cuiTableHeader[translatedHeader+'Callback']=scope.sortingCallbacks[translatedHeader]||angular.noop;
+});
+scope.cuiTableHeader.invertSortingDirection=function(){
+if(scope.sorting.sortType==='asc'){
+scope.sorting.sortType='desc';
+return'desc';
+}else
+{
+scope.sorting.sortType='asc';
+return'asc';
+}
+};
+}
+
+scope.headerCallbackHandler=function(header){
+var translatedHeader=$filter('translate')(header).toLowerCase();
+if(scope.sorting&&scope.sortingCallbacks){
+if(!scope.sorting.hasOwnProperty('sortType'))scope.sorting['sortType']='asc';
+if(scope.sorting.sortBy===translatedHeader)scope.cuiTableHeader.invertSortingDirection();
+scope.cuiTableHeader[translatedHeader+'Callback']();
+}
+};
+
+scope.shouldShowCaret=function(header){
+var translatedHeader=$filter('translate')(header).toLowerCase();
+if(scope.sorting.sortBy===translatedHeader)return true;else
+return false;
+};
+},
+template:'\n        <div class="cui-flex-table__th cui-flex-table__th--c">\n            <div class="cui-flex-table__avatar-col" ng-click="headerCallbackHandler(headers[0])">\n                <span class="cui-flex-table__th-container">\n                    {{headers[0] | translate}}\n                    <svg class="cui-flex-table__th-arrow"\n                        viewBox="0 0 216 146"\n                        ng-if="shouldShowCaret(headers[0])"\n                        ng-class="\'cui-flex-table__th-arrow--\' + sorting.sortType"\n                    >\n                        <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="node_modules/@covisint/cui-icons/dist/font-awesome/font-awesome-out.svg#arrowhead5" class="svg"></use>\n                    </svg>\n                </span>\n            </div>\n\n            <div class="cui-flex-table__mobile-stack">\n                <div class="cui-flex-table__left"></div>\n                <div ng-class="{\'cui-flex-table__middle\':$middle, \'cui-flex-table__right\':$last}" \n                    ng-repeat="header in headers" \n                    ng-click="headerCallbackHandler(header)"\n                    ng-if="!$first"\n                >\n                    {{header | translate}}\n                    <svg class="cui-flex-table__th-arrow" style="position:inherit"\n                        viewBox="0 0 216 146"\n                        ng-if="shouldShowCaret(header)"\n                        ng-class="\'cui-flex-table__th-arrow--\' + sorting.sortType">\n                        <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="node_modules/@covisint/cui-icons/dist/font-awesome/font-awesome-out.svg#arrowhead5" class="svg"></use>\n                    </svg>\n                </div>\n            </div>\n        </div>\n    '};}]);
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+angular.module('cui-ng').
+directive('cuiTableRow',function(){return{
+restrict:'E',
+transclude:true,
+template:'<ng-transclude></ng-transclude>'};});
+
 
 
 var defaults={

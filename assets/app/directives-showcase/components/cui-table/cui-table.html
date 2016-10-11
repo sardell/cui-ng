@@ -2,15 +2,23 @@
   <div class="cui-tile__title">Cui-Table</div>
   <div class="cui-tile__body">
 
-    <cui-table-header 
-      headers="['Name', 'Username', 'Status']" 
-      sorting="cuiTable.sortBy"
-      sorting-callbacks="cuiTable.sortingCallbacks"
-    ></cui-table-header>
+    <!-- Search Input -->
+    <div class="cui-user-search__container" style="margin:20px">
+      <input id="cui-user-search" class="cui-input-standard" ng-model="cuiTable.userSearchQuery" placeholder="Search the table!">
+    </div>
 
-    <cui-table-row ng-repeat="user in cuiTable.userList">
-      <div ng-include="'assets/app/directives-showcase/components/cui-table/partials/cui-table-row.html'"></div>
-    </cui-table-row>
+    <!-- Cui-Table -->
+    <cui-table cui-table-config="cuiTable.cuiTableOptions">
+      <cui-table-header 
+        headers="['cui-name', 'username', 'status']"
+        sorting="cuiTable.sortBy"
+        sorting-callbacks="cuiTable.sortingCallbacks"
+      >
+      </cui-table-header>
+      <cui-table-row ng-repeat="user in cuiTable.userList | filter: cuiTable.userSearch">
+        <div ng-include="'assets/app/directives-showcase/components/cui-table/partials/cui-table-row.html'"></div>
+      </cui-table-row>
+    </cui-table>
 
 		<br/><br/>
 

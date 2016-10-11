@@ -70,7 +70,7 @@ angular.module('app')
         controller: returnCtrlAs('cuiResizeHandler')
     })
     .state('cuiTable', {
-        url: '/cui-table',
+        url: '/cui-table?page&pageSize&sortBy&sortType',
         templateUrl: templateBase + 'cui-table/cui-table.html',
         controller: returnCtrlAs('cuiTable')
     })

@@ -40,3 +40,32 @@
         width: 100%;
     }
 }
+
+.cui-input-standard { 
+  appearance: none;
+  border-radius: 0;
+  border: 1px solid #DEE9EE;
+  box-sizing: border-box;
+  font-size: 0.875em;
+  height: 56px;
+  margin: 5px 0 20px;
+  padding: 8px 12px;
+  position: relative;
+  width: 100%;
+
+  &:focus {
+    outline: 0;
+  }
+}
+
+.cui-user-search__container {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  margin-top: 30px;
+  width: 100%;
+
+  @media screen and (min-width: 700px) {
+    width: 50%;
+  }
+}
