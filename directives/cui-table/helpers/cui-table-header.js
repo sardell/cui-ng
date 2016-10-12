@@ -35,9 +35,11 @@ angular.module('cui-ng')
         }
 
         scope.shouldShowCaret = (header) => {
-            let translatedHeader = $filter('translate')(header).toLowerCase()
-            if (scope.sorting.sortBy === translatedHeader) return true
-            else return false
+            if (scope.sorting && scope.sortingCallbacks) {
+                let translatedHeader = $filter('translate')(header).toLowerCase()
+                if (scope.sorting.sortBy === translatedHeader) return true
+                else return false
+            }
         }
     },
     template: `

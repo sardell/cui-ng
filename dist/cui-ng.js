@@ -1,6 +1,6 @@
 'use strict';var _slicedToArray=function(){function sliceIterator(arr,i){var _arr=[];var _n=true;var _d=false;var _e=undefined;try{for(var _i=arr[Symbol.iterator](),_s;!(_n=(_s=_i.next()).done);_n=true){_arr.push(_s.value);if(i&&_arr.length===i)break;}}catch(err){_d=true;_e=err;}finally{try{if(!_n&&_i["return"])_i["return"]();}finally{if(_d)throw _e;}}return _arr;}return function(arr,i){if(Array.isArray(arr)){return arr;}else if(Symbol.iterator in Object(arr)){return sliceIterator(arr,i);}else{throw new TypeError("Invalid attempt to destructure non-iterable instance");}};}();var _typeof=typeof Symbol==="function"&&typeof Symbol.iterator==="symbol"?function(obj){return typeof obj;}:function(obj){return obj&&typeof Symbol==="function"&&obj.constructor===Symbol&&obj!==Symbol.prototype?"symbol":typeof obj;};function _defineProperty(obj,key,value){if(key in obj){Object.defineProperty(obj,key,{value:value,enumerable:true,configurable:true,writable:true});}else{obj[key]=value;}return obj;}
 
-// cui-ng build Wed Oct 12 2016 10:08:11
+// cui-ng build Wed Oct 12 2016 11:35:17
 
 ;(function(angular){
 'use strict';
@@ -2268,9 +2268,11 @@ scope.cuiTableHeader[translatedHeader+'Callback']();
 };
 
 scope.shouldShowCaret=function(header){
+if(scope.sorting&&scope.sortingCallbacks){
 var translatedHeader=$filter('translate')(header).toLowerCase();
 if(scope.sorting.sortBy===translatedHeader)return true;else
 return false;
+}
 };
 },
 template:'\n        <div class="cui-flex-table__th cui-flex-table__th--c">\n            <div class="cui-flex-table__avatar-col" ng-click="headerCallbackHandler(headers[0])">\n                <span class="cui-flex-table__th-container">\n                    {{headers[0] | translate}}\n                    <svg class="cui-flex-table__th-arrow"\n                        viewBox="0 0 216 146"\n                        ng-if="shouldShowCaret(headers[0])"\n                        ng-class="\'cui-flex-table__th-arrow--\' + sorting.sortType"\n                    >\n                        <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="node_modules/@covisint/cui-icons/dist/font-awesome/font-awesome-out.svg#arrowhead5" class="svg"></use>\n                    </svg>\n                </span>\n            </div>\n\n            <div class="cui-flex-table__mobile-stack">\n                <div class="cui-flex-table__left"></div>\n                <div ng-class="{\'cui-flex-table__middle\':$middle, \'cui-flex-table__right\':$last}" \n                    ng-repeat="header in headers" \n                    ng-click="headerCallbackHandler(header)"\n                    ng-if="!$first"\n                >\n                    {{header | translate}}\n                    <svg class="cui-flex-table__th-arrow" style="position:inherit"\n                        viewBox="0 0 216 146"\n                        ng-if="shouldShowCaret(header)"\n                        ng-class="\'cui-flex-table__th-arrow--\' + sorting.sortType">\n                        <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="node_modules/@covisint/cui-icons/dist/font-awesome/font-awesome-out.svg#arrowhead5" class="svg"></use>\n                    </svg>\n                </div>\n            </div>\n        </div>\n    '};}]);
