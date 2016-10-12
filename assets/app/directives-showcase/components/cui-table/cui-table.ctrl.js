@@ -1,5 +1,5 @@
 angular.module('app')
-.controller('cuiTableCtrl', function(User, $filter, $pagination, $state, $stateParams) {
+.controller('cuiTableCtrl', function(User, $pagination, $state, $stateParams) {
 
 	const cuiTable = this
 
@@ -7,32 +7,43 @@ angular.module('app')
 	cuiTable.page = parseInt($stateParams.page || 1)
 	cuiTable.pageSize = parseInt($stateParams.pageSize || $pagination.getUserValue() || $pagination.getPaginationOptions[0])
 
-	cuiTable.unparsedUserList = cuiTable.userList = User.getUserList()
+    // HELPER FUNCTIONS START --------------------------------------------------
+
+    const updateStateParams = ({ page, pageSize } = {}) => {
+        if (page && pageSize) {
+            cuiTable.sortBy.page = page
+            cuiTable.sortBy.pageSize = pageSize
+        }
+        $state.transitionTo('cuiTable', cuiTable.sortBy, { notify: false })
+    }
+
+    const populateUsers = ({ page, pageSize, userList} = {}) => {
+        cuiTable.userList = _.drop(cuiTable.unparsedUserList, (page -1) * pageSize).slice(0, pageSize)
+        if (cuiTable.sortBy.hasOwnProperty('sortBy')) {
+            cuiTable.sortingCallbacks[cuiTable.sortBy.sortBy]()
+        }
+    }
+
+    // HELPER FUNCTIONS END ----------------------------------------------------
+
+    // ON LOAD START -----------------------------------------------------------
+
+    cuiTable.unparsedUserList = cuiTable.userList = User.getUserList()
 
     cuiTable.cuiTableOptions = {
         paginate: true,
-        recordCount: 12,
-        pageSize: 10,
-        initialPage: 1,
+        recordCount: cuiTable.unparsedUserList.length,
+        pageSize: cuiTable.pageSize,
+        initialPage: cuiTable.page,
         onPageChange: (page, pageSize) => {
             updateStateParams({ page, pageSize })
             populateUsers({ page, pageSize })
         }
     }
 
-    // HELPER FUNCTIONS START --------------------------------------------------
+    cuiTable.cuiTableOptions.onPageChange(cuiTable.page, cuiTable.pageSize)
 
-    const updateStateParams = () => {
-        cuiTable.sortBy.page = cuiTable.page
-        cuiTable.sortBy.pageSize = cuiTable.pageSize
-        $state.transitionTo('cuiTable', cuiTable.sortBy, { notify: false })
-    }
-
-    const populateUsers = ({ page, pageSize, userList} = {}) => {
-        cuiTable.userList = _.drop(cuiTable.unparsedUserList, (page -1) * pageSize).slice(0, pageSize)
-    }
-
-    // HELPER FUNCTIONS END ----------------------------------------------------
+    // ON LOAD END -------------------------------------------------------------
 
     // ON CLICK FUNCTIONS START ------------------------------------------------
 
