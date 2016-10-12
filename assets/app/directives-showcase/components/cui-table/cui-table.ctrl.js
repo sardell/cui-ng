@@ -11,7 +11,7 @@ angular.module('app')
 
     cuiTable.cuiTableOptions = {
         paginate: true,
-        recordCount: 11,
+        recordCount: 12,
         pageSize: 10,
         initialPage: 1,
         onPageChange: (page, pageSize) => {

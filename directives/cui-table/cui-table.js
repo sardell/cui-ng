@@ -3,7 +3,7 @@ angular.module('cui-ng')
     restrict: 'E',
     transclude: true,
     scope: {
-        cuiTableConfig: '='
+        cuiTableConfig: '=?'
     },
     link: (scope, iElem, iAttrs) => {
 
@@ -50,9 +50,11 @@ angular.module('cui-ng')
                 }
             })
         }
+
         scope.$on('$destroy', () => {
             angular.forEach(watchers, (cancelWatcher) => { cancelWatcher() })
         })
+
     },
     template: `
         <div>
