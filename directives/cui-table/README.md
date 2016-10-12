@@ -2,19 +2,20 @@
 
 ### Description
 
-The `Cui-Table` can be helpful when building out generic CUI style tables that require sorting and pagination.
+Cui-Table is useful when building out generic CUI style tables that require sorting and pagination.
 
 ```
 <cui-table cui-table-config="cuiTable.cuiTableOptions">
-	<cui-table-header 
-		headers="['cui-name', 'username', 'status']"
-        sorting="cuiTable.sortBy"
-        sorting-callbacks="cuiTable.sortingCallbacks"
-      ></cui-table-header>
-      <cui-table-row ng-repeat="user in cuiTable.userList | filter: cuiTable.userSearch">
-        <div ng-include="'assets/app/directives-showcase/components/cui-table/partials/cui-table-row.html'"></div>
-      </cui-table-row>
-    </cui-table>
+  <cui-table-header 
+	headers="['cui-name', 'username', 'status']"
+	sorting="cuiTable.sortBy"
+	sorting-callbacks="cuiTable.sortingCallbacks"
+  >
+  </cui-table-header>
+  <cui-table-row ng-repeat="user in cuiTable.userList | filter: cuiTable.userSearch">
+    <div ng-include="'assets/app/directives-showcase/components/cui-table/partials/cui-table-row.html'"></div>
+  </cui-table-row>
+</cui-table>
 ```
 
 
@@ -22,8 +23,8 @@ The `Cui-Table` can be helpful when building out generic CUI style tables that r
 
 `Cui-Table` is composed of three components:
 
-* Main `cui-table` wrapper
-* `cui-table-header` which houses the header logic
+* `cui-table` acts as the main wrapper and where you setup pagination options.
+* `cui-table-header` where you set your table headers and set your header sorting callbacks (optional).
 * `cui-table-row` which you customize by building out your own partial markup (you can use ours as a base)
 
 
@@ -66,10 +67,11 @@ The header is where you are able to set the header column names, the sorting obj
 
 ```
 <cui-table-header 
-	headers="['cui-name', 'username', 'status']" 
-	sorting="cuiTable.sortBy"
-	sorting-callbacks="cuiTable.sortingCallbacks"
-></cui-table-header>
+  headers="['cui-name', 'username', 'status']" 
+  sorting="cuiTable.sortBy"
+  sorting-callbacks="cuiTable.sortingCallbacks"
+>
+</cui-table-header>
 ```
 
 * headers: (required) Array of strings that act as column titles. 
@@ -85,22 +87,22 @@ The header is where you are able to set the header column names, the sorting obj
 
 ```
 cuiTable.sortingCallbacks = {
-        name () {
-            cuiTable.sortBy.sortBy = 'name'
-            cuiTable.sort(['name.given', 'name.surname'], cuiTable.sortBy.sortType)
-            updateStateParams()
-        },
-        username () {
-            cuiTable.sortBy.sortBy = 'username'
-            cuiTable.sort('username', cuiTable.sortBy.sortType)
-            updateStateParams()
-        },
-        status () {
-            cuiTable.sortBy.sortBy = 'status'
-            cuiTable.sort('status', cuiTable.sortBy.sortType)
-            updateStateParams()
-        }
-    }
+	name () {
+		cuiTable.sortBy.sortBy = 'name'
+		cuiTable.sort(['name.given', 'name.surname'], cuiTable.sortBy.sortType)
+		updateStateParams()
+	},
+	username () {
+		cuiTable.sortBy.sortBy = 'username'
+		cuiTable.sort('username', cuiTable.sortBy.sortType)
+		updateStateParams()
+	},
+	status () {
+		cuiTable.sortBy.sortBy = 'status'
+		cuiTable.sort('status', cuiTable.sortBy.sortType)
+		updateStateParams()
+	}
+}
 ```
 
 
@@ -111,7 +113,7 @@ you are able to attach other optional components such as a filter as shown in th
 
 ```
 <cui-table-row ng-repeat="user in cuiTable.userList | filter: cuiTable.userSearch">
-	<div ng-include="'assets/app/directives-showcase/components/cui-table/partials/cui-table-row.html'"></div>
+  <div ng-include="'assets/app/directives-showcase/components/cui-table/partials/cui-table-row.html'"></div>
 </cui-table-row>
 ```
 

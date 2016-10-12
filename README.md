@@ -16,6 +16,7 @@ Cui-ng is an angular module with a series of custom directives and utilities for
 * [Cui-Icon](https://github.com/covisint/cui-ng/tree/master/directives/cui-icon)
 * [Cui-Popover](https://github.com/covisint/cui-ng/tree/master/directives/cui-popover)
 * [Cui-Resize-Handler](https://github.com/covisint/cui-ng/tree/master/directives/cui-resize-handler)
+* [Cui-Table](https://github.com/covisint/cui-ng/tree/master/directives/cui-table)
 * [Cui-Tree](https://github.com/covisint/cui-ng/tree/master/directives/cui-tree)
 * [Cui-Wizard](https://github.com/covisint/cui-ng/tree/master/directives/cui-wizard)
 * [Custom-error](https://github.com/covisint/cui-ng/tree/master/directives/custom-error)
