@@ -1,6 +1,6 @@
 'use strict';var _slicedToArray=function(){function sliceIterator(arr,i){var _arr=[];var _n=true;var _d=false;var _e=undefined;try{for(var _i=arr[Symbol.iterator](),_s;!(_n=(_s=_i.next()).done);_n=true){_arr.push(_s.value);if(i&&_arr.length===i)break;}}catch(err){_d=true;_e=err;}finally{try{if(!_n&&_i["return"])_i["return"]();}finally{if(_d)throw _e;}}return _arr;}return function(arr,i){if(Array.isArray(arr)){return arr;}else if(Symbol.iterator in Object(arr)){return sliceIterator(arr,i);}else{throw new TypeError("Invalid attempt to destructure non-iterable instance");}};}();var _typeof=typeof Symbol==="function"&&typeof Symbol.iterator==="symbol"?function(obj){return typeof obj;}:function(obj){return obj&&typeof Symbol==="function"&&obj.constructor===Symbol&&obj!==Symbol.prototype?"symbol":typeof obj;};function _defineProperty(obj,key,value){if(key in obj){Object.defineProperty(obj,key,{value:value,enumerable:true,configurable:true,writable:true});}else{obj[key]=value;}return obj;}
 
-// cui-ng build Tue Oct 11 2016 15:53:29
+// cui-ng build Wed Oct 12 2016 10:08:11
 
 ;(function(angular){
 'use strict';
@@ -2155,7 +2155,7 @@ directive('cuiTable',['$pagination', '$q', function($pagination,$q){return{
 restrict:'E',
 transclude:true,
 scope:{
-cuiTableConfig:'='},
+cuiTableConfig:'=?'},
 
 link:function link(scope,iElem,iAttrs){
 
@@ -2202,9 +2202,11 @@ scope.cuiTableConfig.reRenderPaginate();
 }
 })};
 
+
 scope.$on('$destroy',function(){
 angular.forEach(watchers,function(cancelWatcher){cancelWatcher();});
 });
+
 },
 template:'\n        <div>\n            <div class="cui-flex-table">\n                <ng-transclude></ng-transclude>\n            </div>\n            <div class="cui-paginate__container" ng-if="cuiTableConfig.paginate">\n                <span class="cui-paginate__results-label">\n                    {{\'cui-num-results-page\' | translate}}\n                </span>\n                <results-per-page class="cui-paginate__select" ng-model="cuiTableConfig.pageSize"></results-per-page>\n                <paginate class="cui-paginate"\n                    results-per-page="cuiTableConfig.pageSize"\n                    count="cuiTableConfig.recordCount"\n                    on-page-change="cuiTableConfig.pageChangeHandler"\n                    ng-model="cuiTableConfig.initalPage"\n                    attach-rerender-to="cuiTableConfig.reRenderPaginate">\n                </paginate>\n            </div>\n        </div>\n    '};}]);
 
