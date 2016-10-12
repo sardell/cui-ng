@@ -1,6 +1,4 @@
-# CUI NG
-Version 1.0.0
-
+# CUI NG Library
 
 ## Description
 Cui-ng is an angular module with a series of custom directives and utilities for use in CUI products.
