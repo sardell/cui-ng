@@ -33,18 +33,22 @@ angular.module('cui-ng')
             return
         }
 
-        scope.cuiTableConfig.pageChangeHandler = (page) => {
-            scope.cuiTableConfig.onPageChange(page, scope.cuiTableConfig.pageSize)
+        const initPageChangeHandler = () => {
+            scope.cuiTableConfig.pageChangeHandler = (page) => {
+                scope.cuiTableConfig.onPageChange(page, scope.cuiTableConfig.pageSize)
+            }
         }
 
         const watchers = {
             pageSize: scope.$watch('cuiTableConfig.pageSize', (newPageSize, oldPageSize) => {
-                if (newPageSize && oldPageSize && newPageSize!==oldPageSize) {
+                if (!scope.cuiTableConfig.hasOwnProperty('pageChangeHandler')) initPageChangeHandler()
+                if (newPageSize && oldPageSize && newPageSize !== oldPageSize) {
                     scope.cuiTableConfig.pageChangeHandler(1)
                 }
             }),
             count: scope.$watch('cuiTableConfig.recordCount', (newRecordCount, oldRecordCount) => {
-                if (newRecordCount && oldRecordCount && newRecordCount!==oldRecordCount) {
+                if (!scope.cuiTableConfig.hasOwnProperty('pageChangeHandler')) initPageChangeHandler()
+                if (newRecordCount && oldRecordCount && newRecordCount !== oldRecordCount) {
                     scope.cuiTableConfig.pageChangeHandler(1)
                     scope.cuiTableConfig.reRenderPaginate()
                 }
