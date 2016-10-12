@@ -6,7 +6,7 @@ angular.module('app')
     inlineEdit.getRandomWord = function() {
         Words.get()
         .then(function(res) {
-            inlineEdit.random2 = res.data
+            inlineEdit.random2 = res.data.Word
         })
     }
 
