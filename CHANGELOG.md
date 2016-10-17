@@ -1,17 +1,15 @@
 # CUI-NG Changelog
 
-## Unreleased
+## [1.10.1] - 2016-10-17
 
 ### Added
 * Added `custom-error-loading` attribute in the `custom-error` showcase example.
 * Added `cui-table` directive along with a showcase demo and documentation.
 
-### Changed
-
-
 ### Fixed
 * Fixed `custom-error` optional `custom-error-loading` attribute not working properly.
 * Fixed `inline-edit` example not properly showing the random word.
+* Fixed issue with pageChangeHandler not properly being initialized in some instances when dealing with delayed data.
 
 
 ## [1.10.0] - 2016-10-10
