@@ -1,5 +1,11 @@
 # CUI-NG Changelog
 
+## [1.10.2] - 2016-10-18
+
+### Fixed
+* Fixed inconsitent width rendering of the dropdown in `cui-dropdown`. 
+
+
 ## [1.10.1] - 2016-10-17
 
 ### Added

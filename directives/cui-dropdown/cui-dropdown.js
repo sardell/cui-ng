@@ -188,7 +188,7 @@ angular.module('cui-ng')
                         displayValues.forEach((value, i) => {
                             dropdown.append(cuiDropdown.helpers.getDropdownItem(i, value))
                         })
-                        dropdown.width(cuiDropdown.selectors.$cuiDropdown.outerWidth() * 0.9)
+                        dropdown.width(cuiDropdown.selectors.$cuiDropdown.outerWidth() - 60)
                         cuiDropdown.selectors.$dropdown = dropdown
                         cuiDropdown.selectors.$body.append(dropdown)
                         new Tether({

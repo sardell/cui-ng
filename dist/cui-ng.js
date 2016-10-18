@@ -1,6 +1,6 @@
 'use strict';var _slicedToArray=function(){function sliceIterator(arr,i){var _arr=[];var _n=true;var _d=false;var _e=undefined;try{for(var _i=arr[Symbol.iterator](),_s;!(_n=(_s=_i.next()).done);_n=true){_arr.push(_s.value);if(i&&_arr.length===i)break;}}catch(err){_d=true;_e=err;}finally{try{if(!_n&&_i["return"])_i["return"]();}finally{if(_d)throw _e;}}return _arr;}return function(arr,i){if(Array.isArray(arr)){return arr;}else if(Symbol.iterator in Object(arr)){return sliceIterator(arr,i);}else{throw new TypeError("Invalid attempt to destructure non-iterable instance");}};}();var _typeof=typeof Symbol==="function"&&typeof Symbol.iterator==="symbol"?function(obj){return typeof obj;}:function(obj){return obj&&typeof Symbol==="function"&&obj.constructor===Symbol&&obj!==Symbol.prototype?"symbol":typeof obj;};function _defineProperty(obj,key,value){if(key in obj){Object.defineProperty(obj,key,{value:value,enumerable:true,configurable:true,writable:true});}else{obj[key]=value;}return obj;}
 
-// cui-ng build Mon Oct 17 2016 11:25:31
+// cui-ng build Tue Oct 18 2016 10:55:15
 
 ;(function(angular){
 'use strict';
@@ -1410,7 +1410,7 @@ var displayValues=cuiDropdown.helpers.getOptionDisplayValues();
 displayValues.forEach(function(value,i){
 dropdown.append(cuiDropdown.helpers.getDropdownItem(i,value));
 });
-dropdown.width(cuiDropdown.selectors.$cuiDropdown.outerWidth()*0.9);
+dropdown.width(cuiDropdown.selectors.$cuiDropdown.outerWidth()-60);
 cuiDropdown.selectors.$dropdown=dropdown;
 cuiDropdown.selectors.$body.append(dropdown);
 new Tether({
