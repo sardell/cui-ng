@@ -21,7 +21,7 @@ angular.module('cui-ng')
                     selectClass: attrs.class || 'cui-dropdown'
                 },
                 render: () => {
-                    const element = $compile(`<cui-dropdown class="${resultsPerPage.config.selectClass}" ng-model="selected" options="intervals"></cui-dropdown>`)(scope);
+                    const element = $compile(`<cui-dropdown class="${resultsPerPage.config.selectClass}" dropdown-class="cui-dropdown__wrapper cui-dropdown--results-per-page" ng-model="selected" options="intervals"></cui-dropdown>`)(scope);
                     angular.element(elem).replaceWith(element);
                 }
             };
