@@ -1,5 +1,10 @@
 # CUI-NG Changelog
 
+## [1.10.3] - 2016-10-25
+
+### Added
+* Adds class to results-per-page dropdown for responsive styling
+
 ## [1.10.2] - 2016-10-18
 
 ### Fixed
