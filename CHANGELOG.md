@@ -1,5 +1,10 @@
 # CUI-NG Changelog
 
+## [1.10.4] - 2016-10-31
+
+### Fixed
+* dist folder compiled down to es5
+
 ## [1.10.3] - 2016-10-25
 
 ### Added
