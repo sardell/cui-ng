@@ -1,5 +1,10 @@
 # CUI-NG Changelog
 
+## [1.10.6] - 2017-1-4
+
+### Changed
+* Locked down all dependency versions
+
 ## [1.10.5] - 2017-1-4
 
 ### Changed
