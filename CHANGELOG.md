@@ -1,5 +1,10 @@
 # CUI-NG Changelog
 
+## [1.10.5] - 2017-1-4
+
+### Changed
+* Changed Angular dependency to fixed 1.5.9 version.
+
 ## [1.10.4] - 2016-10-31
 
 ### Fixed
