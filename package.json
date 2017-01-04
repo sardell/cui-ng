@@ -63,7 +63,7 @@
     "lodash": "^4",
     "jquery": "^2.1.4",
     "angular-ui-router": "^0.2.15",
-    "angular": "^1.4.7",
+    "angular": "1.5.9",
     "snapjs": "^1.2.1"
   }
 }
