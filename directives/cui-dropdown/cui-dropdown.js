@@ -85,6 +85,11 @@ angular.module('cui-ng')
                             cuiDropdown.selectors.$dropdown.detach()
                             cuiDropdown.selectors.$dropdown = null
                         }
+                    },
+                    handleKeyup: (keyCode) => {
+                        if ((keyCode == '38' || keyCode == '40') && !cuiDropdown.selectors.$dropdown) {
+                          cuiDropdown.scope.toggleDropdown()
+                        }
                     }
                 },
                 helpers: {
@@ -126,7 +131,7 @@ angular.module('cui-ng')
                     getDropdownItem: (index,displayValue) => {
                         const ngClick = `$root.$broadcast('${id}', ${index})`;
                         return $compile(
-                            `<div class="${cuiDropdown.config.dropdownItemClass}" ng-click="${ngClick}">
+                            `<div class="${cuiDropdown.config.dropdownItemClass}" ng-click="${ngClick}" tabindex="0">
                                 ${displayValue}
                             </div>`
                         )(scope)
@@ -171,7 +176,7 @@ angular.module('cui-ng')
                         if(newScope) newScope.$destroy() // this makes sure that if the input has been rendered once the off click handler is removed
                         newScope = scope.$new()
                         const element = $compile(
-                            `<div class="${cuiDropdown.config.inputClass}" ng-click="toggleDropdown()" off-click="destroyDropdown()" id="cui-dropdown-${id}">
+                            `<div class="${cuiDropdown.config.inputClass}" tabindex="0" ng-keyup="handleKeyup($event.keyCode)" ng-click="toggleDropdown()" off-click="destroyDropdown()" id="cui-dropdown-${id}">
                                 {{displayValue}}
                             </div>`
                         )(newScope)
@@ -182,7 +187,7 @@ angular.module('cui-ng')
                         if(dropdownScope) dropdownScope.$destroy()
                         dropdownScope = scope.$new()
                         const dropdown = $compile(
-                            `<div class="${cuiDropdown.config.dropdownWrapperClass}" off-click-filter="'#cui-dropdown-${id}'"></div>`
+                            `<div class="${cuiDropdown.config.dropdownWrapperClass}" tabindex="0" off-click-filter="'#cui-dropdown-${id}'"></div>`
                         )(dropdownScope)
                         const displayValues = cuiDropdown.helpers.getOptionDisplayValues()
                         displayValues.forEach((value, i) => {
