@@ -1,6 +1,6 @@
 
 
-// cui-ng build Thu Feb 02 2017 10:14:18
+// cui-ng build Thu Feb 02 2017 15:24:31
 
 ;(function(angular){
     'use strict'
@@ -1228,7 +1228,8 @@ angular.module('cui-ng')
         scope: {
             ngModel: '=',
             options: '&',
-            constraints: '&'
+            constraints: '&',
+            dropdownFilter: '&'
         },
         link: (scope, elem, attrs, ctrl) => {
             const id = scope.$id
@@ -1311,7 +1312,12 @@ angular.module('cui-ng')
                     handleKeyup: (keyCode) => {
                         if ((keyCode == '38' || keyCode == '40') && !cuiDropdown.selectors.$dropdown) {
                           cuiDropdown.scope.toggleDropdown()
+                          cuiDropdown.selectors.$cuiDropdown.find('input').focus()
                         }
+                    },
+                    matches: (option) => {
+                        console.log(scope.dropdownFilter)
+                        return option.indexOf(scope.dropdownFilter) >= 0
                     }
                 },
                 helpers: {
@@ -1353,7 +1359,7 @@ angular.module('cui-ng')
                     getDropdownItem: (index,displayValue) => {
                         const ngClick = `$root.$broadcast('${id}', ${index})`;
                         return $compile(
-                            `<div class="${cuiDropdown.config.dropdownItemClass}" ng-click="${ngClick}" tabindex="0">
+                            `<div class="${cuiDropdown.config.dropdownItemClass}" ng-click="${ngClick}" tabindex="0" ng-hide="!matches('${displayValue}')">
                                 ${displayValue}
                             </div>`
                         )(scope)
@@ -1399,6 +1405,7 @@ angular.module('cui-ng')
                         newScope = scope.$new()
                         const element = $compile(
                             `<div class="${cuiDropdown.config.inputClass}" tabindex="0" ng-keyup="handleKeyup($event.keyCode)" ng-click="toggleDropdown()" off-click="destroyDropdown()" id="cui-dropdown-${id}">
+                                <input style="display: none" type="text" ng-model="dropdownFilter"/>
                                 {{displayValue}}
                             </div>`
                         )(newScope)
